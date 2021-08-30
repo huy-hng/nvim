@@ -1,5 +1,8 @@
 set nu
 set rnu
+
+set tabstop=4
+
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " Maintainer: 
 "       Amir Salihefendic — @amix3k
