@@ -1,7 +1,30 @@
 set nu
 set rnu
+set nowrap
+set sidescroll=1
+set sidescrolloff=1
 
 set tabstop=4
+
+nnoremap <silent><F3> :noh<CR>
+
+" Ps = 0  -> blinking block.
+" Ps = 1  -> blinking block (default).
+" Ps = 2  -> steady block.
+" Ps = 3  -> blinking underline.
+" Ps = 4  -> steady underline.
+" Ps = 5  -> blinking bar (xterm).
+" Ps = 6  -> steady bar (xterm).
+
+let &t_SI = "\e[5 q"
+let &t_EI = "\e[1 q"
+
+" reset the cursor on start (for older versions of vim, usually not required)
+" augroup myCmds
+" au!
+" autocmd VimEnter * silent !echo -ne "\e[2 q"
+" augroup END
+ 
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " Maintainer: 
@@ -149,7 +172,7 @@ try
 catch
 endtry
 
-set background=dark
+"set background=dark
 
 " Set extra options when running in GUI mode
 if has("gui_running")
@@ -179,7 +202,7 @@ set noswapfile
 " => Text, tab and indent related
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " Use spaces instead of tabs
-set expandtab
+"set expandtab
 
 " Be smart when using tabs ;)
 set smarttab
@@ -194,7 +217,7 @@ set tw=500
 
 set ai "Auto indent
 set si "Smart indent
-set wrap "Wrap lines
+"set wrap "Wrap lines
 
 
 """"""""""""""""""""""""""""""
