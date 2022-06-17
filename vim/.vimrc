@@ -77,10 +77,10 @@ nnoremap <SPACE> <Nop>
 let mapleader = " "
 
 " Fast saving and quitting
-nmap <leader>x :w<CR>:!clear<CR>:! %:p<CR>
-nmap <Leader>w :w!<CR>
-nmap <Leader>q :q<CR>
-nmap <Leader>wq :wq<CR>
+nmap <leader>x <Esc>:w<CR>:!clear<CR>:! %:p<CR>
+nmap <Leader>w <Esc>:w!<CR>
+nmap <Leader>q <Esc>:q<CR>
+nmap <Leader>wq <Esc>:wq<CR>
 
 " :W sudo saves the file 
 " (useful for handling the permission-denied error)
