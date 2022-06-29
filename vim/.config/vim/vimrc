@@ -6,9 +6,14 @@ set nowrap
 set sidescroll=1
 set sidescrolloff=1
 
+syntax on
+set foldmethod=syntax
+
 set tabstop=4
 
 nnoremap <silent><F3> :noh<CR>
+
+let $VIMHOME = '~/.config/vim'
 
 " Ps = 0  -> blinking block.
 " Ps = 1  -> blinking block (default).
@@ -175,6 +180,8 @@ endif
 
 try
     colorscheme desert
+	"set termguicolors
+    "colorscheme bat
 catch
 endtry
 
