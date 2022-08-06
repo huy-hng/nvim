@@ -5,6 +5,7 @@ set rnu
 set nowrap
 set sidescroll=1
 set sidescrolloff=1
+set mouse=a
 
 syntax on
 set foldmethod=syntax
