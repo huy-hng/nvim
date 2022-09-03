@@ -14,6 +14,10 @@ set tabstop=4
 
 nnoremap <silent><F3> :noh<CR>
 
+" for skipping folds in vscode
+"nmap j gj
+"nmap k gk
+
 let $VIMHOME = '~/.config/vim'
 
 " Ps = 0  -> blinking block.
