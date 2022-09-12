@@ -6,6 +6,7 @@ set nowrap
 set sidescroll=1
 set sidescrolloff=1
 set mouse=a
+set nofoldenable
 
 syntax on
 set foldmethod=syntax
