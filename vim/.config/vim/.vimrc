@@ -92,6 +92,7 @@ let mapleader = " "
 nmap <leader>x <Esc>:w<CR>:!clear<CR>:! %:p<CR>
 nmap <Leader>w <Esc>:w!<CR>
 nmap <Leader>q <Esc>:q<CR>
+nmap <Leader>Q <Esc>:q!<CR>
 nmap <Leader>wq <Esc>:wq<CR>
 
 " :W sudo saves the file 
