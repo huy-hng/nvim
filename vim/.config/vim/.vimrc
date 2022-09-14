@@ -1,19 +1,26 @@
 "silent !stty -ixon > /dev/null 2>/dev/null
 
-set nu
-set rnu
+set number
+set relativenumber
 set nowrap
-set sidescroll=1
-set sidescrolloff=1
 set mouse=a
-set nofoldenable
+set noerrorbells
+
+nnoremap <silent><F3> :set hlsearch!<CR>
+"set hlsearch
+set nohlsearch
+
+"set colorcolumn=80
+"highlight ColorColumn ctermbg=grey guibg=grey
 
 syntax on
 set foldmethod=syntax
+set nofoldenable
 
+set smartindent
 set tabstop=4
 
-nnoremap <silent><F3> :noh<CR>
+noremap! <C-h> <C-w>
 
 " for skipping folds in vscode
 "nmap j gj
@@ -103,8 +110,10 @@ command! W execute 'w !sudo tee % > /dev/null' <bar> edit!
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " => VIM user interface
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" Set 7 lines to the cursor - when moving vertically using j/k
-set so=7
+" Set 8 lines to the cursor - when moving vertically using j/k
+set scrolloff=8
+set sidescroll=1
+set sidescrolloff=1
 
 " Avoid garbled characters in Chinese language windows OS
 let $LANG='en' 
@@ -143,7 +152,7 @@ set ignorecase
 set smartcase
 
 " Highlight search results
-set hlsearch
+"set hlsearch
 
 " Makes search act like search in modern browsers
 set incsearch 
