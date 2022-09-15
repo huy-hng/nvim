@@ -2,7 +2,12 @@
 
 set number
 set relativenumber
-set nowrap
+set clipboard+=unnamedplus
+
+
+autocmd InsertEnter * :set norelativenumber
+autocmd InsertLeave * :set relativenumber 
+
 set mouse=a
 set noerrorbells
 
@@ -11,21 +16,61 @@ nnoremap <silent><F3> :set hlsearch!<CR>
 set nohlsearch
 
 "set colorcolumn=80
-"highlight ColorColumn ctermbg=grey guibg=grey
+highlight ColorColumn ctermbg=grey guibg=grey
 
 syntax on
 set foldmethod=syntax
 set nofoldenable
 
+set autoindent
 set smartindent
 set tabstop=4
 
+" wrapping
+"set nowrap
+let &showbreak='  ' " prefix for soft-wrapped lines (no actual line break character
+set linebreak " soft-wrap lines only at certain characters (see :help breakat)
+set breakindent
+"set cpoptions+=n " start showbreak in line-number area (doesn't work with break indent enabled
+
+
+" ctrl backspace to delete previous word
 noremap! <C-h> <C-w>
+
+
+" shift tab to unindent
+inoremap <S-Tab> <C-d>
+noremap <S-Tab> <<
+nnoremap <Tab> >>
+vnoremap > >gv
+vnoremap < <gv
+vmap <S-Tab> <
+vmap <Tab> >
+
+
+" alt shift to copy line 
+nnoremap <A-S-j> yyp
+nnoremap <A-S-k> yyP
+
+" break undo sequence before pasting from register
+inoremap <C-R> <C-G>u<C-R>
+
+" change default behaviour of Y which is yy
+nnoremap Y y$
+
+
+" new line without leaving normal mode
+nnoremap <CR> o<ESC>
+
+
+" ctrl+c to copy to clipboard
+nnoremap <C-c> "+y
+vnoremap <C-c> "+y
+
 
 " for skipping folds in vscode
 "nmap j gj
 "nmap k gk
-map Y y$
 
 let $VIMHOME = '~/.config/vim'
 
@@ -245,10 +290,6 @@ set tabstop=4
 set lbr
 set tw=500
 
-set ai "Auto indent
-set si "Smart indent
-"set wrap "Wrap lines
-
 
 """"""""""""""""""""""""""""""
 " => Visual mode related
@@ -267,7 +308,7 @@ vnoremap <silent> # :<C-u>call VisualSelection('', '')<CR>?<C-R>=@/<CR><CR>
 "map <C-space> ?
 
 " Disable highlight when <leader><cr> is pressed
-map <silent> <leader><cr> :noh<cr>
+"map <silent> <leader><cr> :noh<cr>
 
 " Smart way to move between windows
 map <C-j> <C-W>j
