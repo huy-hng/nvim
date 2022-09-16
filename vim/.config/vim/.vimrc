@@ -1,9 +1,32 @@
 "silent !stty -ixon > /dev/null 2>/dev/null
 
+
+" plugins
+call plug#begin('~/.config/vim/plugged')
+
+" Declare the list of plugins.
+"Plug 'tpope/vim-sensible'
+"Plug 'ThePrimeagen/vim-apm'
+Plug 'ThePrimeagen/vim-be-good'
+Plug 'gruvbox-community/gruvbox'
+Plug 'nvim-telescope/telescope.nvim'
+Plug 'vimwiki/vimwiki'
+
+" List ends here. Plugins become visible to Vim after this call.
+call plug#end()
+
+
+set autoread " autoload file changes
 set number
 set relativenumber
 set clipboard+=unnamedplus
 
+" for vimwiki
+set nocompatible
+filetype plugin on
+syntax on
+let g:vimwiki_folding='list'
+set concealcursor=nc
 
 autocmd InsertEnter * :set norelativenumber
 autocmd InsertLeave * :set relativenumber 
@@ -12,14 +35,16 @@ set mouse=a
 set noerrorbells
 
 nnoremap <silent><F3> :set hlsearch!<CR>
-"set hlsearch
 set nohlsearch
 
 "set colorcolumn=80
 highlight ColorColumn ctermbg=grey guibg=grey
 
-syntax on
-set foldmethod=syntax
+highlight Folded guibg=blue guifg=yellow
+highlight FoldColumn guibg=blue guifg=yellow
+
+
+set foldmethod=manual
 set nofoldenable
 
 set autoindent
@@ -51,13 +76,14 @@ vmap <Tab> >
 " alt shift to copy line 
 nnoremap <A-S-j> yyp
 nnoremap <A-S-k> yyP
+vnoremap <A-S-j> Y$p
+vnoremap <A-S-k> Y$P
 
 " break undo sequence before pasting from register
 inoremap <C-R> <C-G>u<C-R>
 
 " change default behaviour of Y which is yy
 nnoremap Y y$
-
 
 " new line without leaving normal mode
 nnoremap <CR> o<ESC>
@@ -66,7 +92,6 @@ nnoremap <CR> o<ESC>
 " ctrl+c to copy to clipboard
 nnoremap <C-c> "+y
 vnoremap <C-c> "+y
-
 
 " for skipping folds in vscode
 "nmap j gj
@@ -128,7 +153,6 @@ let &t_EI = "\e[1 q"
 set history=500
 
 " Enable filetype plugins
-filetype plugin on
 filetype indent on
 
 " Set to auto read when a file is changed from the outside
@@ -241,7 +265,7 @@ if $COLORTERM == 'gnome-terminal'
 endif
 
 try
-    colorscheme desert
+    colorscheme gruvbox
 	"set termguicolors
     "colorscheme bat
 catch
