@@ -27,6 +27,8 @@ filetype plugin on
 syntax on
 let g:vimwiki_folding='list'
 set concealcursor=nc
+let g:vimwiki_list = [{'path': '~/personal/vimwiki', 'path_html': '~/personal/vimwiki/html/'}]
+
 
 autocmd InsertEnter * :set norelativenumber
 autocmd InsertLeave * :set relativenumber 
@@ -44,7 +46,7 @@ highlight Folded guibg=blue guifg=yellow
 highlight FoldColumn guibg=blue guifg=yellow
 
 
-set foldmethod=manual
+set foldmethod=syntax
 set nofoldenable
 
 set autoindent
