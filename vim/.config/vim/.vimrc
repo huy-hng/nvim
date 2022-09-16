@@ -15,6 +15,11 @@ Plug 'vimwiki/vimwiki'
 " List ends here. Plugins become visible to Vim after this call.
 call plug#end()
 
+" With a map leader it's possible to do extra key combinations
+" like <leader>w saves the current file
+nnoremap <SPACE> <Nop>
+let mapleader = " "
+
 
 set autoread " autoload file changes
 set number
@@ -25,9 +30,39 @@ set clipboard+=unnamedplus
 set nocompatible
 filetype plugin on
 syntax on
-let g:vimwiki_folding='list'
+let g:vimwiki_folding='expr:quick'
 set concealcursor=nc
 let g:vimwiki_list = [{'path': '~/personal/vimwiki', 'path_html': '~/personal/vimwiki/html/'}]
+let g:vimwiki_hl_headers=0
+let g:vimwiki_conceal_pre=1
+let g:vimwiki_filetypes=['markdown']
+let g:vimwiki_create_link=0
+
+
+function! Update_Vimwiki(create)
+	let g:vimwiki_create_link=a:create
+	call vimwiki#vars#init()
+endfunction
+
+function! CreateLink()
+	:call Update_Vimwiki(1)
+	:exe "normal \<CR>"
+	:call Update_Vimwiki(0)
+endfunction
+
+nnoremap <silent><A-CR> :call CreateLink()<CR>
+
+
+function! SuperTab()
+  let l:part = strpart(getline('.'),col('.')-2,1)
+  if (l:part =~ '^\W\?$')
+      return "\<Tab>"
+  else
+      return "\<C-n>"
+  endif
+endfunction
+
+imap <Tab> <C-R>=SuperTab()<CR>
 
 
 autocmd InsertEnter * :set norelativenumber
@@ -88,7 +123,7 @@ inoremap <C-R> <C-G>u<C-R>
 nnoremap Y y$
 
 " new line without leaving normal mode
-nnoremap <CR> o<ESC>
+" nnoremap <CR> o<ESC>
 
 
 " ctrl+c to copy to clipboard
@@ -161,10 +196,6 @@ filetype indent on
 set autoread
 au FocusGained,BufEnter * checktime
 
-" With a map leader it's possible to do extra key combinations
-" like <leader>w saves the current file
-nnoremap <SPACE> <Nop>
-let mapleader = " "
 
 " Fast saving and quitting
 nmap <leader>x <Esc>:w<CR>:!clear<CR>:! %:p<CR>
