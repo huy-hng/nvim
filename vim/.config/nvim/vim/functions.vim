@@ -1,16 +1,16 @@
-
 function! Update_Vimwiki(create)
 	let g:vimwiki_create_link=a:create
 	call vimwiki#vars#init()
 endfunction
 
-function! CreateLink()
+
+function! Create_Vimwiki_Link()
 	:call Update_Vimwiki(1)
 	:exe "normal \<CR>"
 	:call Update_Vimwiki(0)
 endfunction
 
-nnoremap <silent><A-CR> :call CreateLink()<CR>
+nnoremap <silent><A-CR> :call Create_Vimwiki_Link()<CR>
 
 
 function! SuperTab()

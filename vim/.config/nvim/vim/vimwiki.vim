@@ -1,8 +1,10 @@
-set concealcursor=nc
 " required settings
 set nocompatible
 filetype plugin on
 "syntax on
+
+set concealcursor=nc
+nnoremap 
 
 let g:vimwiki_conceal_pre=1
 let g:vimwiki_hl_headers=0
