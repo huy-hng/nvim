@@ -23,7 +23,7 @@ set smartindent
 set tabstop=4
 
 " wrapping
-set wrap " default behavior
+set nowrap
 let &showbreak='  ' " prefix for soft-wrapped lines
 set linebreak " soft-wrap lines only at certain characters (see :help breakat)
 set breakindent
