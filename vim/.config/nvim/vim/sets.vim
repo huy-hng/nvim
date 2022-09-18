@@ -8,7 +8,7 @@ set clipboard+=unnamedplus
 set mouse=a
 set noerrorbells
 
-set nohlsearch
+"set nohlsearch
 set foldmethod=syntax
 set nofoldenable
 "
