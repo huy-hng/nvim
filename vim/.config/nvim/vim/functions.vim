@@ -1,3 +1,9 @@
+" TODO do everything in one line for extra niceness
+function! Toggle_Conceal()
+	let &concealcursor = &concealcursor == 'c' ? 'nc' : 'c'
+endfunction
+
+
 function! Update_Vimwiki(create)
 	let g:vimwiki_create_link=a:create
 	call vimwiki#vars#init()
@@ -9,8 +15,6 @@ function! Create_Vimwiki_Link()
 	:exe "normal \<CR>"
 	:call Update_Vimwiki(0)
 endfunction
-
-nnoremap <silent><A-CR> :call Create_Vimwiki_Link()<CR>
 
 
 function! SuperTab()

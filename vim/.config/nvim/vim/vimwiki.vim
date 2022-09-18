@@ -5,12 +5,6 @@ filetype plugin on
 
 set concealcursor=nc
 
-" TODO do everything in one line for extra niceness
-function! Toggle_Conceal()
-	let &concealcursor = &concealcursor == 'c' ? 'nc' : 'c'
-endfunction
-nnoremap <silent><F4> :call Toggle_Conceal()<CR>
-
 let g:vimwiki_conceal_pre = 1
 let g:vimwiki_hl_headers = 0
 let g:vimwiki_create_link = 0

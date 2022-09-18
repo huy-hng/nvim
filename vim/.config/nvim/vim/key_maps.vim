@@ -14,11 +14,14 @@ nnoremap <Leader>wq <Esc>:wq<CR>
 " :W sudo saves the file (useful for handling the permission-denied error)
 command! W execute 'w !sudo tee % > /dev/null' <bar> edit!
 
+
 " Remap VIM 0 to first non-blank character
 map 0 ^
 
+
 " open file tree on the side
 nnoremap <C-S>b :wincmd v<bar> :Ex <bar> :vertical resize 30<CR>
+
 
 " Move a line of text using ALT+[jk] or Command+[jk] on mac
 nmap <M-j> mz:m+<cr>`z
@@ -26,19 +29,20 @@ nmap <M-k> mz:m-2<cr>`z
 vmap <M-j> :m'>+<cr>`<my`>mzgv`yo`z
 vmap <M-k> :m'<-2<cr>`>my`<mzgv`yo`z
 
-if has("mac") || has("macunix")
-  nmap <D-j> <M-j>
-  nmap <D-k> <M-k>
-  vmap <D-j> <M-j>
-  vmap <D-k> <M-k>
-endif
-
 
 " ctrl backspace to delete previous word
 noremap! <C-h> <C-w>
 
-" F3 to remove search highlights
+
+" F keys for extra functions
 nnoremap <silent><F3> :set hlsearch!<CR>
+nnoremap <silent><F4> :call Toggle_Conceal()<CR>
+nnoremap <silent><F5> :set wrap!<CR>
+
+
+" Vimwiki
+nnoremap <silent><A-CR> :call Create_Vimwiki_Link()<CR>
+
 
 " new line without leaving normal mode
 " nnoremap <CR> o<ESC>
