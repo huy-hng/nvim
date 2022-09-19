@@ -8,6 +8,7 @@ set concealcursor=nc
 "let g:vimwiki_listsyms = '✗○◐●✓' " fancier todo checkmarks
 "let g:vimwiki_listsyms = ' ○◐●✓' " fancier todo checkmarks
 let g:vimwiki_conceal_pre = 1
+let g:vimwiki_table_auto_fmt = 0
 let g:vimwiki_hl_headers = 0
 let g:vimwiki_hl_cb_checked = 1
 let g:vimwiki_create_link = 0

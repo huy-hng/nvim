@@ -9,4 +9,5 @@ source $path/user_interface.vim
 source $path/colors.vim
 source $path/movement.vim
 source $path/misc.vim
+source $path/ranger.vim
 

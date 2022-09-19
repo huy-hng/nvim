@@ -42,6 +42,8 @@ nnoremap <silent><F5> :set wrap!<CR>
 
 " Vimwiki
 nnoremap <silent><A-CR> :call Create_Vimwiki_Link()<CR>
+" doesnt work
+nnoremap <silent><F6> :call ToggleTableFormatting()<CR>
 
 
 " new line without leaving normal mode

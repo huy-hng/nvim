@@ -4,6 +4,7 @@ function! Toggle_Conceal()
 endfunction
 
 
+" Vimwiki functions
 function! Update_Vimwiki(create)
 	let g:vimwiki_create_link=a:create
 	call vimwiki#vars#init()
@@ -15,6 +16,16 @@ function! Create_Vimwiki_Link()
 	:exe "normal \<CR>"
 	:call Update_Vimwiki(0)
 endfunction
+
+" doesnt work
+function! ToggleTableFormatting()
+	let g:vimwiki_table_auto_fmt=!g:vimwiki_table_auto_fmt
+	echo 'Vimwiki Table Format: ' .. g:vimwiki_table_auto_fmt
+	call vimwiki#vars#init()
+endfunction
+
+
+""""""""""""""""""""""""""""""
 
 
 function! SuperTab()
