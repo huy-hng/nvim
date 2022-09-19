@@ -1,18 +1,138 @@
 "silent !stty -ixon > /dev/null 2>/dev/null
 
-set nu
-set rnu
-set nowrap
-set sidescroll=1
-set sidescrolloff=1
-set mouse=a
 
+" plugins
+call plug#begin('~/.config/vim/plugged')
+
+" Declare the list of plugins.
+"Plug 'tpope/vim-sensible'
+"Plug 'ThePrimeagen/vim-apm'
+Plug 'ThePrimeagen/vim-be-good'
+Plug 'gruvbox-community/gruvbox'
+Plug 'nvim-telescope/telescope.nvim'
+Plug 'vimwiki/vimwiki'
+
+" List ends here. Plugins become visible to Vim after this call.
+call plug#end()
+
+" With a map leader it's possible to do extra key combinations
+" like <leader>w saves the current file
+nnoremap <SPACE> <Nop>
+let mapleader = " "
+
+
+set autoread " autoload file changes
+set number
+set relativenumber
+set clipboard+=unnamedplus
+
+" for vimwiki
+set nocompatible
+filetype plugin on
 syntax on
-set foldmethod=syntax
+let g:vimwiki_folding='expr:quick'
+set concealcursor=nc
+let g:vimwiki_list = [{'path': '~/personal/vimwiki', 'path_html': '~/personal/vimwiki/html/'}]
+let g:vimwiki_hl_headers=0
+let g:vimwiki_conceal_pre=1
+let g:vimwiki_filetypes=['markdown']
+let g:vimwiki_create_link=0
 
+
+function! Update_Vimwiki(create)
+	let g:vimwiki_create_link=a:create
+	call vimwiki#vars#init()
+endfunction
+
+function! CreateLink()
+	:call Update_Vimwiki(1)
+	:exe "normal \<CR>"
+	:call Update_Vimwiki(0)
+endfunction
+
+nnoremap <silent><A-CR> :call CreateLink()<CR>
+
+
+function! SuperTab()
+  let l:part = strpart(getline('.'),col('.')-2,1)
+  if (l:part =~ '^\W\?$')
+      return "\<Tab>"
+  else
+      return "\<C-n>"
+  endif
+endfunction
+
+imap <Tab> <C-R>=SuperTab()<CR>
+
+
+autocmd InsertEnter * :set norelativenumber
+autocmd InsertLeave * :set relativenumber 
+
+set mouse=a
+set noerrorbells
+
+nnoremap <silent><F3> :set hlsearch!<CR>
+set nohlsearch
+
+"set colorcolumn=80
+highlight ColorColumn ctermbg=grey guibg=grey
+
+highlight Folded guibg=blue guifg=yellow
+highlight FoldColumn guibg=blue guifg=yellow
+
+
+set foldmethod=syntax
+set nofoldenable
+
+set autoindent
+set smartindent
 set tabstop=4
 
-nnoremap <silent><F3> :noh<CR>
+" wrapping
+"set nowrap
+let &showbreak='  ' " prefix for soft-wrapped lines (no actual line break character
+set linebreak " soft-wrap lines only at certain characters (see :help breakat)
+set breakindent
+"set cpoptions+=n " start showbreak in line-number area (doesn't work with break indent enabled
+
+
+" ctrl backspace to delete previous word
+noremap! <C-h> <C-w>
+
+
+" shift tab to unindent
+inoremap <S-Tab> <C-d>
+noremap <S-Tab> <<
+nnoremap <Tab> >>
+vnoremap > >gv
+vnoremap < <gv
+vmap <S-Tab> <
+vmap <Tab> >
+
+
+" alt shift to copy line 
+nnoremap <A-S-j> yyp
+nnoremap <A-S-k> yyP
+vnoremap <A-S-j> Y$p
+vnoremap <A-S-k> Y$P
+
+" break undo sequence before pasting from register
+inoremap <C-R> <C-G>u<C-R>
+
+" change default behaviour of Y which is yy
+nnoremap Y y$
+
+" new line without leaving normal mode
+" nnoremap <CR> o<ESC>
+
+
+" ctrl+c to copy to clipboard
+nnoremap <C-c> "+y
+vnoremap <C-c> "+y
+
+" for skipping folds in vscode
+"nmap j gj
+"nmap k gk
 
 let $VIMHOME = '~/.config/vim'
 
@@ -70,22 +190,18 @@ let &t_EI = "\e[1 q"
 set history=500
 
 " Enable filetype plugins
-filetype plugin on
 filetype indent on
 
 " Set to auto read when a file is changed from the outside
 set autoread
 au FocusGained,BufEnter * checktime
 
-" With a map leader it's possible to do extra key combinations
-" like <leader>w saves the current file
-nnoremap <SPACE> <Nop>
-let mapleader = " "
 
 " Fast saving and quitting
 nmap <leader>x <Esc>:w<CR>:!clear<CR>:! %:p<CR>
 nmap <Leader>w <Esc>:w!<CR>
 nmap <Leader>q <Esc>:q<CR>
+nmap <Leader>Q <Esc>:q!<CR>
 nmap <Leader>wq <Esc>:wq<CR>
 
 " :W sudo saves the file 
@@ -96,8 +212,10 @@ command! W execute 'w !sudo tee % > /dev/null' <bar> edit!
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " => VIM user interface
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" Set 7 lines to the cursor - when moving vertically using j/k
-set so=7
+" Set 8 lines to the cursor - when moving vertically using j/k
+set scrolloff=8
+set sidescroll=1
+set sidescrolloff=1
 
 " Avoid garbled characters in Chinese language windows OS
 let $LANG='en' 
@@ -136,7 +254,7 @@ set ignorecase
 set smartcase
 
 " Highlight search results
-set hlsearch
+"set hlsearch
 
 " Makes search act like search in modern browsers
 set incsearch 
@@ -180,7 +298,7 @@ if $COLORTERM == 'gnome-terminal'
 endif
 
 try
-    colorscheme desert
+    colorscheme gruvbox
 	"set termguicolors
     "colorscheme bat
 catch
@@ -229,10 +347,6 @@ set tabstop=4
 set lbr
 set tw=500
 
-set ai "Auto indent
-set si "Smart indent
-"set wrap "Wrap lines
-
 
 """"""""""""""""""""""""""""""
 " => Visual mode related
@@ -251,7 +365,7 @@ vnoremap <silent> # :<C-u>call VisualSelection('', '')<CR>?<C-R>=@/<CR><CR>
 "map <C-space> ?
 
 " Disable highlight when <leader><cr> is pressed
-map <silent> <leader><cr> :noh<cr>
+"map <silent> <leader><cr> :noh<cr>
 
 " Smart way to move between windows
 map <C-j> <C-W>j
