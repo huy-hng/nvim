@@ -1,6 +1,6 @@
-call plug#begin('~/.config/vim/plugged')
+call plug#begin('~/.config/nvim/plugged')
 
-Plug 'ThePrimeagen/vim-be-good'
+" Plug 'ThePrimeagen/vim-be-good'
 Plug 'gruvbox-community/gruvbox'
 
 Plug 'vimwiki/vimwiki'
