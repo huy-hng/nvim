@@ -14,24 +14,25 @@ let g:vimwiki_create_link = 0
 let g:vimwiki_folding = 'list:quick'
 let g:vimwiki_dir_link = 'main'
 let g:vimwiki_filetypes = ['markdown']
-let g:vimwiki_ext2syntax = {'.md': 'markdown'}
+"let g:vimwiki_ext2syntax = {'.md': 'markdown'}
 
 " individual wiki config
 function! Create_wiki(name)
 	let wiki = {}
 	let wiki.path = '$HOME/personal/vimwiki/' .. a:name
 	let wiki.name = a:name
+	let wiki.ext = '.md'
 	let wiki.auto_toc = 1
 	let wiki.maxhi = 1
 	return wiki
 endfunction	
 
-let main = Create_wiki('main')
-let todo = Create_wiki('todo')
-let projects = Create_wiki('projects')
-let cheatsheets = Create_wiki('cheatsheets')
+let main = Create_wiki('Main')
+let todo = Create_wiki('Todo')
+let projects = Create_wiki('Projects')
+let cheatsheets = Create_wiki('Cheatsheets')
 let cheatsheets.nested_syntaxes = {'python': 'python', 'bash': 'bash'}
-let misc = Create_wiki('misc')
+let misc = Create_wiki('Misc')
 
 
 let g:vimwiki_list = [main, todo, projects, cheatsheets, misc]
