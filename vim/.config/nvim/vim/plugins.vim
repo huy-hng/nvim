@@ -1,9 +1,9 @@
 call plug#begin('~/.config/nvim/plugged')
 
-" Plug 'ThePrimeagen/vim-be-good'
-Plug 'gruvbox-community/gruvbox'
+Plug 'gruvbox-community/gruvbox' " theme
 
 Plug 'vimwiki/vimwiki'
+Plug 'tpope/vim-obsession' " save vim sessions
 
 Plug 'nvim-lua/plenary.nvim'
 Plug 'nvim-telescope/telescope.nvim'
