@@ -20,30 +20,16 @@ filetype indent on
 
 set autoindent
 set smartindent
+set smarttab
 set tabstop=4
+set shiftwidth=4
 
 " wrapping
-set nowrap
-let &showbreak='  ' " prefix for soft-wrapped lines
+set nowrap " F5 to wrap
+set textwidth=120 " Linebreak on 120 characters
+let &showbreak='--> ' " prefix for soft-wrapped lines
 set linebreak " soft-wrap lines only at certain characters (see :help breakat)
-set breakindent
-"set cpoptions+=n " start showbreak in line-number area (doesn't work with break indent enabled)
-
-
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" => Text, tab and indent related
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" Use spaces instead of tabs
-"set expandtab
-
-" Be smart when using tabs ;)
-set smarttab
-
-" 1 tab == 4 spaces
-set shiftwidth=4
-set tabstop=4
-
-" Linebreak on 500 characters
-set lbr
-set tw=500
+set breakindent " indent wraps
+set list " to display indentations and trailing whitespaces
+set cpoptions+=n " start showbreak in line-number area (doesn't work with break indent enabled)
 
