@@ -10,7 +10,9 @@ if $COLORTERM == 'gnome-terminal'
 endif
 
 try
-    colorscheme gruvbox
+	colorscheme Tomorrow-Night
+	colorscheme Tomorrow-Night-Eighties
+	colorscheme gruvbox
 	"set termguicolors
     "colorscheme bat
 catch
