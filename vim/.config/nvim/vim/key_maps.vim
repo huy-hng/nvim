@@ -16,7 +16,8 @@ command! W execute 'w !sudo tee % > /dev/null' <bar> edit!
 
 
 " Remap VIM 0 to first non-blank character
-map 0 ^
+nnoremap 0 ^
+nnoremap ^ 0
 
 
 " open file tree on the side
@@ -84,3 +85,6 @@ vnoremap <A-S-k> Y$P
 inoremap <C-R> <C-G>u<C-R>
 inoremap <C-v> <C-G>u<C-v>
 
+
+"vnoremap <Leader>1 :call Figlet()<CR>
+vnoremap <Leader>1 I<Esc>O{{{cat<esc>gvA<esc>o}}}<esc>gv:!figlet -k -t<CR>
