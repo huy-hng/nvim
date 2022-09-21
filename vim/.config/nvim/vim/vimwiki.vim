@@ -10,7 +10,7 @@ set concealcursor=nc
 let g:vimwiki_conceal_pre = 1
 let g:vimwiki_table_auto_fmt = 0
 let g:vimwiki_hl_headers = 0
-" let g:vimwiki_hl_cb_checked = 1 " highlight empty pages
+let g:vimwiki_hl_cb_checked = 1
 let g:vimwiki_create_link = 0
 let g:vimwiki_folding = 'list:quick'
 let g:vimwiki_dir_link = 'main'
@@ -24,9 +24,9 @@ function! Create_wiki(name)
 	let wiki.name = a:name
 	let wiki.ext = '.md'
 	let wiki.auto_toc = 1
-	let wiki.maxhi = 1
+	let wiki.maxhi = 0 " highlight empty pages
 	return wiki
-endfunction	
+endfunction
 
 let main = Create_wiki('Main')
 let todo = Create_wiki('Todo')

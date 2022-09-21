@@ -1,3 +1,12 @@
+function! Figlet()
+	return "figlet -c"
+endfunction
+
+" surround selection with quotes
+":s/\%V\(.*\)\%V/"\1"/
+
+
+
 " TODO do everything in one line for extra niceness
 function! Toggle_Conceal()
 	let &concealcursor = &concealcursor == 'c' ? 'nc' : 'c'

@@ -36,5 +36,5 @@ function! RangeChooser()
     endfor
     redraw!
 endfunction
-command! -bar RangerChooser call RangeChooser()
-nnoremap <leader>r :<C-U>RangerChooser<CR>
+"command! -bar RangerChooser call RangeChooser()
+nnoremap <leader>r :<C-U>RangeChooser()<CR>
