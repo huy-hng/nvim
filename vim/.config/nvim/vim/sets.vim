@@ -30,6 +30,7 @@ set textwidth=120 " Linebreak on 120 characters
 let &showbreak='--> ' " prefix for soft-wrapped lines
 set linebreak " soft-wrap lines only at certain characters (see :help breakat)
 set breakindent " indent wraps
-set list " to display indentations and trailing whitespaces
 set cpoptions+=n " start showbreak in line-number area (doesn't work with break indent enabled)
 
+set list " to display indentations and trailing whitespaces
+	set lcs=tab:\ \ ,trail:·,nbsp:+
