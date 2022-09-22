@@ -5,11 +5,11 @@ let mapleader = " "
 """" Quality of life improvements """"
 
 " Fast saving and quitting
-nnoremap <leader>x <Esc>:w<CR>:!clear<CR>:! %:p<CR>
-nnoremap <Leader>w <Esc>:w!<CR>
-nnoremap <Leader>q <Esc>:q<CR>
-nnoremap <Leader>Q <Esc>:q!<CR>
-nnoremap <Leader>wq <Esc>:wq<CR>
+nnoremap <silent><leader>x <Esc>:w<CR>:!clear<CR>:! %:p<CR>
+nnoremap <silent><Leader>w <Esc>:w!<CR>
+nnoremap <silent><Leader>q <Esc>:q<CR>
+nnoremap <silent><Leader>Q <Esc>:q!<CR>
+nnoremap <silent><Leader>wq <Esc>:wq<CR>
 
 " :W sudo saves the file (useful for handling the permission-denied error)
 command! W execute 'w !sudo tee % > /dev/null' <bar> edit!
