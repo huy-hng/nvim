@@ -23,7 +23,7 @@ function! Create_wiki(name)
 	let wiki.path = '$HOME/personal/vimwiki/' .. a:name
 	let wiki.name = a:name
 	let wiki.ext = '.md'
-	let wiki.auto_toc = 1
+	let wiki.auto_toc = 0
 	let wiki.maxhi = 0 " highlight empty pages
 	return wiki
 endfunction

@@ -1,4 +1,6 @@
 cabbrev telp tab help
+cabbrev hvw tab help vimwiki
+cabbrev vwtoc VimwikiTOC
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " => Files, backups and undo
