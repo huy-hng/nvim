@@ -4,7 +4,8 @@ au FocusGained,BufEnter * checktime
 
 set number
 set relativenumber
-set clipboard+=unnamedplus
+set clipboard+=unnamed " copies to primary when yanking (stays across tmux panes)
+"set clipboard+=unnamedplus
 set mouse=a
 set noerrorbells
 
@@ -33,4 +34,4 @@ set breakindent " indent wraps
 set cpoptions+=n " start showbreak in line-number area (doesn't work with break indent enabled)
 
 set list " to display indentations and trailing whitespaces
-	set lcs=tab:\ \ ,trail:·,nbsp:+
+set lcs=tab:\ \ ,trail:·,nbsp:+
