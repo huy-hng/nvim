@@ -1,4 +1,5 @@
 let $path = '~/.config/nvim/vim'
+source $path/file_extensions.vim
 source $path/plugins.vim
 source $path/autocmds.vim
 source $path/functions.vim
