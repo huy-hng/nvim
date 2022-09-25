@@ -32,7 +32,7 @@ let main = Create_wiki('Main')
 let todo = Create_wiki('Todo')
 let projects = Create_wiki('Projects')
 let cheatsheets = Create_wiki('Cheatsheets')
-let cheatsheets.nested_syntaxes = {'python': 'python', 'bash': 'bash'}
+let cheatsheets.nested_syntaxes = {'python': 'python', 'bash': 'bash', 'tmux': 'tmux'}
 let misc = Create_wiki('Misc')
 
 
