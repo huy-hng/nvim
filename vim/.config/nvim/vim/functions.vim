@@ -46,7 +46,7 @@ function! SuperTab()
   endif
 endfunction
 
-imap <Tab> <C-R>=SuperTab()<CR>
+inoremap <Tab> <C-R>=SuperTab()<CR>
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " => Helper functions
