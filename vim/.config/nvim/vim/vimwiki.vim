@@ -12,7 +12,7 @@ let g:vimwiki_table_auto_fmt = 0
 let g:vimwiki_hl_headers = 0
 let g:vimwiki_hl_cb_checked = 1
 let g:vimwiki_create_link = 0
-let g:vimwiki_folding = 'list:quick'
+let g:vimwiki_folding = 'syntax:quick'
 let g:vimwiki_dir_link = 'main'
 let g:vimwiki_filetypes = ['markdown']
 "let g:vimwiki_ext2syntax = {'.md': 'markdown'}
@@ -32,7 +32,12 @@ let main = Create_wiki('Main')
 let todo = Create_wiki('Todo')
 let projects = Create_wiki('Projects')
 let cheatsheets = Create_wiki('Cheatsheets')
-let cheatsheets.nested_syntaxes = {'python': 'python', 'bash': 'bash', 'tmux': 'tmux'}
+let cheatsheets.nested_syntaxes = {
+			\ 'python': 'python',
+			\ 'bash': 'bash',
+			\ 'tmux': 'tmux',
+			\ 'vim': 'vim'
+			\ }
 let misc = Create_wiki('Misc')
 
 
