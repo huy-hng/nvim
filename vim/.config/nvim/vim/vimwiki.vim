@@ -25,6 +25,12 @@ function! Create_wiki(name)
 	let wiki.ext = '.md'
 	let wiki.auto_toc = 0
 	let wiki.maxhi = 0 " highlight empty pages
+	let wiki.nested_syntaxes = {
+				\ 'python': 'python',
+				\ 'bash': 'bash',
+				\ 'tmux': 'tmux',
+				\ 'vim': 'vim'
+				\ }
 	return wiki
 endfunction
 
@@ -32,12 +38,6 @@ let main = Create_wiki('Main')
 let todo = Create_wiki('Todo')
 let projects = Create_wiki('Projects')
 let cheatsheets = Create_wiki('Cheatsheets')
-let cheatsheets.nested_syntaxes = {
-			\ 'python': 'python',
-			\ 'bash': 'bash',
-			\ 'tmux': 'tmux',
-			\ 'vim': 'vim'
-			\ }
 let misc = Create_wiki('Misc')
 
 
