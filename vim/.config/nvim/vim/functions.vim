@@ -1,3 +1,13 @@
+function! SurroundWithPreformatter()
+	"normal! iasdf
+	visual! <esc>`<O{{{cat<ESC>`>o}}}<ESC>gv:!figlet -k -t<CR>
+endfunction
+
+vnoremap <Leader>1 :call SurroundWithPreformatter()<CR>
+	"vnoremap <Leader>1 I<Esc>O{{{cat<esc>gvA<esc>o}}}<esc>gv:!figlet -k -t<CR>
+	"vmap <M-k> :m'<-2<cr>`>my`<mzgv`yo`z
+	"<cr>`>my`<mzgv`yo`z
+
 function! Figlet()
 	return "figlet -c"
 endfunction
@@ -7,7 +17,6 @@ endfunction
 
 
 
-" TODO do everything in one line for extra niceness
 function! Toggle_Conceal()
 	let &concealcursor = &concealcursor == 'c' ? 'nc' : 'c'
 endfunction
@@ -46,7 +55,7 @@ function! SuperTab()
   endif
 endfunction
 
-inoremap <Tab> <C-R>=SuperTab()<CR>
+"inoremap <Tab> <C-R>=SuperTab()<CR>
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " => Helper functions
