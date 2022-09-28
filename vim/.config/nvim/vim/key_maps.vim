@@ -125,9 +125,9 @@ vmap <S-Tab> <
 """""""""""""""
 
 " F keys for extra functions
-nnoremap <silent><F3> :set hlsearch!<CR>
+nnoremap <F3> :set hlsearch!<CR>:set hlsearch?<CR>
 nnoremap <silent><F4> :call Toggle_Conceal()<CR>
-nnoremap <silent><F5> :set wrap!<CR>
+nnoremap <F5> :set wrap!<CR>:set wrap?<CR>
 
 
 "vnoremap <Leader>1 :call Figlet()<CR>
@@ -141,7 +141,9 @@ vnoremap <A-1> :call SurroundWithPreformatter()<CR>
 
 " Vimwiki
 nnoremap <silent><Leader><CR> :call Create_Vimwiki_Link()<CR>
-"nnoremap <silent><S-Left> <Plug>VimwikiPrevLink<CR>
-"nnoremap <silent><S-Right> <Plug>VimwikiNextLink<CR>
+noremap <silent><S-Left> <Plug>VimwikiPrevLink
+noremap <silent><S-Right> <Plug>VimwikiNextLink
+inoremap <silent><S-Left> <Plug>VimwikiPrevLink
+inoremap <silent><S-Right> <Plug>VimwikiNextLink
 " doesnt work
 nnoremap <silent><F6> :call ToggleTableFormatting()<CR>
