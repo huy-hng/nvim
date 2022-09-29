@@ -17,6 +17,26 @@ let g:vimwiki_dir_link = 'main'
 let g:vimwiki_filetypes = ['markdown']
 "let g:vimwiki_ext2syntax = {'.md': 'markdown'}
 
+let g:vimwiki_key_mappings = {
+	\ 'all_maps': 1,
+	\ 'global': 1,
+	\ 'headers': 1,
+	\ 'text_objs': 1,
+	\ 'table_format': 1,
+	\ 'table_mappings': 0,
+	\ 'lists': 1,
+	\ 'links': 1,
+	\ 'html': 1,
+	\ 'mouse': 1,
+\ }
+
+" see https://github.com/vimwiki/vimwiki/pull/1221
+"let g:vimwiki_tag_format = {
+"	\ 'pre_mark': '[''"]\?#\( \|#\)\@!',
+"	\ 'sep': '>><<',
+"	\ 'post_mark': '[''" ]\?\|$'
+"\ }
+
 " individual wiki config
 function! Create_wiki(name)
 	let wiki = {}

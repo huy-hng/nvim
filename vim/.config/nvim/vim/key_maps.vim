@@ -1,5 +1,6 @@
-
+""""""""""""""""""""
 """" Leader Key """"
+""""""""""""""""""""
 
 nnoremap <SPACE> <NOP>
 let mapleader = " "
@@ -8,9 +9,7 @@ let mapleader = " "
 """"""""""""""""""""""
 """" file editing """"
 """"""""""""""""""""""
-
-" Fast saving and quitting
-nnoremap <silent><leader>x <cmd>w<CR>:!clear\<silent><CR>:! %:p<CR>
+nnoremap <leader>x <cmd>w<CR>:!clear<CR>:! %:p<CR>
 nnoremap <silent><Leader>w <cmd>w!<CR>
 nnoremap <silent><Leader>q <cmd>q<CR>
 nnoremap <silent><Leader>Q <cmd>q!<CR>
@@ -19,33 +18,38 @@ nnoremap <silent><Leader>wq <cmd>wq<CR>
 " :W sudo saves the file (useful for handling the permission-denied error)
 command! W execute 'w !sudo tee % > /dev/null' <bar> edit!
 
-
-
 """""""""""""""""
 """" rebinds """"
 """""""""""""""""
 
+nnoremap ; :
+nnoremap : ;
+
 nnoremap q: <NOP>
 nnoremap q/ <NOP>
-nnoremap <M-;> q:
-nnoremap <M-/> q/
+nnoremap <leader>; q:
+nnoremap <leader>/ q/
 
 " Remap VIM 0 to first non-blank character
 nnoremap 0 ^
 nnoremap ^ 0
 
-
 " open file tree on the side
 nnoremap <C-S>b :wincmd v<bar> :Ex <bar> :vertical resize 30<CR>
-
 
 """"""""""""""""""""""""""
 """" Behavior Changes """"
 """"""""""""""""""""""""""
 
+nnoremap vv V
+nnoremap V v$
 " ctrl+c to copy to clipboard
-nnoremap <C-c> "+y
-vnoremap <C-c> "+y
+nnoremap <leader>P "+P
+nnoremap <leader>p "+p
+nnoremap <leader>yy "+yy
+
+
+vnoremap <leader>y "+y
 
 
 " change default behaviour of Y which is yy
@@ -56,10 +60,8 @@ nnoremap Y y$
 inoremap <C-R> <C-G>u<C-R>
 inoremap <C-v> <C-G>u<C-v>
 
-
 " new line without leaving normal mode
-" nnoremap <CR> o<ESC>
-
+nnoremap <CR> o<ESC>
 
 """"""""""""""""""
 """" Movement """"
@@ -76,6 +78,11 @@ nnoremap <A-l> 20zl
 nnoremap <A-H> zH
 nnoremap <A-L> zL
 
+"""""""""""""""""
+"""" Folding """"
+"""""""""""""""""
+nnoremap <C-k><ESC> zc
+nnoremap <C-k><C-]> zo
 
 
 """""""""""""""""
@@ -89,11 +96,10 @@ vnoremap <A-S-j> Y$p
 vnoremap <A-S-k> Y$P
 
 
-" Move a line of text using ALT+[jk] or Command+[jk] on mac
-nmap <M-j> mz:m+<cr>`z
-nmap <M-k> mz:m-2<cr>`z
-vmap <M-j> :m'>+<cr>`<my`>mzgv`yo`z
-vmap <M-k> :m'<-2<cr>`>my`<mzgv`yo`z
+nnoremap <A-j> mz:m+<cr>`z
+nnoremap <A-k> mz:m-2<cr>`z
+vnoremap <A-j> :m'>+<cr>`<my`>mzgv`yo`z
+vnoremap <A-k> :m'<-2<cr>`>my`<mzgv`yo`z
 
 "xnoremap <M-j> :move '>+1<CR>gv-gv
 "xnoremap <M-k> :move '<-2<CR>gv-gv
@@ -103,19 +109,19 @@ vmap <M-k> :m'<-2<cr>`>my`<mzgv`yo`z
 noremap! <C-h> <C-w>
 
 
-
 """" Indentation """"
 " shift tab to unindent
-inoremap <A-Tab> <C-t>
+
+inoremap <C-Tab> <C-t>
 inoremap <S-Tab> <C-d>
 " nnoremap <Tab> >> " tab is ^I (ctrl+i) meaning jumping in jumplist wont work
-noremap <A-Tab> >>
+noremap <C-Tab> >>
 noremap <S-Tab> <<
 " the double maps are needed because the first pair makes indenting not loose visual
 " and the second one recursively binds that to Tab and shift tab
 vnoremap > >gv
 vnoremap < <gv
-vmap <A-Tab> >
+vmap <C-Tab> >
 vmap <S-Tab> <
 
 
@@ -141,9 +147,10 @@ vnoremap <A-1> :call SurroundWithPreformatter()<CR>
 
 " Vimwiki
 nnoremap <silent><Leader><CR> :call Create_Vimwiki_Link()<CR>
-noremap <silent><S-Left> <Plug>VimwikiPrevLink
-noremap <silent><S-Right> <Plug>VimwikiNextLink
-inoremap <silent><S-Left> <Plug>VimwikiPrevLink
-inoremap <silent><S-Right> <Plug>VimwikiNextLink
+nnoremap <silent><A-S-Tab> <Plug>VimwikiPrevLink
+nnoremap <silent><A-Tab> <Plug>VimwikiNextLink
 " doesnt work
 nnoremap <silent><F6> :call ToggleTableFormatting()<CR>
+
+" Goyo
+nnoremap <silent><C-k><C-z> <cmd>Goyo<CR>

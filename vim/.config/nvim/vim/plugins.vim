@@ -2,6 +2,7 @@ call plug#begin('~/.config/nvim/plugged')
 
 " themes
 Plug 'gruvbox-community/gruvbox'
+Plug 'folke/tokyonight.nvim', { 'branch': 'main' }
 
 "Plug 'powerline/powerline'
 Plug 'vim-airline/vim-airline'
@@ -10,8 +11,11 @@ Plug 'vim-airline/vim-airline-themes'
 " syntax error
 Plug 'dense-analysis/ale'
 
-Plug 'vimwiki/vimwiki'
+Plug 'junegunn/limelight.vim'
+Plug 'junegunn/goyo.vim'
+Plug 'mbbill/undotree'
 Plug 'tpope/vim-obsession' " save vim sessions
+Plug 'vimwiki/vimwiki'
 
 " telescope
 Plug 'nvim-lua/plenary.nvim'
