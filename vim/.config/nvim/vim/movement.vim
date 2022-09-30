@@ -5,9 +5,6 @@
 "map <space> /
 "map <C-space> ?
 
-" Disable highlight when <leader><cr> is pressed
-"map <silent> <leader><cr> :noh<cr>
-
 " Close the current buffer
 map <leader>bd :Bclose<cr>:tabclose<cr>gT
 
@@ -40,7 +37,7 @@ map <leader>cd :cd %:p:h<cr>:pwd<cr>
 " Specify the behavior when switching between buffers 
 try
   set switchbuf=useopen,usetab,newtab
-  set stal=2
+  set showtabline=1
 catch
 endtry
 

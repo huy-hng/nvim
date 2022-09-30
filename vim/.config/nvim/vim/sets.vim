@@ -1,10 +1,6 @@
 set nocompatible
 filetype plugin on
 
-" Set to auto read when a file is changed from the outside
-set autoread
-au FocusGained,BufEnter * checktime
-
 set number
 set relativenumber
 set clipboard+=unnamed " copies to primary when yanking (stays across tmux panes)
@@ -41,3 +37,17 @@ set cpoptions+=n " start showbreak in line-number area (doesn't work with break 
 
 set list " to display indentations and trailing whitespaces
 set lcs=tab:\ \ ,trail:·,nbsp:+
+
+
+set ruler "Always show current position
+set cmdheight=1 " Height of the command bar
+set hidden " A buffer becomes hidden when it is abandoned
+
+" Configure backspace so it acts as it should act
+set backspace=eol,start,indent
+set whichwrap+=<,>,h,l
+set ignorecase " Ignore case when searching
+set smartcase " When searching try to be smart about cases 
+set incsearch " Incremental search
+set lazyredraw " Don't redraw while executing macros (good performance config)
+

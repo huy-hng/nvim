@@ -19,6 +19,7 @@ endfunction
 
 function! Toggle_Conceal()
 	let &concealcursor = &concealcursor == 'c' ? 'nc' : 'c'
+	echo &concealcursor .. 'onceal'
 endfunction
 
 
