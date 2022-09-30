@@ -11,6 +11,9 @@ set clipboard+=unnamed " copies to primary when yanking (stays across tmux panes
 "set clipboard+=unnamedplus
 set mouse=a
 set noerrorbells
+set cursorline
+set cursorlineopt=line,number
+
 
 set nohlsearch
 set foldmethod=syntax
@@ -30,7 +33,7 @@ set shiftwidth=4
 
 " wrapping
 set nowrap " F5 to wrap
-set textwidth=120 " Linebreak on 120 characters
+"set textwidth=120 " Linebreak on 120 characters
 let &showbreak='--> ' " prefix for soft-wrapped lines
 set linebreak " soft-wrap lines only at certain characters (see :help breakat)
 set breakindent " indent wraps

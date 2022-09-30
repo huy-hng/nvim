@@ -40,7 +40,7 @@ let &t_EI = "\e[1 q"
 " Set 8 lines to the cursor - when moving vertically using j/k
 set scrolloff=8
 set sidescroll=1
-set sidescrolloff=1
+set sidescrolloff=8
 
 " Avoid garbled characters in Chinese language windows OS
 let $LANG='en' 

@@ -1,6 +1,16 @@
+" general
 cabbrev telp tab help
 cabbrev hvw tab help vimwiki
+cabbrev sovim so $HOME/.config/nvim/init.vim
+
+" Vimwiki
 cabbrev vwtoc VimwikiTOC
+
+" other extensions
+cnoreabbrev plugi PlugInstall
+cnoreabbrev tel Telescope
+
+
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " => Files, backups and undo
