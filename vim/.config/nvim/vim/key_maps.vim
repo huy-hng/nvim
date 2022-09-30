@@ -51,9 +51,10 @@ noremap <CR> $
 nnoremap <leader>P "+P
 nnoremap <leader>p "+p
 nnoremap <leader>yy "+yy
-
-
 vnoremap <leader>y "+y
+
+nnoremap <C-c> "+yy
+vnoremap <C-c> "+y
 
 
 " change default behaviour of Y which is yy
