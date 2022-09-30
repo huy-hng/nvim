@@ -12,7 +12,7 @@ let mapleader = " "
 nnoremap <leader>x <cmd>w<CR>:!clear<CR>:! %:p<CR>
 nnoremap <silent><Leader>w <cmd>w!<CR>
 nnoremap <silent><Leader>q <cmd>q<CR>
-nnoremap <silent><Leader>Q <cmd>q!<CR>
+nnoremap <silent><Leader>Q <cmd>q!<CR> " doesnt work anymore because of shift space in tmux
 nnoremap <silent><Leader>wq <cmd>wq<CR>
 
 " :W sudo saves the file (useful for handling the permission-denied error)
@@ -31,8 +31,11 @@ nnoremap <leader>; q:
 nnoremap <leader>/ q/
 
 " Remap VIM 0 to first non-blank character
+nnoremap g0 g^
+nnoremap g^ g0
 nnoremap 0 ^
 nnoremap ^ 0
+
 
 " open file tree on the side
 nnoremap <C-S>b :wincmd v<bar> :Ex <bar> :vertical resize 30<CR>
@@ -41,8 +44,9 @@ nnoremap <C-S>b :wincmd v<bar> :Ex <bar> :vertical resize 30<CR>
 """" Behavior Changes """"
 """"""""""""""""""""""""""
 
-nnoremap vv V
-nnoremap V v$
+noremap <CR> $
+"nnoremap vv V
+"nnoremap V v$
 " ctrl+c to copy to clipboard
 nnoremap <leader>P "+P
 nnoremap <leader>p "+p
@@ -61,7 +65,7 @@ inoremap <C-R> <C-G>u<C-R>
 inoremap <C-v> <C-G>u<C-v>
 
 " new line without leaving normal mode
-nnoremap <CR> o<ESC>
+"nnoremap <CR> o<ESC>
 
 """"""""""""""""""
 """" Movement """"
@@ -77,6 +81,9 @@ nnoremap <A-h> 20zh
 nnoremap <A-l> 20zl
 nnoremap <A-H> zH
 nnoremap <A-L> zL
+
+nnoremap <C-d> <C-d>zz
+nnoremap <C-u> <C-u>zz
 
 """""""""""""""""
 """" Folding """"
@@ -112,16 +119,16 @@ noremap! <C-h> <C-w>
 """" Indentation """"
 " shift tab to unindent
 
-inoremap <C-Tab> <C-t>
+inoremap <A-Tab> <C-t>
 inoremap <S-Tab> <C-d>
 " nnoremap <Tab> >> " tab is ^I (ctrl+i) meaning jumping in jumplist wont work
-noremap <C-Tab> >>
+noremap <A-Tab> >>
 noremap <S-Tab> <<
 " the double maps are needed because the first pair makes indenting not loose visual
 " and the second one recursively binds that to Tab and shift tab
 vnoremap > >gv
 vnoremap < <gv
-vmap <C-Tab> >
+vmap <A-Tab> >
 vmap <S-Tab> <
 
 
@@ -147,10 +154,10 @@ vnoremap <A-1> :call SurroundWithPreformatter()<CR>
 
 " Vimwiki
 nnoremap <silent><Leader><CR> :call Create_Vimwiki_Link()<CR>
-nnoremap <silent><A-S-Tab> <Plug>VimwikiPrevLink
-nnoremap <silent><A-Tab> <Plug>VimwikiNextLink
+nmap <silent><C-S-Tab> <Plug>VimwikiPrevLink
+nmap <silent><C-Tab> <Plug>VimwikiNextLink
 " doesnt work
-nnoremap <silent><F6> :call ToggleTableFormatting()<CR>
+nmap <silent><F6> :call ToggleTableFormatting()<CR>
 
 " Goyo
 nnoremap <silent><C-k><C-z> <cmd>Goyo<CR>

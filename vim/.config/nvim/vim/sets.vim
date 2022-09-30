@@ -37,7 +37,6 @@ set list " to display indentations and trailing whitespaces
 set lcs=tab:\ \ ,trail:·,nbsp:+
 
 
-
 set ruler "Always show current position
 set cmdheight=1 " Height of the command bar
 set hidden " A buffer becomes hidden when it is abandoned
