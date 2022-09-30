@@ -3,6 +3,7 @@ call plug#begin('~/.config/nvim/plugged')
 " themes
 Plug 'gruvbox-community/gruvbox'
 Plug 'folke/tokyonight.nvim', { 'branch': 'main' }
+Plug 'catppuccin/nvim', {'as': 'catppuccin'}
 
 "Plug 'powerline/powerline'
 Plug 'vim-airline/vim-airline'

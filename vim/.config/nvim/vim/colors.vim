@@ -10,6 +10,12 @@ colorscheme Tomorrow-Night
 "colorscheme tokyonight-moon
 "colorscheme tokyonight-storm
 "colorscheme tokyonight
+
+"lua << EOF
+"require("catppuccin").setup()
+"EOF
+let g:catppuccin_flavour = "mocha"
+colorscheme catppuccin
 colorscheme tokyonight-night
 
 " enables 24-bit RBG colors
