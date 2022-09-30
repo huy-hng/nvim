@@ -1,3 +1,6 @@
+set nocompatible
+filetype plugin on
+
 " Set to auto read when a file is changed from the outside
 set autoread
 au FocusGained,BufEnter * checktime

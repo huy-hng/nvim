@@ -4,7 +4,7 @@ augroup filetypedetect
 	autocmd BufNewFile,BufRead *.rc			set filetype=zsh
 	autocmd BufNewFile,BufRead *.login		set filetype=zsh
 	autocmd BufNewFile,BufRead *.logout		set filetype=zsh
-	
-	autocmd BufRead,BufNewFile /home/huy/.dotfiles/tmux/.config/tmux/config/* set syntax=tmux
+
+	autocmd BufNewFile,BufRead *.tmux		set filetype=tmux
 augroup END
 
