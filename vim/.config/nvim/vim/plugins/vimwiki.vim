@@ -9,16 +9,17 @@ set concealcursor=nc
 let g:vimwiki_auto_header = 0
 let g:vimwiki_conceal_pre = 1
 let g:vimwiki_create_link = 0
-let g:vimwiki_diary_caption_level = 0
+let g:vimwiki_diary_caption_level = 2
 let g:vimwiki_diary_header = 'Daily Log'
 let g:vimwiki_diary_index = 'daily_log'
 let g:vimwiki_diary_rel_path = 'daily_log/'
 let g:vimwiki_dir_link = 'main'
 let g:vimwiki_filetypes = ['markdown']
-let g:vimwiki_folding = 'syntax:quick'
+let g:vimwiki_folding = 'list:quick'
 let g:vimwiki_hl_cb_checked = 1
 let g:vimwiki_hl_headers = 0
 let g:vimwiki_table_auto_fmt = 0
+let g:vimwiki_toc_header_level = 2
 
 let g:vimwiki_key_mappings = {
 	\ 'all_maps': 1,

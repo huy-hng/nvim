@@ -1,28 +1,41 @@
 " Enable syntax highlighting
 syntax enable
 
-" themes
-colorscheme gruvbox
-colorscheme Tomorrow-Night-Eighties
-colorscheme Tomorrow-Night
+set termguicolors " enables 24-bit RBG colors
+set emoji " no clue what this does
 
-"colorscheme tokyonight-day
-"colorscheme tokyonight-moon
-"colorscheme tokyonight-storm
-"colorscheme tokyonight
 
-"lua << EOF
-"require("catppuccin").setup()
-"EOF
-let g:catppuccin_flavour = "mocha"
+"""""""""""""""
+"""" setup """"
+"""""""""""""""
+
+lua << EOF
+require("catppuccin").setup()
+EOF
+
+
+
+""""""""""""""""
+"""" themes """"
+""""""""""""""""
+
+"let g:theme = 'tgruvbox'
+"let g:theme = 'tTomorrow-Night-Eighties'
+"let g:theme = 'tTomorrow-Night'
+
+colorscheme tokyonight
+colorscheme tokyonight-day
+colorscheme tokyonight-moon
+colorscheme tokyonight-storm
+
+let g:catppuccin_flavour = 'mocha'
 colorscheme catppuccin
-colorscheme tokyonight-night
 
-" enables 24-bit RBG colors
-set termguicolors
 
-" set this to light to blind your eyes
-"set background=dark
+function! SetColors()
+	colorscheme tokyonight-night
+	highlight Folded guibg=none
+endfunction
 
-" no clue what this does
-set emoji
+
+call SetColors()

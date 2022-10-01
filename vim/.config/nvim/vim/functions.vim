@@ -1,3 +1,22 @@
+function! ClearMessage()
+	:echo
+	"noautocmd CursorMoved
+endfunction
+
+function! Wrap()
+	if (&wrap)
+		echom 'not wrapping text'
+		set nowrap
+		nnoremap j j
+		nnoremap k k
+	else
+		echom 'wrapping text'
+		set wrap
+		nnoremap j gj
+		nnoremap k gk
+	endif
+endfunction
+
 function! SurroundWithPreformatter()
 	"normal! iasdf
 	visual! <esc>`<O{{{cat<ESC>`>o}}}<ESC>gv:!figlet -k -t<CR>
@@ -130,4 +149,19 @@ endfun
 if has("autocmd")
     autocmd BufWritePre *.txt,*.js,*.py,*.wiki,*.sh,*.coffee :call CleanExtraSpaces()
 endif
+
+
+function! s:flash_cursor(duration=1)
+    set cursorline cursorcolumn
+    redraw
+	sleep a:duration
+    set nocursorline nocursorcolumn
+	sleep a:duration
+endfunction
+
+
+function! FlashCursor(duration=1, times=1)
+	call <SID>flash_cursor(a:duration)
+endfunction
+
 

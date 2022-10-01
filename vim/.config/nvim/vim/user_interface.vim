@@ -8,9 +8,6 @@ highlight FoldColumn guibg=blue guifg=yellow
 """"""""""""""""""""""""""""""
 " => Status line
 """"""""""""""""""""""""""""""
-" Always show the status line
-"set laststatus=2
-
 " Format the status line
 "set statusline=\ %{HasPaste()}%F%m%r%h\ %w\ \ CWD:\ %r%{getcwd()}%h\ \ \ Line:\ %l\ \ Column:\ %c
 
@@ -29,11 +26,7 @@ let &t_SI = "\e[5 q"
 let &t_EI = "\e[1 q"
 
 " reset the cursor on start (for older versions of vim, usually not required)
-" augroup myCmds
-" au!
-" autocmd VimEnter * silent !echo -ne "\e[2 q"
-" augroup END
- 
+
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " => VIM user interface
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
@@ -43,7 +36,7 @@ set sidescroll=1
 set sidescrolloff=8
 
 " Avoid garbled characters in Chinese language windows OS
-let $LANG='en' 
+let $LANG='en'
 set langmenu=en
 source $VIMRUNTIME/delmenu.vim
 source $VIMRUNTIME/menu.vim
@@ -60,14 +53,6 @@ else
 endif
 
 
-
-
-
-
-set ruler "Always show current position
-set cmdheight=1 " Height of the command bar
-set hid " A buffer becomes hidden when it is abandoned
-set foldcolumn=1 " Add a bit extra margin to the left
 set magic " For regular expressions turn magic on
 set showmatch " Show matching brackets when text indicator is over them
 set mat=2 " How many tenths of a second to blink when matching brackets
@@ -76,7 +61,7 @@ set mat=2 " How many tenths of a second to blink when matching brackets
 set noerrorbells
 set novisualbell
 set t_vb=
-set tm=500
+set timeoutlen=500
 
 
 

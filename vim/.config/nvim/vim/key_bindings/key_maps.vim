@@ -1,9 +1,12 @@
+let g:which_key_map = {}
+
 """"""""""""""""""""
 """" Leader Key """"
 """"""""""""""""""""
 
 nnoremap <SPACE> <NOP>
-let mapleader = " "
+let g:mapleader = ' '
+"let g:maplocalleader = '\'
 
 
 """"""""""""""""""""""
@@ -11,8 +14,9 @@ let mapleader = " "
 """"""""""""""""""""""
 nnoremap <leader>x <cmd>w<CR>:!clear<CR>:! %:p<CR>
 nnoremap <silent><Leader>w <cmd>w!<CR>
-nnoremap <silent><Leader>q <cmd>q<CR>
-nnoremap <silent><Leader>Q <cmd>q!<CR> " doesnt work anymore because of shift space in tmux
+nnoremap <silent><Leader>W <cmd>w!<CR><cmd>so $HOME/.config/nvim/init.vim<CR>
+"nnoremap <silent><Leader>q <cmd>q<CR>
+nnoremap <silent><Leader>Q <cmd>q!<CR>
 nnoremap <silent><Leader>wq <cmd>wq<CR>
 
 " :W sudo saves the file (useful for handling the permission-denied error)
@@ -49,7 +53,7 @@ noremap <CR> $
 "nnoremap V v$
 " ctrl+c to copy to clipboard
 nnoremap <leader>P "+P
-nnoremap <leader>p "+p
+"nnoremap <leader>p "+p
 nnoremap <leader>yy "+yy
 vnoremap <leader>y "+y
 
@@ -68,9 +72,19 @@ inoremap <C-v> <C-G>u<C-v>
 " new line without leaving normal mode
 "nnoremap <CR> o<ESC>
 
+
+
+"""""""""""""""""
+"""" Command """"
+"""""""""""""""""
+cnoremap <C-j> <Down>
+cnoremap <C-k> <Up>
+
+
 """"""""""""""""""
 """" Movement """"
 """"""""""""""""""
+"
 " Smart way to move between windows
 map <C-j> <C-W>j
 map <C-k> <C-W>k
@@ -86,9 +100,56 @@ nnoremap <A-L> zL
 nnoremap <C-d> <C-d>zz
 nnoremap <C-u> <C-u>zz
 
+
+""""""""""""""""""""
+"""" Navigation """"
+""""""""""""""""""""
+
+nnoremap <Leader>n :buffers<CR>:buffer<Space>
+" Close the current buffer
+map <leader>bd :Bclose<cr>:tabclose<cr>gT
+
+" Close all the buffers
+map <leader>ba :bufdo bd<cr>
+
+map <leader>l :bnext<cr>
+map <leader>h :bprevious<cr>
+
+" Useful mappings for managing tabs
+map <leader>tn :tabnew<cr>
+map <leader>to :tabonly<cr>
+map <leader>tc :tabclose<cr>
+map <leader>tm :tabmove·
+map <leader>t<leader> :tabnext·
+
+" Let 'tl' toggle between this and the last accessed tab
+let g:lasttab = 1
+nmap <Leader>tl :exe "tabn ".g:lasttab<CR>
+au TabLeave * let g:lasttab = tabpagenr()
+
+
+" Opens a new tab with the current buffer's path
+" Super useful when editing files in the same directory
+map <leader>te :tabedit <C-r>=expand("%:p:h")<cr>/
+
+" Switch CWD to the directory of the open buffer
+map <leader>cd :cd %:p:h<cr>:pwd<cr>
+
+" Specify the behavior when switching between buffers·
+try
+  set switchbuf=useopen,usetab,newtab
+  set showtabline=1
+catch
+endtry
+
+" Return to last edit position when opening files (You want this!)
+au BufReadPost * if line("'\"") > 1 && line("'\"") <= line("$") | exe "normal! g'\"" | endif
+
+
 """""""""""""""""
 """" Folding """"
 """""""""""""""""
+
 nnoremap <C-k><ESC> zc
 nnoremap <C-k><C-]> zo
 
@@ -102,6 +163,20 @@ nnoremap <A-S-j> yyp
 nnoremap <A-S-k> yyP
 vnoremap <A-S-j> Y$p
 vnoremap <A-S-k> Y$P
+
+function! KeepColumn(action)
+	let l:column = col('.')
+
+	exec 'normal! ' . a:action
+
+	let l:line = line('.')
+	call cursor(line,column)
+endfunction
+
+nnoremap <leader>p p
+nnoremap <leader>P P
+nnoremap p :call KeepColumn('p')<CR>
+nnoremap P :call KeepColumn('P')<CR>
 
 
 nnoremap <A-j> mz:m+<cr>`z
@@ -141,24 +216,12 @@ vmap <S-Tab> <
 " F keys for extra functions
 nnoremap <F3> :set hlsearch!<CR>:set hlsearch?<CR>
 nnoremap <silent><F4> :call Toggle_Conceal()<CR>
-nnoremap <F5> :set wrap!<CR>:set wrap?<CR>
+nnoremap <leader>fl :call Flash()<CR>
+nnoremap <F8> :call Wrap()<CR>
 
 
 "vnoremap <Leader>1 :call Figlet()<CR>
 "vnoremap <Leader>1 I<Esc>O{{{cat<esc>gvA<esc>o}}}<esc>gv:!figlet -k -t<CR>
+"
 vnoremap <A-1> :call SurroundWithPreformatter()<CR>
 
-
-""""""""""""""""""""
-"""" Extensions """"
-""""""""""""""""""""
-
-" Vimwiki
-nnoremap <silent><Leader><CR> :call Create_Vimwiki_Link()<CR>
-nmap <silent><C-S-Tab> <Plug>VimwikiPrevLink
-nmap <silent><C-Tab> <Plug>VimwikiNextLink
-" doesnt work
-nmap <silent><F6> :call ToggleTableFormatting()<CR>
-
-" Goyo
-nnoremap <silent><C-k><C-z> <cmd>Goyo<CR>

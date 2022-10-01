@@ -1,6 +1,7 @@
 set nocompatible
 filetype plugin on
 
+set undofile
 set number
 set relativenumber
 set clipboard+=unnamed " copies to primary when yanking (stays across tmux panes)
@@ -10,11 +11,11 @@ set noerrorbells
 set cursorline
 set cursorlineopt=line,number
 
-
 set nohlsearch
+set foldcolumn=auto
 set foldmethod=syntax
 set nofoldenable
-"
+
 " Sets how many lines of history VIM has to remember
 set history=500
 
