@@ -26,7 +26,7 @@ endfunction
 
 
 function! s:zen_leave()
-	"Goyo
+	Goyo
 
 	let g:zen = 0
 	Limelight!
@@ -37,13 +37,13 @@ function! s:zen_leave()
 
 	let g:goyo_linenr = 1
 
-	"Goyo
+	Goyo
 endfunction
 
 
 function! s:goyo_enter(tmux=0, limelight=0)
 	call SetColors()
-	Goyo 80+10%x85%+100%
+	Goyo 80+5%x85%+100%
 
 	set noshowcmd
 
@@ -80,16 +80,20 @@ function! s:goyo_leave()
 
 	" Quit Vim if this is the only remaining buffer
 	if b:quitting && len(filter(range(1, bufnr('$')), 'buflisted(v:val)')) == 1
-		b:quitting_bang ? qa! : qa
+		if b:quitting_bang
+			qa!
+		else
+			qa
+		endif
 	endif
 
-	autocmd! GoyoBuffChange
-	exec 'b ' .. g:last_buffer
+	"autocmd! GoyoBuffChange
+"	exec 'b ' .. g:last_buffer
 endfunction
 
 
 function! s:zen()
-	if (g:zen)
+	if (get(g:, 'zen', 0))
 		call <SID>zen_leave()
 	else
 		call <SID>zen_enter()
@@ -100,7 +104,7 @@ endfunction
 "[width][Xoffset][x[height][Yoffset]]
 
 let g:goyo_width = 80
-let g:goyo_height = '85%'
+let g:goyo_height = '100%'
 let g:goyo_linenr = 1
 
 autocmd! User GoyoEnter nested call <SID>goyo_enter()

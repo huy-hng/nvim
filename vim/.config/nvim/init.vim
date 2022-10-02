@@ -18,11 +18,12 @@ source $path/functions.vim
 source $path/user_interface.vim
 source $path/misc.vim
 
-source $path/autocmds.vim
 
 "call SourceDir('plugins')
 
+source $path/autocmds.vim
 source $path/plugins/plugins.vim
+source $path/colors.vim
 "source $path/plugins/gitgutter.vim
 "source $path/plugins/goyo.vim
 "source $path/plugins/lightline.vim
@@ -33,6 +34,5 @@ source $path/plugins/plugins.vim
 "source $path/plugins/which_key.vim
 
 
-source $path/colors.vim
 
 

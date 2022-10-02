@@ -3,9 +3,15 @@ set autoread
 "autocmd FocusGained,BufEnter * checktime
 
 
+" Return to last edit position when opening files (You want this!)
+autocmd BufReadPost * if line("'\"") > 1 && line("'\"") <= line("$") | exe "normal! g'\"" | endif
 
-"autocmd VimEnter * echo 'hello'
-autocmd FocusLost *.vim echo 'asd'
+" reload vim when '.vim' files are saved
+augroup VimFiles
+	autocmd!
+	autocmd BufWritePost *.vim silent! exec "so $HOME/.config/nvim/init.vim"
+augroup END
+
 
 function! LineNumbers(show=1)
 	augroup line_numbers

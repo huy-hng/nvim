@@ -52,4 +52,4 @@ function! GitStatus()
 
 	return printf('+%d ~%d -%d', a, m, r)
 endfunction
-set statusline+=%{GitStatus()}
+"set statusline+=%{GitStatus()}

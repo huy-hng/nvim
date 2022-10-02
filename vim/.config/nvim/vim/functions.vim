@@ -1,16 +1,21 @@
-function! ClearMessage()
-	:echo
-	"noautocmd CursorMoved
+function! Message(message, duration=2000)
+	echo a:message
+
+	fun! Clear(...)
+		echo
+	endfun
+	let timer = timer_start(a:duration, 'Clear', {})
 endfunction
+
 
 function! Wrap()
 	if (&wrap)
-		echom 'not wrapping text'
+		call Message('not wrapping text')
 		set nowrap
 		nnoremap j j
 		nnoremap k k
 	else
-		echom 'wrapping text'
+		call Message('wrapping text')
 		set wrap
 		nnoremap j gj
 		nnoremap k gk
@@ -38,7 +43,7 @@ endfunction
 
 function! Toggle_Conceal()
 	let &concealcursor = &concealcursor == 'c' ? 'nc' : 'c'
-	echo &concealcursor .. 'onceal'
+	call Message(&concealcursor .. 'onceal')
 endfunction
 
 
@@ -58,7 +63,7 @@ endfunction
 " doesnt work
 function! ToggleTableFormatting()
 	let g:vimwiki_table_auto_fmt=!g:vimwiki_table_auto_fmt
-	echo 'Vimwiki Table Format: ' .. g:vimwiki_table_auto_fmt
+	call Message('Vimwiki Table Format: ' .. g:vimwiki_table_auto_fmt)
 	call vimwiki#vars#init()
 endfunction
 
@@ -151,17 +156,25 @@ if has("autocmd")
 endif
 
 
-function! s:flash_cursor(duration=1)
+function! FlashOnce(duration=100)
     set cursorline cursorcolumn
     redraw
-	sleep a:duration
+	sleep 400m
     set nocursorline nocursorcolumn
-	sleep a:duration
+    redraw
 endfunction
 
 
-function! FlashCursor(duration=1, times=1)
-	call <SID>flash_cursor(a:duration)
+
+function! FlashCursor(duration=100, times=1)
+	call FlashOnce()
+	"let timer = timer_start(600, 'FlashOnce', {'repeat': 2})
+	"for i in range(1)
+	"	call <SID>flash_cursor(a:duration)
+	"	sleep 500m
+	"endfor
 endfunction
+
+
 
 
