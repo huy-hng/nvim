@@ -82,9 +82,11 @@ endfunction
 
 "inoremap <Tab> <C-R>=SuperTab()<CR>
 
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" => Helper functions
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+
+"===============================================================================
+"                           => Helper functions <=
+"===============================================================================
+
 " Returns true if paste mode is enabled
 function! HasPaste()
     if &paste
@@ -177,4 +179,17 @@ endfunction
 
 
 
+fun! CenterScreen()
+	let l:offset = 0
+	let l:offset = 10
+	let l:center_size = 80
+	let l:center_left_side = (&columns - l:center_size + l:offset) / 2
+	exec l:center_left_side . 'vnew'
+	wincmd p
 
+
+	" echo &columns
+	" echo l:center_left_side
+endfun
+
+nnoremap <Leader>' :call CenterScreen()<CR>

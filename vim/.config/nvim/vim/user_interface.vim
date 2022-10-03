@@ -1,9 +1,5 @@
 silent !stty -ixon > /dev/null 2>/dev/null
 
-highlight ColorColumn ctermbg=grey guibg=grey
-
-highlight Folded guibg=blue guifg=yellow
-highlight FoldColumn guibg=blue guifg=yellow
 
 """"""""""""""""""""""""""""""
 " => Status line
@@ -12,7 +8,7 @@ highlight FoldColumn guibg=blue guifg=yellow
 "set statusline=\ %{HasPaste()}%F%m%r%h\ %w\ \ CWD:\ %r%{getcwd()}%h\ \ \ Line:\ %l\ \ Column:\ %c
 
 " Set a line at 80 chars
-set colorcolumn=80
+"set colorcolumn=80
 
 " Ps = 0  -> blinking block.
 " Ps = 1  -> blinking block (default).

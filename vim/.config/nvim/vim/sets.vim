@@ -8,8 +8,14 @@ set clipboard+=unnamed " copies to primary when yanking (stays across tmux panes
 "set clipboard+=unnamedplus
 set mouse=a
 set noerrorbells
-set cursorline
-set cursorlineopt=line,number
+set nocursorline
+"set cursorlineopt=line,number
+
+" stop auto comment for new lines
+set formatoptions-=cro " default tcqj
+
+" show complete option popup
+set completeopt=menu,menuone,noselect,preview
 
 set nohlsearch
 set foldcolumn=auto

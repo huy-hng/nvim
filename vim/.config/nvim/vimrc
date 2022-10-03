@@ -1,0 +1,21 @@
+let $path = $HOME.'/.config/nvim/vim'
+
+fun! SourceDir(dir_name)
+	let $dir_path = $path.'/'.a:dir_name.'/*.vim'
+
+	for f in split(glob($dir_path), '\n')
+		exe 'source' f
+	endfor
+endfun
+
+call SourceDir('key_bindings')
+source $path/sets.vim
+source $path/functions.vim
+source $path/user_interface.vim
+source $path/misc.vim
+source $path/snippets.vim
+
+source $path/plugins/plugins.vim
+source $path/colors.vim
+
+source $path/autocmds.vim

@@ -5,6 +5,10 @@ set termguicolors " enables 24-bit RBG colors
 set emoji " no clue what this does
 
 
+"highlight ColorColumn ctermbg=grey guibg=grey
+highlight Folded guibg=blue guifg=yellow
+highlight FoldColumn guibg=blue guifg=yellow
+
 """""""""""""""
 """" setup """"
 """""""""""""""

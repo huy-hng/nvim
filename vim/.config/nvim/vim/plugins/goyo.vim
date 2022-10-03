@@ -9,14 +9,15 @@ function! s:zen_enter()
 	doautocmd line_numbers
 
 	Limelight
-	set nocursorline
+	" set nocursorline
 
 	nnoremap j jzz
 	nnoremap k kzz
 
 	if executable('tmux') && strlen($TMUX)
 		"silent !tmux set status off
-		silent !tmux list-panes -F '\#F' | grep -q Z || tmux resize-pane -Z
+		silent !$TMUX_SCRIPTS_PATH/fullscreen go_in
+		"silent !tmux list-panes -F '\#F' | grep -q Z || tmux resize-pane -Z
 	endif
 
 	call <SID>goyo_enter()
@@ -32,7 +33,8 @@ function! s:zen_leave()
 	Limelight!
 	if executable('tmux') && strlen($TMUX)
 		"silent !tmux set status on
-		silent !tmux list-panes -F '\#F' | grep -q Z && tmux resize-pane -Z
+		silent !$TMUX_SCRIPTS_PATH/fullscreen get_out
+		"silent !tmux list-panes -F '\#F' | grep -q Z && tmux resize-pane -Z
 	endif
 
 	let g:goyo_linenr = 1
@@ -68,7 +70,7 @@ function! s:goyo_leave()
 	call SetColors()
 	call LineNumbers()
 
-	set cursorline
+	" set cursorline
 	set showcmd
 
 	nnoremap j j

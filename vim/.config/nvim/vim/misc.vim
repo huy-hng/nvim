@@ -2,13 +2,15 @@
 cabbrev telp tab help
 cabbrev hvw tab help vimwiki
 cabbrev sovim so $HOME/.config/nvim/init.vim
+cabbrev solua so $HOME/.config/nvim/init.lua
 
+cabbrev h vertical h
 " Vimwiki
 cabbrev vwtoc VimwikiTOC
 
 " other extensions
 cnoreabbrev plugi PlugInstall
-cnoreabbrev tel Telescope
+" cnoreabbrev tel Telescope
 
 
 

@@ -2,8 +2,8 @@
 " => Behavior Changes
 "===============================================================================
 
-nnoremap ; :
-nnoremap : ;
+noremap ; :
+noremap : ;
 
 nnoremap q: <NOP>
 nnoremap q/ <NOP>

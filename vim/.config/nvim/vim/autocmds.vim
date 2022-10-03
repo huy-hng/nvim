@@ -1,15 +1,12 @@
-" Set to auto read when a file is changed from the outside
 set autoread
-"autocmd FocusGained,BufEnter * checktime
 
-
-" Return to last edit position when opening files (You want this!)
-autocmd BufReadPost * if line("'\"") > 1 && line("'\"") <= line("$") | exe "normal! g'\"" | endif
-
-" reload vim when '.vim' files are saved
-augroup VimFiles
+augroup somegroup
 	autocmd!
-	autocmd BufWritePost *.vim silent! exec "so $HOME/.config/nvim/init.vim"
+	" Set to auto read when a file is changed from the outside
+	" autocmd FocusGained,BufEnter,CursorHold,CursorHoldI * if mode() != 'c' | checktime | endif
+
+	" Return to last edit position when opening files
+	autocmd BufReadPost * if line("'\"") > 1 && line("'\"") <= line("$") | exe "normal! g'\"" | endif
 augroup END
 
 
@@ -26,18 +23,27 @@ endfunction
 call LineNumbers()
 
 
-
-autocmd BufNewFile */daily_log/[0-9]*.md : 0r !echo "= $(date -d '%:t:r' +'\%A, \%b \%d') =\n"
-"autocmd BufNewFile */daily_log/[0-9]*.md : 0r !echo "= $(date -d '%:t:r' +'\%A, \%B \%d \%Y') =\n"
-
-augroup filetypedetect
+augroup filetypes
 	autocmd!
 	autocmd BufNewFile,BufRead *.env		set filetype=zsh
 	autocmd BufNewFile,BufRead *.profile	set filetype=zsh
 	autocmd BufNewFile,BufRead *.rc			set filetype=zsh
 	autocmd BufNewFile,BufRead *.login		set filetype=zsh
 	autocmd BufNewFile,BufRead *.logout		set filetype=zsh
+
 	autocmd BufNewFile,BufRead *.tmux		set filetype=tmux
+	autocmd BufNewFile,BufRead *.vim		set filetype=vim
+
+augroup END
+
+augroup filestuff
+	autocmd!
+
+	" reload vim when '.vim' files are saved
+	autocmd BufWritePost *.vim silent! exec "so $HOME/.config/nvim/init.lua"
+	" autocmd BufWritePost *.vim silent! exec "so $HOME/.config/nvim/init.vim"
+	" add date in vimwikiw
+	autocmd BufNewFile */daily_log/[0-9]*.md : 0r !echo "= $(date -d '%:t:r' +'\%A, \%b \%d') =\n"
 augroup END
 
 
@@ -50,8 +56,4 @@ augroup END
 
 " Plugins not listed here because of load order
 " Goyo
-
-
-" remove message from bottom
-"autocmd CursorHold * :echo
 
