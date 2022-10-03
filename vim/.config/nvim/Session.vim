@@ -22,11 +22,11 @@ badd +4 vim/misc.vim
 badd +1 .vimrc
 badd +1 ~/.dotfiles/vim/.config/vim/.vimrc
 badd +5 vim/key_bindings/auto_completion.vim
-badd +1 lua/user/cmp.lua
+badd +3 lua/user/cmp.lua
 badd +110 vim/plugins/plugins.vim
 badd +1 lua/user/plugins.lua_
 badd +1 lua/user/plugins.lua
-badd +8 lua/user/cmpp.lua
+badd +57 lua/user/cmpp.lua
 argglobal
 %argdel
 edit lua/user/cmp.lua
@@ -46,8 +46,8 @@ set winminheight=0
 set winheight=1
 set winminwidth=0
 set winwidth=1
-exe 'vert 1resize ' . ((&columns * 103 + 103) / 206)
-exe 'vert 2resize ' . ((&columns * 102 + 103) / 206)
+exe 'vert 1resize ' . ((&columns * 102 + 103) / 206)
+exe 'vert 2resize ' . ((&columns * 103 + 103) / 206)
 argglobal
 balt init.lua
 setlocal fdm=syntax
@@ -79,16 +79,16 @@ setlocal fdl=0
 setlocal fml=1
 setlocal fdn=20
 setlocal nofen
-let s:l = 1 - ((0 * winheight(0) + 26) / 53)
+let s:l = 7 - ((6 * winheight(0) + 26) / 53)
 if s:l < 1 | let s:l = 1 | endif
 keepjumps exe s:l
 normal! zt
-keepjumps 1
-normal! 06|
+keepjumps 7
+normal! 09|
 wincmd w
 2wincmd w
-exe 'vert 1resize ' . ((&columns * 103 + 103) / 206)
-exe 'vert 2resize ' . ((&columns * 102 + 103) / 206)
+exe 'vert 1resize ' . ((&columns * 102 + 103) / 206)
+exe 'vert 2resize ' . ((&columns * 103 + 103) / 206)
 tabnext 1
 if exists('s:wipebuf') && len(win_findbuf(s:wipebuf)) == 0 && getbufvar(s:wipebuf, '&buftype') isnot# 'terminal'
   silent exe 'bwipe ' . s:wipebuf
@@ -103,7 +103,6 @@ if filereadable(s:sx)
   exe "source " . fnameescape(s:sx)
 endif
 let &g:so = s:so_save | let &g:siso = s:siso_save
-set hlsearch
 let g:this_session = v:this_session
 let g:this_obsession = v:this_session
 doautoall SessionLoadPost
