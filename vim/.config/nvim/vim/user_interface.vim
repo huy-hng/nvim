@@ -1,4 +1,4 @@
-silent !stty -ixon > /dev/null 2>/dev/null
+" silent !stty -ixon > /dev/null 2>/dev/null " causes slow startup
 
 
 """"""""""""""""""""""""""""""

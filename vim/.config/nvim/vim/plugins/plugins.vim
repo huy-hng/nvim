@@ -39,7 +39,7 @@ Plug 'tpope/vim-obsession' " save vim sessions
 Plug 'tpope/vim-fugitive' " git stuff
 Plug 'tpope/vim-commentary' " comments depending on filetype
 Plug 'airblade/vim-gitgutter' " display changes on side
-
+Plug 'windwp/nvim-autopairs' " pair brackets
 
 "===============================================================================
 "                             |=> Big Features <=|
@@ -50,19 +50,21 @@ Plug 'mhinz/vim-startify'
 
 
 "---------------------------------------
-"           -> NerdTree <-
+"        -> User Interface <-
 "---------------------------------------
+Plug 'kyazdani42/nvim-web-devicons' " file icons
+Plug 'kyazdani42/nvim-tree.lua' " file tree
+Plug 'kevinhwang91/rnvimr' " ranger
+
+Plug 'akinsho/bufferline.nvim', { 'tag': 'v2.*' } " 'tabs' at the top
+Plug 'moll/vim-bbye' " stop fucking closing my shit
+
 " Plug 'preservim/nerdtree' " file explorer
 " Plug 'ryanoasis/vim-devicons' " icon pack for nerdtree
 " Plug 'tiagofumo/vim-nerdtree-syntax-highlight'
 " Plug 'PhilRunninger/nerdtree-buffer-ops'
-
-"---------------------------------------
-"            -> Ranger <-
-"---------------------------------------
 " Plug 'francoiscabrol/ranger.vim'
 " Plug 'rbgrouleff/bclose.vim'
-Plug 'kevinhwang91/rnvimr'
 
 
 "---------------------------------------
@@ -70,23 +72,37 @@ Plug 'kevinhwang91/rnvimr'
 "---------------------------------------
 Plug 'neovim/nvim-lspconfig'
 Plug 'hrsh7th/cmp-nvim-lsp'
+Plug 'hrsh7th/cmp-nvim-lua'
 
 Plug 'hrsh7th/nvim-cmp' " The completion plugin
 Plug 'hrsh7th/cmp-buffer' " buffer completions
 Plug 'hrsh7th/cmp-path' " path completions
 Plug 'hrsh7th/cmp-cmdline' " cmdline completions
 
-" Plug 'saadparwaiz1/cmp_luasnip' " snippet completions
-" Plug 'L3MON4D3/LuaSnip' " snippet engine
+Plug 'saadparwaiz1/cmp_luasnip' " snippet completions
+Plug 'L3MON4D3/LuaSnip' " snippet engine
 
 " Plug 'rafamadriz/friendly-snippets' " a bunch of snippets to use
 
 "---------------------------------------
-"    -> Telescope requirements <-
+"              -> LSP <-
+"---------------------------------------
+Plug 'neovim/nvim-lspconfig' " enable LSP
+Plug 'williamboman/nvim-lsp-installer' " simple to use language server installer
+
+
+"---------------------------------------
+"           -> Telescope <-
 "---------------------------------------
 Plug 'nvim-lua/plenary.nvim'
 Plug 'nvim-telescope/telescope.nvim'
+
+
+"---------------------------------------
+"          -> Treesitter <-
+"---------------------------------------
 Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}
+Plug 'p00f/nvim-ts-rainbow' " highlight parentheses in different colors
 
 call plug#end()
 
@@ -104,9 +120,3 @@ source $path/plugins/which_key.vim
 source $path/plugins/ranger.vim
 "source $path/plugins/vscode.vim
 source $path/plugins/ranger.vim
-
-
-lua <<EOF
-	require 'user.cmpp'
-EOF
-

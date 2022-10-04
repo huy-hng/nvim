@@ -17,8 +17,6 @@ lua << EOF
 require("catppuccin").setup()
 EOF
 
-
-
 """"""""""""""""
 """" themes """"
 """"""""""""""""

@@ -15,3 +15,11 @@ end
 -- 	root_dir = vim.fs.dirname(vim.fs.find({'setup.py', 'pyproject.toml'}, { upward = true })[1]),
 -- })
 
+----------------------------------------
+--         -> Lua Plugins <-
+----------------------------------------
+require 'user.cmp'
+require 'user.lsp'
+require 'user.autopairs'
+require 'user.treesitter'
+require 'user.bufferline'

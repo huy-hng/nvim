@@ -11,9 +11,9 @@ let s:shortmess_save = &shortmess
 set shortmess=aoO
 badd +188 vim/functions.vim
 badd +42 vim/autocmds.vim
-badd +19 vim/sets.vim
+badd +35 vim/sets.vim
 badd +28 plugs/goyo.vim/autoload/goyo.vim
-badd +17 init.lua
+badd +25 init.lua
 badd +42 vim/key_bindings/navigation.vim
 badd +21 vimrc
 badd +1 init.vim
@@ -22,34 +22,32 @@ badd +4 vim/misc.vim
 badd +1 .vimrc
 badd +1 ~/.dotfiles/vim/.config/vim/.vimrc
 badd +5 vim/key_bindings/auto_completion.vim
-badd +3 lua/user/cmp.lua
-badd +110 vim/plugins/plugins.vim
-badd +1 lua/user/plugins.lua_
+badd +99 lua/user/cmp.lua_
+badd +60 vim/plugins/plugins.vim
+badd +68 lua/user/plugins.lua_
 badd +1 lua/user/plugins.lua
-badd +57 lua/user/cmpp.lua
+badd +163 lua/user/cmp.lua
+badd +2 vim/plugins/gitgutter.vim
+badd +1 lua/user/cmpp.lua
+badd +1 lua/user/lsp/init.lua
+badd +1 ~/.dotfiles/personal/personal/vimwiki/Main/index.md
+badd +3 ~/.dotfiles/personal/personal/vimwiki/Main/daily_log/2022-10-04.md
+badd +1 vim/plugins/telescope.vim
+badd +36 after/plugin/telescope.lua
+badd +32 ~/.dotfiles/tmux/.config/tmux/tmux.conf
+badd +31 lua/user/autopairs.lua
+badd +13 lua/user/treesitter.lua
+badd +90 lua/user/lsp/handlers.lua
+badd +52 lua/user/nvim-tree.lua
+badd +554 lua/work_in_progress.init.lua
+badd +18 lua/user/bufferline.lua
+badd +40 vim/colors.vim
+badd +1 ~/repositories/Neovim-from-scratch/lua/user/bufferline.lua
 argglobal
 %argdel
-edit lua/user/cmp.lua
-let s:save_splitbelow = &splitbelow
-let s:save_splitright = &splitright
-set splitbelow splitright
-wincmd _ | wincmd |
-vsplit
-1wincmd h
-wincmd w
-let &splitbelow = s:save_splitbelow
-let &splitright = s:save_splitright
-wincmd t
-let s:save_winminheight = &winminheight
-let s:save_winminwidth = &winminwidth
-set winminheight=0
-set winheight=1
-set winminwidth=0
-set winwidth=1
-exe 'vert 1resize ' . ((&columns * 102 + 103) / 206)
-exe 'vert 2resize ' . ((&columns * 103 + 103) / 206)
+edit lua/user/bufferline.lua
 argglobal
-balt init.lua
+balt vim/plugins/plugins.vim
 setlocal fdm=syntax
 setlocal fde=0
 setlocal fmr={{{,}}}
@@ -58,37 +56,12 @@ setlocal fdl=0
 setlocal fml=1
 setlocal fdn=20
 setlocal nofen
-let s:l = 1 - ((0 * winheight(0) + 26) / 53)
+let s:l = 10 - ((9 * winheight(0) + 26) / 52)
 if s:l < 1 | let s:l = 1 | endif
 keepjumps exe s:l
 normal! zt
-keepjumps 1
-normal! 0
-wincmd w
-argglobal
-if bufexists(fnamemodify("lua/user/cmpp.lua", ":p")) | buffer lua/user/cmpp.lua | else | edit lua/user/cmpp.lua | endif
-if &buftype ==# 'terminal'
-  silent file lua/user/cmpp.lua
-endif
-balt init.lua
-setlocal fdm=syntax
-setlocal fde=0
-setlocal fmr={{{,}}}
-setlocal fdi=#
-setlocal fdl=0
-setlocal fml=1
-setlocal fdn=20
-setlocal nofen
-let s:l = 7 - ((6 * winheight(0) + 26) / 53)
-if s:l < 1 | let s:l = 1 | endif
-keepjumps exe s:l
-normal! zt
-keepjumps 7
+keepjumps 10
 normal! 09|
-wincmd w
-2wincmd w
-exe 'vert 1resize ' . ((&columns * 102 + 103) / 206)
-exe 'vert 2resize ' . ((&columns * 103 + 103) / 206)
 tabnext 1
 if exists('s:wipebuf') && len(win_findbuf(s:wipebuf)) == 0 && getbufvar(s:wipebuf, '&buftype') isnot# 'terminal'
   silent exe 'bwipe ' . s:wipebuf
@@ -96,13 +69,12 @@ endif
 unlet! s:wipebuf
 set winheight=1 winwidth=20
 let &shortmess = s:shortmess_save
-let &winminheight = s:save_winminheight
-let &winminwidth = s:save_winminwidth
 let s:sx = expand("<sfile>:p:r")."x.vim"
 if filereadable(s:sx)
   exe "source " . fnameescape(s:sx)
 endif
 let &g:so = s:so_save | let &g:siso = s:siso_save
+nohlsearch
 let g:this_session = v:this_session
 let g:this_obsession = v:this_session
 doautoall SessionLoadPost

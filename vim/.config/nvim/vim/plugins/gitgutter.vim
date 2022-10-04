@@ -1,5 +1,5 @@
 " for quick updating
-set updatetime=500
+set updatetime=100
 let g:gitgutter_enabled = 1
 
 
