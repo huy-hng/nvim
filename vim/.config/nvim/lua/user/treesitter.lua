@@ -22,7 +22,7 @@ configs.setup({
 		enable = true,
 	},
 	indent = {
-		enable = true, disable = { 'css' }
+		enable = true, disable = { '' }
 	},
 	rainbow = {
 		enable = true,

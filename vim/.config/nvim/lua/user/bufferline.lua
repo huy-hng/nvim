@@ -1,8 +1,10 @@
 local status_ok, bufferline = pcall(require, 'bufferline')
 if not status_ok then
+	print('bufferline error')
 	return
 end
 
+-- bufferline.setup{}
 bufferline.setup {
 	options = {
 		numbers = 'none', -- | 'ordinal' | 'buffer_id' | 'both' | function({ ordinal, id, lower, raise }): string,
@@ -17,13 +19,17 @@ bufferline.setup {
 			icon = '▎', -- this should be omitted if indicator style is not 'icon'
 			style = 'underline',
 		},
-		buffer_close_icon = '',
+		-- buffer_close_icon = '',
+		buffer_close_icon = 'x',
 		-- buffer_close_icon = '',
 		modified_icon = '●',
-		close_icon = '',
+		close_icon = 'x',
+		-- close_icon = '',
 		-- close_icon = '',
-		left_trunc_marker = '',
-		right_trunc_marker = '',
+		left_trunc_marker = '<',
+		right_trunc_marker = '>',
+		-- left_trunc_marker = '',
+		-- right_trunc_marker = '',
 		--- name_formatter can be used to change the buffer's label in the bufferline.
 		--- Please note some names can/will break the
 		--- bufferline so use this at your discretion knowing that it has
@@ -66,7 +72,7 @@ bufferline.setup {
 		persist_buffer_sort = true, -- whether or not custom sorted buffers should persist
 		-- can also be a table containing 2 custom separators
 		-- [focused and unfocused]. eg: { '|', '|' }
-		separator_style = 'padded_slant', -- | 'thick' | 'thin' | { 'any', 'any' },
+		separator_style = 'thin', -- | 'thick' | 'thin' | { 'any', 'any' },
 		enforce_regular_tabs = true,
 		always_show_bufferline = true,
 		-- sort_by = 'id' | 'extension' | 'relative_directory' | 'directory' | 'tabs' | function(buffer_a, buffer_b)

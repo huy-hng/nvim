@@ -30,7 +30,7 @@ set switchbuf=useopen,usetab,newtab
 
 " Move buffer to split
 " only works for one window
-noremap <S-Up>	<cmd>aboveleft split<CR><cmd>bnext<CR><cmd>wincmd p<CR>
+noremap <S-Up>		<cmd>aboveleft split<CR><cmd>bnext<CR><cmd>wincmd p<CR>
 noremap <S-Down>	<cmd>belowright split<CR><cmd>bnext<CR><cmd>wincmd p<CR>
 noremap <S-Left>	<cmd>belowright vsplit<CR><cmd>bnext<CR><cmd>wincmd p<CR>
 noremap <S-Right>	<cmd>vsplit<CR><cmd>bnext<CR><cmd>wincmd p<CR>

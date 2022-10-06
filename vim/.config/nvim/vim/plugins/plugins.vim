@@ -15,7 +15,7 @@ Plug 'lunarvim/darkplus.nvim'
 "---------------------------------------
 "             -> Looks <-
 "---------------------------------------
-Plug 'itchyny/lightline.vim'
+" Plug 'itchyny/lightline.vim'
 "Plug 'powerline/powerline'
 "Plug 'vim-airline/vim-airline'
 "Plug 'vim-airline/vim-airline-themes'
@@ -45,6 +45,7 @@ Plug 'windwp/nvim-autopairs' " pair brackets
 "                             |=> Big Features <=|
 "===============================================================================
 Plug 'vimwiki/vimwiki' " note taking
+Plug 'jceb/vim-orgmode'
 Plug 'mbbill/undotree'
 Plug 'mhinz/vim-startify'
 
@@ -96,7 +97,7 @@ Plug 'williamboman/nvim-lsp-installer' " simple to use language server installer
 "---------------------------------------
 Plug 'nvim-lua/plenary.nvim'
 Plug 'nvim-telescope/telescope.nvim'
-
+Plug 'ThePrimeagen/harpoon'
 
 "---------------------------------------
 "          -> Treesitter <-
@@ -118,5 +119,5 @@ source $path/plugins/limelight.vim
 source $path/plugins/vimwiki.vim
 source $path/plugins/which_key.vim
 source $path/plugins/ranger.vim
-"source $path/plugins/vscode.vim
+" source $path/plugins/vscode.vim
 source $path/plugins/ranger.vim

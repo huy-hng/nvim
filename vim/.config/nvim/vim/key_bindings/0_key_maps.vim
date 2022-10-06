@@ -8,10 +8,6 @@ let g:maplocalleader = '\'
 
 
 
-let g:which_key_map = {}
-
-
-
 """""""""""""""
 """" Extra """"
 """""""""""""""

@@ -1,5 +1,4 @@
 function! s:zen_enter()
-
 	Goyo!
 
 	let g:zen = 1
@@ -43,7 +42,7 @@ function! s:zen_leave()
 endfunction
 
 
-function! s:goyo_enter(tmux=0, limelight=0)
+function! s:goyo_enter()
 	call SetColors()
 	Goyo 80+5%x85%+100%
 

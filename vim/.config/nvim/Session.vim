@@ -9,59 +9,28 @@ if expand('%') == '' && !&modified && line('$') <= 1 && getline(1) == ''
 endif
 let s:shortmess_save = &shortmess
 set shortmess=aoO
-badd +188 vim/functions.vim
-badd +42 vim/autocmds.vim
-badd +35 vim/sets.vim
-badd +28 plugs/goyo.vim/autoload/goyo.vim
-badd +25 init.lua
-badd +42 vim/key_bindings/navigation.vim
-badd +21 vimrc
-badd +1 init.vim
-badd +1 init.lua.bak
-badd +4 vim/misc.vim
-badd +1 .vimrc
-badd +1 ~/.dotfiles/vim/.config/vim/.vimrc
-badd +5 vim/key_bindings/auto_completion.vim
-badd +99 lua/user/cmp.lua_
-badd +60 vim/plugins/plugins.vim
-badd +68 lua/user/plugins.lua_
-badd +1 lua/user/plugins.lua
-badd +163 lua/user/cmp.lua
-badd +2 vim/plugins/gitgutter.vim
-badd +1 lua/user/cmpp.lua
-badd +1 lua/user/lsp/init.lua
-badd +1 ~/.dotfiles/personal/personal/vimwiki/Main/index.md
-badd +3 ~/.dotfiles/personal/personal/vimwiki/Main/daily_log/2022-10-04.md
-badd +1 vim/plugins/telescope.vim
-badd +36 after/plugin/telescope.lua
-badd +32 ~/.dotfiles/tmux/.config/tmux/tmux.conf
-badd +31 lua/user/autopairs.lua
-badd +13 lua/user/treesitter.lua
-badd +90 lua/user/lsp/handlers.lua
-badd +52 lua/user/nvim-tree.lua
-badd +554 lua/work_in_progress.init.lua
-badd +18 lua/user/bufferline.lua
-badd +40 vim/colors.vim
-badd +1 ~/repositories/Neovim-from-scratch/lua/user/bufferline.lua
+badd +0 term://~/.dotfiles/vim/.config/nvim//19167:/usr/bin/ranger
 argglobal
 %argdel
-edit lua/user/bufferline.lua
 argglobal
-balt vim/plugins/plugins.vim
-setlocal fdm=syntax
-setlocal fde=0
+if bufexists(fnamemodify("term://~/.dotfiles/vim/.config/nvim//19167:/usr/bin/ranger", ":p")) | buffer term://~/.dotfiles/vim/.config/nvim//19167:/usr/bin/ranger | else | edit term://~/.dotfiles/vim/.config/nvim//19167:/usr/bin/ranger | endif
+if &buftype ==# 'terminal'
+  silent file term://~/.dotfiles/vim/.config/nvim//19167:/usr/bin/ranger
+endif
+setlocal fdm=expr
+setlocal fde=nvim_treesitter#foldexpr()
 setlocal fmr={{{,}}}
 setlocal fdi=#
 setlocal fdl=0
 setlocal fml=1
 setlocal fdn=20
 setlocal nofen
-let s:l = 10 - ((9 * winheight(0) + 26) / 52)
+let s:l = 3 - ((2 * winheight(0) + 27) / 54)
 if s:l < 1 | let s:l = 1 | endif
 keepjumps exe s:l
 normal! zt
-keepjumps 10
-normal! 09|
+keepjumps 3
+normal! 0101|
 tabnext 1
 if exists('s:wipebuf') && len(win_findbuf(s:wipebuf)) == 0 && getbufvar(s:wipebuf, '&buftype') isnot# 'terminal'
   silent exe 'bwipe ' . s:wipebuf

@@ -19,7 +19,8 @@ set completeopt=menu,menuone,noselect,preview
 
 set nohlsearch
 set foldcolumn=auto
-set foldmethod=syntax
+set foldmethod=expr
+set foldexpr=nvim_treesitter#foldexpr()
 set nofoldenable
 
 " Sets how many lines of history VIM has to remember

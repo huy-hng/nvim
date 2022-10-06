@@ -19,3 +19,10 @@ source $path/plugins/plugins.vim
 source $path/colors.vim
 
 source $path/autocmds.vim
+
+source $path/alacritty.vim
+
+if exists('g:neovide')
+	source $path/neovide.vim
+endif
+

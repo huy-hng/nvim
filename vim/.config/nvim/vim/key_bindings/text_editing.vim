@@ -25,8 +25,11 @@ function! KeepColumn(action)
 	call cursor(line,column)
 endfunction
 
-nnoremap <leader>p p
-nnoremap <leader>P P
+
+inoremap <C-S-v> <C-r>+
+nnoremap <C-S-v> "+p
+nnoremap <leader>p "0p
+nnoremap <leader>P "0P
 nnoremap <silent> p :call KeepColumn('p')<CR>
 nnoremap <silent> P :call KeepColumn('P')<CR>
 
@@ -55,6 +58,7 @@ inoremap <S-Tab> <C-d>
 noremap <A-Tab> >>
 noremap <S-Tab> <<
 " the double maps are needed because the first pair makes indenting not loose visual
+
 " and the second one recursively binds that to Tab and shift tab
 vnoremap > >gv
 vnoremap < <gv
