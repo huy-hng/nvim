@@ -2,22 +2,24 @@
 " => Buffers
 "===============================================================================
 
+nnoremap <leader>l :bnext<cr>
+nnoremap <leader>h :bprevious<cr>
 nnoremap <Leader>n :buffers<CR>:buffer<Space>
+nnoremap <leader>bd :Bclose<cr>:tabclose<cr>gT
+nnoremap <leader>bda <cmd> %bd <bar> e# <bar> bd# <cr>
 
-
-" Close current buffer
-map <leader>bd :Bclose<cr>:tabclose<cr>gT
-
-
-" Close all the buffers
-map <leader>ba :bufdo bd<cr>
-
-map <leader>l :bnext<cr>
-map <leader>h :bprevious<cr>
+let g:which_key_map.b = {
+			\ 'name': '+Buffers',
+			\ 'l':  'Next Buffer',
+			\ 'h':  'Previous Buffer',
+			\ 'n':  'List Buffers',
+			\ 'd':  'Close current buffer',
+			\ 'da': 'Close all buffers except current one',
+			\ }
 
 
 " Switch CWD to the directory of the open buffer
-map <leader>cd :cd %:p:h<cr>:pwd<cr>
+nnoremap <leader>cd :cd %:p:h<cr>:pwd<cr>
 
 
 " Specify the behavior when switching between buffers 
@@ -42,10 +44,10 @@ noremap <C-j> <C-W>j
 noremap <C-k> <C-W>k
 noremap <C-l> <C-W>l
 
-nnoremap <Up>    :resize -4<CR>
-nnoremap <Down>  :resize +4<CR>
-nnoremap <Left>  :vertical resize -4<CR>
-nnoremap <Right> :vertical resize +4<CR>
+nnoremap <Up>    <cmd>resize -4<CR>
+nnoremap <Down>  <cmd>resize +4<CR>
+nnoremap <Left>  <cmd>vertical resize -4<CR>
+nnoremap <Right> <cmd>vertical resize +4<CR>
 
 "===============================================================================
 " => Tabs

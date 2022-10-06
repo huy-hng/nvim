@@ -1,4 +1,4 @@
-set noshowmode
+" set noshowmode
 
 
 let g:lightline = {}

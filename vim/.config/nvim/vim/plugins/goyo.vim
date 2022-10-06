@@ -19,7 +19,7 @@ function! s:zen_enter()
 		"silent !tmux list-panes -F '\#F' | grep -q Z || tmux resize-pane -Z
 	endif
 
-	call <SID>goyo_enter()
+	call <SID>goyo_enter(0)
 	"Goyo
 
 endfunction
@@ -42,9 +42,14 @@ function! s:zen_leave()
 endfunction
 
 
-function! s:goyo_enter()
+function! s:goyo_enter(size=1)
 	call SetColors()
-	Goyo 80+5%x85%+100%
+	if (a:size == 0)
+		Goyo 80+5%x85%+100%
+	else
+		Goyo 80+5%x100%+100%
+	endif
+
 
 	set noshowcmd
 

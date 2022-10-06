@@ -59,8 +59,10 @@ let g:which_key_map['_'] = [ '<C-W>s'						, 'split below']
 let g:which_key_map['|'] = [ '<C-W>v'						, 'split right']
 " let g:which_key_map['e'] = [ ':RnvimrToggle'				, 'Ranger' ]
 let g:which_key_map['S'] = [ 'Startify'					, 'start screen' ]
-let g:which_key_map['z'] = [ 'Goyo'							, 'Goyo' ]
-let g:which_key_map['Z'] = [ 'Zen'							, 'Zen' ]
+nnoremap <leader>z <cmd>Goyo<CR>
+nnoremap <leader>Z <cmd>Zen<CR>
+let g:which_key_map['z'] = 'Goyo'
+let g:which_key_map['Z'] = 'Zen'
 let g:which_key_map['?'] = [ ':Limelight!!'					, 'Limelight' ]
 " nnoremap <silent><leader>? <cmd>Limelight!!<CR>
 

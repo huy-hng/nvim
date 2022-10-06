@@ -9,14 +9,11 @@ if expand('%') == '' && !&modified && line('$') <= 1 && getline(1) == ''
 endif
 let s:shortmess_save = &shortmess
 set shortmess=aoO
-badd +0 term://~/.dotfiles/vim/.config/nvim//19167:/usr/bin/ranger
+badd +22 vim/key_bindings/navigation.vim
 argglobal
 %argdel
+edit vim/key_bindings/navigation.vim
 argglobal
-if bufexists(fnamemodify("term://~/.dotfiles/vim/.config/nvim//19167:/usr/bin/ranger", ":p")) | buffer term://~/.dotfiles/vim/.config/nvim//19167:/usr/bin/ranger | else | edit term://~/.dotfiles/vim/.config/nvim//19167:/usr/bin/ranger | endif
-if &buftype ==# 'terminal'
-  silent file term://~/.dotfiles/vim/.config/nvim//19167:/usr/bin/ranger
-endif
 setlocal fdm=expr
 setlocal fde=nvim_treesitter#foldexpr()
 setlocal fmr={{{,}}}
@@ -25,12 +22,12 @@ setlocal fdl=0
 setlocal fml=1
 setlocal fdn=20
 setlocal nofen
-let s:l = 3 - ((2 * winheight(0) + 27) / 54)
+let s:l = 25 - ((24 * winheight(0) + 23) / 46)
 if s:l < 1 | let s:l = 1 | endif
 keepjumps exe s:l
 normal! zt
-keepjumps 3
-normal! 0101|
+keepjumps 25
+normal! 05|
 tabnext 1
 if exists('s:wipebuf') && len(win_findbuf(s:wipebuf)) == 0 && getbufvar(s:wipebuf, '&buftype') isnot# 'terminal'
   silent exe 'bwipe ' . s:wipebuf

@@ -22,15 +22,17 @@ function! Wrap()
 	endif
 endfunction
 
+
 function! SurroundWithPreformatter()
 	"normal! iasdf
 	visual! <esc>`<O{{{cat<ESC>`>o}}}<ESC>gv:!figlet -k -t<CR>
 endfunction
 
 vnoremap <Leader>1 :call SurroundWithPreformatter()<CR>
-	"vnoremap <Leader>1 I<Esc>O{{{cat<esc>gvA<esc>o}}}<esc>gv:!figlet -k -t<CR>
-	"vmap <M-k> :m'<-2<cr>`>my`<mzgv`yo`z
-	"<cr>`>my`<mzgv`yo`z
+
+"vnoremap <Leader>1 I<Esc>O{{{cat<esc>gvA<esc>o}}}<esc>gv:!figlet -k -t<CR>
+"vmap <M-k> :m'<-2<cr>`>my`<mzgv`yo`z
+"<cr>`>my`<mzgv`yo`z
 
 function! Figlet()
 	return "figlet -c"
@@ -96,8 +98,8 @@ function! HasPaste()
 endfunction
 
 " Don't close window, when deleting a buffer
-command! Bclose call <SID>BufcloseCloseIt()
-function! <SID>BufcloseCloseIt()
+command! Bclose call BufcloseCloseIt()
+function! BufcloseCloseIt()
     let l:currentBufNum = bufnr("%")
     let l:alternateBufNum = bufnr("#")
 
@@ -158,27 +160,6 @@ if has("autocmd")
 endif
 
 
-function! FlashOnce(duration=100)
-    set cursorline cursorcolumn
-    redraw
-	sleep 400m
-    set nocursorline nocursorcolumn
-    redraw
-endfunction
-
-
-
-function! FlashCursor(duration=100, times=1)
-	call FlashOnce()
-	"let timer = timer_start(600, 'FlashOnce', {'repeat': 2})
-	"for i in range(1)
-	"	call <SID>flash_cursor(a:duration)
-	"	sleep 500m
-	"endfor
-endfunction
-
-
-
 fun! CenterScreen()
 	let l:offset = 0
 	let l:offset = 10
@@ -186,10 +167,16 @@ fun! CenterScreen()
 	let l:center_left_side = (&columns - l:center_size + l:offset) / 2
 	exec l:center_left_side . 'vnew'
 	wincmd p
-
-
 	" echo &columns
 	" echo l:center_left_side
 endfun
 
-nnoremap <Leader>' :call CenterScreen()<CR>
+" nnoremap <Leader>' :call CenterScreen()<CR>
+
+
+function! ExecuteMacroOverVisualRange()
+	echo "@".getcmdline()
+	execute ":'<,'>normal @".nr2char(getchar())
+endfunction
+" xnoremap @ :<C-u>call ExecuteMacroOverVisualRange()<CR>
+

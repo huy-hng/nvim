@@ -8,12 +8,12 @@ fun! SourceDir(dir_name)
 	endfor
 endfun
 
+call SourceDir('functions')
 call SourceDir('key_bindings')
 source $path/sets.vim "slow
 source $path/functions.vim
 source $path/user_interface.vim "slow
 source $path/misc.vim
-source $path/snippets.vim
 
 source $path/plugins/plugins.vim
 source $path/colors.vim

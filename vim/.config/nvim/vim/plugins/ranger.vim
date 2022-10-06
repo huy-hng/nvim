@@ -4,9 +4,9 @@ let g:rnvimr_enable_ex = 1
 " Make Ranger to be hidden after picking a file
 let g:rnvimr_enable_ex = 1
 let g:rnvimr_enable_picker = 1
-let g:rnvimr_draw_border = 1
-let g:rnvimr_border_attr = {'fg': 255, 'bg': -1}
-let g:rnvimr_shadow_winblend = 75
+let g:rnvimr_draw_border = 0
+let g:rnvimr_border_attr = {'fg': 1, 'bg': -1}
+let g:rnvimr_shadow_winblend = 50
 " let g:rnvimr_ranger_cmd = ['ranger', '--cmd=set draw_borders both']
 " highlight link RnvimrNormal CursorLine
 "

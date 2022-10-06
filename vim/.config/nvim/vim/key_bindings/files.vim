@@ -10,8 +10,8 @@ nnoremap <Leader>w <cmd>w<CR>
 nnoremap <Leader>W <cmd>W<CR>
 nnoremap <Leader>Q <cmd>q!<CR>
 nnoremap <Leader>wq <cmd>wq<CR>
-nnoremap <Leader>q <cmd>q<CR>
-" nnoremap <Leader>q <cmd>call <SID>quit_one_buffer()<CR>
+" nnoremap <Leader>q <cmd>q<CR>
+nnoremap <Leader>q <cmd>call <SID>quit_one_buffer()<CR>
 
 " make file executable
 nnoremap <leader>x <cmd>w<bar> :!chmod u+x %<CR>:0r !echo '\#\!/usr/bin/bash'<CR>
@@ -22,9 +22,17 @@ nnoremap <leader>x <cmd>w<bar> :!chmod u+x %<CR>:0r !echo '\#\!/usr/bin/bash'<CR
 nnoremap <A-m> <cmd>w <bar> ! %:p<CR>
 
 function! s:quit_one_buffer()
-	if len(filter(range(1, bufnr('$')), 'buflisted(v:val)')) == 1
+	" if len(filter(range(1, bufnr('$')), 'buflisted(v:val)')) == 1
+	if winnr('$') < 2
 		quit
 	else
-		call Message('More than one buffer opened!')
+		if (get(g:, 'quit_next', 0))
+			let g:quit_next = 0
+			quit
+		else
+			let g:quit_next = 1
+			call Message('More than one buffer opened!')
+			call Message('Press again to quit.')
+		endif
 	endif
 endfunction

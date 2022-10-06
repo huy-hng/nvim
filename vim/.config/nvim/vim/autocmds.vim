@@ -7,6 +7,8 @@ augroup somegroup
 
 	" Return to last edit position when opening files
 	autocmd BufReadPost * if line("'\"") > 1 && line("'\"") <= line("$") | exe "normal! g'\"" | endif
+	" autocmd FileType help : set conceallevel=0
+		autocmd BufEnter * if &filetype == 'help' | set conceallevel=0 | else | set conceallevel=2 | endif
 augroup END
 
 
@@ -41,6 +43,8 @@ augroup filestuff
 
 	" reload vim when '.vim' files are saved
 	autocmd BufWritePost *.vim silent! exec "so $HOME/.config/nvim/init.lua"
+	autocmd BufWritePost *.lua silent! exec "so $HOME/.config/nvim/init.lua"
+	autocmd BufWritePost *.lua silent! exec "so %"
 	" autocmd BufWritePost *.vim silent! exec "so $HOME/.config/nvim/init.vim"
 	" add date in vimwikiw
 	autocmd BufNewFile */daily_log/[0-9]*.md : 0r !echo "= $(date -d '%:t:r' +'\%A, \%b \%d') =\n"

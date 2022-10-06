@@ -10,6 +10,7 @@ vnoremap <silent> <C-/> :Commentary<CR>
 
 " Vimwiki
 " nnoremap <silent><Leader><CR> :call Create_Vimwiki_Link()<CR>
+vnoremap <silent>+ :call Create_Vimwiki_Link()<CR>
 nmap <silent><C-S-Tab> <Plug>VimwikiPrevLink
 nmap <silent><C-Tab> <Plug>VimwikiNextLink
 " doesnt work

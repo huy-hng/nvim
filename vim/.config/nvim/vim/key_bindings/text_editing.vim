@@ -26,10 +26,11 @@ function! KeepColumn(action)
 endfunction
 
 
-inoremap <C-S-v> <C-r>+
-nnoremap <C-S-v> "+p
-nnoremap <leader>p "0p
-nnoremap <leader>P "0P
+inoremap <C-v> <C-r>+
+nnoremap <leader>p "+p
+nnoremap <leader>y "+y
+" nnoremap <leader>p "0p
+" nnoremap <leader>P "0P
 nnoremap <silent> p :call KeepColumn('p')<CR>
 nnoremap <silent> P :call KeepColumn('P')<CR>
 

@@ -7,6 +7,7 @@ let g:mapleader = ' '
 let g:maplocalleader = '\'
 
 
+nnoremap <ESC> <ESC><cmd>noh<CR>
 
 """""""""""""""
 """" Extra """"

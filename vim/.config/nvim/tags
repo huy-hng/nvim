@@ -1,0 +1,6 @@
+MatchCharacter	lua/functions/match_character.lua	/^function MatchCharacter()$/
+contains	lua/functions/match_character.lua	/^function contains(list, x)$/
+get_char_under_cursor	lua/functions/match_character.lua	/^function get_char_under_cursor(line, column)$/
+get_closest	lua/functions/match_character.lua	/^function get_closest()$/
+get_matches_in_line	lua/functions/match_character.lua	/^function get_matches_in_line(line, col, char)$/
+index_of	lua/functions/match_character.lua	/^function index_of(array, value)$/
