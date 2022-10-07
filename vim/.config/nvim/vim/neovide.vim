@@ -2,6 +2,14 @@
 "                                 |=> GUI <=|
 "===============================================================================
 
+
+" add time to statusline
+fun! NeovideStatusline()
+	return MyStatusline() .. "| %{strftime('%H:%M')}"
+endfun
+
+set statusline=%!NeovideStatusline()
+
 "---------------------------------------
 "             -> Looks <-
 "---------------------------------------
@@ -21,7 +29,7 @@ let g:gui_font_face = 'FiraCode Nerd Font'
 "           -> Behavior <-
 "---------------------------------------
 let g:neovide_refresh_rate = 50
-let g:neovide_refresh_rate_idle = 5
+let g:neovide_refresh_rate_idle = 15
 let g:neovide_confirm_quit = v:true
 let g:neovide_remember_window_size = v:true
 let g:neovide_scroll_animation_length = 0.4
@@ -60,9 +68,11 @@ let g:neovide_cursor_vfx_particle_speed=50.0
 "===============================================================================
 "                               |=> Keymaps <=|
 "===============================================================================
-inoremap <C-/> <cmd>Commentary<CR>
-nnoremap <C-/> <cmd>Commentary<CR>
-vnoremap <silent> <C-/> :Commentary<CR>
+nnoremap <leader>q <cmd>Bdelete<cr>
+
+inoremap <C-/> <cmd>Commentary<cr>
+nnoremap <C-/> <cmd>Commentary<cr>
+vnoremap <silent> <C-/> :Commentary<cr>
 
 noremap! <C-BS> <C-w>
 
@@ -81,9 +91,9 @@ nnoremap <C-;> q:
 " nnoremap <C-/> q/
 
 nnoremap <C-_> <NOP>
-nnoremap <C-_> <cmd>lua ResizeGuiFont(-1)<CR>
-nnoremap <C-+> <cmd>lua ResizeGuiFont(1)<CR>
-nnoremap <C-)> <cmd>lua ResetGuiFont()<CR>
+nnoremap <C-_> <cmd>lua ResizeGuiFont(-1)<cr>
+nnoremap <C-+> <cmd>lua ResizeGuiFont(1)<cr>
+nnoremap <C-)> <cmd>lua ResetGuiFont()<cr>
 " nnoremap <C-=> <NOP>
 " nnoremap <C--> <NOP>
 " nnoremap <C-+> <NOP>

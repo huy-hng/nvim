@@ -18,10 +18,26 @@ end
 ----------------------------------------
 --         -> Lua Plugins <-
 ----------------------------------------
-require 'user.cmp'
-require 'user.lsp'
-require 'user.autopairs'
-require 'user.treesitter'
-require 'user.bufferline'
-require 'user.statusline'
-require 'user.neovide'
+
+local require_dir = require 'helpers.require_dir'
+require_dir('lua/plugins')
+require_dir('lua/user')
+require_dir('lua/functions')
+-- require_dir('lua/lsp')
+-- require 'lsp'
+
+-- FlashCursor()
+
+
+
+-- require 'user.cmp'
+-- require 'user.lsp'
+-- require 'user.autopairs'
+-- require 'user.treesitter'
+-- require 'user.bufferline'
+-- require 'user.statusline'
+-- require 'user.neovide'
+-- require 'user.gitsigns'
+-- require 'user.whichkey'
+-- require 'user.nvim-tree'
+

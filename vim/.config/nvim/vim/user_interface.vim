@@ -195,8 +195,14 @@ endfun
 " call DefaultStatusline()
 
 
-set statusline=
-set statusline+=%!MyStatusline()
+" set statusline=
+" set statusline+=%!MyStatusline()
+" g:statusline_winid doesnt get set compared to line above
+" set statusline=%{%MyStatusline()%}
+" set statusline=%!MyStatusline()\ %{strftime('%H:%M')}
+set statusline=%!MyStatusline()
+" set statusline+=%!MyStatusline()\ %{strftime('%H:%M')}
+" set statusline+=\ '%{strftime('%H:%M')}'
 
 " Set a line at 80 chars
 "set colorcolumn=80
@@ -249,7 +255,4 @@ set mat=2 " How many tenths of a second to blink when matching brackets
 set noerrorbells
 set novisualbell
 set t_vb=
-set timeoutlen=500
-
-
-
+set timeoutlen=250

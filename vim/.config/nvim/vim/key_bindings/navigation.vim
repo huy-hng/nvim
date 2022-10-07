@@ -2,20 +2,29 @@
 " => Buffers
 "===============================================================================
 
-nnoremap <leader>l :bnext<cr>
-nnoremap <leader>h :bprevious<cr>
-nnoremap <Leader>n :buffers<CR>:buffer<Space>
-nnoremap <leader>bd :Bclose<cr>:tabclose<cr>gT
-nnoremap <leader>bda <cmd> %bd <bar> e# <bar> bd# <cr>
+nnoremap <A-1> <cmd>call GoToBufferIndex(1)<cr>
+nnoremap <A-2> <cmd>call GoToBufferIndex(2)<cr>
+nnoremap <A-3> <cmd>call GoToBufferIndex(3)<cr>
+nnoremap <A-4> <cmd>call GoToBufferIndex(4)<cr>
+nnoremap <A-5> <cmd>call GoToBufferIndex(5)<cr>
+nnoremap <A-6> <cmd>call GoToBufferIndex(6)<cr>
+nnoremap <A-7> <cmd>call GoToBufferIndex(7)<cr>
+nnoremap <A-8> <cmd>call GoToBufferIndex(8)<cr>
+nnoremap <A-9> <cmd>call GoToBufferIndex(9)<cr>
 
-let g:which_key_map.b = {
-			\ 'name': '+Buffers',
-			\ 'l':  'Next Buffer',
-			\ 'h':  'Previous Buffer',
-			\ 'n':  'List Buffers',
-			\ 'd':  'Close current buffer',
-			\ 'da': 'Close all buffers except current one',
-			\ }
+" nnoremap <leader>bl :bnext<cr>
+
+" nnoremap <leader>bh :bprevious<cr>
+" nnoremap <Leader>bb :buffers<CR>:buffer<Space>
+" nnoremap <leader>bd :Bclose<cr>:tabclose<cr>gT
+" nnoremap <leader>bda <cmd> %bd <bar> e# <bar> bd# <cr>
+" nnoremap <leader>bf <cmd>
+
+" 'l':  'Next Buffer',
+" 'h':  'Previous Buffer',
+" 'n':  'List Buffers',
+" 'd':  'Close current buffer',
+" 'da': 'Close all buffers except current one',
 
 
 " Switch CWD to the directory of the open buffer

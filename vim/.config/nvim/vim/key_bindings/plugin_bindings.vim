@@ -18,11 +18,14 @@ nmap <silent><F6> :call ToggleTableFormatting()<CR>
 
 " Limelight
 " nnoremap <silent><leader>? <cmd>Limelight!!<CR>
+nnoremap <silent><leader>z <cmd>Goyo<CR>
+nnoremap <silent><leader>Z <cmd>Zen<CR>
 
 nnoremap <F5> :UndotreeToggle<CR>
 
 
 " nnoremap <F1> <cmd>NERDTreeToggle<CR>
+nnoremap <F1> <cmd>NvimTreeToggle<CR>
 
 "===============================================================================
 "                               |=> Ranger <=|

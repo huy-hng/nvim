@@ -33,13 +33,15 @@ Plug 'junegunn/goyo.vim'
 "===============================================================================
 " syntax error
 Plug 'dense-analysis/ale'
-Plug 'liuchengxu/vim-which-key'
+" Plug 'liuchengxu/vim-which-key'
+Plug 'folke/which-key.nvim'
 
 Plug 'tpope/vim-obsession' " save vim sessions
 Plug 'tpope/vim-fugitive' " git stuff
 Plug 'tpope/vim-commentary' " comments depending on filetype
 Plug 'tpope/vim-surround'
-Plug 'airblade/vim-gitgutter' " display changes on side
+" Plug 'airblade/vim-gitgutter' " display changes on side
+Plug 'lewis6991/gitsigns.nvim'
 Plug 'windwp/nvim-autopairs' " pair brackets
 Plug 'mg979/vim-visual-multi', {'branch': 'master'}
 
@@ -114,12 +116,12 @@ call plug#end()
 "                         => Plugin Configuration <=
 "===============================================================================
 
-source $path/plugins/gitgutter.vim
+" source $path/plugins/gitgutter.vim
 source $path/plugins/goyo.vim
 source $path/plugins/lightline.vim
 source $path/plugins/limelight.vim
 source $path/plugins/vimwiki.vim
-source $path/plugins/which_key.vim
+" source $path/plugins/which_key.vim
 source $path/plugins/ranger.vim
 " source $path/plugins/vscode.vim
 source $path/plugins/ranger.vim

@@ -40,12 +40,11 @@ augroup END
 
 augroup filestuff
 	autocmd!
+	" reload vim when vim/lua files are saved
+	" autocmd BufWritePost *.vim,*.lua :so $HOME/.config/nvim/init.lua
+	autocmd BufWritePost *.vim,*.lua :so %
+	" autocmd BufWritePost *.vim,*.lua silent! exec "so $HOME/.config/nvim/init.vim"
 
-	" reload vim when '.vim' files are saved
-	autocmd BufWritePost *.vim silent! exec "so $HOME/.config/nvim/init.lua"
-	autocmd BufWritePost *.lua silent! exec "so $HOME/.config/nvim/init.lua"
-	autocmd BufWritePost *.lua silent! exec "so %"
-	" autocmd BufWritePost *.vim silent! exec "so $HOME/.config/nvim/init.vim"
 	" add date in vimwikiw
 	autocmd BufNewFile */daily_log/[0-9]*.md : 0r !echo "= $(date -d '%:t:r' +'\%A, \%b \%d') =\n"
 augroup END

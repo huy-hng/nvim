@@ -7,26 +7,26 @@ let g:which_key_hspace = 2
 let g:which_key_centered = 1
 
 " which key
-nnoremap <silent> <leader>      :c-u>WhichKey '<Space>'<CR>
-" nnoremap <silent> <C-w>			:<c-u>WhichKey 'C-w'<CR>
+nnoremap <silent> <leader>      :<c-u>WhichKey '<Space>'<CR>
 vnoremap <silent> <leader> 		:<c-u>WhichKeyVisual ' '<CR>
-nnoremap <silent> <localleader> :<c-u>WhichKey '\'<CR>
+
+" nnoremap <silent> <localleader> :<c-u>WhichKey '\'<CR>
 
 
-call which_key#register('<Space>', "g:which_key_map")
-call which_key#register('<Space>', "g:which_key_map", 'n')
-call which_key#register('<Space>', "g:which_key_map_visual", 'v')
-
+call which_key#register('<Space>', 'g:which_key_map')
+call which_key#register('<Space>', 'g:which_key_map', 'n')
+call which_key#register('<Space>', 'g:which_key_map_visual', 'v')
 
 
 " Map leader to which_key
 nnoremap <silent> <leader> :silent WhichKey '<Space>'<CR>
 vnoremap <silent> <leader> :silent <c-u> :silent WhichKeyVisual '<Space>'<CR>
 
+
 " Create map to add keys to
 " Define a separator
 " let g:which_key_sep = '→'
-" set timeoutlen=100
+set timeoutlen=250
 
 " Change the colors if you want
 highlight default link WhichKey          Operator
@@ -38,7 +38,6 @@ highlight default link WhichKeyDesc      Function
 autocmd! FileType which_key
 autocmd  FileType which_key set laststatus=0 noshowmode noruler
   \| autocmd BufLeave <buffer> set laststatus=2 noshowmode ruler
-
 
 let g:which_key_map.v = {
 			\ 'name': '+Vimwiki',
@@ -108,6 +107,15 @@ let g:which_key_map.s = {
       \ 'z' : [':FZF'          , 'FZF'],
       \ }
 
+
+"===============================================================================
+"                           |=> Window Bindings <=|
+"===============================================================================
+" let g:which_key_C_w = {}
+
+" nnoremap <silent> <C-w> :<c-u>WhichKey 'C-w'<CR>
+" nnoremap <C-w> <cmd>WhichKey '<C-w>'<CR>
+" call which_key#register('<C-w>',   'g:which_key_C_w')
 
 "===============================================================================
 "                               |=> Ignores <=|

@@ -8,18 +8,30 @@ command! W execute 'w !sudo tee % > /dev/null' <bar> edit!
 " fast saving and quitting
 nnoremap <Leader>w <cmd>w<CR>
 nnoremap <Leader>W <cmd>W<CR>
-nnoremap <Leader>Q <cmd>q!<CR>
 nnoremap <Leader>wq <cmd>wq<CR>
 " nnoremap <Leader>q <cmd>q<CR>
-nnoremap <Leader>q <cmd>call <SID>quit_one_buffer()<CR>
+nnoremap <Leader>q <cmd>call <SID>close_last_buffer()<cr>
+nnoremap <Leader>Q <cmd>call <SID>quit_one_buffer()<CR>
 
 " make file executable
 nnoremap <leader>x <cmd>w<bar> :!chmod u+x %<CR>:0r !echo '\#\!/usr/bin/bash'<CR>
+
+
+nnoremap <Leader>rv <cmd>so %<cr>
 " execute file
 "nnoremap <A-m> :w<CR>:!clear<CR>:! %:p<CR>
 "nnoremap <A-m> <cmd>w<CR><cmd> !clear <CR><cmd> ! %:p<CR>
 "nnoremap <A-m> :w <bar> !clear <bar> ! %:p<CR>
 nnoremap <A-m> <cmd>w <bar> ! %:p<CR>
+
+
+fun! s:close_last_buffer()
+	if BuffersOpened() == 1
+		quit
+	endif
+	Bdelete
+endfun
+
 
 function! s:quit_one_buffer()
 	" if len(filter(range(1, bufnr('$')), 'buflisted(v:val)')) == 1
@@ -36,3 +48,47 @@ function! s:quit_one_buffer()
 		endif
 	endif
 endfunction
+
+
+fun! GoToBufferIndex(num)
+
+	let l:buffer_list = getbufinfo({'bufloaded': 1, 'buflisted': 1})
+	let l:len = len(buffer_list)
+
+	let l:index = a:num
+	if (a:num > l:len)
+		let l:index = l:len
+	endif
+
+	let l:index -= 1
+	echo l:buffer_list[l:index].bufnr
+	exec 'buffer ' .. l:buffer_list[l:index].bufnr
+endfun
+
+
+fun! BuffersOpened()
+	return len(getbufinfo({'buflisted':1}))
+	" return len(filter(range(1, bufnr('$')), 'buflisted(v:val)'))
+endfun
+command! BuffersOpened echo BuffersOpened()
+
+
+
+function! GetActiveBuffers()
+    let l:blist = getbufinfo({'bufloaded': 1})
+    " let l:blist = getbufinfo({'bufloaded': 1, 'buflisted': 1})
+    let l:result = []
+    for l:item in l:blist
+		echo l:item.name
+        "skip unnamed buffers; also skip hidden buffers?
+        if empty(l:item.name) || l:item.hidden
+            continue
+        endif
+        " call add(l:result, shellescape(l:item.name))
+    endfor
+    " return l:result
+endfunction
+
+" the result is a list
+" use join() when a single string is needed
+":exec '!cat' join(GetActiveBuffers())
