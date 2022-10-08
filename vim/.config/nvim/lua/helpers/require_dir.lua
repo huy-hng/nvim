@@ -18,7 +18,6 @@ local function get_all_requires(dir)
 		local is_requires_file = string.find(relative, REQUIRES_FILE_NAME)
 		if is_requires_file then goto continue end
 
-		-- local require_text = "require '"..correct_format(relative).."'\n"
 		local format = correct_format(relative)
 		table.insert(formatted, format)
 
@@ -37,7 +36,8 @@ local function write_to_file(dir, text)
 	io.output(file)
 
 	for _, path in ipairs(text) do
-		io.write(path)
+		local require_text = "require '"..correct_format(path).."'\n"
+		io.write(require_text)
 	end
 	io.close(file)
 

@@ -9,21 +9,13 @@ if expand('%') == '' && !&modified && line('$') <= 1 && getline(1) == ''
 endif
 let s:shortmess_save = &shortmess
 set shortmess=aoO
-badd +49 ~/.dotfiles/vim/.config/nvim/lua/helpers/require_dir.lua
-badd +21 init.lua
-badd +56 vim/key_bindings/files.vim
 argglobal
 %argdel
 tabnew +setlocal\ bufhidden=wipe
 tabrewind
-edit init.lua
 let s:save_splitbelow = &splitbelow
 let s:save_splitright = &splitright
 set splitbelow splitright
-wincmd _ | wincmd |
-vsplit
-1wincmd h
-wincmd w
 let &splitbelow = s:save_splitbelow
 let &splitright = s:save_splitright
 wincmd t
@@ -33,52 +25,6 @@ set winminheight=0
 set winheight=1
 set winminwidth=0
 set winwidth=1
-exe 'vert 1resize ' . ((&columns * 67 + 88) / 176)
-exe 'vert 2resize ' . ((&columns * 108 + 88) / 176)
-argglobal
-setlocal fdm=expr
-setlocal fde=nvim_treesitter#foldexpr()
-setlocal fmr={{{,}}}
-setlocal fdi=#
-setlocal fdl=0
-setlocal fml=1
-setlocal fdn=20
-setlocal nofen
-let s:l = 21 - ((20 * winheight(0) + 22) / 45)
-if s:l < 1 | let s:l = 1 | endif
-keepjumps exe s:l
-normal! zt
-keepjumps 21
-normal! 08|
-wincmd w
-argglobal
-if bufexists(fnamemodify("~/.dotfiles/vim/.config/nvim/lua/helpers/require_dir.lua", ":p")) | buffer ~/.dotfiles/vim/.config/nvim/lua/helpers/require_dir.lua | else | edit ~/.dotfiles/vim/.config/nvim/lua/helpers/require_dir.lua | endif
-if &buftype ==# 'terminal'
-  silent file ~/.dotfiles/vim/.config/nvim/lua/helpers/require_dir.lua
-endif
-balt init.lua
-setlocal fdm=expr
-setlocal fde=nvim_treesitter#foldexpr()
-setlocal fmr={{{,}}}
-setlocal fdi=#
-setlocal fdl=2
-setlocal fml=1
-setlocal fdn=20
-setlocal fen
-31
-normal! zo
-48
-normal! zo
-let s:l = 49 - ((24 * winheight(0) + 22) / 45)
-if s:l < 1 | let s:l = 1 | endif
-keepjumps exe s:l
-normal! zt
-keepjumps 49
-normal! 0
-wincmd w
-2wincmd w
-exe 'vert 1resize ' . ((&columns * 67 + 88) / 176)
-exe 'vert 2resize ' . ((&columns * 108 + 88) / 176)
 tabnext
 argglobal
 enew | setl bt=help
@@ -93,7 +39,7 @@ setlocal fdn=20
 setlocal nofen
 silent! normal! zE
 let &fdl = &fdl
-let s:l = 904 - ((8 * winheight(0) + 23) / 47)
+let s:l = 904 - ((8 * winheight(0) + 22) / 45)
 if s:l < 1 | let s:l = 1 | endif
 keepjumps exe s:l
 normal! zt
