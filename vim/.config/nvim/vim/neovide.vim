@@ -5,7 +5,7 @@
 
 " add time to statusline
 fun! NeovideStatusline()
-	return MyStatusline() .. "| %{strftime('%H:%M')}"
+	return MyStatusline() .. "| %{strftime('%H:%M')} "
 endfun
 
 set statusline=%!NeovideStatusline()

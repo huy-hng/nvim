@@ -52,7 +52,8 @@ endfunction
 
 fun! GoToBufferIndex(num)
 
-	let l:buffer_list = getbufinfo({'bufloaded': 1, 'buflisted': 1})
+	" let l:buffer_list = getbufinfo({'bufloaded': 1, 'buflisted': 1})
+	let l:buffer_list = getbufinfo({'buflisted': 1})
 	let l:len = len(buffer_list)
 
 	let l:index = a:num

@@ -17,7 +17,7 @@ set formatoptions-=cro " default tcqj
 " show complete option popup
 set completeopt=menu,menuone,noselect,preview
 
-set nohlsearch
+" set nohlsearch
 set foldcolumn=auto
 set foldmethod=expr
 set foldexpr=nvim_treesitter#foldexpr()
