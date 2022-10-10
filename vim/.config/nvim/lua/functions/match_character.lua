@@ -12,7 +12,7 @@ function index_of(array, value)
 end
 
 
-auto_match = {
+local auto_match = {
 	{'(', ')'},
 	{'[', ']'},
 	{'{', '}'},
@@ -22,7 +22,8 @@ auto_match = {
 	'<',
 	'>'
 }
-no_auto_match = { '"', "'", '<', '>' }
+
+local no_auto_match = { '"', "'", '<', '>' }
 -- no_auto_match = [[\("\)\?\(\'\)\?\(<\)\?\(>\)]]
 
 function MatchCharacter()
@@ -108,6 +109,3 @@ function contains(list, x)
 	return false
 end
 
-local nor = require('helpers.keymaps').nor
-
-nor('%', MatchCharacter, 'Jump to matching quote or whatever')

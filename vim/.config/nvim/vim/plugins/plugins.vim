@@ -5,6 +5,7 @@ call plug#begin('~/.config/nvim/plugins')
 Plug 'vimwiki/vimwiki' " note taking
 Plug 'jceb/vim-orgmode'
 Plug 'mbbill/undotree'
+Plug 'unblevable/quick-scope'
 
 
 " Plug 'ryanoasis/vim-devicons' " icon pack for nerdtree

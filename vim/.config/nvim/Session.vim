@@ -10,20 +10,20 @@ endif
 let s:shortmess_save = &shortmess
 set shortmess=aoO
 badd +17 ~/.dotfiles/vim/.config/nvim/lua/helpers/require_dir.lua
-badd +7 vim/neovide.vim
-badd +122 vim/user_interface.vim
+badd +22 vim/neovide.vim
+badd +4 vim/user_interface.vim
+badd +7 ~/.dotfiles/personal/personal/vimwiki/Main/daily_log/2022-10-10.md
+badd +108 ~/.dotfiles/vim/.config/nvim/vim/statusline.vim
+badd +101 vim/plugins/startify.vim
 argglobal
 %argdel
-edit vim/user_interface.vim
+edit ~/.dotfiles/personal/personal/vimwiki/Main/daily_log/2022-10-10.md
 let s:save_splitbelow = &splitbelow
 let s:save_splitright = &splitright
 set splitbelow splitright
 wincmd _ | wincmd |
 vsplit
-wincmd _ | wincmd |
-vsplit
-2wincmd h
-wincmd w
+1wincmd h
 wincmd w
 let &splitbelow = s:save_splitbelow
 let &splitright = s:save_splitright
@@ -34,67 +34,52 @@ set winminheight=0
 set winheight=1
 set winminwidth=0
 set winwidth=1
-wincmd =
+exe 'vert 1resize ' . ((&columns * 57 + 97) / 195)
+exe 'vert 2resize ' . ((&columns * 137 + 97) / 195)
 argglobal
-enew | setl bt=help
-help 'statusline'@en
-balt vim/user_interface.vim
-setlocal fdm=manual
-setlocal fde=nvim_treesitter#foldexpr()
-setlocal fmr={{{,}}}
-setlocal fdi=#
-setlocal fdl=0
-setlocal fml=1
-setlocal fdn=20
-setlocal nofen
-silent! normal! zE
-let &fdl = &fdl
-let s:l = 6023 - ((22 * winheight(0) + 26) / 53)
-if s:l < 1 | let s:l = 1 | endif
-keepjumps exe s:l
-normal! zt
-keepjumps 6023
-normal! 021|
-wincmd w
-argglobal
+balt vim/plugins/startify.vim
 setlocal fdm=expr
-setlocal fde=nvim_treesitter#foldexpr()
+setlocal fde=VimwikiFoldListLevel(v:lnum)
 setlocal fmr={{{,}}}
 setlocal fdi=#
 setlocal fdl=0
 setlocal fml=1
 setlocal fdn=20
 setlocal nofen
-let s:l = 200 - ((32 * winheight(0) + 26) / 53)
+let s:l = 7 - ((6 * winheight(0) + 26) / 52)
 if s:l < 1 | let s:l = 1 | endif
 keepjumps exe s:l
 normal! zt
-keepjumps 200
-normal! 018|
-wincmd w
-argglobal
-if bufexists(fnamemodify("vim/neovide.vim", ":p")) | buffer vim/neovide.vim | else | edit vim/neovide.vim | endif
-if &buftype ==# 'terminal'
-  silent file vim/neovide.vim
-endif
-balt ~/.dotfiles/vim/.config/nvim/lua/helpers/require_dir.lua
-setlocal fdm=expr
-setlocal fde=nvim_treesitter#foldexpr()
-setlocal fmr={{{,}}}
-setlocal fdi=#
-setlocal fdl=0
-setlocal fml=1
-setlocal fdn=20
-setlocal nofen
-let s:l = 22 - ((17 * winheight(0) + 21) / 42)
-if s:l < 1 | let s:l = 1 | endif
-keepjumps exe s:l
-normal! zt
-keepjumps 22
+keepjumps 7
 normal! 02|
 wincmd w
-3wincmd w
-wincmd =
+argglobal
+if bufexists(fnamemodify("~/.dotfiles/vim/.config/nvim/vim/statusline.vim", ":p")) | buffer ~/.dotfiles/vim/.config/nvim/vim/statusline.vim | else | edit ~/.dotfiles/vim/.config/nvim/vim/statusline.vim | endif
+if &buftype ==# 'terminal'
+  silent file ~/.dotfiles/vim/.config/nvim/vim/statusline.vim
+endif
+balt ~/.dotfiles/personal/personal/vimwiki/Main/daily_log/2022-10-10.md
+setlocal fdm=expr
+setlocal fde=nvim_treesitter#foldexpr()
+setlocal fmr={{{,}}}
+setlocal fdi=#
+setlocal fdl=0
+setlocal fml=1
+setlocal fdn=20
+setlocal fen
+54
+normal! zo
+114
+normal! zo
+let s:l = 107 - ((26 * winheight(0) + 26) / 52)
+if s:l < 1 | let s:l = 1 | endif
+keepjumps exe s:l
+normal! zt
+keepjumps 107
+normal! 014|
+wincmd w
+exe 'vert 1resize ' . ((&columns * 57 + 97) / 195)
+exe 'vert 2resize ' . ((&columns * 137 + 97) / 195)
 tabnext 1
 if exists('s:wipebuf') && len(win_findbuf(s:wipebuf)) == 0 && getbufvar(s:wipebuf, '&buftype') isnot# 'terminal'
   silent exe 'bwipe ' . s:wipebuf
@@ -109,6 +94,7 @@ if filereadable(s:sx)
   exe "source " . fnameescape(s:sx)
 endif
 let &g:so = s:so_save | let &g:siso = s:siso_save
+set hlsearch
 nohlsearch
 let g:this_session = v:this_session
 let g:this_obsession = v:this_session

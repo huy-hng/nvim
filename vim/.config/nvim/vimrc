@@ -10,10 +10,12 @@ endfun
 
 call SourceDir('functions')
 call SourceDir('key_bindings')
+call SourceDir('plugins')
 
-source $path/sets.vim "slow
+" source $path/sets.vim
+source $path/sets.vim
 source $path/functions.vim
-source $path/user_interface.vim "slow
+source $path/user_interface.vim
 source $path/misc.vim
 
 source $path/plugins/plugins.vim
@@ -27,11 +29,12 @@ if exists('g:neovide')
 	source $path/neovide.vim
 endif
 
-"
+
 " source $path/plugins/gitgutter.vim
-source $path/plugins/goyo.vim
-source $path/plugins/lightline.vim
-source $path/plugins/limelight.vim
-source $path/plugins/vimwiki.vim
-source $path/plugins/ranger.vim
-source $path/plugins/startify.vim
+" source $path/plugins/goyo.vim
+" source $path/plugins/lightline.vim
+" source $path/plugins/limelight.vim
+" source $path/plugins/vimwiki.vim
+" source $path/plugins/ranger.vim
+" source $path/plugins/startify.vim
+" source $path/plugins/quickscope.vim

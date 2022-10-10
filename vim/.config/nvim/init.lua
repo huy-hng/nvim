@@ -7,11 +7,12 @@ package.path = NVIM_CONFIG_PATH .. '?.lua;' .. package.path
 vim.cmd('source ~/.config/nvim/vimrc')
 
 REQUIRE_DIRS = {
+	'lua/helpers',
 	'lua/plugins',
 	'lua/user',
 	'lua/functions',
 	'lua/keymaps',
-	-- 'lua/lsp',
+	'lua/lsp',
 }
 
 local require_dir = require 'helpers.require_dir'
@@ -19,7 +20,7 @@ for _, import in ipairs(REQUIRE_DIRS) do
 	require_dir(import)
 end
 
--- require 'lsp.init'
+require 'lsp.init'
 -- require 'plugins/requires'
 -- require 'user/requires'
 -- require 'functions/requires'

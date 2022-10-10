@@ -4,11 +4,11 @@
 
 
 " add time to statusline
-fun! NeovideStatusline()
-	return MyStatusline() .. "| %{strftime('%H:%M')} "
-endfun
+" fun! NeovideStatusline()
+	" return MyStatusline() .. "| %{strftime('%H:%M')} "
+" endfun
 
-set statusline=%!NeovideStatusline()
+" set statusline=%!NeovideStatusline()
 
 "---------------------------------------
 "             -> Looks <-
@@ -43,7 +43,7 @@ let g:neovide_touch_drag_timeout=0.3
 "             -> Sizes <-
 "---------------------------------------
 let g:neovide_underline_automatic_scaling = v:true
-let g:gui_font_default_size = 12
+let g:gui_font_default_size = 11
 let g:gui_font_size = g:gui_font_default_size
 
 
