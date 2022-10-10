@@ -19,7 +19,6 @@ fun! Surrounder(...)
 	call <SID>move_selection(strlen(a:1))
 endfun
 
-" vnoremap <leader>3 :call <SID>move_selection(3)<CR>
 
 vnoremap ' :call Surrounder("'")<CR>
 vnoremap " :call Surrounder('"')<CR>
@@ -28,11 +27,13 @@ vnoremap ` :call Surrounder('`')<CR>
 vnoremap = :call Surrounder('=')<CR>
 
 vnoremap ( :call Surrounder('(', ')')<CR>
-vnoremap < :call Surrounder('<', '>')<CR>
-vnoremap [ :call Surrounder('[', ']')<CR>
-vnoremap { :call Surrounder('{', '}')<CR>
-
 vnoremap ) :call Surrounder('( ', ' )')<CR>
+
+vnoremap < :call Surrounder('<', '>')<CR>
 vnoremap > :call Surrounder('< ', ' >')<CR>
+
+vnoremap [ :call Surrounder('[', ']')<CR>
 vnoremap ] :call Surrounder('[ ', ' ]')<CR>
+
+vnoremap { :call Surrounder('{', '}')<CR>
 vnoremap } :call Surrounder('{ ', ' }')<CR>

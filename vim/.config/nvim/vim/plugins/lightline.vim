@@ -1,6 +1,3 @@
-" set noshowmode
-
-
 let g:lightline = {}
 let g:lightline.colorscheme = 'tokyonight'
 let g:lightline.active = {}

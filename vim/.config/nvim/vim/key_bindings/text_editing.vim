@@ -26,7 +26,7 @@ function! KeepColumn(action)
 endfunction
 
 
-inoremap <C-v> <C-r>+
+noremap! <C-v> <C-r>+
 nnoremap <leader>p "+p
 nnoremap <leader>y "+y
 " nnoremap <leader>p "0p
@@ -56,12 +56,12 @@ vnoremap <A-k> :m'<-2<cr>`>my`<mzgv`yo`z
 inoremap <A-Tab> <C-t>
 inoremap <S-Tab> <C-d>
 " nnoremap <Tab> >> " tab is ^I (ctrl+i) meaning jumping in jumplist wont work
-noremap <A-Tab> >>
+noremap <Tab> >>
 noremap <S-Tab> <<
 " the double maps are needed because the first pair makes indenting not loose visual
 
 " and the second one recursively binds that to Tab and shift tab
 vnoremap > >gv
 vnoremap < <gv
-vmap <A-Tab> >
+vmap <Tab> >
 vmap <S-Tab> <

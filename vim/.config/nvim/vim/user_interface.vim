@@ -1,6 +1,7 @@
 " silent !stty -ixon > /dev/null 2>/dev/null " causes slow startup
 
 
+set noshowmode " hide current mode (insert, normal, etc)
 "===============================================================================
 "                             |=> Status line <=|
 "===============================================================================
@@ -155,6 +156,7 @@ fun! MyStatusline() abort
 	let l:PmenuSel = focused ? '%#PmenuSel#' : '%#StatusLineNC#'
 
 	let l:normal_text = focused ? '%#StatusLine#' : '%#StatusLineNC#'
+	let l:normal_text = focused ? '%2*' : '%#StatusLineNC#'
 	" let l:normal_text = focused ? '%1*' : '%#StatusLineNC#'
 
 	let l:filename = expand('%:t') !=# '' ? expand('%:t') : '[No Name]'
@@ -204,11 +206,14 @@ endfun
 set statusline=%!MyStatusline()
 hi User1 term=inverse,bold cterm=inverse,bold ctermfg=red
 hi User1 cterm=bold ctermfg=blue ctermbg=red
-hi User1 gui=bold, guibg=none guifg=none
+hi User1 gui=bold cterm=bold guibg=none guifg=none
+hi User2 guibg=#1a1b26 guifg=none
+
 
 function! Buf_total_num()
     return len(filter(range(1, bufnr('$')), 'buflisted(v:val)'))
 endfunction
+
 function! File_size(f)
     let l:size = getfsize(expand(a:f))
     if l:size == 0 || l:size == -1 || l:size == -2

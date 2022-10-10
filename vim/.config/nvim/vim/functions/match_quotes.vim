@@ -1,4 +1,3 @@
-
 fun! s:get_closest()
 	let l:char_list = ['"', "'", '(', ')', '[', ']', '{', '}', '<', '>']
 	" echo getline('.'), '\%' . col('.') . 'c.'
@@ -29,7 +28,7 @@ fun! MatchCharacter()
 	endif
 endfun
 
-nnoremap <leader>1 <cmd>lua MatchCharacter()<CR>
-nnoremap % %
+" nnoremap <leader>1 <cmd>lua MatchCharacter()<CR>
+" nnoremap % <cmd>call MatchCharacter()<cr>
 
 

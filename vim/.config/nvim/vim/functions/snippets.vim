@@ -1,24 +1,26 @@
 command! SmallSection call Sectionize(40, 0.5, '-', ['-> ', " <-"])
 command! BigSection call Sectionize()
 
+
 fun! Sectionize(size=80, location=0.5, divider='=', surround=['|=> ', ' <=|'])
 	normal! O
 	call <SID>create_divider(a:size, a:divider)
 
 	call cursor(line('.') + 1, 1)
 
+	execute 'normal!i' . a:surround[0]
+	execute 'normal!A' . a:surround[1]
+	Commentary
+
 	let l:text_len = strlen(getline('.'))
 	let l:text_middle = floor(l:text_len / 2.0)
 
-	execute 'normal!i' . a:surround[0]
-	execute 'normal!A' . a:surround[1]
+	let l:spaces = a:location * a:size - l:text_middle
+	" let l:spaces = (a:location * a:size - l:text_middle) - strlen(a:surround[0])
+	let l:spaces -= 2
 
-	let l:spaces = (a:location * a:size - l:text_middle) - strlen(a:surround[0])
-	let l:spaces -= 3
-
-	Commentary
 	call cursor(line('.'), 2)
-	execute 'normal!i' . repeat(' ', float2nr(l:spaces))
+	execute 'normal!wi' . repeat(' ', float2nr(l:spaces))
 
 	normal! o
 	call <SID>create_divider(a:size, a:divider)

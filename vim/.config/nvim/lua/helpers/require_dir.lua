@@ -58,6 +58,7 @@ vim.cmd('command! UpdateAllRequireFiles lua UpdateAllRequireFiles()')
 return function(dir)
 	local requires = get_all_requires(dir)
 	for _, require_file in ipairs(requires) do
+		-- print(require_file)
 		require(require_file)
 	end
 end

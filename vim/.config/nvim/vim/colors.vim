@@ -25,6 +25,7 @@ let g:tokyo_themes = {
 			\ 'moon': 'tokyonight-moon',
 			\ 'night': 'tokyonight-night',
 			\ }
+
 let g:color_theme = g:tokyo_themes['day'] " bright af
 let g:color_theme = g:tokyo_themes['storm'] " soothing
 let g:color_theme = g:tokyo_themes['moon'] " high contrast

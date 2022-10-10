@@ -9,7 +9,6 @@ wk.setup {
     marks = true, -- shows a list of your marks on ' and `
     registers = true, -- shows your registers on " in NORMAL or <C-r> in INSERT mode
     spelling = {
-
       enabled = false, -- enabling this will show WhichKey when pressing z= to select spelling suggestions
       suggestions = 20, -- how many suggestions should be shown in the list?
     },
@@ -47,12 +46,14 @@ wk.setup {
   window = {
     border = "none", -- none, single, double, shadow
     position = "bottom", -- bottom, top
-    margin = { 1, 0, 1, 0 }, -- extra window margin [top, right, bottom, left]
+    margin = { 0, 0, 0, 0 }, -- extra window margin [top, right, bottom, left]
+    -- padding = { 0, 0, 0, 0 }, -- extra window padding [top, right, bottom, left]
+    -- margin = { 1, 0, 1, 0 }, -- extra window margin [top, right, bottom, left]
     padding = { 2, 1, 2, 1 }, -- extra window padding [top, right, bottom, left]
     winblend = 0
   },
   layout = {
-    height = { min = 4, max = 25 }, -- min and max height of the columns
+    height = { min = 10, max = 25 }, -- min and max height of the columns
     width = { min = 20, max = 50 }, -- min and max width of the columns
     spacing = 5, -- spacing between columns
     align = "center", -- align columns left, center or right
@@ -61,7 +62,14 @@ wk.setup {
   hidden = { "<silent>", "<cmd>", "<Cmd>", "<CR>", "call", "lua", "^:", "^ "}, -- hide mapping boilerplate
   show_help = true, -- show help message on the command line when the popup is visible
   -- triggers = "auto", -- automatically setup triggers
-  triggers = {'auto', '<leader>', '<C-w>'}, -- or specify a list manually
+  triggers = {
+		'auto',
+		'<leader>',
+		'<C-w>',
+		'<C-n>',
+		'g',
+  },
+  -- triggers = '<leader>',
   triggers_blacklist = {
     -- list of mode / prefixes that should never be hooked by WhichKey
     -- this is mostly relevant for key maps that start with a native binding
@@ -76,161 +84,6 @@ wk.setup {
     filetypes = { "TelescopePrompt" },
   },
 }
-
-
---==============================================================================
---                         |=> Window Bindings <=|
---==============================================================================
-wk.register({
-	['<C-w>'] = {
-		name = '+Window',
-		-- creating windows
-		n = 'New empty Window',
-		['< s,v >'] = 'Split Horizontal/Vertical',
-		['^'] = 'Split and edit alternate file',
-		-- closing windows
-		['< c,q >'] = 'Close/Quit',
-		o = 'Close all, except current',
-		-- Moving windows around
-		['< r,R >'] = 'Rotate down/right',
-		x = 'Swap with next',
-		-- Change / move window layout
-		['< H,J,K,L >'] = 'move window to the far sides',
-		['< h,j,k,l >'] = 'move cursor to window',
-		-- resizing
-		['='] = 'make windows equal size',
-		['< |,_ >'] = 'set width,height to N (full)',
-		['<,>'] = 'de-/increase width',
-		['< -,+ >'] = 'de-/increase height',
-	}
-})
-
---==============================================================================
---                              |=> Vimwiki <=|
---==============================================================================
-wk.register({
-	['<leader>w'] = {
-		name = '+Vimwiki',
-		w = 'Wiki Index',
-		i = 'Diary Index',
-		s = 'Select Wiki Index',
-		d = { '<cmd>VimwikiMakeDiaryNote<cr>', 'Daily Log Note'},
-		l = { '<cmd>VimwikiDiaryGenerateLinks<cr>', 'Update Daily Log Note'},
-	}
-})
-
-
---==============================================================================
---                              |=> Buffers <=|
---==============================================================================
-wk.register({
-	['<leader>b'] = {
-		name = '+Buffers',
-		-- h = 'Previous Buffer',
-		-- l = 'Next Buffer',
-		-- b = 'list Buffers',
-		-- d = 'Close current Buffer',
-		da = 'Close all buffers except current',
-		-- f = { '<cmd>Telescope buffers<cr>', 'Fuzzy find Buffers' },
-	}
-})
-
-function options(desc)
-	return {
-		noremap=true,
-		silent=true,
-		desc=desc
-	}
-end
-
-function cmd_wrapper(cmd)
-	cmd = string.gsub(cmd, '|', '<cr>:')
-	return '<cmd>' .. cmd .. '<cr>'
-end
-
-
-
-function map(lhs, rhs, desc) -- nvo
-	vim.keymap.set('', lhs, rhs, options(desc))
-end
-
-function nor(lhs, rhs, desc)
-	vim.keymap.set('n', lhs, rhs, options(desc))
-end
-
-function vis(lhs, rhs, desc)
-	vim.keymap.set('v', lhs, rhs, options(desc))
-end
-
-function cmdins(lhs, rhs, desc)
-	vim.keymap.set('!', lhs, rhs, options(desc))
-end
-
-function cmd(lhs, rhs, desc)
-	vim.keymap.set('c', lhs, rhs, options(desc))
-end
-
-function ins(lhs, rhs, desc)
-	vim.keymap.set('i', lhs, rhs, options(desc))
-end
-
-function ter(lhs, rhs, desc)
-	vim.keymap.set('t', lhs, rhs, options(desc))
-end
-
-
-nor('<leader>bh', cmd_wrapper('bprev'), 'Prev')
-nor('<leader>bl', cmd_wrapper('bnext'), 'Next')
-nor('<leader>bb', ':buffers<cr>:buffer<space>', 'Select')
-nor('<leader>bda', cmd_wrapper('%bd | e# | bd#'), 'Close all, except current')
-nor('<leader>bd', cmd_wrapper('Bclose | tabclose') .. 'gT', 'Close current')
-nor('<leader>bf', cmd_wrapper('Telescope buffers'), 'Fuzzy find')
-
-
-
-
---==============================================================================
---                              |=> Ignores <=|
---==============================================================================
-
--- wk.register({
---     ['C-0'] = "which_key_ignore",
---     ['C-1'] = "which_key_ignore",
---     ['C-2'] = "which_key_ignore",
---     ['C-3'] = "which_key_ignore",
---     ['C-4'] = "which_key_ignore",
---     ['C-5'] = "which_key_ignore",
---     ['C-^'] = "which_key_ignore",
---     ['C-7'] = "which_key_ignore",
---     ['C-8'] = "which_key_ignore",
---     ['C-9'] = "which_key_ignore",
--- })
-
--- method 2
-wk.register({
-  ['<C>'] = {
-    f = {
-      ['0'] = 'which_key_ignore',
-      ['1'] = 'which_key_ignore',
-      ['2'] = 'which_key_ignore',
-      ['3'] = 'which_key_ignore',
-      ['4'] = 'which_key_ignore',
-      ['5'] = 'which_key_ignore',
-      ['^'] = 'which_key_ignore',
-      ['7'] = 'which_key_ignore',
-      ['8'] = 'which_key_ignore',
-      ['9'] = 'which_key_ignore',
-    },
-  },
-})
-
-
-
-
-
-
-
-
 
 
 
@@ -272,14 +125,14 @@ wk.register({
 -- })
 
 -- method 3
-wk.register({
-  ["<leader>f"] = {
-    name = "+file",
-    f = { "<cmd>Telescope find_files<cr>", "Find File" },
-    r = { "<cmd>Telescope oldfiles<cr>", "Open Recent File" },
-    n = { "<cmd>enew<cr>", "New File" },
-  },
-})
+-- wk.register({
+--   ["<leader>f"] = {
+--     name = "+file",
+--     f = { "<cmd>Telescope find_files<cr>", "Find File" },
+--     r = { "<cmd>Telescope oldfiles<cr>", "Open Recent File" },
+--     n = { "<cmd>enew<cr>", "New File" },
+--   },
+-- })
 
 -- -- method 4
 -- wk.register({

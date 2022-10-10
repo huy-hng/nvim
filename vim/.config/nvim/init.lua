@@ -10,7 +10,8 @@ REQUIRE_DIRS = {
 	'lua/plugins',
 	'lua/user',
 	'lua/functions',
-	'lua/lsp',
+	'lua/keymaps',
+	-- 'lua/lsp',
 }
 
 local require_dir = require 'helpers.require_dir'
@@ -18,4 +19,8 @@ for _, import in ipairs(REQUIRE_DIRS) do
 	require_dir(import)
 end
 
--- return {}
+-- require 'lsp.init'
+-- require 'plugins/requires'
+-- require 'user/requires'
+-- require 'functions/requires'
+-- require 'keymaps/requires'

@@ -74,6 +74,13 @@ inoremap <C-/> <cmd>Commentary<cr>
 nnoremap <C-/> <cmd>Commentary<cr>
 vnoremap <silent> <C-/> :Commentary<cr>
 
+
+" unmap! <C-h>
+noremap! <C-h> <Left>
+noremap! <C-j> <Down>
+noremap! <C-k> <Up>
+noremap! <C-l> <Right>
+
 noremap! <C-BS> <C-w>
 
 " nnoremap <C-S-Tab> <<

@@ -67,7 +67,8 @@ function! Create_wiki(name)
 				\ 'python': 'python',
 				\ 'bash': 'bash',
 				\ 'tmux': 'tmux',
-				\ 'vim': 'vim'
+				\ 'vim': 'vim',
+				\ 'lua': 'lua'
 				\ }
 	return wiki
 endfunction

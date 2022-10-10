@@ -108,11 +108,6 @@ function contains(list, x)
 	return false
 end
 
+local nor = require('helpers.keymaps').nor
 
-local opts = { noremap = true, silent = true }
-
--- vim.keymap.set({'n', 'v'}, "<leader>3", ':lua MatchCharacter()<CR>', opts)
-vim.keymap.set('n', '%', ':lua MatchCharacter()<CR>', opts)
--- vim.map
--- nnoremap <leader>1 <cmd>lua MatchCharacter()<CR>
--- MatchCharacter()
+nor('%', MatchCharacter, 'Jump to matching quote or whatever')

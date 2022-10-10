@@ -2,14 +2,26 @@ set autoread
 
 augroup somegroup
 	autocmd!
+    autocmd User Startified setlocal statusline=\ 
+	autocmd TabNewEntered * Startify
 	" Set to auto read when a file is changed from the outside
 	" autocmd FocusGained,BufEnter,CursorHold,CursorHoldI * if mode() != 'c' | checktime | endif
 
 	" Return to last edit position when opening files
 	autocmd BufReadPost * if line("'\"") > 1 && line("'\"") <= line("$") | exe "normal! g'\"" | endif
-	" autocmd FileType help : set conceallevel=0
-		autocmd BufEnter * if &filetype == 'help' | set conceallevel=0 | else | set conceallevel=2 | endif
+
+	" autocmd BufEnter * if &filetype == 'help' | set conceallevel=0 | else | set conceallevel=2 | endif
 augroup END
+
+" augroup startup
+" 	autocmd!
+" 	autocmd VimEnter *
+" 			\   if !argc()
+" 			\ |   Startify
+" 			\ |   NvimTreeOpen
+" 			\ |   wincmd w
+" 			\ | endif
+" augroup END
 
 
 function! LineNumbers(show=1)

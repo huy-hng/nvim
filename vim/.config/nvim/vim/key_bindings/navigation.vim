@@ -1,34 +1,43 @@
 "===============================================================================
 " => Buffers
 "===============================================================================
+fun! GoToBufferIndex(num)
+	" let l:buffer_list = getbufinfo({'bufloaded': 1, 'buflisted': 1})
+	let l:buffer_list = getbufinfo({'buflisted': 1})
+	let l:len = len(buffer_list)
 
-nnoremap <A-1> <cmd>call GoToBufferIndex(1)<cr>
-nnoremap <A-2> <cmd>call GoToBufferIndex(2)<cr>
-nnoremap <A-3> <cmd>call GoToBufferIndex(3)<cr>
-nnoremap <A-4> <cmd>call GoToBufferIndex(4)<cr>
-nnoremap <A-5> <cmd>call GoToBufferIndex(5)<cr>
-nnoremap <A-6> <cmd>call GoToBufferIndex(6)<cr>
-nnoremap <A-7> <cmd>call GoToBufferIndex(7)<cr>
-nnoremap <A-8> <cmd>call GoToBufferIndex(8)<cr>
-nnoremap <A-9> <cmd>call GoToBufferIndex(9)<cr>
+	let l:index = a:num
+	if (a:num > l:len)
+		let l:index = l:len
+	endif
 
-" nnoremap <leader>bl :bnext<cr>
+	let l:index -= 1
+	" echo l:buffer_list[l:index].bufnr
+	exec 'buffer ' .. l:buffer_list[l:index].bufnr
+endfun
 
-" nnoremap <leader>bh :bprevious<cr>
-" nnoremap <Leader>bb :buffers<CR>:buffer<Space>
-" nnoremap <leader>bd :Bclose<cr>:tabclose<cr>gT
-" nnoremap <leader>bda <cmd> %bd <bar> e# <bar> bd# <cr>
-" nnoremap <leader>bf <cmd>
+nnoremap <c> :echo 'test'<cr>
 
-" 'l':  'Next Buffer',
-" 'h':  'Previous Buffer',
-" 'n':  'List Buffers',
-" 'd':  'Close current buffer',
-" 'da': 'Close all buffers except current one',
+" nnoremap <C-1> <cmd>call GoToBufferIndex(1)<cr>
+" nnoremap <C-1> <cmd>BufferLineGoToBuffer 1<cr>
+" nnoremap <C-2> <cmd>BufferLineGoToBuffer 2<cr>
+" nnoremap <C-3> <cmd>BufferLineGoToBuffer 3<cr>
+" nnoremap <C-4> <cmd>BufferLineGoToBuffer 4<cr>
+" nnoremap <C-5> <cmd>BufferLineGoToBuffer 5<cr>
+" nnoremap <C-6> <cmd>BufferLineGoToBuffer 6<cr>
+" nnoremap <C-7> <cmd>BufferLineGoToBuffer 7<cr>
+" nnoremap <C-8> <cmd>BufferLineGoToBuffer 8<cr>
+" nnoremap <C-9> <cmd>BufferLineGoToBuffer 9<cr>
 
-
-" Switch CWD to the directory of the open buffer
-nnoremap <leader>cd :cd %:p:h<cr>:pwd<cr>
+" nnoremap <A-1> <cmd>BufferLineGoToBuffer 1<cr>
+" nnoremap <A-2> <cmd>BufferLineGoToBuffer 2<cr>
+" nnoremap <A-3> <cmd>BufferLineGoToBuffer 3<cr>
+" nnoremap <A-4> <cmd>BufferLineGoToBuffer 4<cr>
+" nnoremap <A-5> <cmd>BufferLineGoToBuffer 5<cr>
+" nnoremap <A-6> <cmd>BufferLineGoToBuffer 6<cr>
+" nnoremap <A-7> <cmd>BufferLineGoToBuffer 7<cr>
+" nnoremap <A-8> <cmd>BufferLineGoToBuffer 8<cr>
+" nnoremap <A-9> <cmd>BufferLineGoToBuffer 9<cr>
 
 
 " Specify the behavior when switching between buffers 
@@ -53,10 +62,12 @@ noremap <C-j> <C-W>j
 noremap <C-k> <C-W>k
 noremap <C-l> <C-W>l
 
+
 nnoremap <Up>    <cmd>resize -4<CR>
 nnoremap <Down>  <cmd>resize +4<CR>
 nnoremap <Left>  <cmd>vertical resize -4<CR>
 nnoremap <Right> <cmd>vertical resize +4<CR>
+
 
 "===============================================================================
 " => Tabs

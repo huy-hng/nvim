@@ -10,6 +10,7 @@ endfun
 
 call SourceDir('functions')
 call SourceDir('key_bindings')
+
 source $path/sets.vim "slow
 source $path/functions.vim
 source $path/user_interface.vim "slow
@@ -20,9 +21,17 @@ source $path/colors.vim
 
 source $path/autocmds.vim
 
-source $path/alacritty.vim
+" source $path/alacritty.vim
 
 if exists('g:neovide')
 	source $path/neovide.vim
 endif
 
+"
+" source $path/plugins/gitgutter.vim
+source $path/plugins/goyo.vim
+source $path/plugins/lightline.vim
+source $path/plugins/limelight.vim
+source $path/plugins/vimwiki.vim
+source $path/plugins/ranger.vim
+source $path/plugins/startify.vim
