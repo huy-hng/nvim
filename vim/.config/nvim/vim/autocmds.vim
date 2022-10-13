@@ -52,11 +52,11 @@ call LineNumbers()
 
 augroup filetypes
 	autocmd!
-	autocmd BufNewFile,BufRead *.env		set filetype=zsh
-	autocmd BufNewFile,BufRead *.profile	set filetype=zsh
-	autocmd BufNewFile,BufRead *.rc			set filetype=zsh
-	autocmd BufNewFile,BufRead *.login		set filetype=zsh
-	autocmd BufNewFile,BufRead *.logout		set filetype=zsh
+	autocmd BufNewFile,BufRead *.env		set filetype=bash
+	autocmd BufNewFile,BufRead *.profile	set filetype=bash
+	autocmd BufNewFile,BufRead *.rc			set filetype=bash
+	autocmd BufNewFile,BufRead *.login		set filetype=bash
+	autocmd BufNewFile,BufRead *.logout		set filetype=bash
 
 	autocmd BufNewFile,BufRead *.tmux		set filetype=tmux
 	autocmd BufNewFile,BufRead *.vim		set filetype=vim

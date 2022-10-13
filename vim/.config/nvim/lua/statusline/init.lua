@@ -13,17 +13,8 @@ local data = require('statusline.data')
 local function mode()
 
 	local current_mode = function()
-		local active = vim.g.statusline_winid == vim.fn.win_getid(vim.fn.winnr())
 		local m = vim.api.nvim_get_mode().mode
-		local name = data.mode_names[m]
-		return name
-		-- local color = ''
-		-- if active then
-		-- 	color = data.mode_colors[m]
-		-- else
-		-- 	color = 'StatusLineNC'
-		-- end
-		-- return '%#'..color..'#'..name
+		return data.mode_names[m]
 	end
 
 	local ref = StoreFunction(current_mode)

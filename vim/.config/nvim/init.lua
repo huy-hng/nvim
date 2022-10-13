@@ -21,6 +21,7 @@ for _, import in ipairs(REQUIRE_DIRS) do
 end
 
 require 'lsp.init'
+require 'statusline'
 -- require 'plugins/requires'
 -- require 'user/requires'
 -- require 'functions/requires'
