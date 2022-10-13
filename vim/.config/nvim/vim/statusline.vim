@@ -41,9 +41,8 @@ augroup statusline
     " autocmd WinLeave * :setlocal statusline=%!ActiveStatusline()
 augroup END
 
-" set statusline=%!v:lua.Statusline()
-" set statusline=%#TabLineSel#alsdkjal%#Normal#sdkjh
-set statusline=%!CombinedStatusline()
+set statusline=%!v:lua.create_statusline()
+" set statusline=%!CombinedStatusline()
 
 hi User1 term=inverse,bold cterm=inverse,bold ctermfg=red
 hi User1 cterm=bold ctermfg=blue ctermbg=red

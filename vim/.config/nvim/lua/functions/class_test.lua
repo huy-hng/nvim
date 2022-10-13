@@ -4,6 +4,8 @@ function Account:new(o)
 	o = o or {} -- create object if user does not provide one
 	setmetatable(o, self)
 	self.__index = self
+	self.a = 1
+	self.b = 2
 	return o
 end
 
@@ -24,13 +26,17 @@ local a = Account:new{balance = 20}
 a:deposit(200.00)
 a:withdraw(100.00)
 
-P(a.balance)
 
 local b = Account:new()
 b:deposit(50.0)
-P(a.balance)
 
-P(b.balance)
+a.a = 9
+
+-- P(a.a)
+-- P(a.b)
+
+-- P(b.a)
+-- P(b.b)
 -- P(a:get_balance())
 -- P(b:get_balance())
 
