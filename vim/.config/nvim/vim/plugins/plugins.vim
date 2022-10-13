@@ -106,8 +106,10 @@ Plug 'folke/which-key.nvim'
 
 Plug 'tpope/vim-obsession' " save vim sessions
 Plug 'tpope/vim-fugitive' " git stuff
-Plug 'tpope/vim-commentary' " comments depending on filetype
+" Plug 'tpope/vim-commentary' " comments depending on filetype
 Plug 'tpope/vim-surround'
+
+Plug 'numToStr/Comment.nvim'
 "
 " Plug 'airblade/vim-gitgutter' " display changes on side
 Plug 'lewis6991/gitsigns.nvim'

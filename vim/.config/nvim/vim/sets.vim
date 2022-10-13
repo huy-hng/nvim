@@ -15,7 +15,7 @@ set nocursorline
 set formatoptions-=cro " default tcqj
 
 " show complete option popup
-set completeopt=menu,menuone,noselect,preview
+set completeopt=menu,menuone,noselect,preview " noinsert test this option
 
 " set nohlsearch
 set foldcolumn=auto

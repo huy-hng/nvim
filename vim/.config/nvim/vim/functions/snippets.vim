@@ -10,13 +10,13 @@ fun! Sectionize(size=80, location=0.5, divider='=', surround=['|=> ', ' <=|'])
 
 	execute 'normal!i' . a:surround[0]
 	execute 'normal!A' . a:surround[1]
-	Commentary
+
+	lua require('Comment.api').toggle.linewise.current()
 
 	let l:text_len = strlen(getline('.'))
 	let l:text_middle = floor(l:text_len / 2.0)
 
 	let l:spaces = a:location * a:size - l:text_middle
-	" let l:spaces = (a:location * a:size - l:text_middle) - strlen(a:surround[0])
 	let l:spaces -= 2
 
 	call cursor(line('.'), 2)
@@ -28,14 +28,12 @@ endfun
 
 
 fun! s:create_divider(size, divider)
-	call <SID>empty_comment()
+	call <SID>comment()
 	let l:comment_len = strlen(getline('.'))
 	execute 'normal!a' . repeat(a:divider, a:size - l:comment_len)
 endfun
 
 
-fun! s:empty_comment()
-	normal!icomment
-	Commentary
-	normal!0wDx
+fun! s:comment()
+	lua require('Comment.api').toggle.linewise.current(nil, {})
 endfun

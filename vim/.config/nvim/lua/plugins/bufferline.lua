@@ -10,7 +10,7 @@ bufferline.setup {
 
 	options = {
 		-- mode = 'tabs',
-		numbers = 'ordinal', -- | 'ordinal' | 'buffer_id' | 'both' | function({ ordinal, id, lower, raise }): string,
+		numbers = 'none', -- | 'ordinal' | 'buffer_id' | 'both' | function({ ordinal, id, lower, raise }): string,
 		-- numbers = function(opts)
 		--	return string.format('%s.%s', opts.ordinal, opts.lower(opts.id))
 		-- end,

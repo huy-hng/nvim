@@ -56,27 +56,27 @@ local function lsp_highlight_document(client)
 	-- end
 end
 
+local buf_nnoremap = function(bufnr, lhs, rhs, desc, opts)
+	opts = opts or {}
+	opts.buffer = bufnr
+	nmap(lhs, rhs, desc, opts)
+end
+
+local fn = require('helpers.wrappers').fn
 local function lsp_keymaps(bufnr)
-	local opts = { noremap = true, silent = true }
-	vim.api.nvim_buf_set_keymap(bufnr, "n", "gD", "<cmd>lua vim.lsp.buf.declaration()<CR>", opts)
-	vim.api.nvim_buf_set_keymap(bufnr, "n", "gd", "<cmd>lua vim.lsp.buf.definition()<CR>", opts)
-	vim.api.nvim_buf_set_keymap(bufnr, "n", "K", "<cmd>lua vim.lsp.buf.hover()<CR>", opts)
-	vim.api.nvim_buf_set_keymap(bufnr, "n", "gi", "<cmd>lua vim.lsp.buf.implementation()<CR>", opts)
-	-- vim.api.nvim_buf_set_keymap(bufnr, "n", "<C-k>", "<cmd>lua vim.lsp.buf.signature_help()<CR>", opts)
-	-- vim.api.nvim_buf_set_keymap(bufnr, "n", "<leader>rn", "<cmd>lua vim.lsp.buf.rename()<CR>", opts)
-	vim.api.nvim_buf_set_keymap(bufnr, "n", "gr", "<cmd>lua vim.lsp.buf.references()<CR>", opts)
-	-- vim.api.nvim_buf_set_keymap(bufnr, "n", "<leader>ca", "<cmd>lua vim.lsp.buf.code_action()<CR>", opts)
-	-- vim.api.nvim_buf_set_keymap(bufnr, "n", "<leader>f", "<cmd>lua vim.diagnostic.open_float()<CR>", opts)
-	vim.api.nvim_buf_set_keymap(bufnr, "n", "[d", '<cmd>lua vim.diagnostic.goto_prev({ border = "rounded" })<CR>', opts)
-	vim.api.nvim_buf_set_keymap(
-		bufnr,
-		"n",
-		"gl",
-		'<cmd>lua vim.diagnostic.open_float({ border = "rounded" })<CR>',
-		opts
-	)
-	vim.api.nvim_buf_set_keymap(bufnr, "n", "]d", '<cmd>lua vim.diagnostic.goto_next({ border = "rounded" })<CR>', opts)
-	-- vim.api.nvim_buf_set_keymap(bufnr, "n", "<leader>q", "<cmd>lua vim.diagnostic.setloclist()<CR>", opts)
+	buf_nnoremap(bufnr, 'gD', vim.lsp.buf.declaration)
+	buf_nnoremap(bufnr, 'gd', vim.lsp.buf.definition)
+	buf_nnoremap(bufnr, 'K', vim.lsp.buf.hover)
+	buf_nnoremap(bufnr, 'gi', vim.lsp.buf.implementation)
+	-- buf_nnoremap(bufnr, '<C-k>', vim.lsp.buf.signature_help)
+	buf_nnoremap(bufnr, '<F2>', vim.lsp.buf.rename)
+	buf_nnoremap(bufnr, '<F12>', vim.lsp.buf.references)
+	buf_nnoremap(bufnr, '<leader>ca', vim.lsp.buf.code_action)
+	buf_nnoremap(bufnr, '<leader>f', vim.diagnostic.open_float)
+	buf_nnoremap(bufnr, '[d', fn(vim.diagnostic.goto_prev, { border = 'rounded' }))
+	buf_nnoremap(bufnr, 'gl', fn(vim.diagnostic.open_float, { border = 'rounded' }))
+	buf_nnoremap(bufnr, ']d', fn(vim.diagnostic.goto_next, { border = 'rounded' }))
+	-- buf_nnoremap(bufnr, '<leader>q', vim.diagnostic.setloclist)
 	vim.cmd([[ command! Format execute 'lua vim.lsp.buf.format{async=true}' ]])
 end
 

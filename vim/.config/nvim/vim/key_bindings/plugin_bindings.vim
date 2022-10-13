@@ -1,12 +1,11 @@
 " Comments
-inoremap <C-_> <cmd>Commentary<CR>
-nnoremap <C-_> <cmd>Commentary<CR>
-vnoremap <silent> <C-_> :Commentary<CR>
-" vnoremap <C-_> <cmd>'<,'>Commentary<CR>
-
-inoremap <C-/> <cmd>Commentary<CR>
-nnoremap <C-/> <cmd>Commentary<CR>
-vnoremap <silent> <C-/> :Commentary<CR>
+" inoremap <C-_> <cmd>Commentary<CR>
+" nnoremap <C-_> <cmd>Commentary<CR>
+" vnoremap <silent> <C-_> :Commentary<CR>
+"
+" inoremap <C-/> <cmd>Commentary<CR>
+" nnoremap <C-/> <cmd>Commentary<CR>
+" vnoremap <silent> <C-/> :Commentary<CR>
 
 " Vimwiki
 " nnoremap <silent><Leader><CR> :call Create_Vimwiki_Link()<CR>

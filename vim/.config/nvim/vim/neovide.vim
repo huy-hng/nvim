@@ -14,6 +14,8 @@
 "             -> Looks <-
 "---------------------------------------
 let g:neovide_fullscreen = v:true
+let g:neovide_profiler = v:false
+
 
 let g:neovide_transparency = 1
 let g:neovide_floating_blur_amount_x = 6.0
@@ -24,11 +26,12 @@ let g:neovide_floating_blur_amount_y = 6.0
 
 " let g:gui_font_face = 'Fira Code Retina'
 let g:gui_font_face = 'FiraCode Nerd Font'
+" :h12
 
 "---------------------------------------
 "           -> Behavior <-
 "---------------------------------------
-let g:neovide_refresh_rate = 50
+let g:neovide_refresh_rate = 45
 let g:neovide_refresh_rate_idle = 15
 let g:neovide_confirm_quit = v:true
 let g:neovide_remember_window_size = v:true
@@ -38,12 +41,15 @@ let g:neovide_hide_mouse_when_typing = v:true
 let g:neovide_touch_deadzone=100
 let g:neovide_touch_drag_timeout=0.3
 
+" let g:neovide_no_idle = v:true " not sure if this helps with anything
+
 
 "---------------------------------------
 "             -> Sizes <-
 "---------------------------------------
 let g:neovide_underline_automatic_scaling = v:true
-let g:gui_font_default_size = 11
+let g:gui_font_default_size = 12
+let g:neovide_scale_factor = 1.0
 let g:gui_font_size = g:gui_font_default_size
 
 
@@ -54,8 +60,8 @@ let g:gui_font_size = g:gui_font_default_size
 " let g:neovide_cursor_trail_size = 0
 let g:neovide_cursor_animation_length = 0.02 " 0.13
 let g:neovide_cursor_trail_size = 0.2 " 0.8
-let g:neovide_cursor_antialiasing = v:false
-" let g:neovide_cursor_antialiasing=v:true
+" let g:neovide_cursor_antialiasing = v:false
+let g:neovide_cursor_antialiasing=v:true
 
 " let g:neovide_cursor_vfx_mode = "pixiedust"
 let g:neovide_cursor_vfx_mode = ""
@@ -70,9 +76,9 @@ let g:neovide_cursor_vfx_particle_speed=50.0
 "===============================================================================
 nnoremap <leader>q <cmd>Bdelete<cr>
 
-inoremap <C-/> <cmd>Commentary<cr>
-nnoremap <C-/> <cmd>Commentary<cr>
-vnoremap <silent> <C-/> :Commentary<cr>
+" inoremap <C-/> <cmd>Commentary<cr>
+" nnoremap <C-/> <cmd>Commentary<cr>
+" vnoremap <silent> <C-/> :Commentary<cr>
 
 
 " unmap! <C-h>
@@ -98,8 +104,8 @@ nnoremap <C-;> q:
 " nnoremap <C-/> q/
 
 nnoremap <C-_> <NOP>
-nnoremap <C-_> <cmd>lua ResizeGuiFont(-1)<cr>
-nnoremap <C-+> <cmd>lua ResizeGuiFont(1)<cr>
+nnoremap <C-_> <cmd>lua ResizeGuiFont(-0.5)<cr>
+nnoremap <C-+> <cmd>lua ResizeGuiFont(0.5)<cr>
 nnoremap <C-)> <cmd>lua ResetGuiFont()<cr>
 " nnoremap <C-=> <NOP>
 " nnoremap <C--> <NOP>

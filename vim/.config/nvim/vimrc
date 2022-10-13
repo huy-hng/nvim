@@ -12,7 +12,6 @@ call SourceDir('functions')
 call SourceDir('key_bindings')
 call SourceDir('plugins')
 
-" source $path/sets.vim
 source $path/sets.vim
 source $path/functions.vim
 source $path/user_interface.vim

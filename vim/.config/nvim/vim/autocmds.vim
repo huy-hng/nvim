@@ -1,5 +1,12 @@
 set autoread
 
+
+augroup DisableCompletion
+	autocmd!
+	" change to vimwiki TODO
+	" autocmd FileType TelescopePrompt lua require('cmp').setup.buffer {enabled = false}
+augroup END
+
 augroup somegroup
 	autocmd!
     autocmd User Startified setlocal statusline=\ 
@@ -23,6 +30,12 @@ augroup END
 " 			\ | endif
 " augroup END
 
+
+augroup NoComment
+	autocmd!
+	autocmd InsertEnter * :set formatoptions-=cro
+	autocmd InsertLeave * :set formatoptions-=cro
+augroup END
 
 function! LineNumbers(show=1)
 	augroup line_numbers

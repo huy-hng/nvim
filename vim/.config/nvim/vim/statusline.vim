@@ -35,13 +35,16 @@ endfunction
 
 augroup statusline
     autocmd!
-    autocmd WinEnter * :lua Statusline()
+    " autocmd WinEnter * :lua Statusline()
     " autocmd WinEnter * :call ActiveStatusline()
     " autocmd WinEnter * :setlocal statusline=%!ActiveStatusline()
     " autocmd WinLeave * :setlocal statusline=%!ActiveStatusline()
 augroup END
 
-" set statusline=%!MyStatusline()
+" set statusline=%!v:lua.Statusline()
+" set statusline=%#TabLineSel#alsdkjal%#Normal#sdkjh
+set statusline=%!CombinedStatusline()
+
 hi User1 term=inverse,bold cterm=inverse,bold ctermfg=red
 hi User1 cterm=bold ctermfg=blue ctermbg=red
 hi User1 gui=bold cterm=bold guibg=none guifg=none
@@ -83,31 +86,28 @@ fun! ActiveStatusline()
 
 
 	let s = ''
-	let s = s .. l:TablineTabLineSel .. l:Bold .. ' %{g:currentmode[mode()]}%* '
-
-	let s = s .. l:PmenuSel
-	let s = s .. ' %<'
-	let s = s .. l:filename
-	let s = s .. l:modified
-	let s = s .. '%h'
-	let s = s .. '%r'
-	let s = s .. '%{GitBranch()} '
-	let s = s .. ' | '
-	let s = s .. '%{GitStatus()} '
-	let s = s .. l:normal_text
-	let s = s .. '%='
-	" let s = s .. '%#ErrorMsg#' .. '%{SessionTracking()} ' .. l:normal_text
-	let s = s .. '%y '
-	let s = s .. l:PmenuSel
-	let s = s .. ' %p%% '
-	let s = s .. l:TablineTabLineSel
-	let s = s .. ' %l:%c '
-	" let s = s .. ' %l:%c(%v) '
+	let s .= l:TablineTabLineSel .. l:Bold .. ' %{g:currentmode[mode()]}%* '
+	let s .= l:PmenuSel
+	let s .= ' %<'
+	let s .= l:filename
+	let s .= l:modified
+	let s .= '%h'
+	let s .= '%r'
+	let s .= '%{GitBranch()} '
+	let s .= ' | '
+	let s .= '%{GitStatus()} '
+	let s .= l:normal_text
+	let s .= '%='
+	let s .= '%#ErrorMsg#' .. '%{SessionTracking()} ' .. l:normal_text
+	let s .= '%y '
+	let s .= l:PmenuSel
+	" let s .= ' %p%% '
+	let s .= l:TablineTabLineSel
+	let s .= ' %l:%c '
+	let s .= ' %l:%c(%v) '
 	let &l:stl = s
-	" let &l:stl = &l:stl .. ' %l :     %c(%v) '
-	" return s
-
 endfun
+
 
 " autocmd User StartifyReady 
 
@@ -144,30 +144,30 @@ fun! CombinedStatusline()
 		  \ 't' : 'Terminal',
 		  \}
 
-	let s = ''
-	let s = s .. l:TablineTabLineSel
-	let s = s .. l:Bold .. ' %{g:currentmode[mode()]}%* '
-	let s = s .. l:PmenuSel
-	let s = s .. ' %<'
-	let s = s .. l:filename
-	let s = s .. l:modified
-	let s = s .. '%h'
-	let s = s .. '%r'
-	let s = s .. '%{GitBranch()} '
-	let s = s .. ' | '
-	let s = s .. '%{GitStatus()} '
-	let s = s .. l:normal_text
-	let s = s .. '%='
-	" let s = s .. '%#ErrorMsg#'
-	" let s = s .. '%{SessionTracking()} '
-	" let s = s .. l:normal_text
-	let s = s .. '%y '
-	let s = s .. l:PmenuSel
-	let s = s .. ' %p%% '
-	let s = s .. ' %l:%c '
-	let s = s .. l:TablineTabLineSel
-	let s = s .. ' %l:%c(%v) '
 
+	let s = ''
+	let s .= l:TablineTabLineSel
+	let s .= l:Bold
+	let s .= ' %{g:currentmode[mode()]}%* '
+	let s .= l:PmenuSel
+	let s .= ' %<'
+	let s .= l:filename
+	let s .= l:modified
+	let s .= '%h'
+	let s .= '%r'
+	let s .= '%{GitBranch()} '
+	let s .= ' | '
+	let s .= '%{GitStatus()} '
+	let s .= l:normal_text
+	let s .= '%='
+	" let s .= '%#ErrorMsg#' .. '%{SessionTracking()} ' .. l:normal_text
+	let s .= '%y '
+	let s .= l:PmenuSel
+	let s .= ' %p%% '
+	let s .= l:TablineTabLineSel
+	let s .= ' %l:%c '
+	let s .= ' %l:%c(%v) '
+	" let &l:stl = s
 	return s
 endfun
 
@@ -322,7 +322,7 @@ fun! OtherStatusLine()
 	set statusline+=%=%8*\ %{&ff}\ \|\ %{\"\".(&fenc==\"\"?&enc:&fenc).((exists(\"+bomb\")\ &&\ &bomb)?\",B\":\"\").\"\ \|\"}\ %-10.(%l:%c%V%)%*
 	set statusline+=%9*\ %P\ %*
 
-	" hi User1 gui=bold guifg=232 guibg=179
+	hi User1 gui=bold guifg=232 guibg=179
 	hi User2 gui=None guifg=214 guibg=242
 	hi User3 gui=None guifg=251 guibg=240
 	hi User4 gui=bold guifg=169 guibg=239
@@ -332,7 +332,7 @@ fun! OtherStatusLine()
 	hi User8 gui=None guifg=249 guibg=238
 	hi User9 gui=None guifg=249 guibg=240
 
-	" hi User1 cterm=bold ctermfg=232 ctermbg=179
+	hi User1 cterm=bold ctermfg=232 ctermbg=179
 	hi User2 cterm=None ctermfg=214 ctermbg=242
 	hi User3 cterm=None ctermfg=251 ctermbg=240
 	hi User4 cterm=bold ctermfg=169 ctermbg=239
@@ -344,3 +344,4 @@ fun! OtherStatusLine()
 	" default bg for statusline is 236 in space-vim-dark
 endfun
 
+" set statusline=%!OtherStatusLine()

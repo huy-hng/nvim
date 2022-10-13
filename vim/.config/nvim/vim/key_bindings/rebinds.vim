@@ -5,6 +5,10 @@
 noremap ; :
 noremap : ;
 
+nnoremap QQ Q
+noremap Q q
+nnoremap q <nop>
+
 nnoremap q: <NOP>
 nnoremap q/ <NOP>
 nnoremap <leader>; q:

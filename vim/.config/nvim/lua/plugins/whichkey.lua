@@ -67,6 +67,7 @@ wk.setup {
 		'<leader>',
 		'<C-w>',
 		'<C-n>',
+		'<C-x>',
 		'g',
   },
   -- triggers = '<leader>',

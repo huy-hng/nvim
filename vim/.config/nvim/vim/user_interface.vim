@@ -52,4 +52,4 @@ set mat=2 " How many tenths of a second to blink when matching brackets
 set noerrorbells
 set novisualbell
 set t_vb=
-set timeoutlen=250
+set timeoutlen=400

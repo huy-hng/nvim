@@ -65,59 +65,118 @@ cmp.setup({
 			'╭', '─', '╮', '│', '╯', '─', '╰', '│'
 		)
 	},
+	-- mapping = {
 	mapping = cmp.mapping.preset.insert({
-		['<C-b>'] = cmp.mapping(cmp.mapping.scroll_docs(-1), { 'i', 'c' }),
-		['<C-f>'] = cmp.mapping(cmp.mapping.scroll_docs(1), { 'i', 'c' }),
-		['<C-Space>'] = cmp.mapping(cmp.mapping.complete(), { 'i', 'c' }),
-		['<C-e>'] = cmp.mapping {
+		-- navigation
+		['<C-j>'] = cmp.mapping.select_next_item(),
+		['<C-k>'] = cmp.mapping.select_prev_item(),
+		["<C-u>"] = cmp.mapping.scroll_docs(-4),
+		["<C-d>"] = cmp.mapping.scroll_docs(4),
+
+		-- accept / abort
+		["<C-l>"] = cmp.mapping(
+			cmp.mapping.confirm {
+				behavior = cmp.ConfirmBehavior.Insert,
+				select = true,
+			},
+			{ "i", "c" }
+		),
+		['<C-h>'] = cmp.mapping {
 			i = cmp.mapping.abort(),
 			c = cmp.mapping.close(),
 		},
-		['<CR>'] = cmp.mapping.confirm({ select = false }), -- Accept currently selected item. Set `select` to `false` to only confirm explicitly selected items.
-		['<C-k>'] = cmp.mapping.select_prev_item(),
-		['<C-j>'] = cmp.mapping.select_next_item(),
-		['<C-y>'] = cmp.config.disable, -- Specify `cmp.config.disable` if you want to remove the default `<C-y>` mapping.
-		-- Accept currently selected item. If none selected, `select` first item.
-		-- Set `select` to `false` to only confirm explicitly selected items.
-		['<Tab>'] = cmp.mapping(function(fallback)
-			if cmp.visible() then
-				cmp.select_next_item()
-			elseif luasnip.expandable() then
-				luasnip.expand()
-			elseif luasnip.expand_or_jumpable() then
-				luasnip.expand_or_jump()
-			elseif check_backspace() then
-				fallback()
-			else
-				fallback()
-			end
-		end, {
-			'i',
-			's',
-		}),
-		['<S-Tab>'] = cmp.mapping(function(fallback)
-			if cmp.visible() then
-				cmp.select_prev_item()
-			elseif luasnip.jumpable(-1) then
-				luasnip.jump(-1)
-			else
-				fallback()
-			end
-		end, {
-			'i',
-			's',
-		}),
+
+		-- open completion menu
+		["<C-Space>"] = cmp.mapping {
+			i = cmp.mapping.complete(),
+			c = function(_ --[[fallback]])
+				if cmp.visible() then
+					if not cmp.confirm { select = true } then
+						return
+					end
+				else
+					cmp.complete()
+				end
+			end,
+		},
+
+		-- remove bindings
+		['<C-y>'] = cmp.config.disable,
+		["<tab>"] = cmp.config.disable,
+		["<C-e>"] = cmp.config.disable,
+		-- ['<CR>'] = cmp.mapping.confirm({ select = false }), -- Accept currently selected item. Set `select` to `false` to only confirm explicitly selected items.
+
+		-- ["<tab>"] = cmp.mapping {
+		--   i = cmp.config.disable,
+		--   c = function(fallback)
+		--     fallback()
+		--   end,
+		-- },
+
+		-- Testing
+		-- ["<c-q>"] = cmp.mapping.confirm {
+		-- 	behavior = cmp.ConfirmBehavior.Replace,
+		-- 	select = true,
+		-- },
+
+		-- If you want tab completion :'(
+		--  First you have to just promise to read `:help ins-completion`.
+		--
+		-- ["<Tab>"] = function(fallback)
+		--   if cmp.visible() then
+		--     cmp.select_next_item()
+		--   else
+		--     fallback()
+		--   end
+		-- end,
+		-- ["<S-Tab>"] = function(fallback)
+		--   if cmp.visible() then
+		--     cmp.select_prev_item()
+		--   else
+		--     fallback()
+		--   end
+		-- end,
+
+		-- alternate tab and shift tab
+		-- ['<Tab>'] = cmp.mapping(function(fallback)
+		--	if cmp.visible() then
+		--		cmp.select_next_item()
+		--	elseif luasnip.expandable() then
+		--		luasnip.expand()
+		--	elseif luasnip.expand_or_jumpable() then
+		--		luasnip.expand_or_jump()
+		--	elseif check_backspace() then
+		--		fallback()
+		--	else
+		--		fallback()
+		--	end
+		-- end, {
+		--	'i',
+		--	's',
+		-- }),
+		-- ['<S-Tab>'] = cmp.mapping(function(fallback)
+		--	if cmp.visible() then
+		--		cmp.select_prev_item()
+		--	elseif luasnip.jumpable(-1) then
+		--		luasnip.jump(-1)
+		--	else
+		--		fallback()
+		--	end
+		-- end, {
+		--	'i',
+		--	's',
+		-- }),
 	}),
 	formatting = {
-		-- fields = { 'kind', 'abbr', 'menu' },
-		fields = { 'abbr', 'menu' },
+		fields = { 'kind', 'abbr', 'menu' },
+		-- fields = { 'abbr', 'menu' },
 		format = function(entry, vim_item)
 			-- Kind icons
 			vim_item.kind = string.format('%s', kind_icons[vim_item.kind])
 			-- vim_item.kind = string.format('%s %s', kind_icons[vim_item.kind], vim_item.kind) -- This concatonates the icons with the name of the item kind
 			vim_item.menu = ({
 				nvim_lsp = '[LSP]',
-				nvim_lua = '[NVIM_LUA]',
+				nvim_lua = '[API]',
 				luasnip = '[Snippet]',
 				buffer = '[Buffer]',
 				path = '[Path]',
@@ -133,8 +192,8 @@ cmp.setup({
 		-- { name = 'ultisnips' }, -- For ultisnips users.
 		-- { name = 'snippy' }, -- For snippy users.
 	}, {
-		{ name = 'buffer' },
-		{ name = 'path' },
+		{ name = 'buffer', keyword_length = 5 },
+		{ name = 'path', keyword_length = 3 },
 	}),
 	confirm_opts = {
 		behavior = cmp.ConfirmBehavior.Replace,
@@ -177,5 +236,5 @@ cmp.setup.cmdline(':', {
 -- local capabilities = require('cmp_nvim_lsp').update_capabilities(vim.lsp.protocol.make_client_capabilities())
 -- -- Replace <YOUR_LSP_SERVER> with each lsp server you've enabled.
 -- require('lspconfig')['<YOUR_LSP_SERVER>'].setup {
--- 	capabilities = capabilities
+--	capabilities = capabilities
 -- }

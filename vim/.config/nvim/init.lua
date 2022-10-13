@@ -12,7 +12,7 @@ REQUIRE_DIRS = {
 	'lua/user',
 	'lua/functions',
 	'lua/keymaps',
-	'lua/lsp',
+	-- 'lua/lsp',
 }
 
 local require_dir = require 'helpers.require_dir'

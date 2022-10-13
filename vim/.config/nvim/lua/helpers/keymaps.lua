@@ -7,7 +7,6 @@ local function bind(op, outer_opts)
 	return function(lhs, rhs, description, opts)
 		opts = vim.tbl_extend('force',
 			outer_opts,
-			-- { desc = description },
 			{ desc = description or '' },
 			opts or {}
 		)
@@ -15,36 +14,59 @@ local function bind(op, outer_opts)
 	end
 end
 
-
 local M = {}
 
-M.map = bind('')
 
-M.nmap = bind('n', { noremap = false })
-M.nor = bind('n')
+-- map
+-- nmap
+-- vmap
+-- smap
+-- xmap
+-- omap
+-- map!
+-- imap
+-- lmap
+-- cmap
+-- tmap
 
-M.vis = bind('v')
-M.vix = bind('x')
 
-M.ins = bind('i')
+map = function(op, lhs, rhs, description, opts)
+	opts = opts or {}
+	opts.desc = description or ''
+	vim.keymap.set(op, lhs, rhs, opts)
+end
 
-M.cmdins = bind('!')
+nremap = bind('n', { noremap = false })
 
-M.cmd = bind('c')
-M.ter = bind('t')
+
+nmap = bind('n') -- actually nnoremap, everything below as well
+vmap = bind('v') -- visual and select
+smap = bind('s') -- select mode
+xmap = bind('x') -- only visual mode
+
+omap = bind('o') -- operator pending mode
+
+imap = bind('i')
+icmap = bind('!') -- insert and commandline
+cmap = bind('c') -- commandline
+
+tmap = bind('t') -- terminal
+
+-- M.map = bind('')
+
+-- M.nmap = bind('n', { noremap = false })
+-- M.nmap = bind('n')
+
+-- M.vmap = bind('v')
+-- M.xmap = bind('x')
+
+-- M.imap = bind('i')
+
+-- M.cmdins = bind('!')
+
+-- M.cmap = bind('c')
+-- M.tmap = bind('t')
+
+-- M.nmap = bind('n', { noremap = false })
 
 return M
-
-
--- local map = maps.map
-
--- local nmap = maps.nmap
--- local nor = maps.nor
-
--- local vis = maps.vis
--- local vix = maps.vix
-
--- local ins = maps.ins
-
--- local cmd = maps.cmd
--- local ter = maps.ter
