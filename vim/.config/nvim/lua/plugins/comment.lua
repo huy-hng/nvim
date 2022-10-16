@@ -42,15 +42,6 @@ local api = require('Comment.api')
 local fn = require('helpers.wrappers').fn
 
 -- map({ 'n', 'i' }, '<C-/>', api.locked('toggle.linewise.current'), 'Toggle Comment')
-map({ 'n', 'i' }, '<C-/>', fn(api.toggle.linewise.current, nil, comment_empty), 'Toggle Comment')
--- map({ 'n', 'i' }, '<C-_>', fn(api.toggle.linewise.current, nil, comment_empty), 'Toggle Comment')
-
-map({ 'n', 'i' }, '<A-/>a', api.insert.linewise.eol, 'Comment at end of line')
-map({ 'n', 'i' }, '<A-/>', api.insert.linewise.eol, 'Comment at end of line')
-map({ 'n', 'i' }, '<A-/>o', api.insert.linewise.below, 'Comment next line')
-map({ 'n', 'i' }, '<A-/>O', api.insert.linewise.above, 'Comment prev line')
-
--- local ignore_empty =
 
 local ignore_empty = {
 	padding = true,
@@ -58,7 +49,8 @@ local ignore_empty = {
 }
 
 local esc = vim.api.nvim_replace_termcodes('<ESC>', true, false, true)
-vmap('<C-/>', function()
+
+local toggle_visual = function()
 	-- api.toggle.blockwise('v')
 	-- api.toggle.linewise('V'j
 
@@ -78,7 +70,24 @@ vmap('<C-/>', function()
 		-- TODO: doesnt work
 		api.toggle.linewise(vim.fn.visualmode(), ignore_empty)
 	end
-end)
+end
 
 
 
+if vim.g.neovide then
+	-- neovide bindings
+	map({ 'n', 'i' }, '<C-/>', fn(api.toggle.linewise.current, nil, comment_empty), 'Toggle Comment')
+	map({ 'n', 'i' }, '<A-/>a', api.insert.linewise.eol, 'Comment at end of line')
+	map({ 'n', 'i' }, '<A-/>', api.insert.linewise.eol, 'Comment at end of line')
+	map({ 'n', 'i' }, '<A-/>o', api.insert.linewise.below, 'Comment next line')
+	map({ 'n', 'i' }, '<A-/>O', api.insert.linewise.above, 'Comment prev line')
+	vmap('<C-/>', toggle_visual, 'asd')
+else
+	-- terminal bindings
+	map({ 'n', 'i' }, '<C-_>', fn(api.toggle.linewise.current, nil, comment_empty), 'Toggle Comment')
+	map({ 'n', 'i' }, '<A-_>a', api.insert.linewise.eol, 'Comment at end of line')
+	map({ 'n', 'i' }, '<A-_>', api.insert.linewise.eol, 'Comment at end of line')
+	map({ 'n', 'i' }, '<A-_>o', api.insert.linewise.below, 'Comment next line')
+	map({ 'n', 'i' }, '<A-_>O', api.insert.linewise.above, 'Comment prev line')
+	vmap('<C-_>', toggle_visual, 'asd')
+end

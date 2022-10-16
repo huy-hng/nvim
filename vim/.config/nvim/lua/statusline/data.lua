@@ -9,20 +9,34 @@ M.colors = {
 	user1 = '%1*',
 	userend = '%*',
 
-	normal = 'MiniStatuslineModeNormal',
-	insert = 'MiniStatuslineModeInsert',
-	visual = 'MiniStatuslineModeVisual',
-	command = 'MiniStatuslineModeCommand',
-	replace = 'MiniStatuslineModeReplace',
-	inactive2 = 'MiniStatuslineInactive',
-	other = 'MiniStatuslineModeOther',
+	normal = 'RayNormal',
+	insert = 'RayInsert',
+	visual = 'RayVisual',
+	command = 'RayCommand',
+	replace = 'RayReplace',
+	inactive2 = 'RayInactive',
+
+	other = 'RayOther',
 }
+
+M.mode_colors = {
+	n     = M.colors['normal'],
+	v     = M.colors['visual'],
+	V     = M.colors['visual'],
+	['']= M.colors['visual'],
+	i     = M.colors['insert'],
+	R     = M.colors['replace'],
+	Rv    = M.colors['replace'],
+	c     = M.colors['other'],
+	t     = M.colors['other'],
+}
+
 
 M.mode_names = {
 	n     = 'NORMAL',
 	v     = 'VISUAL',
 	V     = 'V-LINE',
-	['']= 'V-BLOCK',
+	[''] = 'V-BLOCK',
 	i     = 'INSERT',
 	R     = 'REPLACE',
 	Rv    = 'V-REPLACE',
@@ -42,17 +56,6 @@ M.mode_names = {
 -- 	t     = 'T',
 -- }
 
-M.mode_colors = {
-	n     = M.colors['normal'],
-	v     = M.colors['visual'],
-	V     = M.colors['visual'],
-	['']= M.colors['visual'],
-	i     = M.colors['insert'],
-	R     = M.colors['replace'],
-	Rv    = M.colors['replace'],
-	c     = M.colors['other'],
-	t     = M.colors['other'],
-}
 
 
 M.text_style = {

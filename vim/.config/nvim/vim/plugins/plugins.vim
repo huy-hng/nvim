@@ -27,8 +27,8 @@ Plug 'hrsh7th/cmp-buffer' " buffer completions
 Plug 'hrsh7th/cmp-path' " path completions
 Plug 'hrsh7th/cmp-cmdline' " cmdline completions
 
-Plug 'saadparwaiz1/cmp_luasnip' " snippet completions
 Plug 'L3MON4D3/LuaSnip' " snippet engine
+Plug 'saadparwaiz1/cmp_luasnip' " snippet completions
 
 Plug 'rafamadriz/friendly-snippets' " a bunch of snippets to use
 
@@ -103,6 +103,8 @@ Plug 'junegunn/goyo.vim'
 "===============================================================================
 " syntax error
 Plug 'folke/which-key.nvim'
+
+Plug 'gko/vim-coloresque'
 
 Plug 'tpope/vim-obsession' " save vim sessions
 Plug 'tpope/vim-fugitive' " git stuff

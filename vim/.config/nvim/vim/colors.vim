@@ -33,7 +33,7 @@ let g:color_theme = g:tokyo_themes['night'] " dark
 
 
 let g:catppuccin_flavour = 'mocha'
-colorscheme catppuccin
+" let g:color_theme = 'catppuccin'
 
 
 function! SetColors(theme=0)

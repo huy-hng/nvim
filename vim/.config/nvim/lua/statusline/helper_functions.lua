@@ -80,16 +80,6 @@ function ExecuteFunction(name)
 end
 
 
-vim.cmd [[
-	hi Bold gui=bold cterm=bold guibg=none guifg=none
-	hi Italic gui=italic cterm=italic
-	hi Underline gui=underline cterm=underline
-	hi Inverse gui=inverse cterm=inverse guibg=NONE
-	hi Invisible guifg=none guibg=none
-	hi Normal guifg=fg guibg=bg
-]]
-
-
 M.create_style = function(name, style)
 	-- style should be like in synIDattr()
 	--[[ similiar to this

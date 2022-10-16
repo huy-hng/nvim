@@ -9,7 +9,6 @@ end
 -- print(file_path)
 
 local require_path = (...):match("(.-)[^%.]+$") -- returns 'lib.foo.'
--- print(require_path)
 
 require(require_path .. 'configs')
 require(require_path .. 'handlers').setup()

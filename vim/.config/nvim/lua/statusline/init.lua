@@ -1,10 +1,12 @@
 package.loaded['statusline.helper_functions'] = nil
 package.loaded['statusline.class_component'] = nil
 package.loaded['statusline.data'] = nil
+package.loaded['user.highlight'] = nil
 
 -- P(package.loaded['statusline.class_component'])
 -- P(package.loaded['statusline.helper_functions'])
 
+require('user.highlights')
 local helpers = require('statusline.helper_functions')
 local Component = require('statusline.class_component')
 local data = require('statusline.data')

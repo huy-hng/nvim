@@ -192,7 +192,7 @@ cmp.setup({
 		-- { name = 'ultisnips' }, -- For ultisnips users.
 		-- { name = 'snippy' }, -- For snippy users.
 	}, {
-		{ name = 'buffer', keyword_length = 5 },
+		{ name = 'buffer', keyword_length = 1 },
 		{ name = 'path', keyword_length = 3 },
 	}),
 	confirm_opts = {
