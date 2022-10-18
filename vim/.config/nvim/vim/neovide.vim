@@ -82,10 +82,10 @@ nnoremap <leader>q <cmd>Bdelete<cr>
 
 
 " unmap! <C-h>
-noremap! <C-h> <Left>
-noremap! <C-j> <Down>
-noremap! <C-k> <Up>
-noremap! <C-l> <Right>
+" noremap! <C-h> <Left>
+" noremap! <C-j> <Down>
+" noremap! <C-k> <Up>
+" noremap! <C-l> <Right>
 
 noremap! <C-BS> <C-w>
 
@@ -96,9 +96,9 @@ nnoremap <Tab> >>
 " nnoremap <C-v> "+p
 
 nnoremap <C-CR> o<esc>
-nnoremap <C-Space> o<ESC>
-nnoremap <C-F12> o<ESC>
-nnoremap <S-F11> o<ESC>
+" nnoremap <C-Space> o<ESC>
+" nnoremap <C-F12> o<ESC>
+" nnoremap <S-F11> o<ESC>
 
 nnoremap <C-;> q:
 " nnoremap <C-/> q/

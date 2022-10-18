@@ -19,13 +19,18 @@ Plug 'unblevable/quick-scope'
 "          -> Completion <-
 "---------------------------------------
 Plug 'neovim/nvim-lspconfig'
-Plug 'hrsh7th/cmp-nvim-lsp'
-Plug 'hrsh7th/cmp-nvim-lua'
 
 Plug 'hrsh7th/nvim-cmp' " The completion plugin
 Plug 'hrsh7th/cmp-buffer' " buffer completions
 Plug 'hrsh7th/cmp-path' " path completions
 Plug 'hrsh7th/cmp-cmdline' " cmdline completions
+Plug 'hrsh7th/cmp-nvim-lsp'
+Plug 'hrsh7th/cmp-nvim-lua'
+Plug 'hrsh7th/cmp-nvim-lsp-signature-help'
+Plug 'hrsh7th/cmp-nvim-lsp-document-symbol'
+
+Plug 'dmitmel/cmp-cmdline-history'
+Plug 'andersevenrud/cmp-tmux'
 
 Plug 'L3MON4D3/LuaSnip' " snippet engine
 Plug 'saadparwaiz1/cmp_luasnip' " snippet completions
@@ -53,6 +58,7 @@ Plug 'ThePrimeagen/harpoon'
 "          -> Treesitter <-
 "---------------------------------------
 Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}
+Plug 'nvim-treesitter/nvim-treesitter-context'
 Plug 'p00f/nvim-ts-rainbow' " highlight parentheses in different colors
 
 

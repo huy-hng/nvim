@@ -11,41 +11,37 @@ end
 
 -- require("luasnip/loaders/from_vscode").lazy_load()
 
-local check_backspace = function()
-	local col = vim.fn.col "." - 1
-	return col == 0 or vim.fn.getline("."):sub(col, col):match "%s"
-end
-
 
 --   פּ ﯟ   some other good icons
 local kind_icons = {
-	Text = "",
-	Method = "m",
-	Function = "",
-	Constructor = "",
-	Field = "",
-	Variable = "",
-	Class = "",
-	Interface = "",
-	Module = "",
-	Property = "",
-	Unit = "",
-	Value = "",
-	Enum = "",
-	Keyword = "",
-	Snippet = "",
-	Color = "",
-	File = "",
-	Reference = "",
-	Folder = "",
-	EnumMember = "",
-	Constant = "",
-	Struct = "",
-	Event = "",
-	Operator = "",
-	TypeParameter = "",
+	Text = '',
+	Method = 'm',
+	-- Function = '',
+	Function = '',
+	Constructor = '',
+	Field = '',
+	Variable = '',
+	Class = '',
+	Interface = '',
+	Module = '',
+	Property = '',
+	Unit = '',
+	Value = '',
+	Enum = '',
+	Keyword = '',
+	Snippet = '',
+	Color = '',
+	File = '',
+	Reference = '',
+	Folder = '',
+	EnumMember = '',
+	Constant = '',
+	Struct = '',
+	Event = '',
+	Operator = '',
+	-- TypeParameter = '',
+	TypeParameter = '',
 }
--- find more here: https://www.nerdfonts.com/cheat-sheet
 
 
 cmp.setup({
@@ -68,10 +64,24 @@ cmp.setup({
 	-- mapping = {
 	mapping = cmp.mapping.preset.insert({
 		-- navigation
-		['<C-j>'] = cmp.mapping.select_next_item(),
-		['<C-k>'] = cmp.mapping.select_prev_item(),
-		["<C-u>"] = cmp.mapping.scroll_docs(-4),
-		["<C-d>"] = cmp.mapping.scroll_docs(4),
+		['<C-j>'] = cmp.mapping(function(_)
+			if cmp.visible() then
+				cmp.select_next_item()
+			else
+				cmp.complete()
+			end
+		end, { 'i' }),
+
+		['<C-k>'] = cmp.mapping(function(_)
+			if cmp.visible() then
+				cmp.select_prev_item()
+			else
+				cmp.complete()
+			end
+		end, { 'i' }),
+
+		['<C-u>'] = cmp.mapping.scroll_docs(-4),
+		['<C-d>'] = cmp.mapping.scroll_docs(4),
 
 		-- accept / abort
 		["<C-l>"] = cmp.mapping(
@@ -79,12 +89,9 @@ cmp.setup({
 				behavior = cmp.ConfirmBehavior.Insert,
 				select = true,
 			},
-			{ "i", "c" }
+			{ 'i', 'c' }
 		),
-		['<C-h>'] = cmp.mapping {
-			i = cmp.mapping.abort(),
-			c = cmp.mapping.close(),
-		},
+		['<C-h>'] = cmp.mapping(cmp.mapping.abort(), { 'i', 'c' }),
 
 		-- open completion menu
 		["<C-Space>"] = cmp.mapping {
@@ -102,10 +109,9 @@ cmp.setup({
 
 		-- remove bindings
 		['<C-y>'] = cmp.config.disable,
-		["<tab>"] = cmp.config.disable,
+		["<Tab>"] = cmp.config.disable,
 		["<C-e>"] = cmp.config.disable,
 		-- ['<CR>'] = cmp.mapping.confirm({ select = false }), -- Accept currently selected item. Set `select` to `false` to only confirm explicitly selected items.
-
 		-- ["<tab>"] = cmp.mapping {
 		--   i = cmp.config.disable,
 		--   c = function(fallback)
@@ -115,8 +121,8 @@ cmp.setup({
 
 		-- Testing
 		-- ["<c-q>"] = cmp.mapping.confirm {
-		-- 	behavior = cmp.ConfirmBehavior.Replace,
-		-- 	select = true,
+		--	behavior = cmp.ConfirmBehavior.Replace,
+		--	select = true,
 		-- },
 
 		-- If you want tab completion :'(
@@ -180,19 +186,33 @@ cmp.setup({
 				luasnip = '[Snippet]',
 				buffer = '[Buffer]',
 				path = '[Path]',
+				tmux = '[Tmux]',
 			})[entry.source.name]
 			return vim_item
 		end,
 	},
 	sources = cmp.config.sources({
+		{ name = 'nvim_lsp_signature_help' },
 		{ name = 'nvim_lsp' },
 		{ name = 'nvim_lua' },
-		{ name = 'luasnip' }, -- For luasnip users.
-		-- { name = 'vsnip' }, -- For vsnip users.
-		-- { name = 'ultisnips' }, -- For ultisnips users.
-		-- { name = 'snippy' }, -- For snippy users.
+		{ name = 'luasnip' },
+		{ name = 'tmux' },
+		{ name = 'cmdline_history' },
 	}, {
-		{ name = 'buffer', keyword_length = 1 },
+		{
+			name = 'buffer',
+			keyword_length = 1,
+			option = {
+				get_bufnrs = function()
+					local bufs = {}
+					for _, win in ipairs(vim.api.nvim_list_wins()) do
+						bufs[vim.api.nvim_win_get_buf(win)] = true
+					end
+					return vim.tbl_keys(bufs) -- only visible buffers
+					-- return vim.api.nvim_list_bufs() -- all buffers
+				end
+			}
+		},
 		{ name = 'path', keyword_length = 3 },
 	}),
 	confirm_opts = {
@@ -214,10 +234,13 @@ cmp.setup.filetype('gitcommit', {
 	})
 })
 
+-- P(cmp.select_next_item)
 -- Use buffer source for `/` and `?` (if you enabled `native_menu`, this won't work anymore).
 cmp.setup.cmdline({ '/', '?' }, {
 	mapping = cmp.mapping.preset.cmdline(),
 	sources = {
+		{ name = 'cmdline_history' },
+		{ name = 'nvim_lsp_document_symbol' },
 		{ name = 'buffer' }
 	}
 })
@@ -226,15 +249,9 @@ cmp.setup.cmdline({ '/', '?' }, {
 cmp.setup.cmdline(':', {
 	mapping = cmp.mapping.preset.cmdline(),
 	sources = cmp.config.sources({
-		{ name = 'path' }
+		{ name = 'cmdline_history' },
+		{ name = 'path' },
 	}, {
-		{ name = 'cmdline' }
+		{ name = 'cmdline' },
 	})
 })
-
--- Set up lspconfig.
--- local capabilities = require('cmp_nvim_lsp').update_capabilities(vim.lsp.protocol.make_client_capabilities())
--- -- Replace <YOUR_LSP_SERVER> with each lsp server you've enabled.
--- require('lspconfig')['<YOUR_LSP_SERVER>'].setup {
---	capabilities = capabilities
--- }

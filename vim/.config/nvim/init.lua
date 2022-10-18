@@ -23,6 +23,7 @@ for _, import in ipairs(REQUIRE_DIRS) do
 	require_dir(import)
 end
 
+-- require 'after.plugin.highlights'
 -- require 'plugins/requires'
 -- require 'user/requires'
 -- require 'functions/requires'

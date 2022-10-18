@@ -99,7 +99,7 @@ let s:bg_color = synIDattr(hlID("Normal"), "bg")
 
 let s:text = s:center('drink some water dude')
 let s:text = s:pad(systemlist('pwd')[0])
-autocmd User StartifyReady let &l:stl = s:text
+autocmd User StartifyReady let &l:stl = ''
 
 " hi StartifyBracket ctermfg=240
 " hi StartifyFile    ctermfg=147

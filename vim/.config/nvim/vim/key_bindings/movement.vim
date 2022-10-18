@@ -3,8 +3,8 @@
 "===============================================================================
 
 " horizontal scrolling
-nnoremap <A-h> 20zh
-nnoremap <A-l> 20zl
+nnoremap <A-h> 10zh
+nnoremap <A-l> 10zl
 nnoremap <A-H> zH
 nnoremap <A-L> zL
 

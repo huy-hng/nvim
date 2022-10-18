@@ -35,7 +35,7 @@ nnoremap <leader>P "0P
 
 " keep yank register when pasting
 vnoremap <silent> p "_dP
-nnoremap <silent> p <cmd>call KeepColumn('P')<CR>
+nnoremap <silent> p <cmd>call KeepColumn('p')<CR>
 nnoremap <silent> P <cmd>call KeepColumn('P')<CR>
 
 

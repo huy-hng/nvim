@@ -1,7 +1,7 @@
 package.loaded['statusline.helper_functions'] = nil
 package.loaded['statusline.class_component'] = nil
 package.loaded['statusline.data'] = nil
-package.loaded['user.highlight'] = nil
+package.loaded['user.highlights'] = nil
 
 -- P(package.loaded['statusline.class_component'])
 -- P(package.loaded['statusline.helper_functions'])
@@ -121,7 +121,7 @@ function create_statusline()
 
 
 	cmp = Component:new(nil, statusline_table)
-	cmp:add_text('%y')
+	cmp:add_text('%<%y')
 	cmp:end_cmp()
 
 	cmp = Component:new(nil, statusline_table)

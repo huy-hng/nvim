@@ -91,7 +91,7 @@ M.create_style = function(name, style)
 	]]
 
 	-- check if style alread exists
-	-- M.does_highlight_exist(name)
+	-- M.does_highlight_exist(namev
 
 	local style_name = name:gsub('%A','')
 	style_name = style_name .. 'asdfghjk'
