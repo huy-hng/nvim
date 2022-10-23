@@ -60,7 +60,7 @@ vnoremap <A-k> :m'<-2<cr>`>my`<mzgv`yo`z
 inoremap <A-Tab> <C-t>
 inoremap <S-Tab> <C-d>
 " nnoremap <Tab> >> " tab is ^I (ctrl+i) meaning jumping in jumplist wont work
-noremap <Tab> >>
+" noremap <Tab> >>
 noremap <S-Tab> <<
 " the double maps are needed because the first pair makes indenting not loose visual
 

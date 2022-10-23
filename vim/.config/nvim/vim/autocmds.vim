@@ -66,8 +66,8 @@ augroup END
 augroup filestuff
 	autocmd!
 	" reload vim when vim/lua files are saved
+	" autocmd BufWritePost *.vim,*.lua :so %
 	" autocmd BufWritePost *.vim,*.lua :so $HOME/.config/nvim/init.lua
-	autocmd BufWritePost *.vim,*.lua :so %
 	" autocmd BufWritePost *.vim,*.lua silent! exec "so $HOME/.config/nvim/init.vim"
 
 	" add date in vimwikiw

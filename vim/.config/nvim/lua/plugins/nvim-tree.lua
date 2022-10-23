@@ -45,7 +45,7 @@ local options = {
 				-- border = { "A", "B", "C", "D", "E", "F", "G", "H" },
 				-- border = { " ", " ", " ", " ", "", "", "", "" },
 
-				width = 30,
+				width = 35,
 				height = vim.api.nvim_win_get_height(0) - 1,
 
 				row = 0,
@@ -154,7 +154,7 @@ local options = {
 	},
 	git = {
 		enable = true,
-		ignore = true,
+		ignore = false,
 		show_on_dirs = true,
 		timeout = 400,
 	},

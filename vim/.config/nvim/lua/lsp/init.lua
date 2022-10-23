@@ -12,5 +12,5 @@ local require_path = (...):match("(.-)[^%.]+$") -- returns 'lib.foo.'
 
 require(require_path .. 'configs')
 require(require_path .. 'handlers').setup()
-require(require_path .. 'null-ls')
+-- require(require_path .. 'null-ls')
 

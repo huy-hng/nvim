@@ -1,6 +1,12 @@
 " required settings
 "syntax on
 
+augroup VimwikiGroup
+	autocmd!
+	autocmd FileType vimwiki setlocal foldexpr=nvim_treesitter#foldexpr()
+	autocmd Filetype vimwiki TSBufDisable highlight
+augroup END
+
 set concealcursor=nc
 
 "let g:vimwiki_ext2syntax = {'.md': 'markdown'}
@@ -14,8 +20,10 @@ let g:vimwiki_diary_header = 'Daily Log'
 let g:vimwiki_diary_index = 'daily_log'
 let g:vimwiki_diary_rel_path = 'daily_log/'
 let g:vimwiki_dir_link = 'main'
-let g:vimwiki_filetypes = ['markdown']
-let g:vimwiki_folding = 'list:quick'
+let g:vimwiki_filetypes = []
+" let g:vimwiki_filetypes = ['markdown']
+" let g:vimwiki_folding = 'list:quick'
+let g:vimwiki_folding = 'custom'
 let g:vimwiki_hl_cb_checked = 1
 let g:vimwiki_hl_headers = 0
 let g:vimwiki_table_auto_fmt = 0
@@ -81,3 +89,4 @@ let misc = Create_wiki('Misc')
 
 
 let g:vimwiki_list = [main, todo, projects, cheatsheets, misc]
+

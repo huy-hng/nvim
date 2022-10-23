@@ -24,7 +24,7 @@ vnoremap ' :call Surrounder("'")<CR>
 vnoremap " :call Surrounder('"')<CR>
 vnoremap * :call Surrounder('*')<CR>
 vnoremap ` :call Surrounder('`')<CR>
-vnoremap = :call Surrounder('=')<CR>
+" vnoremap = :call Surrounder('=')<CR>
 
 vnoremap ( :call Surrounder('(', ')')<CR>
 vnoremap ) :call Surrounder('( ', ' )')<CR>

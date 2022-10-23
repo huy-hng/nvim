@@ -5,8 +5,8 @@
 " horizontal scrolling
 nnoremap <A-h> 10zh
 nnoremap <A-l> 10zl
-nnoremap <A-H> zH
-nnoremap <A-L> zL
+" nnoremap <A-H> zH
+" nnoremap <A-L> zL
 
 " nnoremap <C-d> <C-d>zz<cmd>call FlashOnce()<CR>
 " nnoremap <C-u> <C-u>zz<cmd>call FlashOnce()<CR>

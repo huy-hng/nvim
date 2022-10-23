@@ -10,6 +10,10 @@ if not snip_status_ok then
 end
 
 -- require("luasnip/loaders/from_vscode").lazy_load()
+local check_backspace = function()
+	local col = vim.fn.col "." - 1
+	return col == 0 or vim.fn.getline("."):sub(col, col):match "%s"
+end
 
 
 --   פּ ﯟ   some other good icons
@@ -41,6 +45,7 @@ local kind_icons = {
 	Operator = '',
 	-- TypeParameter = '',
 	TypeParameter = '',
+	cmdline_history = '',
 }
 
 
@@ -185,6 +190,7 @@ cmp.setup({
 				nvim_lua = '[API]',
 				luasnip = '[Snippet]',
 				buffer = '[Buffer]',
+				cmdline_history = '[History]',
 				path = '[Path]',
 				tmux = '[Tmux]',
 			})[entry.source.name]
@@ -249,9 +255,23 @@ cmp.setup.cmdline({ '/', '?' }, {
 cmp.setup.cmdline(':', {
 	mapping = cmp.mapping.preset.cmdline(),
 	sources = cmp.config.sources({
+		{ name = 'cmdline' },
 		{ name = 'cmdline_history' },
 		{ name = 'path' },
 	}, {
-		{ name = 'cmdline' },
-	})
+	}),
+	formatting = {
+		fields = { 'kind', 'abbr', 'menu' },
+		format = function(entry, vim_item)
+			local icon = kind_icons[vim_item.kind]
+			if entry.source.name == 'cmdline_history' then
+				icon = kind_icons[entry.source.name]
+			end
+			vim_item.kind = string.format('%s', icon)
+			vim_item.menu = ({
+				cmdline_history = '[History]',
+			})[entry.source.name]
+			return vim_item
+		end,
+	},
 })

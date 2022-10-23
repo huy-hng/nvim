@@ -90,7 +90,7 @@ nnoremap <leader>q <cmd>Bdelete<cr>
 noremap! <C-BS> <C-w>
 
 " nnoremap <C-S-Tab> <<
-nnoremap <Tab> >>
+" nnoremap <Tab> >>
 
 " inoremap <C-v> <C-r>+
 " nnoremap <C-v> "+p

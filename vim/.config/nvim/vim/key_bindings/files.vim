@@ -7,6 +7,7 @@ command! W execute 'w !sudo tee % > /dev/null' <bar> edit!
 
 " fast saving and quitting
 nnoremap <Leader>w <cmd>w<CR>
+nnoremap <Leader><leader>w <cmd>call fn#save_and_load()<CR>
 nnoremap <Leader>W <cmd>W<CR>
 nnoremap <Leader>wq <cmd>wq<CR>
 nnoremap <Leader>q <cmd>call <SID>quit_last_buffer()<cr>

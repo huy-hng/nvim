@@ -58,8 +58,15 @@ Plug 'ThePrimeagen/harpoon'
 "          -> Treesitter <-
 "---------------------------------------
 Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}
+Plug 'nvim-treesitter/playground'
 Plug 'nvim-treesitter/nvim-treesitter-context'
+Plug 'nvim-treesitter/nvim-treesitter-textobjects'
+
+Plug 'RRethy/nvim-treesitter-textsubjects'
 Plug 'p00f/nvim-ts-rainbow' " highlight parentheses in different colors
+
+Plug 'phaazon/hop.nvim' " dependency for below
+Plug 'mfussenegger/nvim-treehopper'
 
 
 
@@ -110,7 +117,7 @@ Plug 'junegunn/goyo.vim'
 " syntax error
 Plug 'folke/which-key.nvim'
 
-Plug 'gko/vim-coloresque'
+" Plug 'gko/vim-coloresque'
 
 Plug 'tpope/vim-obsession' " save vim sessions
 Plug 'tpope/vim-fugitive' " git stuff
