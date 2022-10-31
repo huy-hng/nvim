@@ -1,6 +1,6 @@
-" "===============================================================================
-" "                             |=> Highlights <=|
-" "===============================================================================
+"===============================================================================
+"                             |=> Highlights <=|
+"===============================================================================
 " hi! RayNormal  cterm=bold gui=bold guifg=#15161e guibg=#7aa2f7
 " hi! RayInsert  cterm=bold gui=bold guifg=#15161e guibg=#9ece6a
 " hi! RayVisual  cterm=bold gui=bold guifg=#15161e guibg=#bb9af7
@@ -40,14 +40,14 @@ let g:tokyo_themes = {
 			\ 'night': 'tokyonight-night',
 			\ }
 
-let g:color_theme = g:tokyo_themes['day'] " bright af
 let g:color_theme = g:tokyo_themes['storm'] " soothing
-let g:color_theme = g:tokyo_themes['moon'] " high contrast
+let g:color_theme = g:tokyo_themes['day'] " bright af
 let g:color_theme = g:tokyo_themes['night'] " dark
+let g:color_theme = g:tokyo_themes['moon'] " high contrast
 
 
 let g:catppuccin_flavour = 'mocha'
-" let g:color_theme = 'catppuccin'
+let g:color_theme = 'catppuccin'
 
 
 function! SetColors(theme=0)

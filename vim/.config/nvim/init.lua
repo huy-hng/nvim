@@ -12,7 +12,6 @@ REQUIRE_DIRS = {
 	'lua/functions',
 	'lua/keymaps',
 	'lua/user',
-	-- 'lua/lsp',
 }
 
 require 'lsp.init'
