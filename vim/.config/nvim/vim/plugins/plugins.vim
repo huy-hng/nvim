@@ -117,6 +117,7 @@ Plug 'junegunn/goyo.vim'
 " syntax error
 Plug 'folke/which-key.nvim'
 Plug 'TimUntersberger/neogit' " magit clone
+Plug 'sindrets/diffview.nvim' " side by side diff view
 
 " Plug 'gko/vim-coloresque'
 
