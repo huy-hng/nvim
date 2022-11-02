@@ -31,8 +31,8 @@ let g:gui_font_face = 'FiraCode Nerd Font'
 "---------------------------------------
 "           -> Behavior <-
 "---------------------------------------
-let g:neovide_refresh_rate = 45
-let g:neovide_refresh_rate_idle = 15
+let g:neovide_refresh_rate = 120
+let g:neovide_refresh_rate_idle = 60
 let g:neovide_confirm_quit = v:true
 let g:neovide_remember_window_size = v:true
 let g:neovide_scroll_animation_length = 0.4
@@ -48,7 +48,7 @@ let g:neovide_touch_drag_timeout=0.3
 "             -> Sizes <-
 "---------------------------------------
 let g:neovide_underline_automatic_scaling = v:true
-let g:gui_font_default_size = 12
+let g:gui_font_default_size = 10
 let g:neovide_scale_factor = 1.0
 let g:gui_font_size = g:gui_font_default_size
 
@@ -56,8 +56,8 @@ let g:gui_font_size = g:gui_font_default_size
 "---------------------------------------
 "            -> Cursor <-
 "---------------------------------------
-" let g:neovide_cursor_animation_length = 0
-" let g:neovide_cursor_trail_size = 0
+let g:neovide_cursor_animation_length = 0
+let g:neovide_cursor_trail_size = 0
 let g:neovide_cursor_animation_length = 0.02 " 0.13
 let g:neovide_cursor_trail_size = 0.2 " 0.8
 " let g:neovide_cursor_antialiasing = v:false
@@ -100,7 +100,6 @@ nnoremap <C-CR> o<esc>
 " nnoremap <C-F12> o<ESC>
 " nnoremap <S-F11> o<ESC>
 
-nnoremap <C-;> q:
 " nnoremap <C-/> q/
 
 nnoremap <C-_> <NOP>

@@ -17,4 +17,3 @@ nmap('<leader>S', cmd('Startify'), 'Open Start Screen')
 --             -> LSP <-
 ----------------------------------------
 wk.register({['<leader>l'] = {name = '+LSP'}})
-nmap('<leader>lf', vim.lsp.buf.formatting, 'Format Document')

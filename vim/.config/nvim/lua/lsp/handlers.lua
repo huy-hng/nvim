@@ -3,15 +3,15 @@ local M = {}
 -- TODO: backfill this to template
 M.setup = function()
 	local signs = {
-		{ name = "DiagnosticSignError", text = "" },
-		{ name = "DiagnosticSignWarn", text = "" },
-		{ name = "DiagnosticSignHint", text = "" },
-		{ name = "DiagnosticSignInfo", text = "" },
+		{ name = 'DiagnosticSignError', text = '' },
+		{ name = 'DiagnosticSignWarn', text = '' },
+		{ name = 'DiagnosticSignHint', text = '' },
+		{ name = 'DiagnosticSignInfo', text = '' },
 	}
 
-	for _, sign in ipairs(signs) do
-		vim.fn.sign_define(sign.name, { texthl = sign.name, text = sign.text, numhl = "" })
-	end
+	-- for _, sign in ipairs(signs) do
+		-- vim.fn.sign_define(sign.name, { texthl = sign.name, text = sign.text, numhl = '' })
+	-- end
 
 	local config = {
 		-- disable virtual text
@@ -24,79 +24,118 @@ M.setup = function()
 		underline = true,
 		severity_sort = true,
 		float = {
-			focusable = false,
-			style = "minimal",
-			border = "rounded",
-			source = "always",
-			header = "",
-			prefix = "",
+			focusable = true,
+			style = 'minimal',
+			border = 'rounded',
+			source = 'always',
+			header = '',
+			prefix = '',
 		},
 	}
 
 	vim.diagnostic.config(config)
 
-	vim.lsp.handlers["textDocument/hover"] = vim.lsp.with(vim.lsp.handlers.hover, {
-		border = "rounded",
-		width = 60,
-	})
+	vim.lsp.handlers['textDocument/hover'] = vim.lsp.with(
+		vim.lsp.handlers.hover,
+		{ border = 'rounded', --[[ width = 60 ]] }
+	)
 
-	vim.lsp.handlers["textDocument/signatureHelp"] = vim.lsp.with(vim.lsp.handlers.signature_help, {
-		border = "rounded",
-		width = 60,
-	})
+	vim.lsp.handlers['textDocument/signatureHelp'] = vim.lsp.with(
+		vim.lsp.handlers.signature_help,
+		{ border = 'rounded', --[[ width = 60 ]] }
+	)
 end
 
-local function lsp_highlight_document(client)
-	-- Set autocommands conditional on server_capabilities
-	local status_ok, illuminate = pcall(require, "illuminate")
-	if not status_ok then
-		return
-	end
-	illuminate.on_attach(client)
-	-- end
-end
 
-local buf_nnoremap = function(bufnr, lhs, rhs, desc, opts)
+local fn = require('helpers.wrappers').fn
+
+-- Mappings.
+-- See `:help vim.diagnostic.*` for documentation on any of the below functions
+-- buf_nnoremap(bufnr, 'gl', fn(vim.diagnostic.open_float, { border = 'rounded' }))
+nmap('<leader>e', vim.diagnostic.open_float, 'lsp diagnostic float')
+nmap('[d', vim.diagnostic.goto_prev)
+nmap(']d', vim.diagnostic.goto_next)
+-- nmap('<leader>q', vim.diagnostic.setloclist, opts)
+
+
+local buf_nnoremap = function(lhs, rhs, bufnr, desc, opts)
 	opts = opts or {}
 	opts.buffer = bufnr
 	nmap(lhs, rhs, desc, opts)
 end
 
-local fn = require('helpers.wrappers').fn
-local function lsp_keymaps(bufnr)
-	buf_nnoremap(bufnr, 'gD', vim.lsp.buf.declaration)
-	buf_nnoremap(bufnr, 'gd', vim.lsp.buf.definition)
-	buf_nnoremap(bufnr, 'K', vim.lsp.buf.hover)
-	buf_nnoremap(bufnr, 'gi', vim.lsp.buf.implementation)
-	-- buf_nnoremap(bufnr, '<C-k>', vim.lsp.buf.signature_help)
-	buf_nnoremap(bufnr, '<F2>', vim.lsp.buf.rename)
-	buf_nnoremap(bufnr, '<F12>', vim.lsp.buf.references)
-	buf_nnoremap(bufnr, '<leader>ca', vim.lsp.buf.code_action)
-	buf_nnoremap(bufnr, '<leader>f', vim.diagnostic.open_float)
-	buf_nnoremap(bufnr, '[d', fn(vim.diagnostic.goto_prev, { border = 'rounded' }))
-	buf_nnoremap(bufnr, 'gl', fn(vim.diagnostic.open_float, { border = 'rounded' }))
-	buf_nnoremap(bufnr, ']d', fn(vim.diagnostic.goto_next, { border = 'rounded' }))
-	-- buf_nnoremap(bufnr, '<leader>q', vim.diagnostic.setloclist)
-	vim.cmd([[ command! Format execute 'lua vim.lsp.buf.format{async=true}' ]])
+
+-- Use an on_attach function to only map the following keys
+-- after the language server attaches to the current buffer
+local lsp_keymaps = function(bufnr)
+	-- Enable completion triggered by <c-x><c-o>
+	vim.api.nvim_buf_set_option(bufnr, 'omnifunc', 'v:lua.vim.lsp.omnifunc')
+
+	-- See `:help vim.lsp.*` for documentation on any of the below functions
+	buf_nnoremap('gD', vim.lsp.buf.declaration, bufnr)
+	buf_nnoremap('gd', vim.lsp.buf.definition, bufnr)
+	buf_nnoremap('K', vim.lsp.buf.hover, bufnr)
+	buf_nnoremap('gi', vim.lsp.buf.implementation, bufnr)
+	-- buf_nnoremap('<C-k>', vim.lsp.buf.signature_help, bufnr)
+	buf_nnoremap('<leader>wa', vim.lsp.buf.add_workspace_folder, bufnr)
+	buf_nnoremap('<leader>wr', vim.lsp.buf.remove_workspace_folder, bufnr)
+	buf_nnoremap('<leader>wl', function() print(vim.inspect(vim.lsp.buf.list_workspace_folders())) end, bufnr)
+	buf_nnoremap('<leader>D', vim.lsp.buf.type_definition, bufnr)
+	buf_nnoremap('<F2>', vim.lsp.buf.rename) -- <leader>r, bufnr)
+	buf_nnoremap('<F12>', vim.lsp.buf.references) -- g, bufnr)
+	buf_nnoremap('<leader>ca', vim.lsp.buf.code_action, bufnr)
+	buf_nnoremap('<leader>lf', fn(vim.lsp.buf.format, { async = true }), bufnr, 'Format Document')
+end
+
+local function lsp_highlight_document(client)
+	-- Set autocommands conditional on server_capabilities
+	local status_ok, illuminate = pcall(require, 'illuminate')
+	if not status_ok then
+		return
+	end
+	illuminate.on_attach(client)
 end
 
 M.on_attach = function(client, bufnr)
-	-- vim.notify(client.name .. " starting...")
+	-- vim.notify(client.name .. ' starting...')
 	-- TODO: refactor this into a method that checks if string in list
-	if client.name == "tsserver" then
+	if client.name == 'tsserver' then
 		client.resolved_capabilities.document_formatting = false
 	end
 	lsp_keymaps(bufnr)
-	lsp_highlight_document(client)
+	-- lsp_highlight_document(client)
 end
 
 local capabilities = vim.lsp.protocol.make_client_capabilities()
 
-local status_ok, cmp_nvim_lsp = pcall(require, "cmp_nvim_lsp")
+local status_ok, cmp_nvim_lsp = pcall(require, 'cmp_nvim_lsp')
 if not status_ok then
 	return
 end
 
+
 M.capabilities = cmp_nvim_lsp.default_capabilities(capabilities)
+
+
+local lsp_flags = {
+	-- This is the default in Nvim 0.7+
+	debounce_text_changes = 150,
+}
+require('lspconfig')['pyright'].setup {
+	on_attach = M.on_attach,
+	flags = lsp_flags,
+}
+require('lspconfig')['tsserver'].setup {
+	on_attach = M.on_attach,
+	flags = lsp_flags,
+}
+require('lspconfig')['rust_analyzer'].setup {
+	on_attach = M.on_attach,
+	flags = lsp_flags,
+	-- Server-specific settings...
+	settings = {
+		['rust-analyzer'] = {}
+	}
+}
 
 return M

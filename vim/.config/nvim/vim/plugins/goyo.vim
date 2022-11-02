@@ -45,9 +45,9 @@ endfunction
 function! s:goyo_enter(size=1)
 	call SetColors()
 	if (a:size == 0)
-		Goyo 80+8%x85%+100%
+		Goyo 80x85%+100%
 	else
-		Goyo 80+8%x100%+100%
+		Goyo 80x100%+100%
 	endif
 
 

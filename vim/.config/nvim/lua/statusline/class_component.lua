@@ -65,6 +65,9 @@ function Component:end_cmp(mode)
 	-- local highlight = active and self.active_color or self.inactive_color
 
 	local combined = {}
+	if not color.highlight then
+		return
+	end
 	local highlight_text = '%#' .. color.highlight .. '#'
 	table.insert(combined, highlight_text)
 	table.insert(combined, self.left_padding)

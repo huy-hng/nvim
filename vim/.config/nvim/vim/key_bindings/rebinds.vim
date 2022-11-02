@@ -2,12 +2,14 @@
 " => Behavior Changes
 "===============================================================================
 
-noremap ; :
-noremap : ;
-
 nnoremap QQ Q
 noremap Q q
 nnoremap q <nop>
+
+
+nnoremap <C-;> q:
+noremap ; :
+noremap : ;
 
 nnoremap q: <NOP>
 nnoremap q/ <NOP>
@@ -30,7 +32,7 @@ nnoremap <leader>P "+P
 nnoremap <leader>yy "+yy
 vnoremap <leader>y "+y
 
-nnoremap <C-c> "+yy
+" nnoremap <C-c> "+yy
 vnoremap <C-c> "+y
 
 

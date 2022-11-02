@@ -13,7 +13,8 @@ nnoremap <A-l> 10zl
 nnoremap <C-d> <C-d>zz
 nnoremap <C-u> <C-u>zz
 
-noremap <CR> g_
+" nnoremap <CR> g_
+" vnoremap <CR> g_
 
 noremap! <A-h> <Left>
 noremap! <A-j> <Down>

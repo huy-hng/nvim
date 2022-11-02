@@ -1,7 +1,9 @@
-package.loaded['statusline.helper_functions'] = nil
-package.loaded['statusline.class_component'] = nil
-package.loaded['statusline.data'] = nil
-package.loaded['user.highlights'] = nil
+-- package.loaded['statusline.helper_functions'] = nil
+-- package.loaded['statusline.class_component'] = nil
+-- package.loaded['statusline.data'] = nil
+-- package.loaded['user.highlights'] = nil
+RELOAD('statusline')
+RELOAD('user.highlights')
 
 -- P(package.loaded['statusline.class_component'])
 -- P(package.loaded['statusline.helper_functions'])

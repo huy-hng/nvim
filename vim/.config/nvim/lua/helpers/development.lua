@@ -4,7 +4,7 @@ P = function(v)
 end
 
 RELOAD = function(...)
-	return require('plenary.reload').reload_module(...)
+	require('plenary.reload').reload_module(...)
 end
 
 R = function(name)

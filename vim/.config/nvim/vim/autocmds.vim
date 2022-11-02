@@ -1,5 +1,17 @@
 set autoread
 
+augroup Python
+	autocmd FileType python nnoremap <buffer> <A-m> <cmd>!python %<CR>
+augroup END
+
+augroup CommandlineWindow
+	autocmd!
+	autocmd CmdwinEnter * nnoremap <buffer> <ESC> <cmd>q<CR>
+	autocmd CmdwinEnter * nnoremap <buffer> ; :
+	autocmd WinEnter * nnoremap <buffer> <CR> g_
+	" autocmd BufEnter * nnoremap <buffer> <CR> g_
+augroup END
+
 
 augroup DisableCompletion
 	autocmd!
@@ -10,7 +22,8 @@ augroup END
 augroup somegroup
 	autocmd!
     autocmd User Startified setlocal statusline=\ 
-	autocmd TabNewEntered * Startify
+	" autocmd TabNewEntered * Startify
+
 	" Set to auto read when a file is changed from the outside
 	" autocmd FocusGained,BufEnter,CursorHold,CursorHoldI * if mode() != 'c' | checktime | endif
 
@@ -33,6 +46,7 @@ augroup END
 
 augroup NoComment
 	autocmd!
+	autocmd BufEnter * :set formatoptions-=cro
 	autocmd InsertEnter * :set formatoptions-=cro
 	autocmd InsertLeave * :set formatoptions-=cro
 augroup END
