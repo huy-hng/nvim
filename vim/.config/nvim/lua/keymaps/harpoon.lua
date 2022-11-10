@@ -4,7 +4,7 @@ local harpoon_ui   = require('harpoon.ui')
 local harpoon_mark = require('harpoon.mark')
 local harpoon_term = require('harpoon.term')
 
-local harpoon_prefix = '<leader>h'
+local harpoon_prefix = '<leader>a'
 nmap(harpoon_prefix .. 'h', harpoon_ui.toggle_quick_menu, 'Open Harpoon')
 nmap(harpoon_prefix .. 'a', harpoon_mark.add_file, 'Add file')
 nmap(harpoon_prefix .. 'c', require('harpoon.cmd-ui').toggle_quick_menu, '')

@@ -22,7 +22,7 @@ endfun
 
 vnoremap ' :call Surrounder("'")<CR>
 vnoremap " :call Surrounder('"')<CR>
-vnoremap * :call Surrounder('*')<CR>
+vnoremap <A-*> :call Surrounder('*')<CR>
 vnoremap ` :call Surrounder('`')<CR>
 " vnoremap = :call Surrounder('=')<CR>
 

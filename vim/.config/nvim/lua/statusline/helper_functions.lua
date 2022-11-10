@@ -103,8 +103,8 @@ end
 
 M.get_highlight_color = function(group, term)
 	-- if not M.does_highlight_exist(group) then
-	-- 	print('no existo' .. group)
-	-- 	return nil
+	--	print('no existo' .. group)
+	--	return nil
 	-- end
 	local group_id = vim.fn.hlID(group)
 	local color = vim.fn.synIDattr(group_id, term)
@@ -119,7 +119,7 @@ end
 
 
 M.does_highlight_exist = function(name)
-    local ok = pcall(vim.fn.execute('hi ' .. name))
+	local ok = pcall(vim.fn.execute('hi ' .. name))
 	-- P(ok)
 	if ok then return true else return false end
 end

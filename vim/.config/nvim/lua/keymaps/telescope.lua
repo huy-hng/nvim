@@ -6,7 +6,7 @@ wk.register({["<leader>f"] = { name = "+find" }})
 local telescope = require("telescope.builtin")
 
 nmap('<C-p>', telescope.find_files, 'Find Files')
-nmap('<leader>ff', telescope.find_files, 'Find Files')
+-- nmap('<leader>ff', telescope.find_files, 'Find Files')
 nmap('<leader>fo', telescope.oldfiles, 'Find Old Files')
 nmap('<leader>ft', '<cmd>Telescope<cr>', 'Telescope')
 

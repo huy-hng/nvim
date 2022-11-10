@@ -35,10 +35,6 @@ vnoremap <leader>y "+y
 " nnoremap <C-c> "+yy
 vnoremap <C-c> "+y
 
-
-" change default behaviour of Y which is yy
-nnoremap Y y$
-
 " break undo sequence before pasting from register
 inoremap <C-R> <C-G>u<C-R>
 inoremap <C-v> <C-G>u<C-v>

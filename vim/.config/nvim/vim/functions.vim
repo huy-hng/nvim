@@ -69,22 +69,6 @@ function! ToggleTableFormatting()
 	call vimwiki#vars#init()
 endfunction
 
-
-""""""""""""""""""""""""""""""
-
-
-function! SuperTab()
-  let l:part = strpart(getline('.'),col('.')-2,1)
-  if (l:part =~ '^\W\?$')
-      return "\<Tab>"
-  else
-      return "\<C-n>"
-  endif
-endfunction
-
-"inoremap <Tab> <C-R>=SuperTab()<CR>
-
-
 "===============================================================================
 "                           => Helper functions <=
 "===============================================================================
@@ -123,27 +107,27 @@ function! CmdLine(str)
 endfunction 
 
 
-function! VisualSelection(direction, extra_filter) range
-    let l:saved_reg = @"
-    execute "normal! vgvy"
+" function! VisualSelection(direction, extra_filter) range
+"     let l:saved_reg = @"
+"     execute "normal! vgvy"
 
-    let l:pattern = escape(@", "\\/.*'$^~[]")
-    let l:pattern = substitute(l:pattern, "\n$", "", "")
+"     let l:pattern = escape(@", "\\/.*'$^~[]")
+"     let l:pattern = substitute(l:pattern, "\n$", "", "")
 
-    if a:direction == 'gv'
-        call CmdLine("Ack '" . l:pattern . "' " )
-    elseif a:direction == 'replace'
-        call CmdLine("%s" . '/'. l:pattern . '/')
-    endif
+"     if a:direction == 'gv'
+"         call CmdLine("Ack '" . l:pattern . "' " )
+"     elseif a:direction == 'replace'
+"         call CmdLine("%s" . '/'. l:pattern . '/')
+"     endif
 
-    let @/ = l:pattern
-    let @" = l:saved_reg
-endfunction
+"     let @/ = l:pattern
+"     let @" = l:saved_reg
+" endfunction
 
 " Visual mode pressing * or # searches for the current selection
 " Super useful! From an idea by Michael Naumann
-vnoremap <silent> <A-*> :<C-u>call VisualSelection('', '')<CR>/<C-R>=@/<CR><CR>
-vnoremap <silent> # :<C-u>call VisualSelection('', '')<CR>?<C-R>=@/<CR><CR>
+" vnoremap <silent> <A-*> :<C-u>call VisualSelection('', '')<CR>/<C-R>=@/<CR><CR>
+" vnoremap <silent> # :<C-u>call VisualSelection('', '')<CR>?<C-R>=@/<CR><CR>
 
 
 " Delete trailing white space on save, useful for some filetypes ;)

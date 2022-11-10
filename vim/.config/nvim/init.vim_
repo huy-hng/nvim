@@ -1,2 +1,0 @@
-let $path = $HOME.'/.config/nvim'
-source $path/vimrc

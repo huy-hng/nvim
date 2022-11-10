@@ -187,7 +187,7 @@ cmp.setup({
 			-- vim_item.kind = string.format('%s %s', kind_icons[vim_item.kind], vim_item.kind) -- This concatonates the icons with the name of the item kind
 			vim_item.menu = ({
 				nvim_lsp = '[LSP]',
-				nvim_lua = '[API]',
+				-- nvim_lua = '[API]',
 				luasnip = '[Snippet]',
 				buffer = '[Buffer]',
 				cmdline_history = '[History]',
@@ -198,13 +198,13 @@ cmp.setup({
 		end,
 	},
 	sources = cmp.config.sources({
-		{ name = 'nvim_lsp_signature_help' },
 		{ name = 'nvim_lsp' },
+		{ name = 'nvim_lsp_signature_help' },
 		{ name = 'nvim_lua' },
 		{ name = 'luasnip' },
-		{ name = 'tmux' },
 		{ name = 'cmdline_history' },
 	}, {
+		{ name = 'tmux' },
 		{
 			name = 'buffer',
 			keyword_length = 1,

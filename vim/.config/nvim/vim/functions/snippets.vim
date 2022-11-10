@@ -30,7 +30,7 @@ endfun
 fun! s:create_divider(size, divider)
 	call <SID>comment()
 	let l:comment_len = strlen(getline('.'))
-	execute 'normal!a' . repeat(a:divider, a:size - l:comment_len)
+	execute 'normal!A' . repeat(a:divider, a:size - l:comment_len)
 endfun
 
 

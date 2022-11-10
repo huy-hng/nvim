@@ -4,13 +4,14 @@ if not status_ok then
 	return
 end
 
+-- require('scope').setup()
+
 local groups = require('bufferline.groups')
 -- bufferline.setup{}
 bufferline.setup {
-
 	options = {
 		-- mode = 'tabs',
-		numbers = 'none', -- | 'ordinal' | 'buffer_id' | 'both' | function({ ordinal, id, lower, raise }): string,
+		numbers = 'ordinal', -- | 'ordinal' | 'buffer_id' | 'both' | function({ ordinal, id, lower, raise }): string,
 		-- numbers = function(opts)
 		--	return string.format('%s.%s', opts.ordinal, opts.lower(opts.id))
 		-- end,
@@ -35,40 +36,50 @@ bufferline.setup {
 		-- right_trunc_marker = '>',
 		left_trunc_marker = '',
 		right_trunc_marker = '',
+
 		--- name_formatter can be used to change the buffer's label in the bufferline.
 		--- Please note some names can/will break the
 		--- bufferline so use this at your discretion knowing that it has
 		--- some limitations that will *NOT* be fixed.
-		-- name_formatter = function(buf)	-- buf contains a 'name', 'path' and 'bufnr'
-		--	 -- remove extension from markdown files for example
-		--	 if buf.name:match('%.md') then
-		--		 return vim.fn.fnamemodify(buf.name, ':t:r')
-		--	 end
+		-- name_formatter = function(buf) -- buf contains a 'name', 'path' and 'bufnr'
+		-- 	-- remove extension from markdown files for example
+		-- 	if buf.name:match('%.md') then
+		-- 		return vim.fn.fnamemodify(buf.name, ':t:r')
+		-- 	end
 		-- end,
+		----------------------------------------
+		--             -> Size <-
+		----------------------------------------
+		enforce_regular_tabs = false,
+		tab_size = 1,
 		max_name_length = 18,
 		max_prefix_length = 15, -- prefix used when a buffer is de-duplicated
-		tab_size = 18,
+
 		diagnostics = false, -- | 'nvim_lsp' | 'coc',
 		diagnostics_update_in_insert = false,
 		-- diagnostics_indicator = function(count, level, diagnostics_dict, context)
 		--	 return '('..count..')'
 		-- end,
 		-- NOTE: this will be called a lot so don't do any heavy processing here
-		-- custom_filter = function(buf_number)
-		--	 -- filter out filetypes you don't want to see
-		--	 if vim.bo[buf_number].filetype ~= '<i-dont-want-to-see-this>' then
-		--		 return true
-		--	 end
-		--	 -- filter out by buffer name
-		--	 if vim.fn.bufname(buf_number) ~= '<buffer-name-I-dont-want>' then
-		--		 return true
-		--	 end
-		--	 -- filter out based on arbitrary rules
-		--	 -- e.g. filter out vim wiki buffer from tabline in your work repo
-		--	 if vim.fn.getcwd() == '<work-repo>' and vim.bo[buf_number].filetype ~= 'wiki' then
-		--		 return true
-		--	 end
-		-- end,
+		----------------------------------------
+		--            -> Filter <-
+		----------------------------------------
+		custom_filter = function(buf_number)
+			--	 -- filter out filetypes you don't want to see
+			if vim.bo[buf_number].filetype ~= 'sql' then
+				return true
+			end
+			-- filter out by buffer name
+			-- if vim.fn.bufname(buf_number) ~= '<buffer-name-I-dont-want>' then
+			-- 	return true
+			-- end
+
+			-- filter out based on arbitrary rules
+			-- e.g. filter out vim wiki buffer from tabline in your work repo
+			-- if vim.fn.getcwd() == '<work-repo>' and vim.bo[buf_number].filetype ~= 'wiki' then
+			-- 	return true
+			-- end
+		end,
 		offsets = {
 			{
 				filetype = 'NvimTree',
@@ -91,14 +102,13 @@ bufferline.setup {
 		-- separator_style = 'thin', -- "slant" | "thick" | "thin" | { 'any', 'any' },
 		separator_style = { '', '' },
 		-- separator_style = {'||', '/\\'},
-		enforce_regular_tabs = true,
 		always_show_bufferline = true,
 		hover = {
 			enabled = true,
 			delay = 200,
 			reveal = { 'close' }
 		},
-		-- sort_by = 'id' | 'extension' | 'relative_directory' | 'directory' | 'tabs' | function(buffer_a, buffer_b)
+		-- sort_by = 'tabs', -- 'id' | 'extension' | 'relative_directory' | 'directory' | 'tabs' | function(buffer_a, buffer_b)
 		--	 -- add custom logic
 		--	 return buffer_a.modified > buffer_b.modified
 		-- end
@@ -107,8 +117,12 @@ bufferline.setup {
 				toggle_hidden_on_enter = true -- when you re-enter a hidden group this options re-opens that group so the buffer is visible
 			},
 			items = {
-                groups.builtin.pinned:with({ icon = "" }),
+				groups.builtin.pinned:with({ icon = "" }),
 				groups.builtin.ungrouped,
+				-- groups.builtin.ungrouped:with {
+				-- 	name = 'ungrouped',
+				-- 	auto_close = false,
+				-- },
 				{
 					name = "Vimwiki",
 					-- icon = "", -- Optional

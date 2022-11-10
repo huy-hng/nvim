@@ -13,7 +13,8 @@ local path = require('lspconfig.util').path
 -- }
 
 local function get_pipenv_dir()
-	return vim.fn.trim(vim.fn.system 'pipenv --venv')
+	-- return vim.fn.trim(vim.fn.system 'pipenv --venv')
+	return vim.fn.trim(vim.fn.system 'pipenv --venv -q')
 end
 
 
@@ -67,6 +68,7 @@ M.env = function(root_dir)
 	if _virtual_env ~= '' then
 		vim.env.VIRTUAL_ENV = _virtual_env
 		vim.env.PATH = py_bin_dir() .. vim.env.PATH
+		vim.env.PYTHONPATH = _virtual_env..'/bin/python'
 	end
 
 	if _virtual_env ~= '' and vim.env.PYTHONHOME then
@@ -74,7 +76,8 @@ M.env = function(root_dir)
 		vim.env.PYTHONHOME = ''
 	end
 
-	return _virtual_env ~= '' and py_bin_dir() or ''
+	return _virtual_env ~= '' and _virtual_env or ''
+	-- return _virtual_env ~= '' and py_bin_dir() or ''
 end
 
 -- PEP 582 support

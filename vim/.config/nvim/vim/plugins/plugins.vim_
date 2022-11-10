@@ -8,13 +8,6 @@ Plug 'mbbill/undotree'
 Plug 'unblevable/quick-scope'
 
 
-" Plug 'ryanoasis/vim-devicons' " icon pack for nerdtree
-" Plug 'tiagofumo/vim-nerdtree-syntax-highlight'
-" Plug 'PhilRunninger/nerdtree-buffer-ops'
-" Plug 'francoiscabrol/ranger.vim'
-" Plug 'rbgrouleff/bclose.vim'
-
-
 "---------------------------------------
 "          -> Completion <-
 "---------------------------------------
@@ -26,6 +19,8 @@ Plug 'hrsh7th/cmp-path' " path completions
 Plug 'hrsh7th/cmp-cmdline' " cmdline completions
 Plug 'hrsh7th/cmp-nvim-lsp'
 Plug 'hrsh7th/cmp-nvim-lua'
+Plug 'folke/neodev.nvim'
+
 Plug 'hrsh7th/cmp-nvim-lsp-signature-help'
 Plug 'hrsh7th/cmp-nvim-lsp-document-symbol'
 
@@ -69,9 +64,22 @@ Plug 'phaazon/hop.nvim' " dependency for below
 Plug 'mfussenegger/nvim-treehopper'
 
 
+"===============================================================================
+"                             |=> Development <=|
+"===============================================================================
+Plug 'vim-test/vim-test' " for pytest and other testing frameworks
+Plug 'nvim-neotest/neotest'
+Plug 'nvim-neotest/neotest-python'
+
+"---------------------------------------
+"           -> Database <-
+"---------------------------------------
+Plug 'tpope/vim-dadbod'
+Plug 'kristijanhusak/vim-dadbod-ui'
+
 
 "===============================================================================
-"                                 => Style <=
+"                                 |=> Style <=|
 "===============================================================================
 
 "---------------------------------------
@@ -97,6 +105,8 @@ Plug 'kyazdani42/nvim-tree.lua' " file tree
 Plug 'kevinhwang91/rnvimr' " ranger
 
 Plug 'akinsho/bufferline.nvim', { 'tag': 'v2.*' } " 'tabs' at the top
+Plug 'tiagovla/scope.nvim' " scope buffers to tabs
+
 Plug 'moll/vim-bbye' " stop fucking closing my shit
 " Plug 'itchyny/lightline.vim'
 "Plug 'powerline/powerline'
@@ -120,6 +130,7 @@ Plug 'TimUntersberger/neogit' " magit clone
 Plug 'sindrets/diffview.nvim' " side by side diff view
 
 " Plug 'gko/vim-coloresque'
+Plug 'akinsho/toggleterm.nvim', {'tag' : '*'}
 
 Plug 'tpope/vim-obsession' " save vim sessions
 Plug 'tpope/vim-fugitive' " git stuff

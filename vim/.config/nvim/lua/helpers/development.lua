@@ -1,5 +1,6 @@
 P = function(v)
-	print(vim.inspect(v))
+	vim.pretty_print(v)
+	-- print(vim.inspect(v))
 	return v
 end
 

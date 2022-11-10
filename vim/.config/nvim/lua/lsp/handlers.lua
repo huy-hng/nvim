@@ -10,7 +10,7 @@ M.setup = function()
 	}
 
 	-- for _, sign in ipairs(signs) do
-		-- vim.fn.sign_define(sign.name, { texthl = sign.name, text = sign.text, numhl = '' })
+	-- vim.fn.sign_define(sign.name, { texthl = sign.name, text = sign.text, numhl = '' })
 	-- end
 
 	local config = {
@@ -35,17 +35,14 @@ M.setup = function()
 
 	vim.diagnostic.config(config)
 
-	vim.lsp.handlers['textDocument/hover'] = vim.lsp.with(
-		vim.lsp.handlers.hover,
-		{ border = 'rounded', --[[ width = 60 ]] }
-	)
+	vim.lsp.handlers['textDocument/hover'] = vim.lsp.with(vim.lsp.handlers.hover, {
+		border = 'rounded', --[[ width = 60 ]]
+	})
 
-	vim.lsp.handlers['textDocument/signatureHelp'] = vim.lsp.with(
-		vim.lsp.handlers.signature_help,
-		{ border = 'rounded', --[[ width = 60 ]] }
-	)
+	vim.lsp.handlers['textDocument/signatureHelp'] = vim.lsp.with(vim.lsp.handlers.signature_help, {
+		border = 'rounded', --[[ width = 60 ]]
+	})
 end
-
 
 local fn = require('helpers.wrappers').fn
 
@@ -57,13 +54,23 @@ nmap('[d', vim.diagnostic.goto_prev)
 nmap(']d', vim.diagnostic.goto_next)
 -- nmap('<leader>q', vim.diagnostic.setloclist, opts)
 
-
 local buf_nnoremap = function(lhs, rhs, bufnr, desc, opts)
 	opts = opts or {}
 	opts.buffer = bufnr
 	nmap(lhs, rhs, desc, opts)
 end
 
+local lsp_formatting = function(--[[ bufnr ]])
+	vim.lsp.buf.format({
+		filter = function(client)
+			-- apply whatever logic you want (in this example, we'll only use null-ls)
+			-- return client.name == "sumneko_lua"
+			return client.name == 'null-ls'
+		end,
+		-- bufnr = bufnr,
+		-- async = true,
+	})
+end
 
 -- Use an on_attach function to only map the following keys
 -- after the language server attaches to the current buffer
@@ -84,24 +91,40 @@ local lsp_keymaps = function(bufnr)
 	buf_nnoremap('<F2>', vim.lsp.buf.rename) -- <leader>r, bufnr)
 	buf_nnoremap('<F12>', vim.lsp.buf.references) -- g, bufnr)
 	buf_nnoremap('<leader>ca', vim.lsp.buf.code_action, bufnr)
-	buf_nnoremap('<leader>lf', fn(vim.lsp.buf.format, { async = true }), bufnr, 'Format Document')
+	-- buf_nnoremap('<leader>ff', fn(vim.lsp.buf.format, { async = true }), bufnr, 'Format Document')
+	buf_nnoremap('<leader>ff', lsp_formatting, bufnr, 'Format Document')
+
+	-- buf_nnoremap('<leader>ff', fn(vim.lsp.buf.format, {
+	-- 	async = true,
+	-- 	filter = function(client)
+	-- 		--  only use null-ls for formatting instead of lsp server
+	-- 		return client.name == "null-ls"
+	-- 	end,
+	-- }), bufnr, 'Format Document')
 end
 
 local function lsp_highlight_document(client)
 	-- Set autocommands conditional on server_capabilities
 	local status_ok, illuminate = pcall(require, 'illuminate')
-	if not status_ok then
-		return
-	end
+	if not status_ok then return end
 	illuminate.on_attach(client)
 end
 
+-- if you want to set up formatting on save, you can use this as a callback
+local augroup = vim.api.nvim_create_augroup('LspFormatting', {})
+
 M.on_attach = function(client, bufnr)
+	if client.supports_method 'textDocument/formatting' then
+		vim.api.nvim_clear_autocmds({ group = augroup, buffer = bufnr })
+		vim.api.nvim_create_autocmd('BufWritePre', {
+			group = augroup,
+			buffer = bufnr,
+			callback = function() lsp_formatting(bufnr) end,
+		})
+	end
 	-- vim.notify(client.name .. ' starting...')
 	-- TODO: refactor this into a method that checks if string in list
-	if client.name == 'tsserver' then
-		client.resolved_capabilities.document_formatting = false
-	end
+	if client.name == 'tsserver' then client.resolved_capabilities.document_formatting = false end
 	lsp_keymaps(bufnr)
 	-- lsp_highlight_document(client)
 end
@@ -109,33 +132,29 @@ end
 local capabilities = vim.lsp.protocol.make_client_capabilities()
 
 local status_ok, cmp_nvim_lsp = pcall(require, 'cmp_nvim_lsp')
-if not status_ok then
-	return
-end
-
+if not status_ok then return end
 
 M.capabilities = cmp_nvim_lsp.default_capabilities(capabilities)
 
-
-local lsp_flags = {
-	-- This is the default in Nvim 0.7+
-	debounce_text_changes = 150,
-}
-require('lspconfig')['pyright'].setup {
-	on_attach = M.on_attach,
-	flags = lsp_flags,
-}
-require('lspconfig')['tsserver'].setup {
-	on_attach = M.on_attach,
-	flags = lsp_flags,
-}
-require('lspconfig')['rust_analyzer'].setup {
-	on_attach = M.on_attach,
-	flags = lsp_flags,
-	-- Server-specific settings...
-	settings = {
-		['rust-analyzer'] = {}
-	}
-}
+-- local lsp_flags = {
+-- 	-- This is the default in Nvim 0.7+
+-- 	debounce_text_changes = 150,
+-- }
+-- require('lspconfig')['pyright'].setup {
+-- 	on_attach = M.on_attach,
+-- 	flags = lsp_flags,
+-- }
+-- require('lspconfig')['tsserver'].setup {
+-- 	on_attach = M.on_attach,
+-- 	flags = lsp_flags,
+-- }
+-- require('lspconfig')['rust_analyzer'].setup {
+-- 	on_attach = M.on_attach,
+-- 	flags = lsp_flags,
+-- 	-- Server-specific settings...
+-- 	settings = {
+-- 		['rust-analyzer'] = {}
+-- 	}
+-- }
 
 return M

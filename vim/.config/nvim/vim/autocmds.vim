@@ -8,7 +8,7 @@ augroup CommandlineWindow
 	autocmd!
 	autocmd CmdwinEnter * nnoremap <buffer> <ESC> <cmd>q<CR>
 	autocmd CmdwinEnter * nnoremap <buffer> ; :
-	autocmd WinEnter * nnoremap <buffer> <CR> g_
+	" autocmd WinEnter * nnoremap <buffer> <CR> g_
 	" autocmd BufEnter * nnoremap <buffer> <CR> g_
 augroup END
 
@@ -21,7 +21,6 @@ augroup END
 
 augroup somegroup
 	autocmd!
-    autocmd User Startified setlocal statusline=\ 
 	" autocmd TabNewEntered * Startify
 
 	" Set to auto read when a file is changed from the outside
