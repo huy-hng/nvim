@@ -28,6 +28,10 @@ function Component:get_mode_color(mode)
 	if mode == 'mode' and is_active then
 		local m = vim.api.nvim_get_mode().mode
 		highlight = data.mode_colors[m]
+
+		if highlight == nil then
+			highlight = data.mode_colors[string.sub(m, 1, 1)]
+		end
 	end
 
 	return {
