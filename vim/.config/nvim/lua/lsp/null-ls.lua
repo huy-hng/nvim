@@ -11,14 +11,12 @@ local formatting = null_ls.builtins.formatting
 local augroup = vim.api.nvim_create_augroup('LspFormatting', {})
 
 null_ls.setup({
-	debug = false,
+	debug = true,
 	sources = {
-		formatting.prettier.with({ extra_args = { '--no-semi', '--single-quote', '--jsx-single-quote' } }),
-		-- formatting.black.with({ extra_args = { "--fast" } }),
 		formatting.autopep8.with({ extra_args = { '--ignore W191,E402' } }),
-		-- formatting.lua_format.with({ '-i', '--double-quote-to-single-quote' }),
-		formatting.yamlfmt,
 		formatting.stylua,
+		formatting.yamlfmt,
+		formatting.prettier.with({ extra_args = { '--no-semi', '--single-quote', '--jsx-single-quote' } }),
 		-- diagnostics.flake8
 	},
 

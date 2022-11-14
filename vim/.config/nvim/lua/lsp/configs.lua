@@ -4,7 +4,6 @@ local servers = {
 	'jsonls',
 	'sumneko_lua',
 	'pyright',
-	-- 'yamlfmt'
 }
 
 local lsp_flags = {

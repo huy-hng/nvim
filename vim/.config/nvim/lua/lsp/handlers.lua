@@ -61,15 +61,13 @@ local buf_nnoremap = function(lhs, rhs, bufnr, desc, opts)
 end
 
 local lsp_formatting = function(--[[ bufnr ]])
-	vim.lsp.buf.format({
+	vim.lsp.buf.format {
 		filter = function(client)
-			-- apply whatever logic you want (in this example, we'll only use null-ls)
 			-- return client.name == "sumneko_lua"
 			return client.name == 'null-ls'
 		end,
-		-- bufnr = bufnr,
 		-- async = true,
-	})
+	}
 end
 
 -- Use an on_attach function to only map the following keys
@@ -86,27 +84,38 @@ local lsp_keymaps = function(bufnr)
 	-- buf_nnoremap('<C-k>', vim.lsp.buf.signature_help, bufnr)
 	buf_nnoremap('<leader>wa', vim.lsp.buf.add_workspace_folder, bufnr)
 	buf_nnoremap('<leader>wr', vim.lsp.buf.remove_workspace_folder, bufnr)
-	buf_nnoremap('<leader>wl', function() print(vim.inspect(vim.lsp.buf.list_workspace_folders())) end, bufnr)
+	buf_nnoremap(
+		'<leader>wl',
+		function() print(vim.inspect(vim.lsp.buf.list_workspace_folders())) end,
+		bufnr
+	)
 	buf_nnoremap('<leader>D', vim.lsp.buf.type_definition, bufnr)
 	buf_nnoremap('<F2>', vim.lsp.buf.rename) -- <leader>r, bufnr)
 	buf_nnoremap('<F12>', vim.lsp.buf.references) -- g, bufnr)
 	buf_nnoremap('<leader>ca', vim.lsp.buf.code_action, bufnr)
 	-- buf_nnoremap('<leader>ff', fn(vim.lsp.buf.format, { async = true }), bufnr, 'Format Document')
-	buf_nnoremap('<leader>ff', lsp_formatting, bufnr, 'Format Document')
+	-- buf_nnoremap('<leader>ff', lsp_formatting, bufnr, 'Format Document')
 
-	-- buf_nnoremap('<leader>ff', fn(vim.lsp.buf.format, {
-	-- 	async = true,
-	-- 	filter = function(client)
-	-- 		--  only use null-ls for formatting instead of lsp server
-	-- 		return client.name == "null-ls"
-	-- 	end,
-	-- }), bufnr, 'Format Document')
+	buf_nnoremap(
+		'<leader>ff',
+		fn(vim.lsp.buf.format, {
+			async = true,
+			filter = function(client)
+				--  only use null-ls for formatting instead of lsp server
+				return client.name == 'null-ls'
+			end,
+		}),
+		bufnr,
+		'Format Document'
+	)
 end
 
 local function lsp_highlight_document(client)
 	-- Set autocommands conditional on server_capabilities
 	local status_ok, illuminate = pcall(require, 'illuminate')
-	if not status_ok then return end
+	if not status_ok then
+		return
+	end
 	illuminate.on_attach(client)
 end
 
@@ -114,17 +123,20 @@ end
 local augroup = vim.api.nvim_create_augroup('LspFormatting', {})
 
 M.on_attach = function(client, bufnr)
-	if client.supports_method 'textDocument/formatting' then
-		vim.api.nvim_clear_autocmds({ group = augroup, buffer = bufnr })
-		vim.api.nvim_create_autocmd('BufWritePre', {
-			group = augroup,
-			buffer = bufnr,
-			callback = function() lsp_formatting(bufnr) end,
-		})
-	end
+	-- autoformat on save
+	-- if client.supports_method 'textDocument/formatting' then
+	-- 	vim.api.nvim_clear_autocmds({ group = augroup, buffer = bufnr })
+	-- 	vim.api.nvim_create_autocmd('BufWritePre', {
+	-- 		group = augroup,
+	-- 		buffer = bufnr,
+	-- 		callback = function() lsp_formatting(bufnr) end,
+	-- 	})
+	-- end
 	-- vim.notify(client.name .. ' starting...')
 	-- TODO: refactor this into a method that checks if string in list
-	if client.name == 'tsserver' then client.resolved_capabilities.document_formatting = false end
+	if client.name == 'tsserver' then
+		client.resolved_capabilities.document_formatting = false
+	end
 	lsp_keymaps(bufnr)
 	-- lsp_highlight_document(client)
 end
@@ -132,7 +144,9 @@ end
 local capabilities = vim.lsp.protocol.make_client_capabilities()
 
 local status_ok, cmp_nvim_lsp = pcall(require, 'cmp_nvim_lsp')
-if not status_ok then return end
+if not status_ok then
+	return
+end
 
 M.capabilities = cmp_nvim_lsp.default_capabilities(capabilities)
 
