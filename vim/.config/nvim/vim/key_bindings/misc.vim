@@ -4,8 +4,8 @@
 
 " F keys for extra functions
 nnoremap <F3> :set hlsearch!<CR>:set hlsearch?<CR>
-nnoremap <silent><F4> :call Toggle_Conceal()<CR>
-nnoremap <leader><CR> :call FlashCursor()<CR>
+nnoremap <silent><F4> <cmd>call Toggle_Conceal()<CR>
+nnoremap <leader><CR> <cmd>lua FlashCursor(3)<CR>
 nnoremap <F8> :call Wrap()<CR>
 
 " open file tree on the side
