@@ -31,7 +31,7 @@ g.gui_font_face = 'FiraCode Nerd Font'
 --             -> Sizes <-
 -----------------------------------------
 g.neovide_underline_automatic_scaling = true
-g.gui_font_default_size = 11 -- 10 on manjaro i think
+g.gui_font_default_size = 11.5 -- 10 on manjaro i think
 g.neovide_scale_factor = 1.0
 g.gui_font_size = g.gui_font_default_size
 

@@ -1,13 +1,14 @@
+local opt = vim.opt
 local o = vim.o
-local g = vim.g
 local go = vim.go
+local g = vim.g
 
--- vim.filetype.add({
+g.mapleader = ' '
+g.maplocalleader = '\\'
+-- vim.filetype.add {
 -- 	plugin = true,
 -- 	indent = true,
--- })
-
--- vim.opt.relativenumber = true
+-- }
 
 --==============================================================================
 --                             |=> Appearance <=|
@@ -25,8 +26,8 @@ o.cursorlineopt = 'line,number'
 o.termguicolors = true -- true color
 
 -- gutter
-o.signcolumn = "yes" -- show sign column so that text doesn't shift
-o.numberwidth=4 -- set to something smaller to reduce gutter size
+o.signcolumn = 'yes' -- show sign column so that text doesn't shift
+o.numberwidth = 4 -- set to something smaller to reduce gutter size
 
 -- folding
 -- go.foldlevelstart
@@ -35,18 +36,17 @@ o.foldenable = false
 
 o.foldmethod = 'expr'
 o.foldexpr = 'nvim_treesitter#foldexpr()'
-vim.api.nvim_create_autocmd({'BufEnter','BufAdd','BufNew','BufNewFile','BufWinEnter'}, {
-  group = vim.api.nvim_create_augroup('TS_FOLD_WORKAROUND', {}),
-  callback = function()
-    o.foldmethod = 'expr'
-    o.foldexpr = 'nvim_treesitter#foldexpr()'
-  end
+vim.api.nvim_create_autocmd({ 'BufEnter', 'BufAdd', 'BufNew', 'BufNewFile', 'BufWinEnter' }, {
+	group = vim.api.nvim_create_augroup('TS_FOLD_WORKAROUND', {}),
+	callback = function()
+		o.foldmethod = 'expr'
+		o.foldexpr = 'nvim_treesitter#foldexpr()'
+	end,
 })
 
 -- editor
-o.cmdheight = 0
-o.ls = 1
-o.ruler = true
+go.cmdheight = 0
+go.ruler = true
 go.winbar = '%f'
 go.laststatus = 3
 
@@ -76,20 +76,20 @@ o.wrap = false -- disable line wrapping
 o.showbreak = '--> ' -- prefix for soft-wrapped lines
 o.linebreak = true -- soft-wrap lines only at certain characters (see :help breakat)
 o.breakindent = true -- indent wraps
-o.cpoptions = o.cpoptions .. 'n'
-o.whichwrap = 'b,s,<,>,h,l'
+opt.cpoptions:append 'n'
+
+opt.whichwrap:append '<,>,h,l'
 
 -- search settings
 o.ignorecase = true -- ignore case when searching
 o.smartcase = true -- if you include mixed case in your search, assumes you want case-sensitive
 o.incsearch = true
 
-
 o.hidden = true
 o.lazyredraw = true
 
 -- backspace
-o.backspace = "indent,eol,start" -- allow backspace on indent, end of line or insert mode start position
+-- o.backspace = 'indent,eol,start' -- allow backspace on indent, end of line or insert mode start position
 
 -- clipboard
 -- g.clipboard:append("unnamedplus") -- use system clipboard as default register
@@ -108,7 +108,7 @@ go.visualbell = false
 go.compatible = false
 
 -- stop auto comment for new lines
-o.formatoptions = 'tqj' -- should be optimally -=cro
+opt.formatoptions:remove { 'c', 'r', 'o' }
 
 --==============================================================================
 --                       |=> Editor User Interface <=|
@@ -117,12 +117,11 @@ o.formatoptions = 'tqj' -- should be optimally -=cro
 go.scrolloff = 8
 go.sidescroll = 1
 go.sidescrolloff = 8
-vim.cmd('set wildignore=*.o,*~,*.pyc')
-vim.cmd('set wildmenu')
+vim.cmd 'set wildignore=*.o,*~,*.pyc'
+vim.cmd 'set wildmenu'
 
 -- g.showmatch = true
 -- g.match = 2
 -- g.magic = true
 go.timeoutlen = 400
 -- go.
-
