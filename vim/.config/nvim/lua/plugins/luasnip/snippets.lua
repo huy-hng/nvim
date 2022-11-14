@@ -1,11 +1,14 @@
-local ls = require "luasnip"
+if vim.g.snippets ~= 'luasnip' or not pcall(require, 'luasnip') then
+	return
+end
+
+local ls = require 'luasnip'
 
 -- create snippet
 -- s(context, nodes, condition, ...)
 local snippet = ls.s
 
 local snippet_from_nodes = ls.sn
-
 
 -- This is the simplest node.
 --  Creates a new text node. Places cursor after node by default.
@@ -40,7 +43,14 @@ local c = ls.choice_node
 local d = ls.dynamic_node
 
 -- TODO: Document what I've learned about lambda
-local l = require("luasnip.extras").lambda
+local l = require('luasnip.extras').lambda
 
-local events = require "luasnip.util.events"
+local events = require 'luasnip.util.events'
 
+snippet('asdf', {
+	i(1),
+	t 'text',
+	i(2),
+	t 'text again',
+	i(3),
+})
