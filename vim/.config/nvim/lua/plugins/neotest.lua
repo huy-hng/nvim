@@ -1,12 +1,12 @@
-local neotest = require('neotest')
+local neotest = require 'neotest'
 
-local python_adapter = require("neotest-python")({
+local python_adapter = require 'neotest-python' {
 	-- Extra arguments for nvim-dap configuration
 	-- See https://github.com/microsoft/debugpy/wiki/Debug-configuration-settings for values
 	dap = { justMyCode = false },
 	-- Command line arguments for runner
 	-- Can also be a function to return dynamic values
-	args = { "--log-level", "DEBUG" },
+	args = { '--log-level', 'DEBUG' },
 	-- Runner to use. Will use pytest if available by default.
 	-- Can be a function to return dynamic value.
 	-- runner = "pytest",
@@ -20,10 +20,10 @@ local python_adapter = require("neotest-python")({
 	-- Returns if a given file path is a test file.
 	-- NB: This function is called a lot so don't perform any heavy tasks within it.
 	-- is_test_file = function(file_path)
-		-- ...
+	-- ...
 	-- end,
-})
-neotest.setup({
+}
+neotest.setup {
 	adapters = {
 		python_adapter,
 		-- require('neotest-plenary'),
@@ -31,7 +31,7 @@ neotest.setup({
 		--   ignore_file_types = { 'python', 'vim', 'lua' },
 		-- }),
 	},
-})
+}
 
 -- nearest test
 -- neotest.run.run()
