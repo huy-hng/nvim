@@ -1,0 +1,5 @@
+column_width = 100
+quote_style = 'ForceSingle'
+call_parentheses = 'None'
+# call_parentheses = 'NoSingleTable'
+collapse_simple_statement = 'FunctionOnly'

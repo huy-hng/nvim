@@ -5,8 +5,6 @@ local require_dir = require 'helpers.require_dir'
 require_dir 'lua/core'
 
 local function normal_init()
-	require 'options'
-
 	vim.cmd [[
 		let $path = $HOME.'/.config/nvim/vim'
 
@@ -47,7 +45,10 @@ local function normal_init()
 	end
 end
 
-local minimal_init = function() require 'minimal_init' end
+local test_init = function()
+	require 'test_init'
+	print 'test'
+end
 
-normal_init()
--- minimal_init()
+-- normal_init()
+test_init()
