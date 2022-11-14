@@ -22,32 +22,30 @@ end
 -- local output_bufnr, command = 7, {'python', 'main.py'}
 
 vim.api.nvim_create_user_command('RunCurrentFile', function()
-	local bufname = vim.fn.bufname('%')
-	local output_bufnr = vim.fn.input('Bufnr: ')
+	local bufname = vim.fn.bufname '%'
+	local output_bufnr = vim.fn.input 'Bufnr: '
 
 	local command = 'python ' .. bufname
 	attach_to_buffer(tonumber(output_bufnr), '.py', command)
 end, {})
 
 vim.api.nvim_create_user_command('AutoRun', function()
-	print('autorunner')
+	print 'autorunner'
 
-	local bufnr = vim.fn.input('Bufnr: ')
-	local pattern = vim.fn.input('Pattern: ')
-	local command = vim.fn.input('Command: ')
+	local bufnr = vim.fn.input 'Bufnr: '
+	local pattern = vim.fn.input 'Pattern: '
+	local command = vim.fn.input 'Command: '
 	local parsed_command = vim.split(command, ' ')
 	attach_to_buffer(tonumber(bufnr), pattern, parsed_command)
 end, {})
 
-
 function test_automatic_buffer()
-	local all_buffers = vim.fn.getbufinfo({bufloaded = 1, buflisted = 1})
+	local all_buffers = vim.fn.getbufinfo { bufloaded = 1, buflisted = 1 }
 	local output_bufnr = 42069
 	for _, buf in ipairs(all_buffers) do
 		if buf['bufnr'] ~= output_bufnr then
-			print('exists!!')
+			print 'exists!!'
 		end
 		P(buf['bufnr'])
 	end
 end
-

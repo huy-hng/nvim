@@ -9,23 +9,18 @@ function Account:new(o)
 	return o
 end
 
-function Account:withdraw(v)
-	self.balance = self.balance - v
-end
+function Account:withdraw(v) self.balance = self.balance - v end
 
 function Account:deposit(v)
 	self.balance = self.balance + v
 	-- return self.balance
 end
 
-function Account:get_balance()
-	return self.balance
-end
+function Account:get_balance() return self.balance end
 
-local a = Account:new{balance = 20}
+local a = Account:new { balance = 20 }
 a:deposit(200.00)
 a:withdraw(100.00)
-
 
 local b = Account:new()
 b:deposit(50.0)
@@ -40,30 +35,6 @@ a.a = 9
 -- P(a:get_balance())
 -- P(b:get_balance())
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 Shape = { a = 123, num = 100 }
 function Shape:new(o, new_num, new)
 	o = o or {}
@@ -77,9 +48,7 @@ function Shape:new(o, new_num, new)
 	return o
 end
 
-function Shape:add(num)
-	self.num = self.num + num
-end
+function Shape:add(num) self.num = self.num + num end
 
 -- Creating an object
 -- local sh1 = Shape:new({ b = 234 }, 10, 94)

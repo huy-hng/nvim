@@ -13,7 +13,6 @@ wk.register({ ['<leader>b'] = { name = '+Buffers' } })
 
 -- nmap('<leader>bb', ':buffers<cr>:buffer<space>', 'Select')
 nmap('<leader>ba', cmd('%bd | e# | bd#'), 'Close all, except current')
--- nmap('<leader>bd', cmd('Bclose | tabclose') .. 'gT', 'Close current')
 nmap('<leader>bf', cmd('Telescope buffers'), 'Fuzzy find')
 
 ----------------------------------------
