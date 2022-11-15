@@ -5,16 +5,15 @@ end
 
 local snip_status_ok, luasnip = pcall(require, 'luasnip')
 if not snip_status_ok then
-	print('snip error')
+	print 'snip error'
 	return
 end
 
 -- require("luasnip/loaders/from_vscode").lazy_load()
 local check_backspace = function()
-	local col = vim.fn.col "." - 1
-	return col == 0 or vim.fn.getline("."):sub(col, col):match "%s"
+	local col = vim.fn.col '.' - 1
+	return col == 0 or vim.fn.getline('.'):sub(col, col):match '%s'
 end
-
 
 --   פּ ﯟ   some other good icons
 local kind_icons = {
@@ -48,8 +47,7 @@ local kind_icons = {
 	cmdline_history = '',
 }
 
-
-cmp.setup({
+cmp.setup {
 	snippet = {
 		-- REQUIRED - you must specify a snippet engine
 		expand = function(args)
@@ -63,11 +61,18 @@ cmp.setup({
 	window = {
 		-- completion = cmp.config.window.bordered(),
 		documentation = cmp.config.window.bordered(
-			'╭', '─', '╮', '│', '╯', '─', '╰', '│'
-		)
+			'╭',
+			'─',
+			'╮',
+			'│',
+			'╯',
+			'─',
+			'╰',
+			'│'
+		),
 	},
 	-- mapping = {
-	mapping = cmp.mapping.preset.insert({
+	mapping = cmp.mapping.preset.insert {
 		-- navigation
 		['<C-j>'] = cmp.mapping(function(_)
 			if cmp.visible() then
@@ -89,7 +94,7 @@ cmp.setup({
 		['<C-d>'] = cmp.mapping.scroll_docs(4),
 
 		-- accept / abort
-		["<C-l>"] = cmp.mapping(
+		['<C-l>'] = cmp.mapping(
 			cmp.mapping.confirm {
 				behavior = cmp.ConfirmBehavior.Insert,
 				select = true,
@@ -99,9 +104,11 @@ cmp.setup({
 		['<C-h>'] = cmp.mapping(cmp.mapping.abort(), { 'i', 'c' }),
 
 		-- open completion menu
-		["<C-Space>"] = cmp.mapping {
+		['<C-Space>'] = cmp.mapping {
 			i = cmp.mapping.complete(),
-			c = function(_ --[[fallback]])
+			c = function(
+				_ --[[fallback]]
+			)
 				if cmp.visible() then
 					if not cmp.confirm { select = true } then
 						return
@@ -114,8 +121,8 @@ cmp.setup({
 
 		-- remove bindings
 		['<C-y>'] = cmp.config.disable,
-		["<Tab>"] = cmp.config.disable,
-		["<C-e>"] = cmp.config.disable,
+		['<Tab>'] = cmp.config.disable,
+		['<C-e>'] = cmp.config.disable,
 		-- ['<CR>'] = cmp.mapping.confirm({ select = false }), -- Accept currently selected item. Set `select` to `false` to only confirm explicitly selected items.
 		-- ["<tab>"] = cmp.mapping {
 		--   i = cmp.config.disable,
@@ -177,7 +184,7 @@ cmp.setup({
 		--	'i',
 		--	's',
 		-- }),
-	}),
+	},
 	formatting = {
 		fields = { 'kind', 'abbr', 'menu' },
 		-- fields = { 'abbr', 'menu' },
@@ -216,8 +223,8 @@ cmp.setup({
 					end
 					return vim.tbl_keys(bufs) -- only visible buffers
 					-- return vim.api.nvim_list_bufs() -- all buffers
-				end
-			}
+				end,
+			},
 		},
 		{ name = 'path', keyword_length = 3 },
 	}),
@@ -229,7 +236,7 @@ cmp.setup({
 		ghost_text = false,
 		native_menu = false,
 	},
-})
+}
 
 -- Set configuration for specific filetype.
 cmp.setup.filetype('gitcommit', {
@@ -237,7 +244,7 @@ cmp.setup.filetype('gitcommit', {
 		{ name = 'cmp_git' }, -- You can specify the `cmp_git` source if you were installed it.
 	}, {
 		{ name = 'buffer' },
-	})
+	}),
 })
 
 -- P(cmp.select_next_item)
@@ -247,8 +254,8 @@ cmp.setup.cmdline({ '/', '?' }, {
 	sources = {
 		{ name = 'cmdline_history' },
 		{ name = 'nvim_lsp_document_symbol' },
-		{ name = 'buffer' }
-	}
+		{ name = 'buffer' },
+	},
 })
 
 -- Use cmdline & path source for ':' (if you enabled `native_menu`, this won't work anymore).
@@ -258,8 +265,7 @@ cmp.setup.cmdline(':', {
 		{ name = 'cmdline' },
 		{ name = 'cmdline_history' },
 		{ name = 'path' },
-	}, {
-	}),
+	}, {}),
 	formatting = {
 		fields = { 'kind', 'abbr', 'menu' },
 		format = function(entry, vim_item)
