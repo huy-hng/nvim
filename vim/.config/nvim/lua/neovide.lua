@@ -1,18 +1,24 @@
+local g = vim.g
+local go = vim.go
 --===============================================================================
 --                                 |=> GUI <=|
 --===============================================================================
 
--- add time to statusline
--- fun! NeovideStatusline()
-	-- return MyStatusline() .. "| %{strftime('%H:%M')} "
--- endfun
+-- os specific settings
 
--- set statusline=%!NeovideStatusline()
+-- chromebook
+g.neovide_refresh_rate = 50
+g.gui_font_default_size = 11.5 -- 10 on manjaro i think
+
+
+-- manjaro
+g.neovide_refresh_rate = 120
+g.gui_font_default_size = 10
 
 -----------------------------------------
 --             -> Looks <-
 -----------------------------------------
-local g = vim.g
+
 g.neovide_fullscreen = true
 g.neovide_profiler = false
 
@@ -20,6 +26,8 @@ g.neovide_profiler = false
 g.neovide_transparency = 1
 g.neovide_floating_blur_amount_x = 6.0
 g.neovide_floating_blur_amount_y = 6.0
+-- go.winblend = 100
+-- go.pumblend = 30
 -- g.transparency = 1
 -- g.neovide_background_color = '#0f1117'.printf('%x', float2nr(255 * g:transparency))
 
@@ -31,7 +39,6 @@ g.gui_font_face = 'FiraCode Nerd Font'
 --             -> Sizes <-
 -----------------------------------------
 g.neovide_underline_automatic_scaling = true
-g.gui_font_default_size = 11.5 -- 10 on manjaro i think
 g.neovide_scale_factor = 1.0
 g.gui_font_size = g.gui_font_default_size
 
@@ -39,7 +46,6 @@ g.gui_font_size = g.gui_font_default_size
 -----------------------------------------
 --           -> Behavior <-
 -----------------------------------------
-g.neovide_refresh_rate = 50
 g.neovide_refresh_rate_idle = 15
 g.neovide_confirm_quit = true
 g.neovide_remember_window_size = true
