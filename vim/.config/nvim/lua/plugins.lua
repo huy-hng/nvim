@@ -108,9 +108,21 @@ return packer.startup {
 		--===============================================================================
 		--                             |=> Development <=|
 		--===============================================================================
+
+		use 'mfussenegger/nvim-dap' -- debugging
+
+		----------------------------------------
+		--           -> Testing <-
+		----------------------------------------
 		use 'vim-test/vim-test' -- for pytest and other testing frameworks
-		use 'nvim-neotest/neotest'
 		use 'nvim-neotest/neotest-python'
+		use {
+			'nvim-neotest/neotest',
+			requires = {
+				'nvim-lua/plenary.nvim',
+				'nvim-treesitter/nvim-treesitter',
+			},
+		}
 
 		-----------------------------------------
 		--           -> Database <-
@@ -171,7 +183,9 @@ return packer.startup {
 		use {
 			'lewis6991/gitsigns.nvim',
 			requires = { 'nvim-lua/plenary.nvim' },
-			config = function() require('gitsigns').setup() end,
+			config = function()
+				require('gitsigns').setup()
+			end,
 		}
 
 		use 'windwp/nvim-autopairs' -- pair brackets
@@ -184,7 +198,9 @@ return packer.startup {
 	end,
 	config = {
 		display = {
-			open_fn = function() return require('packer.util').float { border = 'rounded' } end,
+			open_fn = function()
+				return require('packer.util').float { border = 'rounded' }
+			end,
 		},
 	},
 }
