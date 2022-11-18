@@ -1,7 +1,20 @@
-local require_dir = require 'helpers.require_dir'
-require_dir 'lua/core'
+local map = vim.keymap.set
+local unmap = vim.keymap.del
+local o = vim.o
+local g = vim.g
+local go = vim.go
 
-local cmd = require('helpers.wrappers').cmd
-nmap('<leader>w', cmd 'w')
+
+-- local require_dir = require 'helpers.require_dir'
+-- require_dir 'lua/core'
+
+
+g.mapleader = ' '
+
+-- unmap('n', 'q')
+
+map('n', ';', ':')
+map('n', '<leader>w', '<cmd>w<cr>')
+map('n', '<leader>q', '<cmd>q<cr>')
 
 vim.go.laststatus = 3

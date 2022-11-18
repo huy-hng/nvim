@@ -1,3 +1,5 @@
+---@diagnostic disable: lowercase-global
+
 local function bind(op, outer_opts)
 	outer_opts = outer_opts or {
 		noremap = true,
@@ -10,7 +12,6 @@ local function bind(op, outer_opts)
 		if not status then
 			print('Keymap Error: ', op, lhs, rhs)
 		end
-		-- vim.keymap.set(op, lhs, rhs, opts)
 	end
 end
 
@@ -26,6 +27,8 @@ end
 -- cmap
 -- tmap
 
+
+unmap = vim.keymap.del
 map = function(op, lhs, rhs, description, opts)
 	opts = opts or {}
 	opts.desc = description or ''

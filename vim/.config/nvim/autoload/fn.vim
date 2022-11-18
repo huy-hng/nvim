@@ -1,4 +1,5 @@
 function! fn#save_and_load() abort
+	:silent! wa
 	:silent! write
 	if &filetype == 'vim'
 		:source %

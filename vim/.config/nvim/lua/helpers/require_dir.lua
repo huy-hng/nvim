@@ -59,6 +59,9 @@ return function(dir)
 	local requires = get_all_requires(dir)
 	for _, require_file in ipairs(requires) do
 		-- print(require_file)
-		require(require_file)
+		local status, _ = pcall(require, require_file)
+		if not status then
+			print('Error importing:', require_file, debug.traceback())
+		end
 	end
 end

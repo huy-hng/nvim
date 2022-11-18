@@ -1,53 +1,51 @@
-NVIM_CONFIG_PATH = os.getenv 'HOME' .. '/.config/nvim/'
+NVIM_CONFIG_PATH = os.getenv('HOME') .. '/.config/nvim/'
 package.path = NVIM_CONFIG_PATH .. '?.lua;' .. package.path
 
-local require_dir = require 'helpers.require_dir'
-require_dir 'lua/core'
+REQUIRE_DIRS = {
+	'lua/core',
+	'lua/helpers',
+	'lua/keymaps',
+	'lua/plugins',
+	'lua/user',
+	'lua/functions',
+}
 
-local function normal_init()
-	require 'options'
+require('options')
+require('colorscheme')
+require('plugins')
+require('autocmd')
 
-	vim.cmd [[
-		let $path = $HOME.'/.config/nvim/vim'
-
-		fun! SourceDir(dir_name)
-			let $dir_path = $path..'/'..a:dir_name..'/*.vim'
-
-			for f in split(glob($dir_path), '\n')
-				exe 'source' f
-			endfor
-		endfun
-
-		call SourceDir('functions')
-		call SourceDir('key_bindings')
-		call SourceDir('plugins')
-
-		source $path/functions.vim
-		source $path/misc.vim
-		source $path/autocmds.vim
-	]]
-
-	require 'colorscheme'
-	require 'plugins'
-	require 'autocmd'
-
-	require_dir 'lua/helpers'
-	require_dir 'lua/keymaps'
-	require_dir 'lua/user'
-
-	require_dir 'lua/plugins'
-	require_dir 'lua/functions'
-
-	require 'plugins.luasnip.snippets'
-	require 'statusline'
-	require 'lsp.init'
-
-	if vim.g.neovide then
-		require 'neovide'
-	end
+local require_dir = require('helpers.require_dir')
+for _, path in ipairs(REQUIRE_DIRS) do
+	require_dir(path)
 end
 
-local minimal_init = function() require 'minimal_init' end
+-- require('statusline')
+require('lsp.init')
 
-normal_init()
--- minimal_init()
+if vim.g.neovide then
+	require('neovide')
+end
+
+--==============================================================================
+--                          |=> Vim config files <=|
+--==============================================================================
+
+local path = NVIM_CONFIG_PATH .. 'vim/'
+local maps_path = path .. 'key_bindings/'
+local plugins_path = path .. 'plugins/'
+
+vim.cmd.source(maps_path .. 'key_maps.vim')
+-- vim.cmd.source(maps_path .. 'files.vim')
+vim.cmd.source(maps_path .. 'misc.vim')
+vim.cmd.source(maps_path .. 'movement.vim')
+vim.cmd.source(maps_path .. 'navigation.vim')
+vim.cmd.source(maps_path .. 'plugin_bindings.vim')
+vim.cmd.source(maps_path .. 'rebinds.vim')
+vim.cmd.source(maps_path .. 'text_editing.vim')
+vim.cmd.source(plugins_path .. 'ranger.vim')
+vim.cmd.source(plugins_path .. 'startify.vim')
+vim.cmd.source(plugins_path .. 'vimwiki.vim')
+vim.cmd.source(path .. 'functions.vim')
+vim.cmd.source(path .. 'misc.vim')
+vim.cmd.source(path .. 'autocmds.vim')

@@ -1,0 +1,5 @@
+require 'lua.functions.blinker'
+require 'lua.functions.buffer'
+require 'lua.functions.class_test'
+require 'lua.functions.match_character'
+require 'lua.functions.run_file'

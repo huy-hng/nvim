@@ -47,14 +47,30 @@ vim.api.nvim_create_autocmd({ 'BufEnter', 'BufAdd', 'BufNew', 'BufNewFile', 'Buf
 -- editor
 go.cmdheight = 0
 go.ruler = true
-go.winbar = '%f'
+-- go.winbar = '%#bold# %{expand("%:.")}'
 go.laststatus = 3
+go.cmdwinheight = 20
 
 -- display indentations
 o.list = true
 -- o.lcs = 'tab:· ,trail:·,nbsp:+'
 o.lcs = 'tab:│ ,trail:·,nbsp:+'
 -- ['|', '¦', '┆', '┊']
+
+--==============================================================================
+--                       |=> Editor User Interface <=|
+--==============================================================================
+
+go.scrolloff = 8
+go.sidescroll = 1
+go.sidescrolloff = 8
+vim.cmd 'set wildignore=*.o,*~,*.pyc'
+vim.cmd 'set wildmenu'
+
+-- g.showmatch = true
+-- g.match = 2
+-- g.magic = true
+go.timeoutlen = 400
 
 --==============================================================================
 --                              |=> Behavior <=|
@@ -100,6 +116,7 @@ o.splitbelow = true -- split horizontal window to the bottom
 
 -- o.iskeyword:append("-") -- consider string-string as whole word
 
+vim.cmd('set noswapfile')
 o.undofile = true
 o.mouse = 'a'
 -- No annoying sound on errors
@@ -110,18 +127,4 @@ go.compatible = false
 -- stop auto comment for new lines
 opt.formatoptions:remove { 'c', 'r', 'o' }
 
---==============================================================================
---                       |=> Editor User Interface <=|
---==============================================================================
-
-go.scrolloff = 8
-go.sidescroll = 1
-go.sidescrolloff = 8
-vim.cmd 'set wildignore=*.o,*~,*.pyc'
-vim.cmd 'set wildmenu'
-
--- g.showmatch = true
--- g.match = 2
--- g.magic = true
-go.timeoutlen = 400
--- go.
+vim.opt_global.path:append('**')

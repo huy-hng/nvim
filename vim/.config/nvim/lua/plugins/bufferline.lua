@@ -7,7 +7,6 @@ end
 -- require('scope').setup()
 
 local groups = require('bufferline.groups')
--- bufferline.setup{}
 bufferline.setup {
 	options = {
 		-- mode = 'tabs',
@@ -86,15 +85,15 @@ bufferline.setup {
 				text = 'Nvim Tree',
 				text_align = 'center',
 				separator = true,
-				padding = 1
-			}
+				padding = 1,
+			},
 		},
 		color_icons = true, -- whether or not to add the filetype icon highlights
 		show_buffer_icons = true, -- disable filetype icons for buffers
 		show_buffer_close_icons = true,
 		show_buffer_default_icon = true, -- whether or not an unrecognised filetype should show a default icon
 		show_close_icon = false,
-		show_tab_indicators = true,
+		show_tab_indicators = false,
 		show_duplicate_prefix = true, -- whether to show duplicate buffer prefix
 		persist_buffer_sort = true, -- whether or not custom sorted buffers should persist
 		-- can also be a table containing 2 custom separators
@@ -106,7 +105,7 @@ bufferline.setup {
 		hover = {
 			enabled = true,
 			delay = 200,
-			reveal = { 'close' }
+			reveal = { 'close' },
 		},
 		-- sort_by = 'tabs', -- 'id' | 'extension' | 'relative_directory' | 'directory' | 'tabs' | function(buffer_a, buffer_b)
 		--	 -- add custom logic
@@ -114,19 +113,19 @@ bufferline.setup {
 		-- end
 		groups = {
 			options = {
-				toggle_hidden_on_enter = true -- when you re-enter a hidden group this options re-opens that group so the buffer is visible
+				toggle_hidden_on_enter = true, -- when you re-enter a hidden group this options re-opens that group so the buffer is visible
 			},
 			items = {
-				groups.builtin.pinned:with({ icon = "" }),
+				groups.builtin.pinned:with { icon = '' },
 				groups.builtin.ungrouped,
 				-- groups.builtin.ungrouped:with {
 				-- 	name = 'ungrouped',
 				-- 	auto_close = false,
 				-- },
 				{
-					name = "Vimwiki",
+					name = 'Vimwiki',
 					-- icon = "", -- Optional
-					-- highlight = { undercurl = false, sp = 'green' },
+					-- highlight = { undercurl = false, sp = '',
 					-- highlight = { underline = false, sp = "blue" }, -- Optional
 					-- priority = 2, -- determines where it will appear relative to other groups (Optional)
 					auto_close = true, -- whether or not close this group if it doesn't contain the current buffer
@@ -135,103 +134,275 @@ bufferline.setup {
 						return buf.filename:match('%.md')
 					end,
 					separator = { -- Optional
-						style = require('bufferline.groups').separator.tab
+						style = require('bufferline.groups').separator.tab,
 					},
 				},
-			}
+			},
 		},
 	},
 	highlights = {
-		--fill = {
-		--	fg = { attribute = 'fg', highlight = '#ff0000' },
-		--	bg = { attribute = 'bg', highlight = 'TabLine' },
-		--},
-		--background = {
-		--	fg = { attribute = 'fg', highlight = 'TabLine' },
-		--	bg = { attribute = 'bg', highlight = 'TabLine' },
-		--},
-
-		---- buffer_selected = {
-		----	 fg = {attribute='fg',highlight='#ff0000'},
-		----	 bg = {attribute='bg',highlight='#0000ff'},
-		----	 gui = 'none'
-		----	 },
-		--buffer_visible = {
-		--	fg = { attribute = 'fg', highlight = 'TabLine' },
-		--	bg = { attribute = 'bg', highlight = 'TabLine' },
-		--},
-
-		--close_button = {
-		--	fg = { attribute = 'fg', highlight = 'TabLine' },
-		--	bg = { attribute = 'bg', highlight = 'TabLine' },
-		--},
-		--close_button_visible = {
-		--	fg = { attribute = 'fg', highlight = 'TabLine' },
-		--	bg = { attribute = 'bg', highlight = 'TabLine' },
-		--},
-		---- close_button_selected = {
-		----	 fg = {attribute='fg',highlight='TabLineSel'},
-		----	 bg ={attribute='bg',highlight='TabLineSel'}
-		----	 },
-
-		--tab_selected = {
-		--	fg = { attribute = 'fg', highlight = 'Normal' },
-		--	bg = { attribute = 'bg', highlight = 'Normal' },
-		--},
-		--tab = {
-		--	fg = { attribute = 'fg', highlight = 'TabLine' },
-		--	bg = { attribute = 'bg', highlight = 'TabLine' },
-		--},
-		--tab_close = {
-		--	-- fg = {attribute='fg',highlight='LspDiagnosticsDefaultError'},
-		--	fg = { attribute = 'fg', highlight = 'TabLineSel' },
-		--	bg = { attribute = 'bg', highlight = 'Normal' },
-		--},
-
-		--duplicate_selected = {
-		--	fg = { attribute = 'fg', highlight = 'TabLineSel' },
-		--	bg = { attribute = 'bg', highlight = 'TabLineSel' },
-		--	italic = true
-		--},
-		--duplicate_visible = {
-		--	fg = { attribute = 'fg', highlight = 'TabLine' },
-		--	bg = { attribute = 'bg', highlight = 'TabLine' },
-		--	italic = true
-		--},
-		--duplicate = {
-		--	fg = { attribute = 'fg', highlight = 'TabLine' },
-		--	bg = { attribute = 'bg', highlight = 'TabLine' },
-		--	italic = true
-		--},
-
-		--modified = {
-		--	fg = { attribute = 'fg', highlight = 'TabLine' },
-		--	bg = { attribute = 'bg', highlight = 'TabLine' },
-		--},
-		--modified_selected = {
-		--	fg = { attribute = 'fg', highlight = 'Normal' },
-		--	bg = { attribute = 'bg', highlight = 'Normal' },
-		--},
-		--modified_visible = {
-		--	fg = { attribute = 'fg', highlight = 'TabLine' },
-		--	bg = { attribute = 'bg', highlight = 'TabLine' },
-		--},
-
-		--separator = {
-		--	fg = { attribute = 'bg', highlight = 'TabLine' },
-		--	bg = { attribute = 'bg', highlight = 'TabLine' },
-		--},
-		--separator_selected = {
-		--	fg = { attribute = 'bg', highlight = 'Normal' },
-		--	bg = { attribute = 'bg', highlight = 'Normal' },
-		--},
-		---- separator_visible = {
-		----	 fg = {attribute='bg',highlight='TabLine'},
-		----	 bg = {attribute='bg',highlight='TabLine'}
-		----	 },
-		--indicator_selected = {
-		--	fg = { attribute = 'fg', highlight = 'LspDiagnosticsDefaultHint' },
-		--	bg = { attribute = 'bg', highlight = 'Normal' },
-		--},
+		fill = {
+			fg = 'fg',
+			bg = 'bg',
+		},
+		-- background = {
+		-- 	fg = 'fg',
+		-- 	bg = 'bg',
+		-- },
+		-- tab = {
+		-- 	fg = 'fg',
+		-- 	bg = 'bg',
+		-- },
+		-- tab_selected = {
+		-- 	fg = 'tabline_sel_bg',
+		-- 	bg = 'bg',
+		-- },
+		-- tab_close = {
+		-- 	fg = 'fg',
+		-- 	bg = 'bg',
+		-- },
+		-- close_button = {
+		-- 	fg = 'fg',
+		-- 	bg = 'bg',
+		-- },
+		-- close_button_visible = {
+		-- 	fg = 'fg',
+		-- 	bg = 'bg',
+		-- },
+		-- close_button_selected = {
+		-- 	fg = 'fg',
+		-- 	bg = 'bg',
+		-- },
+		-- buffer_visible = {
+		-- 	fg = 'fg',
+		-- 	bg = 'bg',
+		-- },
+		-- buffer_selected = {
+		-- 	fg = 'white',
+		-- 	bg = 'grey',
+		-- 	bold = true,
+		-- 	italic = true,
+		-- },
+		-- numbers = {
+		-- 	fg = 'fg',
+		-- 	bg = 'bg',
+		-- },
+		-- numbers_visible = {
+		-- 	fg = 'fg',
+		-- 	bg = 'bg',
+		-- },
+		-- numbers_selected = {
+		-- 	fg = 'fg',
+		-- 	bg = 'bg',
+		-- 	bold = true,
+		-- 	italic = true,
+		-- },
+		-- diagnostic = {
+		-- 	fg = 'fg',
+		-- 	bg = 'bg',
+		-- },
+		-- diagnostic_visible = {
+		-- 	fg = 'fg',
+		-- 	bg = 'bg',
+		-- },
+		-- diagnostic_selected = {
+		-- 	fg = 'fg',
+		-- 	bg = 'bg',
+		-- 	bold = true,
+		-- 	italic = true,
+		-- },
+		-- hint = {
+		-- 	fg = 'fg',
+		-- 	sp = '',
+		-- 	bg = 'bg',
+		-- },
+		-- hint_visible = {
+		-- 	fg = 'fg',
+		-- 	bg = 'bg',
+		-- },
+		-- hint_selected = {
+		-- 	fg = 'fg',
+		-- 	bg = 'bg',
+		-- 	sp = '',
+		-- 	bold = true,
+		-- 	italic = true,
+		-- },
+		-- hint_diagnostic = {
+		-- 	fg = 'fg',
+		-- 	sp = '',
+		-- 	bg = 'bg',
+		-- },
+		-- hint_diagnostic_visible = {
+		-- 	fg = 'fg',
+		-- 	bg = 'bg',
+		-- },
+		-- hint_diagnostic_selected = {
+		-- 	fg = 'fg',
+		-- 	bg = 'bg',
+		-- 	sp = '',
+		-- 	bold = true,
+		-- 	italic = true,
+		-- },
+		-- info = {
+		-- 	fg = 'fg',
+		-- 	sp = '',
+		-- 	bg = 'bg',
+		-- },
+		-- info_visible = {
+		-- 	fg = 'fg',
+		-- 	bg = 'bg',
+		-- },
+		-- info_selected = {
+		-- 	fg = 'fg',
+		-- 	bg = 'bg',
+		-- 	sp = '',
+		-- 	bold = true,
+		-- 	italic = true,
+		-- },
+		-- info_diagnostic = {
+		-- 	fg = 'fg',
+		-- 	sp = '',
+		-- 	bg = 'bg',
+		-- },
+		-- info_diagnostic_visible = {
+		-- 	fg = 'fg',
+		-- 	bg = 'bg',
+		-- },
+		-- info_diagnostic_selected = {
+		-- 	fg = 'fg',
+		-- 	bg = 'bg',
+		-- 	sp = '',
+		-- 	bold = true,
+		-- 	italic = true,
+		-- },
+		-- warning = {
+		-- 	fg = 'fg',
+		-- 	sp = '',
+		-- 	bg = 'bg',
+		-- },
+		-- warning_visible = {
+		-- 	fg = 'fg',
+		-- 	bg = 'bg',
+		-- },
+		-- warning_selected = {
+		-- 	fg = 'fg',
+		-- 	bg = 'bg',
+		-- 	sp = '',
+		-- 	bold = true,
+		-- 	italic = true,
+		-- },
+		-- warning_diagnostic = {
+		-- 	fg = 'fg',
+		-- 	sp = '',
+		-- 	bg = 'bg',
+		-- },
+		-- warning_diagnostic_visible = {
+		-- 	fg = 'fg',
+		-- 	bg = 'bg',
+		-- },
+		-- warning_diagnostic_selected = {
+		-- 	fg = 'fg',
+		-- 	bg = 'bg',
+		-- 	sp = 'warning_diagnostic_fg',
+		-- 	bold = true,
+		-- 	italic = true,
+		-- },
+		-- error = {
+		-- 	fg = 'fg',
+		-- 	bg = 'bg',
+		-- 	sp = '',
+		-- },
+		-- error_visible = {
+		-- 	fg = 'fg',
+		-- 	bg = 'bg',
+		-- },
+		-- error_selected = {
+		-- 	fg = 'fg',
+		-- 	bg = 'bg',
+		-- 	sp = '',
+		-- 	bold = true,
+		-- 	italic = true,
+		-- },
+		-- error_diagnostic = {
+		-- 	fg = 'fg',
+		-- 	bg = 'bg',
+		-- 	sp = '',
+		-- },
+		-- error_diagnostic_visible = {
+		-- 	fg = 'fg',
+		-- 	bg = 'bg',
+		-- },
+		-- error_diagnostic_selected = {
+		-- 	fg = 'fg',
+		-- 	bg = 'bg',
+		-- 	sp = '',
+		-- 	bold = true,
+		-- 	italic = true,
+		-- },
+		-- modified = {
+		-- 	fg = 'fg',
+		-- 	bg = 'bg',
+		-- },
+		-- modified_visible = {
+		-- 	fg = 'fg',
+		-- 	bg = 'bg',
+		-- },
+		-- modified_selected = {
+		-- 	fg = 'fg',
+		-- 	bg = 'bg',
+		-- },
+		-- duplicate_selected = {
+		-- 	fg = 'fg',
+		-- 	bg = 'bg',
+		-- 	italic = true,
+		-- },
+		-- duplicate_visible = {
+		-- 	fg = 'fg',
+		-- 	bg = 'bg',
+		-- 	italic = true,
+		-- },
+		-- duplicate = {
+		-- 	fg = 'fg',
+		-- 	bg = 'bg',
+		-- 	italic = true,
+		-- },
+		-- separator_selected = {
+		-- 	fg = 'fg',
+		-- 	bg = 'bg',
+		-- },
+		-- separator_visible = {
+		-- 	fg = 'fg',
+		-- 	bg = 'bg',
+		-- },
+		-- separator = {
+		-- 	fg = 'fg',
+		-- 	bg = 'bg',
+		-- },
+		-- indicator_selected = {
+		-- 	fg = 'fg',
+		-- 	bg = 'bg',
+		-- },
+		-- pick_selected = {
+		-- 	fg = 'fg',
+		-- 	bg = 'bg',
+		-- 	bold = true,
+		-- 	italic = true,
+		-- },
+		-- pick_visible = {
+		-- 	fg = 'fg',
+		-- 	bg = 'bg',
+		-- 	bold = true,
+		-- 	italic = true,
+		-- },
+		-- pick = {
+		-- 	fg = 'fg',
+		-- 	bg = 'bg',
+		-- 	bold = true,
+		-- 	italic = true,
+		-- },
+		-- offset_separator = {
+		-- 	fg = 'win_separator_fg',
+		-- 	bg = 'separator_background_color',
+		-- },
 	},
 }

@@ -13,6 +13,10 @@ R = function(name)
 	return require(name)
 end
 
+LOADED = function(name)
+	vim.pretty_print(package.loaded[name])
+end
+
 RESET = function(name)
 	package.loaded[name] = nil
 end

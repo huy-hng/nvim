@@ -1,8 +1,8 @@
 local status, _ = pcall(require, 'lspconfig')
 if not status then return end
 
-package.loaded['lsp.handlers'] = nil
-package.loaded['lsp.configs'] = nil
+-- package.loaded['lsp.handlers'] = nil
+-- package.loaded['lsp.configs'] = nil
 
 -- print(package.path)
 -- package.path = "../?.lua;" .. package.path

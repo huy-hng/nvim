@@ -44,6 +44,7 @@ local jump_to_buffer = function(target_buffer)
 	bufferline.go_to_buffer(target_buffer, absolute)
 end
 
+-- nmap('<A-1>', fn(jump_to_buffer, 1), 'Go to BufferLine')
 for i in ipairs(vim.fn.range(1, 9)) do
 	nmap('<A-' .. i .. '>', fn(jump_to_buffer, i), 'Go to BufferLine')
 	-- nmap('<A-' .. i .. '>', fn(bufferline.go_to_buffer, i, absolute), 'Go to BufferLine')
