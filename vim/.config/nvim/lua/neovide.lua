@@ -1,19 +1,28 @@
 local g = vim.g
-local go = vim.go
+
 --===============================================================================
 --                                 |=> GUI <=|
 --===============================================================================
 
--- os specific settings
-
--- chromebook
-g.neovide_refresh_rate = 50
-g.gui_font_default_size = 11.5 -- 10 on manjaro i think
-
-
 -- manjaro
 g.neovide_refresh_rate = 120
 g.gui_font_default_size = 10
+
+
+local handle = io.popen('hostname')
+local result
+if handle then
+	result = handle:read("*a")
+	result = result:gsub('[%p%c%s]', '')
+	handle:close()
+end
+
+if result == 'penguin' then
+	-- chromebook
+	g.neovide_refresh_rate = 60
+	g.gui_font_default_size = 11.5
+end
+
 
 -----------------------------------------
 --             -> Looks <-
@@ -76,56 +85,40 @@ g.neovide_cursor_vfx_particle_density=5.0
 g.neovide_cursor_vfx_particle_speed=50.0
 
 
---===============================================================================
---                               |=> Keymaps <=|
---===============================================================================
--- nmap('<leader>q', '<leader>q')
-
--- imap('<C-/>', '<C-/>')
--- nmap('<C-/>', '<C-/>')
-
-
--- unmap! <C-h>
--- icmap('<C-h>', '<C-h>')
--- icmap('<C-j>', '<C-j>')
--- icmap('<C-k>', '<C-k>')
--- icmap('<C-l>', '<C-l>')
-
-icmap('<C-BS>', '<C-w>')
-
--- nmap('<C-S-Tab>', '<C-S-Tab>')
--- nmap('<Tab>', '<Tab>')
-
--- imap('<C-v>', '<C-v>')
--- nmap('<C-v>', '<C-v>')
-
-nmap('<C-CR>', 'o<esc>')
--- nmap('<C-Space>', '<C-Space>')
--- nmap('<C-F12>', '<C-F12>')
--- nmap('<S-F11>', '<S-F11>')
-
--- nmap('<C-/>', '<C-/>')
-
-
-
-RefreshGuiFont = function()
+--==============================================================================
+--                          |=> Extra Functions <=|
+--==============================================================================
+local refresh_gui_font = function()
 	vim.o.guifont = string.format("%s:h%s",vim.g.gui_font_face, vim.g.gui_font_size)
 end
 
-ResizeGuiFont = function(delta)
+local resize_gui_font = function(delta)
 	g.gui_font_size = g.gui_font_size + delta
-	RefreshGuiFont()
+	refresh_gui_font()
 end
 
-ResetGuiFont = function()
+local reset_gui_font = function()
 	g.gui_font_size = g.gui_font_default_size
-	RefreshGuiFont()
+	refresh_gui_font()
 end
 
-ResetGuiFont()
+reset_gui_font()
 
-local fn = require('helpers.wrappers').fn
-nmap('<C-_>', '<C-_>')
-nmap('<C-_>', fn(ResizeGuiFont, -0.5))
-nmap('<C-+>', fn(ResizeGuiFont, 0.5))
-nmap('<C-)>', ResetGuiFont)
+--===============================================================================
+--                               |=> Keymaps <=|
+--===============================================================================
+
+nmap('<Tab>', '>>')
+nmap('<S-Tab>', '<<')
+-- nmap('<C-S-Tab>', 'this works')
+
+--==============================================================================
+--                 |=> Compatibility & Neovide Functions <=|
+--==============================================================================
+icmap('<C-BS>', '<C-w>')
+nmap('<C-CR>', 'o<esc>')
+
+nmap('<C-_>', FN(resize_gui_font, -0.5))
+nmap('<C-+>', FN(resize_gui_font, 0.5))
+nmap('<C-)>', reset_gui_font)
+-- nmap('<C-_>', '<C-_>')

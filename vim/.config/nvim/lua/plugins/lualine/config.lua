@@ -5,12 +5,12 @@ end
 
 local components = R 'plugins.lualine.components'
 
-local status, symbolwinbar = pcall(require, 'lspsaga.symbolwinbar')
-if not status then
+local ls_status, symbolwinbar = pcall(require, 'lspsaga.symbolwinbar')
+if not ls_status then
 	return
 end
 
-local status, bufferline = pcall(require, 'bufferline')
+-- local buf_status, bufferline = pcall(require, 'bufferline')
 -- P(vim.cmd('echo v:lua.nvim_bufferline()'))
 
 lualine.setup {

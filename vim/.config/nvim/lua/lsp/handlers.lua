@@ -54,14 +54,9 @@ nmap('[d', vim.diagnostic.goto_prev)
 nmap(']d', vim.diagnostic.goto_next)
 -- nmap('<leader>q', vim.diagnostic.setloclist, opts)
 
-local buf_nnoremap = function(lhs, rhs, bufnr, desc, opts)
-	opts = opts or {}
-	opts.buffer = bufnr
-	nmap(lhs, rhs, desc, opts)
-end
-
 local lsp_formatting = function(--[[ bufnr ]])
 	vim.lsp.buf.format {
+		async = true,
 		filter = function(client)
 			-- return client.name == "sumneko_lua"
 			return client.name == 'null-ls'
@@ -75,39 +70,25 @@ end
 local lsp_keymaps = function(bufnr)
 	-- Enable completion triggered by <c-x><c-o>
 	vim.api.nvim_buf_set_option(bufnr, 'omnifunc', 'v:lua.vim.lsp.omnifunc')
+	local opts = { buffer = bufnr }
 
 	-- See `:help vim.lsp.*` for documentation on any of the below functions
-	buf_nnoremap('gD', vim.lsp.buf.declaration, bufnr)
-	buf_nnoremap('gd', vim.lsp.buf.definition, bufnr)
-	buf_nnoremap('K', vim.lsp.buf.hover, bufnr)
-	buf_nnoremap('gi', vim.lsp.buf.implementation, bufnr)
-	-- buf_nnoremap('<C-k>', vim.lsp.buf.signature_help, bufnr)
-	buf_nnoremap('<leader>wa', vim.lsp.buf.add_workspace_folder, bufnr)
-	buf_nnoremap('<leader>wr', vim.lsp.buf.remove_workspace_folder, bufnr)
-	buf_nnoremap(
-		'<leader>wl',
-		function() print(vim.inspect(vim.lsp.buf.list_workspace_folders())) end,
-		bufnr
-	)
-	buf_nnoremap('<leader>D', vim.lsp.buf.type_definition, bufnr)
-	buf_nnoremap('<F2>', vim.lsp.buf.rename) -- <leader>r, bufnr)
-	buf_nnoremap('<F12>', vim.lsp.buf.references) -- g, bufnr)
-	buf_nnoremap('<leader>ca', vim.lsp.buf.code_action, bufnr)
-	-- buf_nnoremap('<leader>ff', fn(vim.lsp.buf.format, { async = true }), bufnr, 'Format Document')
-	-- buf_nnoremap('<leader>ff', lsp_formatting, bufnr, 'Format Document')
-
-	buf_nnoremap(
-		'<leader>ff',
-		fn(vim.lsp.buf.format, {
-			async = true,
-			filter = function(client)
-				--  only use null-ls for formatting instead of lsp server
-				return client.name == 'null-ls'
-			end,
-		}),
-		bufnr,
-		'Format Document'
-	)
+	nmap('gD', vim.lsp.buf.declaration, 'Declaration', opts)
+	nmap('gd', vim.lsp.buf.definition, 'Definition', opts)
+	nmap('K', vim.lsp.buf.hover, 'Hover', opts)
+	nmap('gi', vim.lsp.buf.implementation, 'Implementation', opts)
+	-- nmap('<C-k>', vim.lsp.buf.signature_help, '', opts)
+	nmap('<leader>wa', vim.lsp.buf.add_workspace_folder, 'Add Workspace', opts)
+	nmap('<leader>wr', vim.lsp.buf.remove_workspace_folder, 'Remove Workspace', opts)
+	-- nmap('<leader>wl', FN(vim.pretty_print, FN(vim.lsp.buf.list_workspace_folders)), 'List Workspaces', opts)
+	nmap('<leader>wl', function()
+		vim.pretty_print(vim.lsp.buf.list_workspace_folders())
+	end, 'List Workspaces', opts)
+	nmap('<leader>D', vim.lsp.buf.type_definition, 'Type Definition', opts)
+	nmap('<F2>', vim.lsp.buf.rename, 'Rename')
+	nmap('<F12>', vim.lsp.buf.references, 'References')
+	nmap('<leader>ca', vim.lsp.buf.code_action, 'Code Actions', opts)
+	nmap('<leader>ff', lsp_formatting, 'Format Document', opts)
 end
 
 local function lsp_highlight_document(client)
