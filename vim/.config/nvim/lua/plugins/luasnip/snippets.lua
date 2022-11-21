@@ -1,8 +1,8 @@
-if vim.g.snippets ~= 'luasnip' or not pcall(require, 'luasnip') then
+if pcall(require, 'luasnip') then
 	return
 end
 
-local ls = require 'luasnip'
+local ls = require('luasnip')
 
 -- create snippet
 -- s(context, nodes, condition, ...)
@@ -45,12 +45,31 @@ local d = ls.dynamic_node
 -- TODO: Document what I've learned about lambda
 local l = require('luasnip.extras').lambda
 
-local events = require 'luasnip.util.events'
+local events = require('luasnip.util.events')
 
-snippet('asdf', {
-	i(1),
-	t 'text',
-	i(2),
-	t 'text again',
-	i(3),
+ls.add_snippets('all', {
+	snippet('asdf', {
+		i(1),
+		t('text'),
+		i(2),
+		t('text again'),
+		i(3),
+	}),
+	snippet('prequire', {
+		t('local status_'),
+		i(1),
+		t(', '),
+		t('pcall(require, )'),
+		t('if not status_ then return end'),
+	})
+})
+ls.add_snippets('all', {
+	snippet('ternary', {
+		-- equivalent to "${1:cond} ? ${2:then} : ${3:else}"
+		i(1, 'cond'),
+		t(' ? '),
+		i(2, 'then'),
+		t(' : '),
+		i(3, 'else'),
+	}),
 })

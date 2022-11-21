@@ -1,11 +1,11 @@
-if vim.g.snippets ~= 'luasnip' or not pcall(require, 'luasnip') then
+if pcall(require, 'luasnip') then
 	return
 end
 
 -- local make = R("tj.snips").make
 
-local ls = require 'luasnip'
-local types = require 'luasnip.util.types'
+local ls = require('luasnip')
+local types = require('luasnip.util.types')
 
 ls.config.set_config {
 	-- This tells LuaSnip to remember to keep around the last snippet.
@@ -73,14 +73,39 @@ local d = ls.dynamic_node
 -- TODO: Document what I've learned about lambda
 local l = require('luasnip.extras').lambda
 
-local events = require 'luasnip.util.events'
+local events = require('luasnip.util.events')
 
 -- local str_snip = function(trig, expanded)
 --   return ls.parser.parse_snippet({ trig = trig }, expanded)
 -- end
 
+local shortcut = function(val)
+	if type(val) == 'string' then
+		return { t { val }, i(0) }
+	end
+
+	if type(val) == 'table' then
+		for k, v in ipairs(val) do
+			if type(v) == 'string' then
+				val[k] = t { v }
+			end
+		end
+	end
+
+	return val
+end
 local same = function(index)
-	return f(function(args) return args[1] end, { index })
+	return f(function(args)
+		return args[1]
+	end, { index })
+end
+local make = function(tbl)
+	local result = {}
+	for k, v in pairs(tbl) do
+		table.insert(result, (snippet({ trig = k, desc = v.desc }, shortcut(v))))
+	end
+
+	return result
 end
 
 local toexpand_count = 0
@@ -88,14 +113,15 @@ local toexpand_count = 0
 -- `all` key means for all filetypes.
 -- Shared between all filetypes. Has lower priority than a particular ft tho
 -- snippets.all = {
+
 ls.add_snippets(nil, {
 	-- basic, don't need to know anything else
 	--    arg 1: string
 	--    arg 2: a node
-	snippet('simple', t 'wow, you were right!'),
+	snippet('simple', t('wow, you were right!')),
 
 	-- callbacks table
-	snippet('toexpand', c(1, { t 'hello', t 'world', t 'last' }), {
+	snippet('toexpand', c(1, { t('hello'), t('world'), t('last') }), {
 		callbacks = {
 			[1] = {
 				[events.enter] = function(--[[ node ]])
@@ -111,8 +137,10 @@ ls.add_snippets(nil, {
 	-- snippet({ trig = "AbstractGenerator.*Factory", regTrig = true }, { t "yo" }),
 
 	-- third arg,
-	snippet('never_expands', t 'this will never expand, condition is false', {
-		condition = function() return false end,
+	snippet('never_expands', t('this will never expand, condition is false'), {
+		condition = function()
+			return false
+		end,
 	}),
 
 	-- docTrig ??
@@ -121,22 +149,21 @@ ls.add_snippets(nil, {
 
 	-- date -> Tue 16 Nov 2021 09:43:49 AM EST
 	snippet({ trig = 'date' }, {
-		f(
-			function() return string.format(string.gsub(vim.bo.commentstring, '%%s', ' %%s'), os.date()) end,
-			{}
-		),
+		f(function()
+			return string.format(string.gsub(vim.bo.commentstring, '%%s', ' %%s'), os.date())
+		end, {}),
 	}),
 
 	-- Simple snippet, basics
 	snippet('for', {
-		t 'for ',
+		t('for '),
 		i(1, 'k, v'),
-		t ' in ',
+		t(' in '),
 		i(2, 'ipairs()'),
 		t { 'do', '  ' },
 		i(0),
 		t { '', '' },
-		t 'end',
+		t('end'),
 	}),
 
 	--[[
@@ -209,7 +236,9 @@ ls.add_snippets(nil, {
 		end, {}, 'ls'),
 		{
 			-- Don't show this one, because it's not useful as a general purpose snippet.
-			show_condition = function() return false end,
+			show_condition = function()
+				return false
+			end,
 		}
 	),
 })
@@ -236,7 +265,7 @@ local fill_line = function(char)
 	end
 end
 
-ls.addgsnippets(
+ls.add_snippets(
 	'rst',
 	make {
 		jsa = {
@@ -250,43 +279,43 @@ ls.addgsnippets(
 
 		link = { '.. _', i(1), ':' },
 
-		head = f(fill_line '=', {}),
-		sub = f(fill_line '-', {}),
-		subsub = f(fill_line '^', {}),
+		head = f(fill_line('='), {}),
+		sub = f(fill_line('-'), {}),
+		subsub = f(fill_line('^'), {}),
 
 		ref = { ':ref:`', same(1), ' <', i(1), '>`' },
 	}
 )
 
-for _, ft_path in ipairs(vim.api.nvim_get_runtime_file('lua/tj/snips/ft/*.lua', true)) do
-	loadfile(ft_path)()
-end
+-- for _, ft_path in ipairs(vim.api.nvim_get_runtime_file('lua/plugins/luasnip/ft/*.lua', true)) do
+-- 	loadfile(ft_path)()
+-- end
 
 -- <c-k> is my expansion key
 -- this will expand the current item or jump to the next item within the snippet.
-vim.keymap.set({ 'i', 's' }, '<c-k>', function()
+imap('<c-k>', function()
 	if ls.expand_or_jumpable() then
 		ls.expand_or_jump()
 	end
-end, { silent = true })
+end)
 
 -- <c-j> is my jump backwards key.
 -- this always moves to the previous item within the snippet
-vim.keymap.set({ 'i', 's' }, '<c-j>', function()
+imap('<c-j>', function()
 	if ls.jumpable(-1) then
 		ls.jump(-1)
 	end
-end, { silent = true })
+end)
 
 -- <c-l> is selecting within a list of options.
 -- This is useful for choice nodes (introduced in the forthcoming episode 2)
-vim.keymap.set('i', '<c-l>', function()
+imap('<c-l>', function()
 	if ls.choice_active() then
 		ls.change_choice(1)
 	end
 end)
 
-vim.keymap.set('i', '<c-u>', require 'luasnip.extras.select_choice')
+imap('<c-u>', require('luasnip.extras.select_choice'))
 
 -- shorcut to source my luasnips file again, which will reload my snippets
-vim.keymap.set('n', '<leader><leader>s', '<cmd>source ~/.config/nvim/after/plugin/luasnip.lua<CR>')
+nmap('<leader><leader>s', FN(R, 'plugins.luasnip.luasnip'))
