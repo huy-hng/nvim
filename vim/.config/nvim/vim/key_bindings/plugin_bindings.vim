@@ -1,15 +1,23 @@
-" Comments
-" inoremap <C-_> <cmd>Commentary<CR>
-" nnoremap <C-_> <cmd>Commentary<CR>
-" vnoremap <silent> <C-_> :Commentary<CR>
-"
-" inoremap <C-/> <cmd>Commentary<CR>
-" nnoremap <C-/> <cmd>Commentary<CR>
-" vnoremap <silent> <C-/> :Commentary<CR>
 
 " Vimwiki
-" nnoremap <silent><Leader><CR> :call Create_Vimwiki_Link()<CR>
-vnoremap <silent>+ :call Create_Vimwiki_Link()<CR>
+function! Update_Vimwiki(create)
+	let g:vimwiki_create_link=a:create
+	call vimwiki#vars#init()
+endfunction
+
+function! Create_Vimwiki_Link()
+	:call Update_Vimwiki(1)
+	:exe "normal \<CR>"
+	:call Update_Vimwiki(0)
+endfunction
+
+function! ToggleTableFormatting()
+	let g:vimwiki_table_auto_fmt=!g:vimwiki_table_auto_fmt
+	call Message('Vimwiki Table Format: ' .. g:vimwiki_table_auto_fmt)
+	call vimwiki#vars#init()
+endfunction
+
+vnoremap <cmd>call Create_Vimwiki_Link()<CR>
 nmap <silent><C-S-Tab> <Plug>VimwikiPrevLink
 nmap <silent><C-Tab> <Plug>VimwikiNextLink
 " doesnt work

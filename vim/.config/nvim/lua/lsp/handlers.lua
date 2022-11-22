@@ -44,7 +44,7 @@ M.setup = function()
 	})
 end
 
-local fn = require('helpers.wrappers').fn
+local fn = require('core.wrappers').fn
 
 -- Mappings.
 -- See `:help vim.diagnostic.*` for documentation on any of the below functions

@@ -39,7 +39,7 @@ Comment.setup(conf)
 
 local api = require('Comment.api')
 
-local fn = require('helpers.wrappers').fn
+local fn = require('core.wrappers').fn
 
 -- map({ 'n', 'i' }, '<C-/>', api.locked('toggle.linewise.current'), 'Toggle Comment')
 

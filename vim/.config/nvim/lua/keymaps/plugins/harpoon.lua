@@ -1,4 +1,4 @@
-local fn = require('helpers.wrappers').fn
+local fn = require('core.wrappers').fn
 
 local harpoon_ui   = require('harpoon.ui')
 local harpoon_mark = require('harpoon.mark')

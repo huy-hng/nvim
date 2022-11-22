@@ -4,7 +4,7 @@ if not status then
 	return
 end
 
-local wrappers = require 'helpers.wrappers'
+local wrappers = require 'core.wrappers'
 local cmd = wrappers.cmd
 local fn = wrappers.fn
 

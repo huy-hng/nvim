@@ -1,8 +1,7 @@
 local status, wk = pcall(require, 'which-key')
 if not status then return end
 
-local wrappers = require 'helpers.wrappers'
-local cmd = wrappers.cmd
+local cmd = require 'core.wrappers'.cmd
 
 wk.register({
 	['<leader>v'] = {
