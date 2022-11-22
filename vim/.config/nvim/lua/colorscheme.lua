@@ -3,20 +3,23 @@
 
 -- set colorscheme to nightfly with protected call
 -- in case it isn't installed
--- local status, _ = pcall(vim.cmd, "colorscheme nightfly")
--- if not status then
--- 	  print("Colorscheme not found!") -- print error if colorscheme not installed
---   return
--- end
 
-require('catppuccin').setup { transparent_background = false, }
 
--- vim.g.catppuccin_flavour = 'latte' -- latte, frappe, macchiato, mocha
+
+local status, catpuccin = pcall(require, 'catpuccin')
+if status then
+	catpuccin.setup { transparent_background = false, }
+	-- vim.g.catppuccin_flavour = 'latte' -- latte, frappe, macchiato, mocha
+end
 ColorTheme = 'catppuccin-mocha'
+
 -- ColorTheme = 'tokyonight-night'
 -- ColorTheme = 'tokyonight-day'
 
 function SetColors(theme)
+	-- if ColorTheme == nil then
+	-- 	ColorTheme = 'tokyonight-night'
+	-- end
 	if theme then
 		ColorTheme = theme
 	end

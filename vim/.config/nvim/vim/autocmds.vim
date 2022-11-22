@@ -10,8 +10,8 @@ augroup CommandlineWindow
 	autocmd CmdwinEnter * nnoremap <buffer> ; :
 	autocmd CmdwinEnter * TSContextDisable
 	autocmd CmdwinLeave * TSContextEnable
-	" autocmd CmdlineEnter * set cmdheight=1
-	" autocmd CmdlineLeave * set cmdheight=0
+	autocmd CmdlineEnter * set cmdheight=1
+	autocmd CmdlineLeave * set cmdheight=0
 	" autocmd WinEnter * nnoremap <buffer> <CR> g_
 	" autocmd BufEnter * nnoremap <buffer> <CR> g_
 	" au ModeChanged * echomsg mode()

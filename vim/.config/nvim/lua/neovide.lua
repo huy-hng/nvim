@@ -1,12 +1,13 @@
 local g = vim.g
+local o = vim.o
 
 --===============================================================================
 --                                 |=> GUI <=|
 --===============================================================================
 
 -- manjaro
-g.neovide_refresh_rate = 120
-g.gui_font_default_size = 10
+-- g.neovide_refresh_rate = 120
+-- g.gui_font_default_size = 10
 
 local handle = io.popen('hostname')
 local result
@@ -16,7 +17,7 @@ if handle then
 	handle:close()
 end
 
-if result == 'penguin' then
+if result == 'penguin' or result == 'arch' then
 	-- chromebook
 	g.neovide_refresh_rate = 60
 	g.gui_font_default_size = 13
@@ -25,6 +26,9 @@ end
 -----------------------------------------
 --             -> Looks <-
 -----------------------------------------
+
+o.winblend = 50
+o.pumblend = 50
 
 g.neovide_fullscreen = true
 g.neovide_profiler = false
