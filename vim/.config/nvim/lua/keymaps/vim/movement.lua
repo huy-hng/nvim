@@ -1,3 +1,4 @@
+vim.cmd([[
 "===============================================================================
 " => Text Movement
 "===============================================================================
@@ -10,8 +11,10 @@ nnoremap <A-l> 10zl
 
 " nnoremap <C-d> <C-d>zz<cmd>call FlashOnce()<CR>
 " nnoremap <C-u> <C-u>zz<cmd>call FlashOnce()<CR>
-nnoremap <C-d> <C-d>zz
-nnoremap <C-u> <C-u>zz
+
+" causes weird behavior in neovide >10.0.1
+" nnoremap <C-d> <C-d>zz
+" nnoremap <C-u> <C-u>zz
 
 " nnoremap <CR> g_
 " vnoremap <CR> g_
@@ -34,3 +37,4 @@ cnoremap <C-k> <Up>
 "===============================================================================
 "nnoremap <C-k><ESC> zc
 "nnoremap <C-k><C-]> zo
+]])

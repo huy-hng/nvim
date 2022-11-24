@@ -1,13 +1,13 @@
 local g = vim.g
-local o = vim.o
+local go = vim.go
 
 --===============================================================================
 --                                 |=> GUI <=|
 --===============================================================================
 
 -- manjaro
--- g.neovide_refresh_rate = 120
--- g.gui_font_default_size = 10
+g.neovide_refresh_rate = 120
+g.gui_font_default_size = 10
 
 local handle = io.popen('hostname')
 local result
@@ -19,32 +19,28 @@ end
 
 if result == 'penguin' or result == 'arch' then
 	-- chromebook
-	g.neovide_refresh_rate = 60
-	g.gui_font_default_size = 13
+	g.neovide_refresh_rate = 59
+	g.gui_font_default_size = 10.5
 end
 
 -----------------------------------------
 --             -> Looks <-
 -----------------------------------------
 
-o.winblend = 50
-o.pumblend = 50
+go.winblend = 75
+go.pumblend = 50
 
 g.neovide_fullscreen = true
 g.neovide_profiler = false
 
 g.neovide_transparency = 1
-g.neovide_floating_blur_amount_x = 6.0
-g.neovide_floating_blur_amount_y = 6.0
--- go.winblend = 100
--- go.pumblend = 30
--- g.transparency = 1
+g.neovide_floating_blur_amount_x = 10
+g.neovide_floating_blur_amount_y = 10
+
 -- g.neovide_background_color = '#0f1117'.printf('%x', float2nr(255 * g:transparency))
 
-g.gui_font_face = 'Cascadia Code'
-g.gui_font_default_size = 13
+-- g.gui_font_face = 'Cascadia Code'
 g.gui_font_face = 'FiraCode Nerd Font'
-g.gui_font_default_size = 12
 
 -----------------------------------------
 --             -> Sizes <-
@@ -70,19 +66,25 @@ g.neovide_touch_drag_timeout = 0.3
 -----------------------------------------
 --            -> Cursor <-
 -----------------------------------------
-g.neovide_cursor_animation_length = 0
-g.neovide_cursor_trail_size = 0
-g.neovide_cursor_animation_length = 0.02 -- 0.13
-g.neovide_cursor_trail_size = 0.2 -- 0.8
--- g.neovide_cursor_antialiasing = false
+g.neovide_cursor_animation_length = 0.02
+g.neovide_cursor_trail_size = 0.2
+g.neovide_cursor_animation_length = 0.03 -- 0.13
+g.neovide_cursor_trail_size = 0.5 -- 0.8
 g.neovide_cursor_antialiasing = true
 
--- g.neovide_cursor_vfx_mode = 'pixiedust'
-g.neovide_cursor_vfx_mode = ''
-g.neovide_cursor_vfx_opacity = 150.0
-g.neovide_cursor_vfx_particle_lifetime = 0.5
-g.neovide_cursor_vfx_particle_density = 5.0
-g.neovide_cursor_vfx_particle_speed = 50.0
+----------------------------------------
+--          -> Animation <-
+----------------------------------------
+-- railgun | torpedo | pixiedust | sonicboom | ripple | wireframe
+g.neovide_cursor_vfx_mode = 'pixiedust'
+g.neovide_cursor_vfx_opacity = 200 -- 200
+g.neovide_cursor_vfx_particle_lifetime = 1.2 -- 1.2
+g.neovide_cursor_vfx_particle_density = 10 -- 7
+g.neovide_cursor_vfx_particle_speed = 10 -- 10
+
+-- only for railgun
+g.neovide_cursor_vfx_particle_phase = 1.5 -- 1.5
+g.neovide_cursor_vfx_particle_curl = 0.1 -- 1.0
 
 --==============================================================================
 --                          |=> Extra Functions <=|
@@ -107,8 +109,8 @@ reset_gui_font()
 --                               |=> Keymaps <=|
 --===============================================================================
 
-nmap('<Tab>', '>>')
-nmap('<S-Tab>', '<<')
+nmap('<C-Tab>', '>>')
+nmap('<C-S-Tab>', '<<')
 -- nmap('<C-S-Tab>', 'this works')
 
 --==============================================================================

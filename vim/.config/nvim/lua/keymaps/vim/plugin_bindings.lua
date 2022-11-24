@@ -1,4 +1,4 @@
-
+vim.cmd([[
 " Vimwiki
 function! Update_Vimwiki(create)
 	let g:vimwiki_create_link=a:create
@@ -18,8 +18,8 @@ function! ToggleTableFormatting()
 endfunction
 
 vnoremap <cmd>call Create_Vimwiki_Link()<CR>
-nmap <silent><C-S-Tab> <Plug>VimwikiPrevLink
-nmap <silent><C-Tab> <Plug>VimwikiNextLink
+" nmap <silent><C-S-Tab> <Plug>VimwikiPrevLink
+" nmap <silent><C-Tab> <Plug>VimwikiNextLink
 " doesnt work
 nmap <silent><F6> :call ToggleTableFormatting()<CR>
 
@@ -39,3 +39,4 @@ tnoremap <silent> <C-w> <C-\><C-n>:RnvimrResize<CR>
 tnoremap <silent> <A-1> <C-\><C-n>:RnvimrResize 1<CR>
 tnoremap <silent> <A-2> <C-\><C-n>:RnvimrResize 2<CR>
 tnoremap <silent> <A-3> <C-\><C-n>:RnvimrResize 3<CR>
+]])

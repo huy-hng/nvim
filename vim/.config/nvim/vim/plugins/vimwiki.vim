@@ -1,6 +1,3 @@
-" required settings
-"syntax on
-
 augroup VimwikiGroup
 	autocmd!
 	autocmd FileType vimwiki setlocal foldexpr=nvim_treesitter#foldexpr()

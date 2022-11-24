@@ -61,7 +61,8 @@ local toggle_visual = function()
 	vim.api.nvim_feedkeys(esc, 'nx', false)
 
 	if mode == 'v' then
-		api.locked('toggle.blockwise')(vim.fn.visualmode())
+		-- api.locked('toggle.blockwise')(vim.fn.visualmode())
+		api.locked('toggle.linewise')(vim.fn.visualmode())
 	elseif mode == 'V' then
 		api.locked('toggle.linewise')(vim.fn.visualmode())
 		-- vim.api.nvim_command("lua require('Comment.api').toggle.linewise('V')")

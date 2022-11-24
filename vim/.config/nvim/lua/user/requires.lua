@@ -1,1 +1,0 @@
-require 'lua.user.highlights'

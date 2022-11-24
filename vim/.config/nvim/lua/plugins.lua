@@ -200,7 +200,7 @@ return packer.startup {
 		----------------------------------------
 		--            -> Motion <-
 		----------------------------------------
-		-- use 'unblevable/quick-scope'
+		use 'unblevable/quick-scope'
 		-- use 'ggandor/leap.nvim'
 		-- use 'ggandor/lightspeed.nvim' -- older version of leap
 		use { 'phaazon/hop.nvim', branch = 'v2' }

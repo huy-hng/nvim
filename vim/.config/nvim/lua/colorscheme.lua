@@ -4,13 +4,14 @@
 -- set colorscheme to nightfly with protected call
 -- in case it isn't installed
 
-
-
 local status, catpuccin = pcall(require, 'catpuccin')
+-- local lualine = catpuccin.setup
+-- P(lualine)
 if status then
-	catpuccin.setup { transparent_background = false, }
+	catpuccin.setup()
 	-- vim.g.catppuccin_flavour = 'latte' -- latte, frappe, macchiato, mocha
 end
+
 ColorTheme = 'catppuccin-mocha'
 
 -- ColorTheme = 'tokyonight-night'
@@ -24,7 +25,7 @@ function SetColors(theme)
 		ColorTheme = theme
 	end
 	vim.cmd('colorscheme ' .. ColorTheme)
-	vim.cmd 'highlight Folded guibg=none'
+	vim.cmd('highlight Folded guibg=none')
 end
 
 -- 'tokyonight' -- this is same as storm

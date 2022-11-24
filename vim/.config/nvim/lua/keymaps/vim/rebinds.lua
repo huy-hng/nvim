@@ -1,3 +1,4 @@
+vim.cmd([[
 "===============================================================================
 " => Behavior Changes
 "===============================================================================
@@ -23,23 +24,17 @@ noremap 0 ^
 noremap ^ 0
 
 
-"nnoremap vv V
-"nnoremap V v$
+nnoremap vv V
+nnoremap V vg_
+vnoremap V V
 
-" ctrl+c to copy to clipboard
-nnoremap <leader>P "+P
-"nnoremap <leader>p "+p
-nnoremap <leader>yy "+yy
-vnoremap <leader>y "+y
-
-" nnoremap <C-c> "+yy
-vnoremap <C-c> "+y
+" vnoremap <C-c> "+y
 
 " break undo sequence before pasting from register
-inoremap <C-R> <C-G>u<C-R>
-inoremap <C-v> <C-G>u<C-v>
+inoremap <C-r> <C-g>u<C-r>
+inoremap <C-v> <C-g>u<C-r>+
+cnoremap <C-v> <C-r>+
 
 " new line without leaving normal mode
 "nnoremap <CR> o<ESC>
-
-
+]])

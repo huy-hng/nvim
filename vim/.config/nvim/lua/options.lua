@@ -3,6 +3,7 @@ local o = vim.o
 local go = vim.go
 local g = vim.g
 
+-- unmap('n', '<space>')
 g.mapleader = ' '
 g.maplocalleader = '\\'
 -- vim.filetype.add {
@@ -13,6 +14,11 @@ g.maplocalleader = '\\'
 --==============================================================================
 --                             |=> Appearance <=|
 --==============================================================================
+
+-- window transparency
+go.winblend = 10
+go.pumblend = 10
+
 -- line numbers
 o.relativenumber = true -- show relative line numbers
 o.number = true -- shows absolute line number on cursor line (when relative number is on)

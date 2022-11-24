@@ -16,13 +16,14 @@ end
 
 -- :W sudo saves the file
 vim.api.nvim_create_user_command('W', "execute 'w !sudo tee % > /dev/null' <bar> edit!", {})
+-- vim.api.nvim_create_user_command('W', "execute 'w !sudo tee >/dev/null %:p:S' | setl nomod", {})
+
 
 nmap('<leader>w', CMD('w'))
 nmap('<leader>q', quit_last_buffer)
 nmap('<leader>Q', CMD('q'))
 nmap('<leader>W', FN(vim.cmd.call, 'fn#save_and_load()'))
-
-
+-- nmap('<leader><leader>w', FN(vim.cmd.call, 'fn#save_and_load()'))
 
 
 nmap('<leader>x', CMD("w | !chmod u+x %<CR>:0r !echo '#!/usr/bin/bash'"))

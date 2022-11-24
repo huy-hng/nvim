@@ -1,3 +1,4 @@
+vim.cmd([[
 "===============================================================================
 " => Buffers
 "===============================================================================
@@ -68,3 +69,4 @@ au TabLeave * let g:lasttab = tabpagenr()
 " Opens a new tab with the current buffer's path
 " Super useful when editing files in the same directory
 map <leader>te :tabedit <C-r>=expand("%:p:h")<cr>/
+]])

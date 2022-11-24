@@ -11,10 +11,6 @@
 " nnoremap <Leader>Q <cmd>q<cr>
 " nnoremap <Leader>Q <cmd>call <SID>quit_one_buffer()<CR>
 
-" make file executable
-nnoremap <leader>x <cmd>w<bar> :!chmod u+x %<CR>:0r !echo '\#\!/usr/bin/bash'<CR>
-
-
 " execute file
 " nnoremap <A-m> :w<CR>:!clear<CR>:! %:p<CR>
 " nnoremap <A-m> :w <bar> !clear <bar> ! %:p<CR>

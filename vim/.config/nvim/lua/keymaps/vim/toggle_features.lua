@@ -1,3 +1,4 @@
+vim.cmd([[
 function! Message(message, duration=2000)
 	echo a:message
 
@@ -30,8 +31,4 @@ endfunction
 nnoremap <F3> <cmd>set hlsearch!<bar>set hlsearch?<CR>
 nnoremap <F4> <cmd>call Toggle_Conceal()<CR>
 nnoremap <F8> <cmd>call Wrap()<CR>
-
-nnoremap <leader><CR> <cmd>lua FlashCursor(3)<CR>
-
-"vnoremap <Leader>1 :call Figlet()<CR>
-"vnoremap <Leader>1 I<Esc>O{{{cat<esc>gvA<esc>o}}}<esc>gv:!figlet -k -t<CR>
+]])

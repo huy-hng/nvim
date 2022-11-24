@@ -3,20 +3,23 @@ if not status then
 	return
 end
 
-local components = R 'plugins.lualine.components'
+local components = R('plugins.lualine.components')
 
 local ls_status, symbolwinbar = pcall(require, 'lspsaga.symbolwinbar')
 if not ls_status then
 	return
 end
 
--- local buf_status, bufferline = pcall(require, 'bufferline')
--- P(vim.cmd('echo v:lua.nvim_bufferline()'))
+local cat = require('lualine.themes.catppuccin')
+cat.normal.c.bg = 'bg'
+cat.inactive.a.bg = 'bg'
+cat.inactive.b.bg = 'bg'
+cat.inactive.c.bg = 'bg'
 
 lualine.setup {
 	options = {
 		icons_enabled = true,
-		theme = 'auto',
+		theme = cat,
 		component_separators = { left = '', right = '' },
 		section_separators = { left = '', right = '' },
 		disabled_filetypes = {
