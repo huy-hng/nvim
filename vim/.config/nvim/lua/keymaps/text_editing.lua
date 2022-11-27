@@ -1,23 +1,28 @@
-local function keep_column(action)
+local function keep_column(action, change_line)
 	return function()
-		local column = vim.fn.col('.')
+		-- local pos = vim.fn.getcurpos()
+		-- local column = pos[5]
+		-- P(pos)
 
-		print(action)
+		local column = vim.fn.col('.')
+		local line = vim.fn.line('.')
+
 		vim.api.nvim_command('normal! ' .. action)
 
-		local line = vim.fn.line('.')
+		if change_line then
+			line = vim.fn.line('.')
+		end
+
 		vim.fn.cursor { line, column }
 	end
 end
 
-local is_in_area = function()
+local function is_in_area()
 	local yanked_pos = vim.fn.getpos("'[")
 	local behind_line = PrevPos[2] < yanked_pos[2]
 	local behind_column = PrevPos[3] < yanked_pos[3]
 
-	if behind_line then
-		return false
-	end
+	if behind_line then return false end
 	return true
 end
 
@@ -30,16 +35,14 @@ function YankOperator(type)
 
 	vim.api.nvim_command('normal! `[v`]y')
 
-	if is_in_area() then
-		vim.fn.cursor { PrevPos[2], PrevPos[3] }
-	end
+	if is_in_area() then vim.fn.cursor { PrevPos[2], PrevPos[3] } end
 
 	PrevPos = nil
 	vim.go.operatorfunc = ''
 end
 
-nmap('p', keep_column('p'))
-nmap('P', keep_column('P'))
+nmap('p', keep_column('p', true))
+nmap('P', keep_column('P', true))
 vmap('y', keep_column('y'))
 vmap('Y', keep_column('Y'))
 vmap('<C-c>', keep_column('"+y'))
@@ -47,8 +50,10 @@ vmap('<C-c>', keep_column('"+y'))
 nmap('y', YankOperator, '', { expr = true })
 nmap('yy', 'yy')
 
-nmap('<leader>p', '"+p')
-nmap('<leader>P', '"+P')
+nmap('yh', keep_column('yh'))
+nmap('yj', keep_column('yj'))
+nmap('yk', keep_column('yk'))
+nmap('yl', 'yl')
 
 -- break undo sequence before pasting from register
 -- imap('<C-v', CMD('<C-r>+'))
@@ -65,7 +70,6 @@ nmap('<A-j>', 'mz<cmd>m+<cr>`z')
 nmap('<A-k>', 'mz<cmd>m-2<cr>`z')
 vmap('<A-j>', ":m'>+<cr>`<my`>mzgv`yo`z")
 vmap('<A-k>', ":m'<-2<cr>`>my`<mzgv`yo`z")
-
 
 --==============================================================================
 --                            |=> Indentation <=|

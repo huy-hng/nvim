@@ -9,9 +9,18 @@ local function bind(op, outer_opts)
 	return function(lhs, rhs, description, opts)
 		opts = vim.tbl_extend('force', outer_opts, { desc = description or '' }, opts or {})
 		local status, _ = pcall(vim.keymap.set, op, lhs, rhs, opts)
-		if not status then
-			print('Keymap Error: ', op, lhs, rhs)
-		end
+		if not status then print('Keymap Error: ', op, lhs, rhs, debug.traceback()) end
+	end
+end
+
+
+--[[usage:
+	local pref_map = PrefixMap(nmap, '<leader>a')
+	pref_map('a', ':echo "hello"', 'does stuff')
+--]]
+function PrefixMap(map_fn, prefix)
+	return function(lhs, rhs, description, opts)
+		map_fn(prefix .. lhs, rhs, description, opts)
 	end
 end
 
@@ -27,7 +36,6 @@ end
 -- cmap
 -- tmap
 
-
 unmap = vim.keymap.del
 map = function(op, lhs, rhs, description, opts)
 	opts = opts or {}
@@ -37,18 +45,19 @@ end
 
 nremap = bind('n', { noremap = false })
 
-nmap = bind 'n' -- actually nnoremap, everything below as well
-vmap = bind 'v' -- visual and select
-smap = bind 's' -- select mode
-xmap = bind 'x' -- only visual mode
+nmap = bind('n') -- actually nnoremap, everything below as well
+nvmap = bind { 'n', 'v' }
+vmap = bind('v') -- visual and select
+smap = bind('s') -- select mode
+xmap = bind('x') -- only visual mode
 
-omap = bind 'o' -- operator pending mode
+omap = bind('o') -- operator pending mode
 
-imap = bind 'i'
-icmap = bind '!' -- insert and commandline
-cmap = bind 'c' -- commandline
+imap = bind('i')
+icmap = bind('!') -- insert and commandline
+cmap = bind('c') -- commandline
 
-tmap = bind 't' -- terminal
+tmap = bind('t') -- terminal
 
 local M = {}
 -- M.map = bind('')

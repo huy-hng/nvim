@@ -30,7 +30,8 @@ local jump_to_buffer = function(target_buffer)
 end
 
 for i in ipairs(vim.fn.range(1, 9)) do
-	nmap('<A-' .. i .. '>', FN(jump_to_buffer, i), 'Go to BufferLine')
+	local keymap = string.format('<A-%s>', i)
+	nmap(keymap, FN(jump_to_buffer, i), 'Go to BufferLine')
 end
 
 nmap('<A-0>', FN(bufferline.go_to_buffer, -1, absolute), '')

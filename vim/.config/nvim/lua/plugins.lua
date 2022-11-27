@@ -129,11 +129,14 @@ return packer.startup {
 		--===============================================================================
 
 		use('mfussenegger/nvim-dap') -- debugging
+		use { 'mfussenegger/nvim-dap-python', requires = { 'mfussenegger/nvim-dap' } }
+		use { 'rcarriga/nvim-dap-ui', requires = { 'mfussenegger/nvim-dap' } }
+		use { 'theHamsta/nvim-dap-virtual-text', requires = { 'mfussenegger/nvim-dap' } }
 
 		----------------------------------------
 		--           -> Testing <-
 		----------------------------------------
-		use('vim-test/vim-test') -- for pytest and other testing frameworks
+		-- use('vim-test/vim-test') -- for pytest and other testing frameworks
 		use('nvim-neotest/neotest-python')
 		use {
 			'nvim-neotest/neotest',
@@ -200,7 +203,7 @@ return packer.startup {
 		----------------------------------------
 		--            -> Motion <-
 		----------------------------------------
-		use 'unblevable/quick-scope'
+		use('unblevable/quick-scope')
 		-- use 'ggandor/leap.nvim'
 		-- use 'ggandor/lightspeed.nvim' -- older version of leap
 		use { 'phaazon/hop.nvim', branch = 'v2' }
@@ -223,9 +226,7 @@ return packer.startup {
 		use { 'mg979/vim-visual-multi', branch = 'master' }
 		-- Automatically set up your configuration after cloning packer.nvim
 		-- Put this at the end after all plugins
-		if packer_bootstrap then
-			packer.sync()
-		end
+		if packer_bootstrap then packer.sync() end
 	end,
 	config = {
 		display = {

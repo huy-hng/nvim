@@ -22,4 +22,4 @@ function FlashCursor(times, blink_time)
 	end
 end
 
-nmap('<leader><CR>', FN(FlashCursor, 3))
+nmap('<leader><CR>', FN(FlashCursor, 3), 'Flash Cursor')

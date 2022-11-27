@@ -73,6 +73,7 @@ augroup DisableCompletion
 	" change to vimwiki TODO
 	autocmd FileType vimwiki lua require('cmp').setup.buffer {enabled = false}
 	autocmd FileType vimwiki setlocal nonu nornu
+	autocmd BufNewFile,BufEnter *.md call LineNumbers(0)
 augroup END
 
 augroup somegroup
@@ -122,14 +123,17 @@ call LineNumbers()
 
 augroup filetypes
 	autocmd!
-	autocmd BufNewFile,BufRead *.env		set filetype=bash
-	autocmd BufNewFile,BufRead *.profile	set filetype=bash
-	autocmd BufNewFile,BufRead *.rc			set filetype=bash
-	autocmd BufNewFile,BufRead *.login		set filetype=bash
-	autocmd BufNewFile,BufRead *.logout		set filetype=bash
+	autocmd BufNewFile,BufRead *.env     set filetype=bash
+	autocmd BufNewFile,BufRead *.profile set filetype=bash
+	autocmd BufNewFile,BufRead *.rc      set filetype=bash
+	autocmd BufNewFile,BufRead *.login   set filetype=bash
+	autocmd BufNewFile,BufRead *.logout  set filetype=bash
 
-	autocmd BufNewFile,BufRead *.tmux		set filetype=tmux
-	autocmd BufNewFile,BufRead *.vim		set filetype=vim
+	autocmd BufNewFile,BufRead *.tmux    set filetype=tmux
+	autocmd BufNewFile,BufRead *.vim     set filetype=vim
+
+	autocmd BufNewFile,BufRead *.ron     set filetype=rust
+
 
 augroup END
 

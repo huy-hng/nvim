@@ -70,13 +70,13 @@ o.lcs = 'tab:│ ,trail:·,nbsp:+'
 go.scrolloff = 8
 go.sidescroll = 1
 go.sidescrolloff = 8
-vim.cmd 'set wildignore=*.o,*~,*.pyc'
-vim.cmd 'set wildmenu'
+vim.cmd('set wildignore=*.o,*~,*.pyc')
+vim.cmd('set wildmenu')
 
 -- g.showmatch = true
 -- g.match = 2
 -- g.magic = true
-go.timeoutlen = 400
+go.timeoutlen = 300
 
 --==============================================================================
 --                              |=> Behavior <=|
@@ -98,9 +98,9 @@ o.wrap = false -- disable line wrapping
 o.showbreak = '--> ' -- prefix for soft-wrapped lines
 o.linebreak = true -- soft-wrap lines only at certain characters (see :help breakat)
 o.breakindent = true -- indent wraps
-opt.cpoptions:append 'n'
+opt.cpoptions:append('n')
 
-opt.whichwrap:append '<,>,h,l'
+opt.whichwrap:append('<,>,h,l')
 
 -- search settings
 o.ignorecase = true -- ignore case when searching
@@ -121,8 +121,7 @@ o.splitright = true -- split vertical window to the right
 o.splitbelow = true -- split horizontal window to the bottom
 
 -- o.iskeyword:append("-") -- consider string-string as whole word
-
-vim.cmd('set noswapfile')
+go.swapfile = false
 o.undofile = true
 o.mouse = 'a'
 -- No annoying sound on errors
@@ -134,3 +133,6 @@ go.compatible = false
 opt.formatoptions:remove { 'c', 'r', 'o' }
 
 vim.opt_global.path:append('**')
+
+vim.opt.switchbuf:append { 'useopen', 'usetab', 'vsplit'}
+

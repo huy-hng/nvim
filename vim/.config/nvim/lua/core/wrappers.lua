@@ -35,8 +35,13 @@ function Schedule(fn, ...)
 	end)
 end
 
-Feedkeys = function(key)
+function Feedkeys(key)
 	vim.api.nvim_feedkeys(vim.api.nvim_replace_termcodes(key, true, true, true), 'n', false)
+end
+function BindFeedkeys(key)
+	return function()
+		Feedkeys(key)
+	end
 end
 
 local M = {}
