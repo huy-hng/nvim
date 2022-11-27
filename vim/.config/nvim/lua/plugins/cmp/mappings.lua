@@ -22,8 +22,8 @@ return {
 	-- navigation
 	['<C-n>'] = if_visible(cmp.select_next_item),
 	['<C-p>'] = if_visible(cmp.select_prev_item),
-	['<C-j>'] = cmp.mapping(if_visible(cmp.select_next_item), { 'i' }),
-	['<C-k>'] = cmp.mapping(if_visible(cmp.select_prev_item), { 'i' }),
+	-- ['<C-j>'] = cmp.mapping(if_visible(cmp.select_next_item), { 'i' }),
+	-- ['<C-k>'] = cmp.mapping(if_visible(cmp.select_prev_item), { 'i' }),
 
 	-- ['A-d'] = cmp.mapping.select_next_item { behavior = cmp.SelectBehavior, count = 4 },
 	-- ['A-u'] = cmp.mapping.select_prev_item { behavior = cmp.SelectBehavior, count = 4 },

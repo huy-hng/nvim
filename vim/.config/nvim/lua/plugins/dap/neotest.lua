@@ -1,7 +1,9 @@
-local neotest = require 'neotest'
-local config = require 'neotest.config'
+local has_neotest, neotest = pcall(require, 'neotest')
+if not has_neotest then return end
 
-local python_adapter = require 'neotest-python' {
+-- local config = require('neotest.config')
+
+local python_adapter = require('neotest-python') {
 	-- Extra arguments for nvim-dap configuration
 	-- See https://github.com/microsoft/debugpy/wiki/Debug-configuration-settings for values
 	dap = { justMyCode = false },
@@ -46,14 +48,13 @@ neotest.setup {
 		enabled = true,
 	},
 	floating = {
-		relative = 'editor', -- editor | win | cursor
-		row = 0,
-		col = 0,
-
-		max_height = 0.9,
-		max_width = 0.9,
 		border = 'rounded',
+		max_height = 0.6,
+		max_width = 0.6,
 		options = {},
+		-- relative = 'editor', -- editor | win | cursor
+		-- row = 0,
+		-- col = 0,
 	},
 	highlights = {
 		adapter_name = 'NeotestAdapterName',
@@ -76,18 +77,7 @@ neotest.setup {
 	},
 	icons = {
 		-- running_animated = { '/', '|', '\\', '-', '/', '|', '\\', '-' },
-		running_animated = {
-			'',
-			'🞅',
-			'🞈',
-			'🞉',
-			'',
-			'',
-			'🞉',
-			'🞈',
-			'🞅',
-			'',
-		},
+		running_animated = { '', '🞅', '🞈', '🞉', '', '', '🞉', '🞈', '🞅', '', },
 		-- running_animated = { '◴' ,'◷' ,'◶', '◵'},
 		-- running_animated = { '◢', '◣', '◤', '◥'},
 		-- running_animated = { '◐', '◓', '◑', '◒'},
@@ -116,7 +106,12 @@ neotest.setup {
 	log_level = 3,
 	output = {
 		enabled = true,
-		open_on_run = 'short',
+		-- open_on_run = 'short', -- (string|boolean) Open nearest test result after running
+		open_on_run = true, -- (string|boolean) Open nearest test result after running
+	},
+	output_panel = {
+		enabled = true,
+		open = 'botright split | resize 15', -- (string) | fun(): integer A command or function to open a window for the output panel
 	},
 	projects = {},
 	run = {
@@ -127,8 +122,8 @@ neotest.setup {
 	},
 	status = {
 		enabled = true,
-		signs = true,
-		virtual_text = false,
+		signs = true, -- Display status using signs
+		virtual_text = false, -- Display status using virtual text
 	},
 	strategies = {
 		integrated = {
@@ -137,80 +132,35 @@ neotest.setup {
 		},
 	},
 	summary = {
-		enabled = true,
 		animated = true,
-		expand_errors = true,
-		follow = true,
+		enabled = true,
+		expand_errors = true, -- Expand all failed positions
+		follow = true, -- Expand user's current file
 		mappings = {
 			attach = 'a',
-			clear_marked = 'M',
-			clear_target = 'T',
-			expand = { '<CR>', '<2-LeftMouse>' },
-			expand_all = 'e',
-			jumpto = 'i',
-			mark = 'm',
-			next_failed = 'J',
-			output = 'o',
-			prev_failed = 'K',
-			run = 'r',
-			debug = 'd',
-			run_marked = 'R',
-			debug_marked = 'D',
-			short = 'O',
 			stop = 'u',
+
+			jumpto = 'i',
+
 			target = 't',
+			clear_target = 'T',
+
+			mark = 'm',
+			clear_marked = 'M',
+
+			expand_all = 'e',
+			expand = { '<CR>', '<2-LeftMouse>' },
+
+			output = 'o',
+			short = 'O',
+
+			next_failed = 'J',
+			prev_failed = 'K',
+
+			run = 'r',
+			run_marked = 'R',
+			debug = 'd',
+			debug_marked = 'D',
 		},
 	},
 }
-
-local neotest_prefix = '<leader>d'
-nmap(neotest_prefix .. 'd', neotest.run.run_last, 'Run last test')
-nmap(neotest_prefix .. 'n', neotest.run.run, 'Run nearest test')
-nmap(neotest_prefix .. 's', neotest.run.stop, 'Stop nearest test')
-nmap(neotest_prefix .. 'a', neotest.run.attach, 'Attach to nearest test')
-
-local popup_config = {
-	row = 0,
-	-- row = -1,
-	col = 0,
-
-	width = 120,
-	height = vim.api.nvim_win_get_height(0) - 5,
-
-	relative = 'editor', -- editor | win | cursor
-
-	border = 'rounded', -- none | single | double | rounded | solid | shadow
-	style = 'minimal',
-}
-
-local output_opts = {
-	enter = true,
-	auto_close = true,
-	-- short = true,
-	open_win = function()
-		local winid = vim.api.nvim_open_win(0, true, popup_config)
-		-- vim.api.nvim_create_autocmd()
-	end
-}
-nmap(neotest_prefix .. 'o', function()
-	neotest.output.open(output_opts)
-	-- neotest.output.open()
-end, 'Show test output')
-nmap(neotest_prefix .. 'u', neotest.summary.toggle, 'Show summary')
--- nmap(neotest_prefix .. 'd', neotest.diagnostic, 'Show diagnostics')
--- nmap(neotest_prefix .. 't', neotest.status, 'Show status')
-
--- nearest test
--- neotest.run.run()
-
--- current file
--- neotest.run.run(vim.fn.expand("%"))
-
--- debug nearest test
--- neotest.run.run({strategy='dap'})
-
--- stop nearest test
--- neotest.run.stop()
-
--- attach to nearest test
--- neotest.run.attach()

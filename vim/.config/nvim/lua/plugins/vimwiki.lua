@@ -6,6 +6,7 @@ vim.api.nvim_create_autocmd('FileType', {
 	callback = function()
 		vim.bo.foldexpr = 'nvim_treesitter#foldexpr()'
 		Exec('TSBufDisable highlight')
+
 	end,
 })
 

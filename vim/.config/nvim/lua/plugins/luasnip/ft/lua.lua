@@ -1,6 +1,6 @@
 local ls = require('luasnip')
 
--- local snippet = ls.s
+local snippet = ls.s
 local snippet_from_nodes = ls.sn
 
 local i = ls.insert_node
@@ -8,13 +8,16 @@ local t = ls.text_node
 local d = ls.dynamic_node
 local c = ls.choice_node
 local f = ls.function_node
+
 local fmt = require('luasnip.extras.fmt').fmt
+local extras = require('luasnip.extras')
+local rep = extras.rep
 
 -- local shared = R('tj.snips')
 local same = function(index)
-	  return f(function(args)
-    return args[1]
-	  end, { index })
+	return f(function(args)
+		return args[1]
+	end, { index })
 end
 
 local newline = function(text)
@@ -36,35 +39,50 @@ local require_var = function(args, _)
 end
 
 return {
-	ignore = '--stylua: ignore',
+	snippet('ignore', t('--stylua: ignore')),
 
-	lf = {
-		desc = 'table function',
-		'local ',
-		i(1),
-		' = function(',
-		i(2),
-		')',
-		newline('  '),
-		i(0),
-		newline('end'),
-	},
+	-- snippet('lf', {
+	-- 	desc = 'table function',
+	-- 	'local ',
+	-- 	i(1),
+	-- 	' = function(',
+	-- 	i(2),
+	-- 	')',
+	-- 	newline('  '),
+	-- 	i(0),
+	-- 	newline('end'),
+	-- }),
 
 	-- TODO: I don't know how I would like to set this one up.
-	f = fmt('function({})\n  {}\nend', { i(1), i(0) }),
+	-- snippet('f', fmt('function({})\n  {}\nend', { i(1), i(0) })),
 
-	test = { 'mirrored: ', i(1), ' // ', same(1), ' | ', i(0) },
+	-- snippet('test', { 'mirrored: ', i(1), ' // ', same(1), ' | ', i(0) }),
 
-	req = fmt([[local {} = require("{}")]], {
-		d(2, require_var, { 1 }),
-		i(1),
-	}),
+	snippet(
+		'req',
+		fmt([[local {} = require("{}")]], {
+			d(2, require_var, { 1 }),
+			i(1),
+		})
+	),
 
-	treq = fmt([[local {} = require("telescope.{}")]], {
-		d(2, require_var, { 1 }),
-		i(1),
-	}),
-
+	snippet(
+		'preq',
+		fmt([[
+		local has_{}, {}{} = pcall(require, '{}')
+		if not has_{} then return end
+		{}
+		]],
+			{
+				d(2, require_var, { 1 }),
+				rep(1),
+				i(3),
+				i(1),
+				rep(2),
+				i(4),
+			}
+		)
+	),
 	-- test = { "local ", i(1), ' = require("', f(function(args)
 	--   table.insert(RESULT, args[1])
 	--   return { "hi" }
