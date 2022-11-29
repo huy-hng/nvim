@@ -1,26 +1,19 @@
 local status_ok, nvim_tree = pcall(require, 'nvim-tree')
-if not status_ok then
-	return
-end
+if not status_ok then return end
+-- print('aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa')
 
-RESET('plugins.tree.funtions')
-package.loaded['plugins.tree.funtions'] = nil
+-- RESET('plugins.tree.funtions')
+-- package.loaded['plugins.tree.funtions'] = nil
 
-local api = require 'nvim-tree.api'
-local view = require 'nvim-tree.view'
-local utils = require 'nvim-tree.utils'
-
-local options = require 'plugins.tree.options'
-local mappings = require 'plugins.tree.mappings'
+local options = require('plugins.tree.options')
+local mappings = require('plugins.tree.mappings')
 options.view.mappings.list = mappings
 
 nvim_tree.setup(options)
 
 function NvimTreeFloat(enable)
 	-- toggle
-	if enable == nil then
-		enable = not options.view.float.enable
-	end
+	if enable == nil then enable = not options.view.float.enable end
 
 	if enable or enable == nil then
 		options.view.float.enable = true
@@ -32,7 +25,7 @@ function NvimTreeFloat(enable)
 	nvim_tree.setup(options)
 end
 
-local functions = require 'plugins.tree.functions'
+local functions = require('plugins.tree.functions')
 nmap('<C-e>', functions.focus_tree, 'Toggle Nvim Tree')
 nmap('<A-E>', NvimTreeFloat, 'Toggle Nvim Tree')
 -- nmap('<leader>e', functions.focus_tree, 'Toggle Nvim Tree')

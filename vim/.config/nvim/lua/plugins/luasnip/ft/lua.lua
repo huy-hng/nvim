@@ -75,7 +75,7 @@ return {
 		]],
 			{
 				d(2, require_var, { 1 }),
-				rep(1),
+				rep(2),
 				i(3),
 				i(1),
 				rep(2),

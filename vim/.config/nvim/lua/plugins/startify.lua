@@ -26,22 +26,22 @@ g.startify_session_sort = 1
 
 vim.cmd([[
 
-function! s:list_commits()
-	let git = 'git -C $(pwd)'
-	let commits = systemlist(git .' log --oneline | head -n10')
-	let git = 'G'. git[1:]
-	return map(commits, '{"line": matchstr(v:val, "\\s\\zs.*"), "cmd": "'. git .' show ". matchstr(v:val, "^\\x\\+") }')
-endfunction
+" function! s:list_commits()
+" 	let git = 'git -C $(pwd)'
+" 	let commits = systemlist(git .' log --oneline | head -n10')
+" 	let git = 'G'. git[1:]
+" 	return map(commits, '{"line": matchstr(v:val, "\\s\\zs.*"), "cmd": "'. git .' show ". matchstr(v:val, "^\\x\\+") }')
+" endfunction
 
-fun s:pad(text)
-	let l:res = startify#pad([a:text])
-	return l:res[0]
-endfun
+" fun s:pad(text)
+" 	let l:res = startify#pad([a:text])
+" 	return l:res[0]
+" endfun
 
-fun s:center(text)
-	let l:res = startify#center([a:text])
-	return l:res[0]
-endfun
+" fun s:center(text)
+" 	let l:res = startify#center([a:text])
+" 	return l:res[0]
+" endfun
 
 
 fun! s:sep(...)
@@ -60,7 +60,7 @@ endfun
 " types: files, dir, bookmarks, sessions, commands
 " let s:bookmarks = { 'type': 'bookmarks', 'header': startify#pad(['Bookmarks'])}
 " let s:sessions = { 'type': 'sessions', 'header': startify#pad(['Sessions'])}
-let s:commits = { 'type': function('s:list_commits'), 'header': s:sep('Commits')}
+" let s:commits = { 'type': function('s:list_commits'), 'header': s:sep('Commits')}
 
 let g:startify_lists = [
 	\ { 'type': 'sessions',		'header': s:sep('Sessions') },
@@ -68,26 +68,24 @@ let g:startify_lists = [
 	\ { 'type': 'commands',		'header': s:sep('Commands') },
 	\ { 'type': 'dir',			'header': s:sep('CWD') },
 	\ { 'type': 'files',		'header': s:sep('Files')},
-	\ s:commits,
 	\ ]
+	" \ s:commits,
 
-let s:dotfiles = '$HOME/.dotfiles/'
-			" \ s:dotfiles..'vim/.config/nvim/init.lua',
-let g:startify_bookmarks = [
-			\ '$HOME/.dotfiles/vim/.config/nvim/init.lua',
-			\ s:dotfiles..'zsh/.config/zsh',
-			\ ]
-			" \ {'c': ''},
+" let g:startify_bookmarks = [
+" 			\ '$HOME/.dotfiles/vim/.config/nvim/init.lua',
+" 			\ '$HOME/.dotfiles/zsh/.config/zsh',
+" 			\ ]
+" 			" \ {'c': ''},
 
-let g:startify_commands = [
-	\ {'w': ['Vimwiki', 'Goyo | VimwikiIndex']},
-	\ {'d': ['Daily Log', 'Goyo | VimwikiMakeDiaryNote']},
-	\ {'h': ['Vim Reference', 'h ref']},
-	\ ]
+" let g:startify_commands = [
+" 	\ {'w': ['Vimwiki', 'Goyo | VimwikiIndex']},
+" 	\ {'d': ['Daily Log', 'Goyo | VimwikiMakeDiaryNote']},
+" 	\ {'h': ['Vim Reference', 'h ref']},
+" 	\ ]
 
-let s:bg_color = synIDattr(hlID("Normal"), "bg")
+" let s:bg_color = synIDattr(hlID("Normal"), "bg")
 
-let s:text = s:center('drink some water dude')
-let s:text = s:pad(systemlist('pwd')[0])
+" let s:text = s:center('drink some water dude')
+" let s:text = s:pad(systemlist('pwd')[0])
 " autocmd User StartifyReady let &l:stl = ''
 ]])

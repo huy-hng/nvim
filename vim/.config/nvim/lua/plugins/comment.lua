@@ -75,20 +75,20 @@ end
 
 
 
-if vim.g.neovide then
-	-- neovide bindings
-	map({ 'n', 'i' }, '<C-/>', fn(api.toggle.linewise.current, nil, comment_empty), 'Toggle Comment')
-	map({ 'n', 'i' }, '<A-/>a', api.insert.linewise.eol, 'Comment at end of line')
-	map({ 'n', 'i' }, '<A-/>', api.insert.linewise.eol, 'Comment at end of line')
-	map({ 'n', 'i' }, '<A-/>o', api.insert.linewise.below, 'Comment next line')
-	map({ 'n', 'i' }, '<A-/>O', api.insert.linewise.above, 'Comment prev line')
-	vmap('<C-/>', toggle_visual, 'asd')
-else
-	-- terminal bindings
-	map({ 'n', 'i' }, '<C-_>', fn(api.toggle.linewise.current, nil, comment_empty), 'Toggle Comment')
-	map({ 'n', 'i' }, '<A-_>a', api.insert.linewise.eol, 'Comment at end of line')
-	map({ 'n', 'i' }, '<A-_>', api.insert.linewise.eol, 'Comment at end of line')
-	map({ 'n', 'i' }, '<A-_>o', api.insert.linewise.below, 'Comment next line')
-	map({ 'n', 'i' }, '<A-_>O', api.insert.linewise.above, 'Comment prev line')
-	vmap('<C-_>', toggle_visual, 'asd')
-end
+--if vim.g.neovide then
+-- neovide bindings
+map({ 'n', 'i' }, '<C-/>', fn(api.toggle.linewise.current, nil, comment_empty), 'Toggle Comment')
+map({ 'n', 'i' }, '<A-/>a', api.insert.linewise.eol, 'Comment at end of line')
+map({ 'n', 'i' }, '<A-/>', api.insert.linewise.eol, 'Comment at end of line')
+map({ 'n', 'i' }, '<A-/>o', api.insert.linewise.below, 'Comment next line')
+map({ 'n', 'i' }, '<A-/>O', api.insert.linewise.above, 'Comment prev line')
+vmap('<C-/>', toggle_visual, 'Toggle Comment')
+-- else
+-- 	-- terminal bindings
+-- 	map({ 'n', 'i' }, '<C-_>', fn(api.toggle.linewise.current, nil, comment_empty), 'Toggle Comment')
+-- 	map({ 'n', 'i' }, '<A-_>a', api.insert.linewise.eol, 'Comment at end of line')
+-- 	map({ 'n', 'i' }, '<A-_>', api.insert.linewise.eol, 'Comment at end of line')
+-- 	map({ 'n', 'i' }, '<A-_>o', api.insert.linewise.below, 'Comment next line')
+-- 	map({ 'n', 'i' }, '<A-_>O', api.insert.linewise.above, 'Comment prev line')
+-- 	vmap('<C-_>', toggle_visual, 'Toggle Comment')
+-- end

@@ -4,15 +4,12 @@ vim.api.nvim_create_autocmd('FileType', {
 	group = vim.api.nvim_create_augroup('VimwikiGroup', { clear = true }),
 	pattern = 'vimwiki',
 	callback = function()
-		vim.bo.foldexpr = 'nvim_treesitter#foldexpr()'
-		Exec('TSBufDisable highlight')
-
+		vim.wo.foldexpr = 'nvim_treesitter#foldexpr()'
+		Schedule(Exec, 'TSBufDisable highlight')
 	end,
 })
 
 vim.o.concealcursor = 'nc'
-
-
 
 -- g.vimwiki_ext2syntax = {'.md': 'markdown'}
 -- g.vimwiki_listsyms = ' ○◐●✓' " fancier todo checkmarks

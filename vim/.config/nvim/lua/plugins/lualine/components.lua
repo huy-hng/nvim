@@ -53,7 +53,7 @@ M.branch = {
 }
 
 local function pretty_name()
-	local file_name = string.gsub(vim.fn.expand '%:t', '%%', '')
+	local file_name = string.gsub(vim.fn.expand('%:t'), '%%', '')
 	local ok, devicons = pcall(require, 'nvim-web-devicons')
 	local f_icon = ''
 	local f_hl = ''
@@ -69,15 +69,13 @@ end
 
 local function get_file_name()
 	---@diagnostic disable-next-line: param-type-mismatch
-	if vim.fn.bufname '%' == '' then
-		return ''
-	end
+	if vim.fn.bufname('%') == '' then return '' end
 
 	local file_name = pretty_name()
 
 	local sep = vim.loop.os_uname().sysname == 'Windows' and '\\' or '/'
 	-- local path_list = vim.split(string.gsub(vim.fn.expand '%:~:.:h', '%%', ''), sep, {})
-	local path_list = vim.split(vim.fn.expand '%:~:.:h', sep, {})
+	local path_list = vim.split(vim.fn.expand('%:~:.:h'), sep, {})
 
 	local file_path = '%*' -- start with correct highlight group
 
@@ -92,6 +90,44 @@ local function get_file_name()
 end
 
 M.filename = get_file_name
+
+local exclude = {
+	['terminal'] = true,
+	['vimwiki'] = true,
+	['toggleterm'] = true,
+	['prompt'] = true,
+	['NvimTree'] = true,
+	['help'] = true,
+} -- Ignore float windows and exclude filetype
+
+-- local has_lualine, lualine = pcall(require, 'lualine')
+-- if not has_lualine then return end
+-- local events = { 'BufEnter', 'BufWinEnter' }
+-- vim.api.nvim_create_autocmd(events, {
+-- 	pattern = '*',
+-- 	group = vim.api.nvim_create_augroup('Load symbols', { clear = true }),
+-- 	callback = function()
+-- 		if vim.api.nvim_win_get_config(0).zindex or exclude[vim.bo.filetype] then
+-- 			lualine.refresh {
+-- 				scope = 'all', -- scope of refresh all/tabpage/window
+-- 				place = 'winbar',
+-- 			}
+-- 		end
+-- 	end,
+-- })
+
+local has_symbolwinbar, symbolwinbar = pcall(require, 'lspsaga.symbolwinbar')
+if not has_symbolwinbar then return end
+
+
+M.symbols = function()
+	local symbol = symbolwinbar.get_symbol_node() or ''
+
+	if exclude[vim.bo.filetype] then
+		return ''
+	end
+	return symbol
+end
 
 M.tabs = {
 	'tabs',

@@ -31,7 +31,7 @@ saga.init_lsp_saga {
 	code_action_num_shortcut = true,
 	-- same as nvim-lightbulb but async
 	code_action_lightbulb = {
-		enable = true,
+		enable = false,
 		enable_in_insert = true,
 		cache_code_action = true,
 		sign = true,
@@ -77,7 +77,7 @@ saga.init_lsp_saga {
 		in_custom = true,
 		enable = false,
 		separator = '  ',
-		show_file = true,
+		show_file = false,
 		-- define how to customize filename, eg: %:., %
 		-- if not set, use default value `%:t`
 		-- more information see `vim.fn.expand` or `expand`

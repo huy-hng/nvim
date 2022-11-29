@@ -1,8 +1,8 @@
-local status, leap = pcall(require, 'leap')
-if not status then
-	return
-end
+-- local status, leap = pcall(require, 'leap')
+-- if not status then
+-- 	return
+-- end
 
-leap.setup {}
-leap.add_default_mappings()
+-- leap.setup {}
+-- leap.add_default_mappings()
 

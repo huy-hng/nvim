@@ -91,17 +91,17 @@ local lsp_keymaps = function(bufnr)
 	nmap('<leader>ff', lsp_formatting, 'Format Document', opts)
 end
 
-local function lsp_highlight_document(client)
-	-- Set autocommands conditional on server_capabilities
-	local status_ok, illuminate = pcall(require, 'illuminate')
-	if not status_ok then
-		return
-	end
-	illuminate.on_attach(client)
-end
+-- local function lsp_highlight_document(client)
+-- 	-- Set autocommands conditional on server_capabilities
+-- 	local status_ok, illuminate = pcall(require, 'illuminate')
+-- 	if not status_ok then
+-- 		return
+-- 	end
+-- 	illuminate.on_attach(client)
+-- end
 
 -- if you want to set up formatting on save, you can use this as a callback
-local augroup = vim.api.nvim_create_augroup('LspFormatting', {})
+-- local augroup = vim.api.nvim_create_augroup('LspFormatting', {})
 
 M.on_attach = function(client, bufnr)
 	-- autoformat on save

@@ -47,7 +47,46 @@ vim.api.nvim_create_autocmd('User', {
 })
 -- vim.cmd.autocmd('User StartifyReady let &l:stl = ""')
 
+local ln_group = vim.api.nvim_create_augroup('renu', { clear = true })
+vim.api.nvim_create_autocmd('CursorMoved', {
+	group = ln_group,
+	callback = function()
+		if vim.o.relativenumber then vim.o.relativenumber = false end
+	end,
+})
+
+vim.api.nvim_create_autocmd('CursorHold', {
+	group = ln_group,
+	callback = function()
+		if not vim.o.relativenumber and vim.o.number then
+			vim.o.relativenumber = true
+		else
+			vim.o.relativenumber = false
+		end
+	end,
+})
+
 vim.cmd([[
+
+" set updatetime=1000
+" function! LineNumbers(show=1)
+" 	augroup line_numbers
+" 		autocmd!
+" 		
+" 		" autocmd InsertEnter * set norelativenumber
+" 		" autocmd InsertLeave * set relativenumber
+" 		" autocmd CursorHold * set relativenumber
+" 		" autocmd CursorMoved * set norelativenumber
+" 		" if &rnu == 'relativenumber' | exe "normal! g'\"" | endif
+" 	augroup END
+" 	if (a:show == 0)
+" 		autocmd! line_numbers
+" 	endif
+" endfunction
+" call LineNumbers()
+
+
+
 set autoread
 
 augroup Python
@@ -89,29 +128,37 @@ augroup somegroup
 	" autocmd BufEnter * if &filetype == 'help' | set conceallevel=0 | else | set conceallevel=2 | endif
 augroup END
 
-" augroup startup
-" 	autocmd!
-" 	autocmd VimEnter *
-" 			\   if !argc()
-" 			\ |   Startify
-" 			\ |   NvimTreeOpen
-" 			\ |   wincmd w
-" 			\ | endif
-" augroup END
+
+augroup Testing
+	autocmd!
+	" doesnt happen for startup
+	" autocmd BufAdd * :echo 'add'
+	" autocmd BufReadPre * :echo 'readpre'
+	" autocmd BufRead * :echo 'read'
+	" autocmd BufReadPost * :echo 'readpost'
+	" autocmd BufWinEnter * :echo 'winenter'
+	" autocmd BufEnter * :echo 'enter'
+augroup END
+
 
 
 augroup NoComment
 	autocmd!
+
 	autocmd BufEnter * :set formatoptions-=cro
 	autocmd InsertEnter * :set formatoptions-=cro
 	autocmd InsertLeave * :set formatoptions-=cro
 augroup END
 
+set updatetime=1000
 function! LineNumbers(show=1)
 	augroup line_numbers
 		autocmd!
-		autocmd InsertEnter * set norelativenumber 
-		autocmd InsertLeave * set relativenumber
+		
+		" autocmd InsertEnter * set norelativenumber
+		" autocmd InsertLeave * set relativenumber
+		" autocmd CursorHold * set relativenumber
+		" autocmd CursorMoved * set norelativenumber
 		" if &rnu == 'relativenumber' | exe "normal! g'\"" | endif
 	augroup END
 	if (a:show == 0)

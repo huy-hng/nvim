@@ -1,12 +1,8 @@
-local status, symbolwinbar = pcall(require, 'lspsaga.symbolwinbar')
-if not status then
-	return
-end
+local has_symbolwinbar, symbolwinbar = pcall(require, 'lspsaga.symbolwinbar')
+if not has_symbolwinbar then return end
 
-local status_1, lualine = pcall(require, 'lualine')
-if not status_1 then
-	return
-end
+local has_lualine, lualine = pcall(require, 'lualine')
+if not has_lualine then return end
 
 
 local function get_file_name(include_path)

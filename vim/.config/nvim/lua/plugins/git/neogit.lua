@@ -1,6 +1,7 @@
-local neogit = require('neogit')
+local has_neogit, neogit = pcall(require, 'neogit')
+if not has_neogit then return end
 
-nmap('<C-g>', '<cmd>Neogit<cr>', 'Open Neogit')
+nmap('<C-g>', CMD('Neogit'), 'Open Neogit')
 
 neogit.setup {
 	disable_signs = false,
@@ -44,7 +45,7 @@ neogit.setup {
 		--   }
 		-- }
 		--
-		diffview = true
+		diffview = false
 	},
 	-- Setting any section to `false` will make the section not render at all
 	sections = {

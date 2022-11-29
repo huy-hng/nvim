@@ -24,6 +24,7 @@ vim.api.nvim_create_autocmd('BufWritePost', {
 	pattern = 'plugins.lua',
 	group = id,
 	callback = function()
+		print('Compiling Packer')
 		require('plugins')
 		packer.compile()
 	end,
@@ -36,7 +37,7 @@ return packer.startup {
 		--===============================================================================
 		--                             |=> Big Features <=|
 		--===============================================================================
-		use('vimwiki/vimwiki') -- note taking
+		use{'vimwiki/vimwiki', } -- note taking
 		-- use 'jceb/vim-orgmode'
 		use('mbbill/undotree')
 
@@ -76,24 +77,23 @@ return packer.startup {
 		-----------------------------------------
 		use {
 			'williamboman/mason.nvim',
+			opt = false,
+			-- cmd = 'Mason*',
+			-- event = 'TabEnter',
+			-- config = function()
+			-- 	require('lsp.mason')
+			-- end,
+		}
+
+		use {
 			'williamboman/mason-lspconfig.nvim',
 			'jose-elias-alvarez/null-ls.nvim',
 			'jayp0521/mason-null-ls.nvim',
 		}
+
 		use('neovim/nvim-lspconfig') -- enable LSP
 		-- use 'dense-analysis/ale'
 		use { 'glepnir/lspsaga.nvim', branch = 'main' }
-		-- use {
-		-- 	'glepnir/lspsaga.nvim',
-		-- 	branch = 'main',
-		-- 	config = function()
-		-- 		local saga = require 'lspsaga'
-
-		-- 		saga.init_lsp_saga {
-		-- 			-- your configuration
-		-- 		}
-		-- 	end,
-		-- }
 
 		-----------------------------------------
 		--           -> Telescope <-
@@ -102,6 +102,11 @@ return packer.startup {
 			'nvim-telescope/telescope.nvim',
 			tag = '0.1.0',
 			requires = 'nvim-lua/plenary.nvim',
+			opt = false,
+			-- keys = '<C-p>',
+			-- config = function()
+			-- 	require('plugins.telescope')
+			-- end,
 		}
 		use('ThePrimeagen/harpoon')
 
@@ -114,13 +119,15 @@ return packer.startup {
 				local ts_update = require('nvim-treesitter.install').update { with_sync = true }
 				ts_update()
 			end,
+			disable = false,
 		}
-		use('nvim-treesitter/playground')
-		use('nvim-treesitter/nvim-treesitter-context')
-		use('nvim-treesitter/nvim-treesitter-textobjects')
-
-		use('RRethy/nvim-treesitter-textsubjects')
-		use('p00f/nvim-ts-rainbow') -- highlight parentheses in different colors
+		use { 'nvim-treesitter/playground', disable = false }
+		use { 'nvim-treesitter/nvim-treesitter-context', disable = false }
+		use { 'nvim-treesitter/nvim-treesitter-textobjects', disable = false }
+		use { 'RRethy/nvim-treesitter-textsubjects', disable = false }
+		use { 'p00f/nvim-ts-rainbow', disable = false } -- highlight parentheses in different colors
+		-- after = 'nvim-treesitter',
+		-- disable = true,
 
 		use { 'mfussenegger/nvim-treehopper', requires = 'phaazon/hop.nvim' }
 
@@ -137,12 +144,13 @@ return packer.startup {
 		--           -> Testing <-
 		----------------------------------------
 		-- use('vim-test/vim-test') -- for pytest and other testing frameworks
-		use('nvim-neotest/neotest-python')
+		use { 'nvim-neotest/neotest-python' }
+		-- use { 'nvim-neotest/neotest-python', ft = 'python' }
 		use {
 			'nvim-neotest/neotest',
 			requires = {
 				'nvim-lua/plenary.nvim',
-				'nvim-treesitter/nvim-treesitter',
+				-- 'nvim-treesitter/nvim-treesitter',
 			},
 		}
 
@@ -168,11 +176,19 @@ return packer.startup {
 		-----------------------------------------
 		-- startscreens
 		-- use 'glepnir/dashboard-nvim'
-		use('mhinz/vim-startify')
+		use { 'mhinz/vim-startify', disable = false }
 		-- use 'goolord/alpha-nvim'
 
 		use('kyazdani42/nvim-web-devicons') -- file icons
-		use('kyazdani42/nvim-tree.lua') -- file tree
+		use {
+			'kyazdani42/nvim-tree.lua',
+			opt = false,
+			-- event = '',
+			-- keys = '<C-e>',
+			-- config = function()
+			-- 	require('plugins.tree')
+			-- end,
+		} -- file tree
 		use('kevinhwang91/rnvimr') -- ranger
 
 		use { 'akinsho/bufferline.nvim', tag = 'v2.*' } -- 'tabs' at the top
@@ -195,8 +211,26 @@ return packer.startup {
 		--===============================================================================
 		-- syntax error
 		use('folke/which-key.nvim')
-		use('TimUntersberger/neogit') -- magit clone
-		use('sindrets/diffview.nvim') -- side by side diff view
+		use {
+			'sindrets/diffview.nvim', -- side by side diff view
+			opt = false,
+			-- cmd = 'Diffview*',
+			-- config = function()
+			-- 	require('plugins.git.diffview')
+			-- end,
+		}
+		use {
+			'TimUntersberger/neogit', -- magit clone
+			requires = {
+				'nvim-lua/plenary.nvim',
+			},
+			opt = false,
+			-- keys = '<C-g>',
+			-- config = function()
+			-- 	require('plugins.git.neogit')
+			-- end,
+		}
+		use('dstein64/vim-startuptime')
 
 		use { 'akinsho/toggleterm.nvim', tag = '*' }
 
@@ -217,13 +251,22 @@ return packer.startup {
 		use {
 			'lewis6991/gitsigns.nvim',
 			requires = { 'nvim-lua/plenary.nvim' },
-			config = function()
-				require('gitsigns').setup()
-			end,
 		}
 
-		use('windwp/nvim-autopairs') -- pair brackets
-		use { 'mg979/vim-visual-multi', branch = 'master' }
+		use {
+			'windwp/nvim-autopairs', -- pair brackets
+			opt = false,
+			-- cmd = 'UIEnter',
+			-- keys = { '(', '{', '[' , "'", '"'},
+			-- config = function()
+			-- 	require('plugins.autopairs')
+			-- end,
+		}
+		use {
+			'mg979/vim-visual-multi',
+			branch = 'master',
+			keys = { '<C-n>' },
+		}
 		-- Automatically set up your configuration after cloning packer.nvim
 		-- Put this at the end after all plugins
 		if packer_bootstrap then packer.sync() end
@@ -233,6 +276,10 @@ return packer.startup {
 			open_fn = function()
 				return require('packer.util').float { border = 'rounded' }
 			end,
+		},
+		profile = {
+			enable = true,
+			threshold = 1, -- the amount in ms that a plugin's load time must be over for it to be included in the profile
 		},
 	},
 }

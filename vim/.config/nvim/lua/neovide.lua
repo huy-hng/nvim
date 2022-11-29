@@ -18,7 +18,7 @@ end
 
 local function manjaro()
 	g.neovide_refresh_rate = 120
-	g.gui_font_default_size = 10
+	g.gui_font_default_size = 11
 	g.neovide_scale_factor = 1.0
 end
 
@@ -32,7 +32,7 @@ end
 g.gui_font_face = 'FiraCode Nerd Font'
 g.gui_font_face = 'CaskaydiaCove Nerd Font'
 
-if get_hostname() == 'manjaro' then
+if get_hostname() == 'huystower' then
 	manjaro()
 else
 	chromebook()
@@ -42,15 +42,16 @@ end
 --             -> Looks <-
 -----------------------------------------
 
-go.winblend = 50
+go.winblend = 66
 go.pumblend = 50
 
 g.neovide_fullscreen = true
 g.neovide_profiler = false
 
 g.neovide_transparency = 1
-g.neovide_floating_blur_amount_x = 10
-g.neovide_floating_blur_amount_y = 10
+local blur_amount = 7
+g.neovide_floating_blur_amount_x = blur_amount
+g.neovide_floating_blur_amount_y = blur_amount
 
 -- g.neovide_background_color = '#0f1117'.printf('%x', float2nr(255 * g:transparency))
 

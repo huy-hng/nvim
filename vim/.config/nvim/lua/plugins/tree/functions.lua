@@ -1,11 +1,5 @@
 local status_ok, nvim_tree = pcall(require, 'nvim-tree')
-if not status_ok then
-	return
-end
-
-local api = require 'nvim-tree.api'
-local utils = require 'nvim-tree.utils'
-local view = require 'nvim-tree.view'
+if not status_ok then return end
 
 M = {}
 
@@ -90,6 +84,9 @@ end
 
 M.focus_tree = function()
 	PrevWinWidth = vim.api.nvim_win_get_width(0)
+
+	local api = require 'nvim-tree.api'
+	local view = require 'nvim-tree.view'
 
 	if view.is_visible() then
 		api.tree.focus()

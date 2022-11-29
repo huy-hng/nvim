@@ -1,16 +1,11 @@
-local status, lualine = pcall(require, 'lualine')
-if not status then
-	return
-end
+local has_lualine, lualine = pcall(require, 'lualine')
+if not has_lualine then return end
 
 local components = R('plugins.lualine.components')
 
-local ls_status, symbolwinbar = pcall(require, 'lspsaga.symbolwinbar')
-if not ls_status then
-	return
-end
+local has_cat, cat = pcall(require, 'lualine.themes.catppuccin')
+if not has_cat then return end
 
-local cat = require('lualine.themes.catppuccin')
 cat.normal.c.bg = 'bg'
 cat.inactive.a.bg = 'bg'
 cat.inactive.b.bg = 'bg'
@@ -60,9 +55,8 @@ lualine.setup {
 		lualine_z = { components.tabs },
 	},
 	winbar = {
-		-- lualine_a = {},
 		lualine_c = { components.filename },
-		lualine_x = { symbolwinbar.get_symbol_node },
+		lualine_x = { components.symbols },
 	},
 	inactive_winbar = {
 		lualine_c = { components.filename },
@@ -70,9 +64,22 @@ lualine.setup {
 	extensions = { 'nvim-tree', 'nvim-dap-ui', 'symbols-outline', 'quickfix' },
 }
 
--- vim.api.nvim_create_autocmd({ 'BufWinEnter' }, {
--- 	pattern = '*',
--- 	callback = function()
--- 		lualine.refresh()
--- 	end,
--- })
+-- vim.api.nvim_del_augroup_by_name('lualine_wb_refresh')
+
+-- local cmds = vim.api.nvim_get_autocmds { event = 'CursorMoved' }
+-- for _, cmd in ipairs(cmds) do
+-- 	vim.api.nvim_clear_autocmds({event=cmd.event, group=cmd.group_name})
+-- 	-- P(cmd)
+-- end
+
+
+
+function string.starts(String, Start)
+	return string.sub(String, 1, string.len(Start)) == Start
+end
+
+-- local groups = Exec('augroup')
+-- local split = vim.fn.split(groups, '  ')
+-- for _, s in ipairs(split) do
+-- 	if string.starts(s, 'LspsagaSymbol') then vim.api.nvim_del_augroup_by_name(s) end
+-- end

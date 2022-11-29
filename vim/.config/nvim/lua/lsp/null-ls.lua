@@ -2,13 +2,13 @@ local status, null_ls = pcall(require, 'null-ls')
 if not status then return end
 
 -- local code_actions = null_ls.builtins.code_actions
-local diagnostics = null_ls.builtins.diagnostics
+-- local diagnostics = null_ls.builtins.diagnostics
 local formatting = null_ls.builtins.formatting
 -- local hover = null_ls.builtins.hover
 -- local completion = null_ls.builtins.completion
 
 -- to setup format on save
-local augroup = vim.api.nvim_create_augroup('LspFormatting', {})
+-- local augroup = vim.api.nvim_create_augroup('LspFormatting', {})
 
 null_ls.setup({
 	debug = true,

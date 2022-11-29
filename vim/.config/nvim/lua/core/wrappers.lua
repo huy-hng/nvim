@@ -24,7 +24,11 @@ end
 function FN(f, ...)
 	local args = { ... }
 	return function()
-		f(unpack(args))
+		local unpacked = unpack(args)
+		f(unpacked)
+		-- if not pcall(f, unpacked) then
+		-- 	print('error at', debug.traceback('FN()'))
+		-- end
 	end
 end
 
@@ -35,8 +39,16 @@ function Schedule(fn, ...)
 	end)
 end
 
-function Feedkeys(key)
-	vim.api.nvim_feedkeys(vim.api.nvim_replace_termcodes(key, true, true, true), 'n', false)
+function Feedkeys(key, noremap)
+	local mode
+	if noremap == nil then
+		mode = 'n'
+	else
+		mode = 'm'
+	end
+
+	local escaped = vim.api.nvim_replace_termcodes(key, true, true, true)
+	vim.api.nvim_feedkeys(escaped, mode, false)
 end
 function BindFeedkeys(key)
 	return function()

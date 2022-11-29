@@ -8,21 +8,25 @@ require('options')
 require('colorscheme')
 require('plugins')
 require('autocmd')
+require('lazyloader')
 
 if vim.g.neovide then
 	require('neovide')
 end
 
 REQUIRE_DIRS = {
+	'lua/functions', -- should come before keymaps
 	'lua/keymaps',
-	'lua/plugins',
-	'lua/functions',
+	-- 'lua/plugins',
 }
-
-require('lsp.init')
 
 for _, path in ipairs(REQUIRE_DIRS) do
 	require_dir(path)
 end
 
--- require('statusline')
+local g = vim.g
+g.startuptime_event_width = 40
+g.startuptime_tries = 10
+g.startuptime_sourced = 0
+g.startuptime_exe_args = {'--noplugin'}
+g.startuptime_exe_args = {}

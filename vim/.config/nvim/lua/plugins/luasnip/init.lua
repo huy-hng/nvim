@@ -28,8 +28,6 @@ ls.config.set_config {
 	},
 }
 
-require('luasnip.loaders.from_lua').load { paths = vim.fn.expand('%:h') .. '/ft' }
-
 -- local snippet = ls.s
 -- for _, ft_path in ipairs(vim.api.nvim_get_runtime_file('lua/plugins/luasnip/ft/*.lua', true)) do
 -- 	local type, snippets = loadfile(ft_path)()
@@ -68,7 +66,6 @@ imap('<c-u>', require('luasnip.extras.select_choice'))
 -- shorcut to source my luasnips file again, which will reload my snippets
 -- nmap('<leader><leader>s', FN(R, 'plugins.luasnip'))
 nmap('<leader><leader>s', '<cmd>source ' .. vim.fn.expand('%:p') .. '<cr>')
-
 
 -- create snippet
 -- s(context, nodes, condition, ...)
@@ -109,7 +106,6 @@ local choice = ls.choice_node
 
 local dyn = ls.dynamic_node
 
-
 local extras = require('luasnip.extras')
 local fmt = require('luasnip.extras.fmt').fmt
 
@@ -120,4 +116,4 @@ local rep = extras.rep
 --   return ls.parser.parse_snippet({ trig = trig }, expanded)
 -- end
 
-
+require('luasnip.loaders.from_lua').load { paths = 'lua/plugins/luasnip/ft' }

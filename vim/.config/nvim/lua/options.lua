@@ -1,15 +1,13 @@
 local opt = vim.opt
 local o = vim.o
 local go = vim.go
+local wo = vim.wo
 local g = vim.g
+local opt_g = vim.opt_global
 
 -- unmap('n', '<space>')
 g.mapleader = ' '
 g.maplocalleader = '\\'
--- vim.filetype.add {
--- 	plugin = true,
--- 	indent = true,
--- }
 
 --==============================================================================
 --                             |=> Appearance <=|
@@ -19,8 +17,8 @@ g.maplocalleader = '\\'
 go.winblend = 10
 go.pumblend = 10
 
--- line numbers
-o.relativenumber = true -- show relative line numbers
+-- -- line numbers
+-- o.relativenumber = true -- show relative line numbers
 o.number = true -- shows absolute line number on cursor line (when relative number is on)
 
 -- cursor line
@@ -40,15 +38,8 @@ o.numberwidth = 4 -- set to something smaller to reduce gutter size
 o.foldcolumn = 'auto'
 o.foldenable = false
 
-o.foldmethod = 'expr'
-o.foldexpr = 'nvim_treesitter#foldexpr()'
-vim.api.nvim_create_autocmd({ 'BufEnter', 'BufAdd', 'BufNew', 'BufNewFile', 'BufWinEnter' }, {
-	group = vim.api.nvim_create_augroup('TS_FOLD_WORKAROUND', {}),
-	callback = function()
-		o.foldmethod = 'expr'
-		o.foldexpr = 'nvim_treesitter#foldexpr()'
-	end,
-})
+-- go.foldmethod = 'expr'
+-- go.foldexpr = 'nvim_treesitter#foldexpr()'
 
 -- editor
 go.cmdheight = 0
@@ -70,8 +61,8 @@ o.lcs = 'tab:│ ,trail:·,nbsp:+'
 go.scrolloff = 8
 go.sidescroll = 1
 go.sidescrolloff = 8
-vim.cmd('set wildignore=*.o,*~,*.pyc')
-vim.cmd('set wildmenu')
+opt_g.wildignore:append { '*.o', '*~', '*.pyc' }
+go.wildmenu = true
 
 -- g.showmatch = true
 -- g.match = 2
@@ -101,6 +92,7 @@ o.breakindent = true -- indent wraps
 opt.cpoptions:append('n')
 
 opt.whichwrap:append('<,>,h,l')
+opt.matchpairs:append { '<:>' }
 
 -- search settings
 o.ignorecase = true -- ignore case when searching
@@ -132,7 +124,6 @@ go.compatible = false
 -- stop auto comment for new lines
 opt.formatoptions:remove { 'c', 'r', 'o' }
 
-vim.opt_global.path:append('**')
+opt_g.path:append('**')
 
-vim.opt.switchbuf:append { 'useopen', 'usetab', 'vsplit'}
-
+opt.switchbuf:append { 'useopen', 'usetab', 'vsplit' }

@@ -1,15 +1,10 @@
-local cmp_status_ok, cmp = pcall(require, 'cmp')
-if not cmp_status_ok then
-	return
-end
+local has_cmp, cmp = pcall(require, 'cmp')
+if not has_cmp then return end
 
-local snip_status_ok, luasnip = pcall(require, 'luasnip')
-if not snip_status_ok then
-	print 'snip error'
-	return
-end
+local has_luasnip, luasnip = pcall(require, 'luasnip')
+if not has_luasnip then return end
 
-local kind_icons = require 'plugins.cmp.icons'
+local kind_icons = require('plugins.cmp.icons')
 
 cmp.setup {
 	snippet = {
@@ -30,8 +25,7 @@ cmp.setup {
 			'│'
 		),
 	},
-	-- mapping = R('plugins.cmp.mappings'),
-	mapping = cmp.mapping.preset.insert(R('plugins.cmp.mappings')),
+	mapping = cmp.mapping.preset.insert(require('plugins.cmp.mappings')),
 	formatting = {
 		fields = { 'kind', 'abbr', 'menu' },
 		-- fields = { 'abbr', 'menu' },
@@ -121,9 +115,7 @@ cmp.setup.cmdline(':', {
 		fields = { 'kind', 'abbr', 'menu' },
 		format = function(entry, vim_item)
 			local icon = kind_icons[vim_item.kind]
-			if entry.source.name == 'cmdline_history' then
-				icon = kind_icons[entry.source.name]
-			end
+			if entry.source.name == 'cmdline_history' then icon = kind_icons[entry.source.name] end
 			vim_item.kind = string.format('%s', icon)
 			vim_item.menu = ({
 				cmdline_history = '[History]',

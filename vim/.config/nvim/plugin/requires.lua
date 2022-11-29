@@ -1,0 +1,6 @@
+pcall(require, 'plugins.lualine')
+pcall(require, 'plugins.bufferline')
+pcall(require, 'plugins.lualine')
+pcall(require, 'plugins.quickscope')
+pcall(require, 'plugins.startify')
+pcall(require, 'plugins.vimwiki')

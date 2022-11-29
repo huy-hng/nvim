@@ -6,7 +6,7 @@ local builtin = require('telescope.builtin')
 nmap('<C-p>', builtin.find_files, 'Find Files')
 -- nmap('<leader>ff', telescope.find_files, 'Find Files')
 nmap('<leader>fo', builtin.oldfiles, 'Find Old Files')
-nmap('<leader>ft', '<cmd>Telescope<cr>', 'Telescope')
+nmap('<leader>ft', CMD('Telescope'), 'Telescope')
 
 nmap('<leader>fl', builtin.live_grep, 'Live Grep')
 nmap('<leader>fg', builtin.grep_string, 'Grep String')
@@ -35,6 +35,7 @@ telescope.setup {
 				['<C-k>'] = actions.move_selection_previous,
 
 				['<C-c>'] = actions.close,
+				['<C-Esc>'] = actions.close,
 
 				['<Down>'] = actions.move_selection_next,
 				['<Up>'] = actions.move_selection_previous,
