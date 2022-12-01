@@ -1,9 +1,5 @@
 local status_ok, nvim_tree = pcall(require, 'nvim-tree')
 if not status_ok then return end
--- print('aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa')
-
--- RESET('plugins.tree.funtions')
--- package.loaded['plugins.tree.funtions'] = nil
 
 local options = require('plugins.tree.options')
 local mappings = require('plugins.tree.mappings')

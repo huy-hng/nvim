@@ -123,9 +123,9 @@ if not has_symbolwinbar then return end
 M.symbols = function()
 	local symbol = symbolwinbar.get_symbol_node() or ''
 
-	if exclude[vim.bo.filetype] then
-		return ''
-	end
+	-- if exclude[vim.bo.filetype] then
+	-- 	return ''
+	-- end
 	return symbol
 end
 

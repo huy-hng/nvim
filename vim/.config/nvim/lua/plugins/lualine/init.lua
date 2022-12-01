@@ -1,7 +1,7 @@
 local has_lualine, lualine = pcall(require, 'lualine')
 if not has_lualine then return end
 
-local components = R('plugins.lualine.components')
+local components = require('plugins.lualine.components')
 
 local has_cat, cat = pcall(require, 'lualine.themes.catppuccin')
 if not has_cat then return end

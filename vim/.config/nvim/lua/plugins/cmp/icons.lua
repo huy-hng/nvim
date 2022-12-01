@@ -1,8 +1,6 @@
---   פּ ﯟ   some other good icons
 return {
 	Text = '',
 	Method = 'm',
-	-- Function = '',
 	Function = '',
 	Constructor = '',
 	Field = '',

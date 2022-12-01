@@ -135,7 +135,6 @@ return {
 		show_on_dirs = false,
 		debounce_delay = 50,
 		icons = {
-			-- hint = "",
 			hint = '',
 			info = '',
 			warning = '',
@@ -182,7 +181,8 @@ return {
 			resize_window = true,
 			window_picker = {
 				enable = true,
-				chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890',
+				-- chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890',
+				chars = 'asdfjkl;',
 				exclude = {
 					filetype = { 'notify', 'packer', 'qf', 'diff', 'fugitive', 'fugitiveblame' },
 					buftype = { 'nofile', 'terminal', 'help' },
