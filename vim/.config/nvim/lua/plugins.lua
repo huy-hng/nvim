@@ -37,7 +37,7 @@ return packer.startup {
 		--===============================================================================
 		--                             |=> Big Features <=|
 		--===============================================================================
-		use{'vimwiki/vimwiki', } -- note taking
+		use { 'vimwiki/vimwiki' } -- note taking
 		-- use 'jceb/vim-orgmode'
 		use('mbbill/undotree')
 
@@ -180,15 +180,7 @@ return packer.startup {
 		-- use 'goolord/alpha-nvim'
 
 		use('kyazdani42/nvim-web-devicons') -- file icons
-		use {
-			'kyazdani42/nvim-tree.lua',
-			opt = false,
-			-- event = '',
-			-- keys = '<C-e>',
-			-- config = function()
-			-- 	require('plugins.tree')
-			-- end,
-		} -- file tree
+		use('kyazdani42/nvim-tree.lua') -- file tree
 		use('kevinhwang91/rnvimr') -- ranger
 
 		use { 'akinsho/bufferline.nvim', tag = 'v2.*' } -- 'tabs' at the top
@@ -205,6 +197,9 @@ return packer.startup {
 		-----------------------------------------
 		use('junegunn/limelight.vim')
 		use('junegunn/goyo.vim')
+
+		use('folke/zen-mode.nvim')
+		use('folke/twilight.nvim')
 
 		--===============================================================================
 		--                          |=> Smaller Features <=|

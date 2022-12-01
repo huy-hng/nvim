@@ -1,7 +1,7 @@
-P = function(v)
-	vim.pretty_print(v)
+P = function(...)
+	vim.pretty_print(...)
 	-- print(vim.inspect(v))
-	return v
+	return ...
 end
 
 RELOAD = function(...)

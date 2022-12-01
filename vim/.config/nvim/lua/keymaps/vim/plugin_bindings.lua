@@ -25,10 +25,6 @@ nmap <silent><F6> :call ToggleTableFormatting()<CR>
 
 " Limelight
 " nnoremap <silent><leader>? <cmd>Limelight!!<CR>
-nnoremap <silent><leader>z <cmd>Goyo<CR>
-nnoremap <silent><leader>Z <cmd>Zen<CR>
-
-nnoremap <F5> <cmd>UndotreeToggle<CR>
 
 "===============================================================================
 "                               |=> Ranger <=|

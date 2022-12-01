@@ -1,5 +1,15 @@
 ---@diagnostic disable: lowercase-global
 
+local function extract_fn_from_table(rhs)
+	if type(rhs) ~= 'table' then return rhs end
+
+	local fn = table.remove(rhs, 1)
+	local args = rhs
+	return function()
+		fn(unpack(args))
+	end
+end
+
 local function bind(op, outer_opts)
 	outer_opts = outer_opts or {
 		noremap = true,
@@ -8,19 +18,9 @@ local function bind(op, outer_opts)
 
 	return function(lhs, rhs, description, opts)
 		opts = vim.tbl_extend('force', outer_opts, { desc = description or '' }, opts or {})
+		rhs = extract_fn_from_table(rhs)
 		local status, _ = pcall(vim.keymap.set, op, lhs, rhs, opts)
 		if not status then print('Keymap Error: ', op, lhs, rhs, debug.traceback()) end
-	end
-end
-
-
---[[usage:
-	local pref_map = PrefixMap(nmap, '<leader>a')
-	pref_map('a', ':echo "hello"', 'does stuff')
---]]
-function PrefixMap(map_fn, prefix)
-	return function(lhs, rhs, description, opts)
-		map_fn(prefix .. lhs, rhs, description, opts)
 	end
 end
 
@@ -59,22 +59,106 @@ cmap = bind('c') -- commandline
 
 tmap = bind('t') -- terminal
 
-local M = {}
--- M.map = bind('')
+local default_opts = {
+	mode = 'n', -- NORMAL mode
+	-- prefix: use "<leader>f" for example for mapping everything related to finding files
+	-- the prefix is prepended to every mapping part of `mappings`
+	key_prefix = '',
+	desc_prefix = '',
+	buffer = nil, -- Global mappings. Specify a buffer number for buffer local mappings
+	-- silent = true, -- use `silent` when creating keymaps
+	-- noremap = true, -- use `noremap` when creating keymaps
+	-- nowait = false, -- use `nowait` when creating keymaps
+}
 
--- M.nmap = bind('n', { noremap = false })
--- M.nmap = bind('n')
+---@param opts (table)
+---@param maps (table)
+---
+---@returns 2-tuple:
+---  - Map of client-id:request-id pairs for all successful requests.
+---  - Function which can be used to cancel all the requests. You could instead
+---    iterate all clients and call their `cancel_request()` methods.
+function Map(opts, maps)
+	opts = vim.tbl_extend('force', default_opts, opts or {})
 
--- M.vmap = bind('v')
--- M.xmap = bind('x')
+	local desc_prefix = opts.desc_prefix
+	if string.len(opts.desc_prefix) > 0 then desc_prefix = desc_prefix .. ' ' end
 
--- M.imap = bind('i')
+	for lhs, rest in pairs(maps) do
+		local rhs = rest[1]
+		local desc = rest[2]
+		-- local opts = rest[3]
+		opts = vim.tbl_extend('force', opts, rest[3] or {})
 
--- M.cmdins = bind('!')
+		if type(rhs) == 'table' then
+			local fn = table.remove(rhs, 1)
+			local args = rhs
+			rhs = function()
+				fn(unpack(args))
+			end
+		end
+		-- P(opts)
 
--- M.cmap = bind('c')
--- M.tmap = bind('t')
+		map(opts.mode, opts.key_prefix .. lhs, rhs, desc_prefix .. desc)
+	end
+end
 
--- M.nmap = bind('n', { noremap = false })
 
-return M
+function Map2(mode, key_prefix, desc_prefix, maps, opts)
+	if desc_prefix then desc_prefix = desc_prefix .. ' ' end
+	opts = opts or {}
+
+	for _, map in pairs(maps) do
+		local lhs = map[1]
+		local rhs = map[2]
+		local desc = map[3]
+		-- local opts = map[4]
+		P(map)
+		opts = vim.tbl_extend('force', opts, map[4] or {})
+
+		if type(rhs) == 'table' then
+			local fn = table.remove(rhs, 1)
+			local args = rhs
+			rhs = function()
+				fn(unpack(args))
+			end
+		end
+		-- P(opts)
+
+		-- map(mode, key_prefix .. lhs, rhs, desc_prefix .. desc, opts)
+		opts = opts or {}
+		opts.desc = (desc_prefix .. desc) or ''
+		vim.keymap.set(mode, key_prefix .. lhs, rhs, opts)
+	end
+end
+
+
+--[[usage:
+	local pref_map = PrefixMap(nmap, '<leader>a')
+	pref_map('a', ':echo "hello"', 'does stuff')
+--]]
+function PrefixMap(mode, key_prefix, desc_prefix, outer_opts)
+	if desc_prefix then desc_prefix = desc_prefix .. ' ' end
+	return function(lhs, rhs, desc, opts)
+		lhs = key_prefix .. lhs
+		rhs = extract_fn_from_table(rhs)
+		desc = desc_prefix .. (desc or '')
+		opts = vim.tbl_extend('force', outer_opts or {}, { desc = desc }, opts or {})
+
+		local status, _ = pcall(vim.keymap.set, mode, lhs, rhs, opts)
+		if not status then print('Keymap Error: ', mode, lhs, rhs, debug.traceback()) end
+	end
+end
+
+-- local asdf = PrefixMap(nmap, '<leader>p', '[printo]')
+-- asdf('s', { print, 'hello', 'world' }, 'prints other stuff')
+
+-- Map2('n', '<leader>p', '[Printer]', {
+-- 	{ 'a', { print, '123', 'asd' }, 'prints stuff' },
+-- 	{ 's', { print, 'hello', 'world' }, 'prints other stuff' },
+-- })
+
+-- Map({ key_prefix = '<leader>p', desc_prefix = '[Printer]' }, {
+-- 	a = { { print, 'asd', 'asd' }, 'prints stuff', { mode = { 'n', 'v' } } },
+-- 	s = { { print, 'hello', 'world' }, 'prints other stuff' },
+-- })

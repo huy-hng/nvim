@@ -21,9 +21,7 @@ function SetColors(theme)
 	-- if ColorTheme == nil then
 	-- 	ColorTheme = 'tokyonight-night'
 	-- end
-	if theme then
-		ColorTheme = theme
-	end
+	if theme then ColorTheme = theme end
 	vim.cmd('colorscheme ' .. ColorTheme)
 	vim.cmd('highlight Folded guibg=none')
 end
@@ -34,3 +32,4 @@ end
 -- 'tokyonight-moon'
 -- 'tokyonight-night'
 SetColors()
+

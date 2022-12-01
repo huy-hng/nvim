@@ -137,6 +137,9 @@ end
 nmap('<C-{>', FN(resize_scale, -0.05))
 nmap('<C-}>', FN(resize_scale, 0.05))
 nmap('<C-|>', FN(resize_scale, 0, 1.0))
+nmap('<C-S-F11>', function()
+	g.neovide_fullscreen = not g.neovide_fullscreen
+end, 'Toggle Neovide Fullscreen')
 
 --==============================================================================
 --                       |=> Find Font Size + Scale <=|

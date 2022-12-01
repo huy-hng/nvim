@@ -2,13 +2,17 @@ nmap('<C-CR>', 'g_', 'Go to end of line')
 icmap('<C-BS>', BindFeedkeys('<C-w>'), 'Delete Word')
 icmap('<C-h>', '<C-w>', 'Delete Word')
 
-nmap('<SPACE>', '<NOP>')
-nmap('<S-SPACE>', '<NOP>')
-nmap('<C-SPACE>', '<NOP>')
+nmap('<space>', '<nop>')
+nmap('<S-SPACE>', '<nop>')
+nmap('<C-SPACE>', '<nop>')
 
 nmap('<esc>', function()
 	Feedkeys('<esc>')
 	vim.cmd.noh()
+	if CurrentFloatWinId then
+		pcall(vim.api.nvim_win_close, CurrentFloatWinId, false)
+		CurrentFloatWinId = nil
+	end
 end)
 
 local function buffers_opened()
@@ -27,11 +31,11 @@ vim.api.nvim_create_user_command('W', "execute 'w !sudo tee % > /dev/null' <bar>
 -- make file executable
 nmap('<leader>x', [[<cmd>w<bar> :!chmod u+x %<CR>:0r !echo '\#\!/usr/bin/bash'<CR>]])
 
-nmap('<leader>w', CMD('w'))
-nmap('<leader>q', quit_last_buffer)
-nmap('<leader>Q', CMD('q'))
-nmap('<S-Space>Q', CMD('q'))
-nmap('<leader>W', FN(vim.cmd.call, 'fn#save_and_load()'))
+nmap('<leader>w', CMD('w'), 'Write File')
+nmap('<leader>q', quit_last_buffer, 'Close Buffer')
+nmap('<leader>Q', CMD('q'), 'Quit')
+nmap('<S-Space>Q', CMD('q'), 'Quit')
+nmap('<leader>W', FN(vim.cmd.call, 'fn#save_and_load()'), 'Save and reload File')
 -- nmap('<leader><leader>w', FN(vim.cmd.call, 'fn#save_and_load()'))
 
 nmap('<leader>x', CMD("w | !chmod u+x %<CR>:0r !echo '#!/usr/bin/bash'"))
@@ -47,7 +51,7 @@ nmap('<leader>x', CMD("w | !chmod u+x %<CR>:0r !echo '#!/usr/bin/bash'"))
 --==============================================================================
 --                         |=> Blackhole Register <=|
 --==============================================================================
-nmap('x', '"_x')
+-- nmap('x', '"_x')
 -- nmap <leader>d "_d
 -- nmap <leader>c "_c
 
