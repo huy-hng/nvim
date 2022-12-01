@@ -1,14 +1,28 @@
-vim.fn.sign_define('DapBreakpoint', { text = '🛑', texthl = '', linehl = '', numhl = '' })
--- vim.fn.sign_define('DapBreakpointCondition', { text = 'ü', texthl = '', linehl = '', numhl = '' })
--- Setup cool Among Us as avatar
-vim.fn.sign_define('DapStopped', { text = 'ඞ', texthl = 'Error' })
+-- local signs = {
+-- 	{ name = 'DapBreakpointCondition', text = 'C', texthl = 'Error' },
+-- 	{ name = 'DapBreakpointRejected', text = 'R', texthl = 'Error' },
+-- 	{ name = 'DapBreakpoint', text = '', texthl = 'Error' },
+-- 	{ name = 'DapLogPoint', text = 'L', texthl = 'Error' },
+-- 	{ name = 'DapStopped', text = '→', texthl = 'Error' },
+-- 	{ name = 'DapStopped', text = 'ඞ', texthl = 'Error' },
+-- }
+
+-- for _, sign in ipairs(signs) do
+-- 	vim.fn.sign_define(sign.name, { text = sign.text, texthl = sign.texthl })
+-- end
+
+-- vim.fn.sign_define('DapBreakpoint', { text = '', texthl = 'Error', linehl = '', numhl = '' })
+vim.fn.sign_define('DapBreakpointCondition', { text = '', texthl = 'Error' })
+vim.fn.sign_define('DapBreakpointRejected', { text = '', texthl = 'Error' })
+vim.fn.sign_define('DapBreakpoint', { text = '', texthl = 'Error' })
+vim.fn.sign_define('DapLogPoint', { text = '', texthl = 'Error' })
+vim.fn.sign_define('DapStopped', { text = '', texthl = 'Error' })
+-- vim.fn.sign_define('DapStopped', { text = 'ඞ', texthl = 'Error' })
 
 local has_dap, dap = pcall(require, 'dap')
 if not has_dap then return end
 
 dap.set_log_level('DEBUG')
-
-
 
 -- -- View the current scopes in a sidebar:
 -- local widgets = require('dap.ui.widgets')
@@ -77,7 +91,6 @@ dap.configurations.lua = {
 	},
 }
 
-
 local dap_python = require('dap-python')
 dap_python.setup('python', {
 	-- So if configured correctly, this will open up new terminal.
@@ -131,58 +144,6 @@ augroup DapRepl
 	au FileType dap-repl lua require('dap.ext.autocompl').attach()
 augroup END
 ]])
-
-
-local original = {}
-local debug_map = function(lhs, rhs, desc)
-	local keymaps = vim.api.nvim_get_keymap('n')
-	original[lhs] = vim.tbl_filter(function(v)
-		return v.lhs == lhs
-	end, keymaps)[1] or true
-
-	vim.keymap.set('n', lhs, rhs, { desc = desc })
-end
-
-local debug_unmap = function()
-	for lhs, v in pairs(original) do
-		if v == true then
-			vim.keymap.del('n', lhs)
-		else
-			local rhs = v.rhs
-
-			v.lhs = nil
-			v.rhs = nil
-			v.buffer = nil
-			v.mode = nil
-			v.sid = nil
-			v.lnum = nil
-
-			vim.keymap.set('n', lhs, rhs, v)
-		end
-	end
-
-	original = {}
-end
-
-dap.listeners.after.event_initialized['dapui_config'] = function()
-	debug_map('asdf', ":echo 'hello world<CR>", 'showing things')
-
-	dap_ui.open()
-end
-
-dap.listeners.before.event_terminated['dapui_config'] = function()
-	debug_unmap()
-
-	dap_ui.close()
-end
-
-dap.listeners.before.event_exited['dapui_config'] = function()
-	dap_ui.close()
-end
-
-
--- vim.cmd [[nmap <silent> <space>db <Plug>VimspectorToggleBreakpoint]]
--- vim.cmd [[nmap <space>ds <Plug>VimscectorContinue]]
 
 -- dap.adapters.lldb = {
 --   type = "executable",

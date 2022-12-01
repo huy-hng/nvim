@@ -2,7 +2,7 @@ local has_dapui, dapui = pcall(require, 'dapui')
 if not has_dapui then return end
 
 dapui.setup {
-	icons = { expanded = '', collapsed = '', current_frame = '' },
+	icons = { expanded = '', collapsed = '', current_frame = '' },
 	mappings = {
 		-- Use a table to apply multiple mappings
 		expand = { '<CR>', '<2-LeftMouse>' },
@@ -52,7 +52,6 @@ dapui.setup {
 		},
 	},
 	controls = {
-		-- Requires Neovim nightly (or 0.8 when released)
 		enabled = true,
 		-- Display controls in this element
 		element = 'repl',

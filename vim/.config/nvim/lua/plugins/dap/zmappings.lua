@@ -5,43 +5,86 @@
 local has_dap, dap = pcall(require, 'dap')
 if not has_dap then return end
 
-local dap_prefix = '<leader>d'
-
-nmap('<F5>', dap.continue, '[DAP] continue')
-nmap('<F9>', dap.step_back, '[DAP] step back')
-nmap('<F10>', dap.step_into, '[DAP] step into')
-nmap('<F11>', dap.step_over, '[DAP] step over')
-nmap('<F12>', dap.step_out, '[DAP] step out')
-nmap(dap_prefix .. 'D', dap.terminate, '[DAP] terminate')
-
-nmap(dap_prefix .. 'b', dap.toggle_breakpoint, '[DAP] toggle breakpoint')
-nmap(dap_prefix .. 'B', function()
-	dap.set_breakpoint(vim.fn.input { '[DAP] Breakpoint Condition: ' })
-end, '[DAP] set breakpoint condition')
-
-nmap(dap_prefix .. 'lp', function()
-	dap.set_breakpoint(nil, nil, vim.fn.input { 'Log point message: ' })
-end, '[DAP] set log point message')
-
-nmap(dap_prefix .. 'r', dap.repl.open, '[DAP] repl open')
-nmap(dap_prefix .. 'l', dap.run_last, '[DAP] run last')
-
---==============================================================================
---                               |=> DAP UI <=|
---==============================================================================
-
 local has_dapui, dapui = pcall(require, 'dapui')
 if not has_dapui then return end
 
-nvmap(dap_prefix .. 'e', dapui.eval, '[DAP] evaluate expression under cursor')
-nmap(dap_prefix .. 'E', function()
-	dapui.eval(vim.fn.input { '[DAP] Expression > ' })
-end, '[DAP] evaluate expression')
+local dap_prefix = '<leader>d'
+
+local dap_map = PrefixMap('n', dap_prefix, '[DAP]')
+
+local function get_input(msg)
+	return function()
+		vim.fn.input(msg)
+	end
+end
+
+dap_map('b', dap.toggle_breakpoint, 'toggle breakpoint')
+dap_map(
+	'B',
+	{ dap.toggle_breakpoint, get_input { '[DAP] Breakpoint Condition: ' } },
+	'set breakpoint condition'
+)
+dap_map(
+	'lp',
+	{ dap.set_breakpoint, nil, nil, get_input { 'Log point message: ' } },
+	'[DAP] set log point message'
+)
+dap_map('r', dap.repl.open, 'repl open' )
+dap_map('l',  dap.run_last, 'Run Last' )
+dap_map('E', { dapui.eval, get_input { '[DAP] Expression > ' } }, '[DAP] evaluate expression')
+-- dap_map('e', dapui.eval, '[DAP] evaluate expression under cursor', { mode = { 'n', 'v' } } )
+
+
+local original = {}
+local debug_map = function(lhs, rhs, desc)
+	local keymaps = vim.api.nvim_get_keymap('n')
+	original[lhs] = vim.tbl_filter(function(v)
+		return v.lhs == lhs
+	end, keymaps)[1] or true
+
+	vim.keymap.set('n', lhs, rhs, { desc = desc })
+end
+
+local debug_unmap = function()
+	for lhs, v in pairs(original) do
+		if v == true then
+			vim.keymap.del('n', lhs)
+		else
+			local rhs = v.rhs
+
+			v.lhs = nil
+			v.rhs = nil
+			v.buffer = nil
+			v.mode = nil
+			v.sid = nil
+			v.lnum = nil
+
+			vim.keymap.set('n', lhs, rhs, v)
+		end
+	end
+
+	original = {}
+end
 
 -- You can use nvim-dap events to open and close the windows automatically (:help dap-extensions)
-dap.listeners.after.event_initialized['dapui_config'] = FN(dapui.open)
-dap.listeners.before.event_terminated['dapui_config'] = FN(dapui.close)
-dap.listeners.before.event_exited['dapui_config'] = FN(dapui.close)
+dap.listeners.after.event_initialized['dapui_config'] = function()
+	dapui.open()
+	debug_map('<F5>', dap.continue, '[DAP]  Continue')
+	debug_map('<F9>', dap.step_back, '[DAP]  Step Back')
+	debug_map('<F10>', dap.step_into, '[DAP]  Step Into')
+	debug_map('<F11>', dap.step_over, '[DAP]  Step Over')
+	debug_map('<F12>', dap.step_out, '[DAP]  Step Out')
+	debug_map(dap_prefix .. 'D', dap.terminate, '[DAP]  Terminate')
+end
+
+dap.listeners.before.event_terminated['dapui_config'] = function()
+	dapui.close()
+	debug_unmap()
+end
+
+dap.listeners.before.event_exited['dapui_config'] = function()
+	dapui.close()
+end
 
 --==============================================================================
 --                              |=> Neotest <=|
@@ -49,39 +92,6 @@ dap.listeners.before.event_exited['dapui_config'] = FN(dapui.close)
 
 local has_neotest, neotest = pcall(require, 'neotest')
 if not has_neotest then return end
-
-local neotest_prefix = '<leader>n'
-----------------------------------------
---             -> Run <-
-----------------------------------------
--- global test commands
-nmap(neotest_prefix .. 's', neotest.run.stop, 'Stop test')
-nmap(neotest_prefix .. 'a', neotest.run.attach, 'Attach to nearest test')
-
--- last test
-nmap(neotest_prefix .. 'd', neotest.run.run_last, 'Run last test')
-nmap(neotest_prefix .. 'D', FN(neotest.run.run_last, { strategy = 'dap' }), 'Debug last test')
-
--- nearest test
-nmap(neotest_prefix .. 'n', neotest.run.run, 'Run nearest test')
-nmap(neotest_prefix .. 'N', FN(neotest.run.run, { strategy = 'dap' }), 'Debug nearest test')
-
--- test entire file
-nmap(neotest_prefix .. 'f', function()
-	neotest.run.run(vim.fn.expand('%'))
-end, 'Run current file')
-
-nmap(neotest_prefix .. 'fd', function()
-	neotest.run.run { vim.fn.expand('%'), strategy = 'dap' }
-end, 'Debug the current file')
-
--- nmap(neotest_prefix .. 'ga', neotest.run.adapters, 'Get the list of all known adapter IDs')
--- nmap(neotest_prefix .. 'gl', neotest.run.get_last_run, 'Get last test run tree and adapter id')
-
-----------------------------------------
---         -> Get Details <-
-----------------------------------------
-
 local function open_win_fn()
 	local popup_config = {
 		row = 0,
@@ -104,21 +114,45 @@ local output_opts = {
 	-- enter = false,
 	-- quiet = true, -- Suppress warnings of no output
 	-- last_run = true, -- Open output for last test run
-	position_id = nil,-- Open output for position with this ID, opens nearest position if not given
+	position_id = nil, -- Open output for position with this ID, opens nearest position if not given
 	adapter = nil, -- Adapter ID, defaults to first found with matching position
 	-- auto_close = false, -- Close output window when leaving it, or when cursor moves outside of window
 }
--- nmap(neotest_prefix .. 'o', function()
--- 	neotest.output.open(output_opts)
--- end, 'Show test output')
-nmap(neotest_prefix .. 'o', neotest.output.open, 'Show test output')
-nmap(neotest_prefix .. 'op', neotest.output_panel.toggle, 'Toggle test output panel')
-nmap(neotest_prefix .. 'u', neotest.summary.toggle, 'Show summary')
--- nmap(neotest_prefix .. 'd', neotest.diagnostic, 'Show diagnostics')
--- nmap(neotest_prefix .. 't', neotest.status, 'Show status')
 
 ----------------------------------------
---             -> Jump <-
+--             -> Run <-
 ----------------------------------------
--- nmap('[n', FN(neotest.jump.prev, { status = 'failed' }))
--- nmap(']n', FN(neotest.jump.next, { status = 'failed' }))
+local neomap = PrefixMap('n', dap_prefix, '[Neotest]')
+-- global test commands
+-- Map({ key_prefix = '<leader>d', desc_prefix = '[Neotest]' }, {
+neomap('s', neotest.run.stop, 'Stop test' )
+neomap('a', neotest.run.attach, 'Attach to nearest test' )
+
+-- last test
+neomap('d', neotest.run.run_last, 'Run last test' )
+neomap('D', { neotest.run.run_last, { strategy = 'dap' } }, 'Debug last test' )
+
+-- nearest test
+neomap('n', neotest.run.run, 'Run nearest test' )
+neomap('N', { neotest.run.run, { strategy = 'dap' } }, 'Debug nearest test' )
+
+-- test entire file
+neomap('f', { neotest.run.run, FN(vim.fn.expand, '%') }, 'Run current file' )
+neomap('fd', { neotest.run.run, { FN(vim.fn.expand, '%'), strategy = 'dap' } }, 'Debug current file' )
+
+-- adapters
+neomap('ga', neotest.run.adapters, 'Get the list of all known adapter IDs' )
+neomap('gl', neotest.run.get_last_run, 'Get last test run tree and adapter id' )
+
+-- details
+-- neomap('o', { neotest.output.open, output_opts }, 'Show test output' )
+neomap('o', neotest.output.open, 'Show test output' )
+neomap('op', neotest.output_panel.toggle, 'Toggle test output panel' )
+neomap('u', neotest.summary.toggle, 'Show summary' )
+
+-- jump
+neomap('[n', { { neotest.jump.prev, { status = 'failed' } }, 'Jump to prev failed test' })
+neomap(']n', { { neotest.jump.next, { status = 'failed' } }, 'Jump to next failed test' })
+
+-- neomap('di', neotest.diagnostic, 'Show diagnostics' )
+-- neomap('st', neotest.status, 'Show Status' )
