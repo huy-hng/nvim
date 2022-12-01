@@ -1,4 +1,4 @@
-local py = require 'lsp.servers.python'
+local py = require('lsp.servers.python')
 
 return {
 	settings = {
@@ -9,7 +9,7 @@ return {
 			},
 			-- venvPath = '/home/huy/.local/share/virtualenvs/spot_loader-a9V3X1fP/',
 			-- venv = 'spot_loader-a9V3X1fP',
-		}
+		},
 	},
 	on_new_config = function(new_config, new_root_dir)
 		local root_dir = py.env(new_root_dir)

@@ -12,6 +12,7 @@ if not status then return end
 local require_path = (...):match('(.-)[^%.]+$') -- returns 'lib.foo.'
 
 require(require_path .. 'mason')
-require(require_path .. 'handlers').setup()
-require(require_path .. 'configs')
+require(require_path .. 'handlers')
+require(require_path .. 'diagnostic')
+require(require_path .. 'server_setup')
 require(require_path .. 'null-ls')
