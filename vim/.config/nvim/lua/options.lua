@@ -5,7 +5,6 @@ local wo = vim.wo
 local g = vim.g
 local opt_g = vim.opt_global
 
--- unmap('n', '<space>')
 g.mapleader = ' '
 g.maplocalleader = '\\'
 
@@ -17,12 +16,13 @@ go.winblend = 10
 go.pumblend = 10
 
 -- line numbers
--- o.relativenumber = true -- show relative line numbers
+o.relativenumber = true -- show relative line numbers
 o.number = true -- shows absolute line number on cursor line (when relative number is on)
 
 -- cursor line
-o.cursorline = false -- highlight the current cursor line
-o.cursorlineopt = 'line,number'
+o.cursorline = true -- highlight the current cursor line
+o.cursorlineopt = 'number'
+-- o.cursorlineopt = 'line,number'
 
 -- colors
 -- o.background = "dark" -- colorschemes that can be light or dark will be made dark
@@ -53,19 +53,22 @@ go.cmdwinheight = 20
 -- display indentations
 o.list = true
 -- o.lcs = 'tab:· ,trail:·,nbsp:+'
-go.listchars = 'tab:│ ,trail:·,nbsp:+'
+-- go.listchars = 'tab: ,trail:·,nbsp:+'
+-- go.listchars = 'tab:│ ,trail:·,nbsp:+'
+go.listchars = 'tab:┆ ,trail:·,nbsp:+'
 -- opt.listchars:append {
 -- 	tab = '│',
 -- 	trail = '·',
 -- 	nbsp = '+',
 -- }
--- ['|', '¦', '┆', '┊']
+-- |│¦┆┇┊┋
 opt_g.fillchars:append {
 	-- fold = '·' or '-',
 	fold = '-' or '-',
 	foldopen = '┬' or '-',
 	foldclose = '+',
 	foldsep = '│' or '|',
+	eob = ' ' -- End of buffer, to remove ~ from the side
 	-- horiz = '─' or '-',
 }
 
@@ -146,6 +149,7 @@ opt.formatoptions:remove { 'c', 'r', 'o' }
 opt_g.path:append('**')
 
 opt.switchbuf:append { 'useopen', 'usetab', 'vsplit' }
+opt.sessionoptions:remove { 'terminal', 'blank'}
 
 --==============================================================================
 --                          |=> Plugin Settings <=|
@@ -153,7 +157,7 @@ opt.switchbuf:append { 'useopen', 'usetab', 'vsplit' }
 
 g.startuptime_event_width = 40
 g.startuptime_tries = 10
-g.startuptime_sourced = 0
+g.startuptime_sourced = 1
 g.startuptime_exe_args = { '--noplugin' }
 g.startuptime_exe_args = {}
 
@@ -186,6 +190,7 @@ function FoldText()
 
 	-- remove tab indentations
 	line = vim.fn.substitute(line, '	', '', 'g')
+	line = vim.fn.substitute(line, '    ', '', 'g')
 
 	local indent_level = vim.fn.indent(v.foldstart)
     local indent = vim.fn['repeat'](' ', indent_level)
