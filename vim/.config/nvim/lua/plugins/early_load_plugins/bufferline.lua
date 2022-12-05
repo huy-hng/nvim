@@ -1,10 +1,13 @@
+-- RELOAD('bufferline')
+-- RELOAD('plugin.bufferline')
+-- LOADED('plugin.bufferline')
+
 local status_ok, bufferline = pcall(require, 'bufferline')
 if not status_ok then
 	print('bufferline error')
 	return
 end
 
-RELOAD('plugin.bufferline')
 local groups = require('bufferline.groups')
 bufferline.setup {
 	options = {
@@ -17,21 +20,17 @@ bufferline.setup {
 		right_mouse_command = 'Bdelete! %d', -- can be a string | function, see 'Mouse actions'
 		left_mouse_command = 'buffer %d', -- can be a string | function, see 'Mouse actions'
 		middle_mouse_command = nil, -- can be a string | function, see 'Mouse actions'
-		-- NOTE: this plugin is designed with this icon in mind,
-		-- and so changing this is NOT recommended, this is intended
-		-- as an escape hatch for people who cannot bear it for whatever reason
-		indicator = {
-			icon = '▎', -- this should be omitted if indicator style is not 'icon'
-			style = 'underline',
+
+		-- focused can be thought of as right side of current buffer
+		separator_style = {'║', ' '}, -- [focused and unfocused]
+		indicator = { -- and indicator.icon can be thought of as left side
+			icon = '║', -- this should be omitted if indicator style is not 'icon'
+			style = 'underline', -- icon | underline | none
 		},
+		-- separator_style = {'║', '│'},
 		buffer_close_icon = '',
-		-- buffer_close_icon = 'x',
-		-- buffer_close_icon = '',
 		modified_icon = '●',
 		close_icon = '',
-		-- close_icon = '',
-		-- left_trunc_marker = '<',
-		-- right_trunc_marker = '>',
 		left_trunc_marker = '',
 		right_trunc_marker = '',
 
@@ -64,9 +63,7 @@ bufferline.setup {
 		----------------------------------------
 		custom_filter = function(buf_number)
 			--	 -- filter out filetypes you don't want to see
-			if vim.bo[buf_number].filetype ~= 'sql' then
-				return true
-			end
+			if vim.bo[buf_number].filetype ~= 'sql' then return true end
 			-- filter out by buffer name
 			-- if vim.fn.bufname(buf_number) ~= '<buffer-name-I-dont-want>' then
 			-- 	return true
@@ -124,7 +121,6 @@ bufferline.setup {
 				{
 					name = 'Vimwiki',
 					-- icon = "", -- Optional
-					-- highlight = { undercurl = false, sp = '',
 					-- highlight = { underline = false, sp = "blue" }, -- Optional
 					-- priority = 2, -- determines where it will appear relative to other groups (Optional)
 					auto_close = true, -- whether or not close this group if it doesn't contain the current buffer
@@ -141,24 +137,118 @@ bufferline.setup {
 	},
 	highlights = {
 		fill = {
+			bg = 'bg',
+		},
+		background = { -- inactive tabs, not including number and icon
+			fg = 'grey',
+			bg = 'bg',
+		},
+		buffer = { -- for group colors
+			fg = 'grey',
+			bg = 'bg',
+		},
+		duplicate = {
+			fg = 'grey',
+			bg = 'bg',
+			italic = true,
+		},
+		numbers = {
+			fg = 'grey',
+			bg = 'bg',
+		},
+		separator = {
 			fg = 'fg',
 			bg = 'bg',
 		},
-		-- background = {
-		-- 	fg = 'fg',
+		modified = {
+			-- fg = 'fg',
+			bg = 'bg',
+		},
+
+		buffer_visible = { -- buffers that are displayed in windows
+			fg = 'fg',
+			bg = 'bg',
+		},
+		duplicate_visible = {
+			fg = 'fg',
+			bg = 'bg',
+			italic = true,
+		},
+		numbers_visible = {
+			fg = 'fg',
+			bg = 'bg',
+		},
+		separator_visible = {
+			fg = 'fg',
+			bg = 'bg',
+		},
+		indicator_visible = {
+			fg = 'fg',
+			bg = 'bg',
+		},
+		modified_visible = {
+			-- fg = 'fg',
+			bg = 'bg',
+		},
+
+		buffer_selected = { -- focused buffer
+			fg = 'fg',
+			bg = 'bg',
+			bold = true,
+			italic = true,
+			sp = 'blue',
+		},
+		duplicate_selected = {
+			fg = 'fg',
+			bg = 'bg',
+			bold = false,
+			italic = true,
+		},
+		numbers_selected = {
+			fg = 'fg',
+			bg = 'bg',
+			-- fg = 'red',
+			-- bg = 'blue',
+			bold = true,
+			italic = true,
+		},
+		separator_selected = {
+			fg = 'fg',
+			bg = 'bg',
+		},
+		indicator_selected = {
+			fg = 'fg',
+			bg = 'bg',
+		},
+		modified_selected = {
+			-- fg = 'fg',
+			bg = 'bg',
+		},
+
+		-- dev_icon_lua_inactive = {
+		-- 	-- fg = 'red',
+		-- 	-- bg = 'blue',
+		-- 	fg = 'blue',
 		-- 	bg = 'bg',
 		-- },
+		-- group_label = {
+		-- 	fg = 'red',
+		-- 	bg = 'blue',
+		-- },
+		-- group_separator = {
+		-- 	fg = 'red',
+		-- 	bg = 'blue',
+		-- },
+
 		-- tab = {
-		-- 	fg = 'fg',
-		-- 	bg = 'bg',
 		-- },
 		-- tab_selected = {
 		-- 	fg = 'tabline_sel_bg',
 		-- 	bg = 'bg',
 		-- },
 		-- tab_close = {
-		-- 	fg = 'fg',
-		-- 	bg = 'bg',
+		-- 	fg = 'NONE',
+		-- 	bg = 'NONE',
 		-- },
 		-- close_button = {
 		-- 	fg = 'fg',
@@ -171,30 +261,6 @@ bufferline.setup {
 		-- close_button_selected = {
 		-- 	fg = 'fg',
 		-- 	bg = 'bg',
-		-- },
-		-- buffer_visible = {
-		-- 	fg = 'fg',
-		-- 	bg = 'bg',
-		-- },
-		-- buffer_selected = {
-		-- 	fg = 'white',
-		-- 	bg = 'grey',
-		-- 	bold = true,
-		-- 	italic = true,
-		-- },
-		-- numbers = {
-		-- 	fg = 'fg',
-		-- 	bg = 'bg',
-		-- },
-		-- numbers_visible = {
-		-- 	fg = 'fg',
-		-- 	bg = 'bg',
-		-- },
-		-- numbers_selected = {
-		-- 	fg = 'fg',
-		-- 	bg = 'bg',
-		-- 	bold = true,
-		-- 	italic = true,
 		-- },
 		-- diagnostic = {
 		-- 	fg = 'fg',
@@ -338,49 +404,6 @@ bufferline.setup {
 		-- 	bold = true,
 		-- 	italic = true,
 		-- },
-		-- modified = {
-		-- 	fg = 'fg',
-		-- 	bg = 'bg',
-		-- },
-		-- modified_visible = {
-		-- 	fg = 'fg',
-		-- 	bg = 'bg',
-		-- },
-		-- modified_selected = {
-		-- 	fg = 'fg',
-		-- 	bg = 'bg',
-		-- },
-		-- duplicate_selected = {
-		-- 	fg = 'fg',
-		-- 	bg = 'bg',
-		-- 	italic = true,
-		-- },
-		-- duplicate_visible = {
-		-- 	fg = 'fg',
-		-- 	bg = 'bg',
-		-- 	italic = true,
-		-- },
-		-- duplicate = {
-		-- 	fg = 'fg',
-		-- 	bg = 'bg',
-		-- 	italic = true,
-		-- },
-		-- separator_selected = {
-		-- 	fg = 'fg',
-		-- 	bg = 'bg',
-		-- },
-		-- separator_visible = {
-		-- 	fg = 'fg',
-		-- 	bg = 'bg',
-		-- },
-		-- separator = {
-		-- 	fg = 'fg',
-		-- 	bg = 'bg',
-		-- },
-		-- indicator_selected = {
-		-- 	fg = 'fg',
-		-- 	bg = 'bg',
-		-- },
 		-- pick_selected = {
 		-- 	fg = 'fg',
 		-- 	bg = 'bg',
@@ -400,8 +423,11 @@ bufferline.setup {
 		-- 	italic = true,
 		-- },
 		-- offset_separator = {
-		-- 	fg = 'win_separator_fg',
-		-- 	bg = 'separator_background_color',
+		-- 	fg = 'fg',
+		-- 	bg = 'bg',
 		-- },
 	},
 }
+
+-- Exec('hi clear')
+-- vim.schedule(SetColors)

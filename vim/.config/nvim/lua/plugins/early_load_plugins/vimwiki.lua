@@ -4,6 +4,7 @@ vim.api.nvim_create_autocmd('FileType', {
 	group = vim.api.nvim_create_augroup('VimwikiGroup', { clear = true }),
 	pattern = 'vimwiki',
 	callback = function()
+		vim.wo.winbar = ''
 		vim.wo.foldexpr = 'nvim_treesitter#foldexpr()'
 		Schedule(Exec, 'TSBufDisable highlight')
 	end,

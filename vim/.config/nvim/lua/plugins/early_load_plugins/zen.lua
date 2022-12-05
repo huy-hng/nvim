@@ -21,7 +21,7 @@ zen.setup {
 			relativenumber = false, -- disable relative numbers
 			-- cursorline = false, -- disable cursorline
 			-- cursorcolumn = false, -- disable cursor column
-			foldcolumn = '5', -- disable fold column
+			foldcolumn = '0', -- disable fold column
 			-- list = false, -- disable whitespace characters
 		},
 	},
