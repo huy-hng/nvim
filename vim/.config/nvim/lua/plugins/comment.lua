@@ -76,24 +76,29 @@ local toggle_comment = function()
 	end
 end
 
---if vim.g.neovide then
 -- neovide bindings
+-- if vim.g.neovide then
 map({ 'n', 'i', 'v' }, '<C-/>', toggle_comment, 'Toggle Comment')
--- map({ 'n', 'i', 'v' }, '<C-_>', toggle_comment, 'Toggle Comment')
 -- map({ 'n', 'i' }, '<C-/>', fn(api.toggle.linewise.current, nil, comment_empty), 'Toggle Comment')
--- map({ 'n', 'i' }, '<C-_>', fn(api.toggle.linewise.current, nil, comment_empty), 'Toggle Comment')
 map({ 'n', 'i' }, '<A-/>', api.insert.linewise.eol, 'Comment at end of line')
-map({ 'n', 'i' }, '<A-_>', api.insert.linewise.eol, 'Comment at end of line')
 -- map({ 'n', 'i' }, '<A-/>a', api.insert.linewise.eol, 'Comment at end of line')
+
 -- map({ 'n', 'i' }, '<A-/>o', api.insert.linewise.below, 'Comment next line')
 -- map({ 'n', 'i' }, '<A-/>O', api.insert.linewise.above, 'Comment prev line')
-
 -- else
--- 	-- terminal bindings
--- 	map({ 'n', 'i' }, '<C-_>', fn(api.toggle.linewise.current, nil, comment_empty), 'Toggle Comment')
--- 	map({ 'n', 'i' }, '<A-_>a', api.insert.linewise.eol, 'Comment at end of line')
+-- 	map({ 'n', 'i', 'v' }, '<C-_>', toggle_comment, 'Toggle Comment')
 -- 	map({ 'n', 'i' }, '<A-_>', api.insert.linewise.eol, 'Comment at end of line')
--- 	map({ 'n', 'i' }, '<A-_>o', api.insert.linewise.below, 'Comment next line')
--- 	map({ 'n', 'i' }, '<A-_>O', api.insert.linewise.above, 'Comment prev line')
--- 	vmap('<C-_>', toggle_visual, 'Toggle Comment')
+	-- map(
+	-- 	{ 'n', 'i' },
+	-- 	'<C-_>',
+	-- 	fn(api.toggle.linewise.current, nil, comment_empty),
+	-- 	'Toggle Comment'
+	-- )
+	-- 	-- terminal bindings
+	-- 	map({ 'n', 'i' }, '<C-_>', fn(api.toggle.linewise.current, nil, comment_empty), 'Toggle Comment')
+	-- 	map({ 'n', 'i' }, '<A-_>a', api.insert.linewise.eol, 'Comment at end of line')
+	-- 	map({ 'n', 'i' }, '<A-_>', api.insert.linewise.eol, 'Comment at end of line')
+	-- 	map({ 'n', 'i' }, '<A-_>o', api.insert.linewise.below, 'Comment next line')
+	-- 	map({ 'n', 'i' }, '<A-_>O', api.insert.linewise.above, 'Comment prev line')
+	-- 	vmap('<C-_>', toggle_visual, 'Toggle Comment')
 -- end
