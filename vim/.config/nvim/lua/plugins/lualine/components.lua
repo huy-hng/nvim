@@ -132,18 +132,17 @@ end
 M.tabs = {
 	'tabs',
 
-	icons_enabled = false,
+	icons_enabled = true,
 	icon = '',
 
 	max_length = vim.o.columns / 3, -- Maximum width of tabs component.
-	mode = 2,
-	color = { fg = '#ff0000', bg = 'grey', gui = 'italic,bold' },
-	-- tabs_color = nil,
+	mode = 2, -- 0-2: tab_nr, tab_name, both
+	-- color = { fg = '#ff0000', bg = 'grey', gui = 'italic,bold' },
 
-	-- tabs_color = {
-	-- 	active = 'lualine_b_normal',
-	-- 	inactive = 'lualine_b_inactive',
-	-- },
+	tabs_color = {
+		active = 'lualine_c_normal',
+		inactive = 'lualine_c_inactive',
+	},
 }
 
 M.windows = {

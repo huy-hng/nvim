@@ -39,22 +39,23 @@ vim.api.nvim_create_autocmd('TextYankPost', {
 	end,
 })
 
--- augroup highlight_yank
---     autocmd!
---     autocmd TextYankPost * silent! lua require'vim.highlight'.on_yank("IncSearch", 1000)
--- augroup END
-
 vim.api.nvim_create_autocmd('User', {
-	pattern = 'StartifyReady',
-	group = vim.api.nvim_create_augroup('startify', { clear = true }),
+	-- pattern = 'StartifyReady',
+	pattern = 'AlphaReady',
+	group = vim.api.nvim_create_augroup('alpha', { clear = true }),
 	callback = function()
-		vim.cmd.highlight('StatusLine guibg=bg')
-		vim.wo.statusline = ' '
-		vim.wo.winbar = ' '
+		vim.schedule(function()
+			vim.cmd.highlight('StatusLine guibg=bg')
+			vim.wo.statusline = ' '
+			vim.wo.winbar = ' '
+		end)
 	end,
 })
 -- vim.cmd.autocmd('User StartifyReady let &l:stl = ""')
 
+----------------------------------------
+--         -> Line Number <-
+----------------------------------------
 local ln_group = vim.api.nvim_create_augroup('renu', { clear = true })
 vim.api.nvim_create_autocmd('CursorMoved', {
 	group = ln_group,
@@ -92,8 +93,6 @@ vim.cmd([[
 " 	endif
 " endfunction
 " call LineNumbers()
-
-
 
 set autoread
 

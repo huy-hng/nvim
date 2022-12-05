@@ -11,16 +11,24 @@ cat.inactive.a.bg = 'bg'
 cat.inactive.b.bg = 'bg'
 cat.inactive.c.bg = 'bg'
 
+local function session_name()
+	local has_session, session = pcall(require, 'possession.session')
+	if not has_session then return '' end
+	return ('  ' .. session.session_name) or '%#Error#NO SESSION'
+end
+
 lualine.setup {
 	options = {
 		icons_enabled = true,
 		theme = cat,
 		component_separators = { left = '', right = '' },
 		section_separators = { left = '', right = '' },
-		disabled_filetypes = {
-			statusline = { 'startify' },
-			winbar = { 'startify' },
-		},
+		disabled_filetypes = { 'alpha' },
+		-- disabled_filetypes = {
+		-- 	statusline = { 'alpha' },
+		-- 	winbar = { 'alpha' },
+		-- 	tabline = { 'alpha' },
+		-- },
 		ignore_focus = {},
 		always_divide_middle = true,
 		globalstatus = true,
@@ -33,7 +41,7 @@ lualine.setup {
 	sections = {
 		lualine_a = { 'mode' },
 		lualine_b = { components.branch, 'diff', 'diagnostics' },
-		lualine_c = { 'filename' },
+		lualine_c = { 'filename', session_name },
 		lualine_x = { 'searchcount', 'filetype' },
 		lualine_y = { 'progress', 'location' },
 		lualine_z = { { 'os.date("%a")', icons_enabled = true, icon = '' }, 'os.date("%H:%M")' },
@@ -50,6 +58,7 @@ lualine.setup {
 		lualine_a = {},
 		lualine_b = {},
 		lualine_c = { components.bufferline },
+		-- lualine_c = {},
 		lualine_x = {},
 		lualine_y = {},
 		lualine_z = { components.tabs },
@@ -71,8 +80,6 @@ lualine.setup {
 -- 	vim.api.nvim_clear_autocmds({event=cmd.event, group=cmd.group_name})
 -- 	-- P(cmd)
 -- end
-
-
 
 function string.starts(String, Start)
 	return string.sub(String, 1, string.len(Start)) == Start
