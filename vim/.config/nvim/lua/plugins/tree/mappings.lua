@@ -1,4 +1,9 @@
-local functions = require 'plugins.tree.functions'
+local functions = require('plugins.tree.functions')
+-- local api = require('nvim-tree.api')
+
+-- nmap('<leader>mn', api.marks.navigate.next)
+-- nmap('<leader>mp', api.marks.navigate.prev)
+-- nmap('<leader>ms', api.marks.navigate.select)
 
 return {
 	--==============================================================================

@@ -1,7 +1,7 @@
 local status_ok, nvim_tree = pcall(require, 'nvim-tree')
 if not status_ok then return end
 
-local options = require('plugins.tree.options')
+local options = R('plugins.tree.options')
 local mappings = require('plugins.tree.mappings')
 options.view.mappings.list = mappings
 

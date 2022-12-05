@@ -1,24 +1,9 @@
 return {
-	-- auto_reload_on_write = true,
-	-- create_in_closed_folder = false,
-	-- disable_netrw = false,
-	-- hijack_cursor = false,
-	-- hijack_netrw = true,
-	-- hijack_unnamed_buffer_when_opening = false,
-	-- ignore_buffer_on_setup = false,
-	-- open_on_setup = false,
-	-- open_on_setup_file = false,
-	-- open_on_tab = false,
-	-- focus_empty_on_setup = false,
-	-- ignore_buf_on_tab_change = {},
-	-- sort_by = 'name',
-	-- root_dirs = {},
-	prefer_startup_root = true,
-	sync_root_with_cwd = true,
-	reload_on_bufenter = true,
-	respect_buf_cwd = false,
+	prefer_startup_root = true, -- Prefer startup root directory when updating root directory of the tree.
+	sync_root_with_cwd = true, -- Changes the tree root directory on `DirChanged` and refreshes the tree.
+	reload_on_bufenter = true, -- Automatically reloads the tree on `BufEnter` nvim-tree.
+	respect_buf_cwd = false, -- Will change cwd of nvim-tree to that of new buffer's when opening nvim-tree.
 	on_attach = 'disable',
-	remove_keymaps = false,
 	select_prompts = false,
 	view = {
 		adaptive_size = false,
@@ -38,13 +23,9 @@ return {
 			open_win_config = {
 				relative = 'win', -- editor | win | cursor
 				border = 'rounded', -- none | single | double | rounded | solid | shadow
-				-- border = { "A", "B", "C", "D" },
-				-- border = { "A", "B", "C", "D", "E", "F", "G", "H" },
-				-- border = { " ", " ", " ", " ", "", "", "", "" },
 				row = -1,
 				col = 1,
 				-- anchor = 'NE',
-				-- row = 0,
 				-- col = vim.api.nvim_win_get_width(0) - 35,
 
 				width = 35,
@@ -57,8 +38,7 @@ return {
 		group_empty = true,
 		highlight_git = false,
 		full_name = false,
-		highlight_opened_files = 'yes',
-		root_folder_modifier = ':~',
+		highlight_opened_files = 'name',
 		indent_width = 2,
 		indent_markers = {
 			enable = true,
@@ -73,7 +53,7 @@ return {
 		},
 		icons = {
 			webdev_colors = true,
-			git_placement = 'before',
+			git_placement = 'after',
 			padding = ' ',
 			symlink_arrow = ' ➛ ',
 			show = {
@@ -119,11 +99,10 @@ return {
 		enable = true,
 		auto_open = true,
 	},
-	update_focused_file = {
-		enable = false,
+	update_focused_file = { -- uncollapses folders until it finds the file
+		enable = true,
 		update_root = false,
-		ignore_list = {},
-		update_cwd = false,
+		-- ignore_list = { 'help' },
 	},
 	ignore_ft_on_setup = {},
 	system_open = {
@@ -131,9 +110,14 @@ return {
 		args = {},
 	},
 	diagnostics = {
-		enable = false,
+		enable = true,
 		show_on_dirs = false,
-		debounce_delay = 50,
+		show_on_open_dirs = true,
+		debounce_delay = 10,
+		severity = {
+			min = vim.diagnostic.severity.WARN,
+			max = vim.diagnostic.severity.ERROR,
+		},
 		icons = {
 			hint = '',
 			info = '',
@@ -154,6 +138,7 @@ return {
 		enable = true,
 		ignore = false,
 		show_on_dirs = true,
+		show_on_open_dirs = false,
 		timeout = 400,
 	},
 	actions = {
@@ -161,7 +146,7 @@ return {
 		change_dir = {
 			enable = true,
 			global = false,
-			restrict_above_cwd = true,
+			restrict_above_cwd = false,
 		},
 		expand_all = {
 			max_folder_discovery = 300,
