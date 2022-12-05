@@ -2,6 +2,7 @@ local has_neogit, neogit = pcall(require, 'neogit')
 if not has_neogit then return end
 
 nmap('<C-g>', CMD('Neogit'), 'Open Neogit')
+nmap('<C-S-G>', CMD('Neogit'), 'Open Neogit')
 
 neogit.setup {
 	disable_signs = false,

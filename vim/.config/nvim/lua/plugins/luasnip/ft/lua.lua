@@ -59,8 +59,15 @@ return {
 	-- snippet('test', { 'mirrored: ', i(1), ' // ', same(1), ' | ', i(0) }),
 
 	snippet(
+		'pcall',
+		fmt([[pcall(require, '{}'))]], {
+			i(1),
+		})
+	),
+
+	snippet(
 		'req',
-		fmt([[local {} = require("{}")]], {
+		fmt([[local {} = require('{}')]], {
 			d(2, require_var, { 1 }),
 			i(1),
 		})

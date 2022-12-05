@@ -4,6 +4,7 @@ local servers = {
 	-- 'jsonls',
 	'sumneko_lua',
 	'pyright',
+	'clangd',
 }
 
 local lsp_flags = {

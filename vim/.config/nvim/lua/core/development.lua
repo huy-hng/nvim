@@ -8,6 +8,11 @@ RELOAD = function(...)
 	require('plenary.reload').reload_module(...)
 end
 
+-- pcall(require, package)
+function Prequire(package)
+	return pcall(require, package)
+end
+
 R = function(name)
 	RELOAD(name)
 	return require(name)
@@ -21,8 +26,9 @@ RESET = function(name)
 	package.loaded[name] = nil
 end
 
-WriteFile = function(path, text)
-	local file = io.open(path, 'w')
+WriteFile = function(path, text, append)
+	local mode = 'a' and append or 'w'
+	local file = io.open(path, mode)
 	io.output(file)
 	io.write(text)
 	io.close(file)

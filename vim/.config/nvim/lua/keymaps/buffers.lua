@@ -11,6 +11,9 @@ if not status then return end
 nmap('<leader>bh', FN(bufferline.move, -1), 'Move Right')
 nmap('<leader>bl', FN(bufferline.move, 1), 'Move Right')
 nmap('<leader>bd', bufferline.close_buffer_with_pick, 'Pick')
+
+nmap('<leader>bcd', { vim.fn.chdir, FN(vim.fn.expand, '%:p:h') }, 'Change dir to current buffer')
+-- nmap('<leader>bcd', { vim.cmd., FN(vim.fn.expand, '%:p:h') }, 'Change dir to current buffer')
 -- nmap('<leader>bd', bufferline.close_with_pick, 'Pick')
 
 nmap('H', FN(bufferline.cycle, -1), 'Prev Buffer')

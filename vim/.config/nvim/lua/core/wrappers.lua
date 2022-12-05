@@ -8,15 +8,6 @@ function CMD(command)
 	end
 end
 
-function CMD_(command)
-	command = string.gsub(command, '|', '<cr>:')
-	return '<cmd>' .. command .. '<cr>'
-
-	-- return function()
-	-- 	return vim.api.nvim_command(command)
-	-- end
-end
-
 function Normal(str)
 	vim.api.nvim_command('normal! ' .. str)
 end

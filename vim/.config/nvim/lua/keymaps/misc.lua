@@ -1,10 +1,4 @@
 ----------------------------------------
---           -> Plugins <-
-----------------------------------------
-nmap('<leader>?', CMD('Limelight!!'), 'Toggle Limelight')
-nmap('<leader>S', CMD('Startify'), 'Open Start Screen')
-
-----------------------------------------
 --        -> Abbreviations <-
 ----------------------------------------
 local cnoreabbrev = vim.cmd.cnoreabbrev
@@ -17,6 +11,7 @@ cnoreabbrev('solua', 'so $HOME/.config/nvim/init.lua')
 cnoreabbrev('h', 'vertical h')
 cnoreabbrev('vwtoc', 'VimwikiTOC')
 cnoreabbrev('packi', 'PackerInstall')
+cnoreabbrev('kirbs', [[s/\(.*\)]])
 
 vim.api.nvim_create_user_command('HighlightFile', 'so $VIMRUNTIME/syntax/hitest.vim', {})
 -- vim.cmd [[command! -nargs=1 -complete=help Help :enew | :set buftype=help | :h <args>]]

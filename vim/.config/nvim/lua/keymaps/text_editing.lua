@@ -47,6 +47,8 @@ vmap('y', keep_column('y'))
 vmap('Y', keep_column('Y'))
 vmap('<C-c>', keep_column('"+y'))
 
+vmap('p', '"_dP')
+
 nmap('y', YankOperator, '', { expr = true })
 nmap('yy', 'yy')
 

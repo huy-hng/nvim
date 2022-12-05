@@ -15,7 +15,7 @@ local layouts = R('plugins.telescope.layouts')
 nmap('<C-p>', { builtin.find_files, layouts.find_files }, '[Telescope] Find Files')
 tele_map('p', { builtin.find_files, layouts.find_files }, 'Find Files')
 tele_map('l', { builtin.live_grep, layouts.find_files }, 'Live Grep')
-tele_map('g', { builtin.grep_string, layouts.find_files }, 'Grep String')
+tele_map('g', { builtin.grep_string, layouts.list }, 'Grep String')
 tele_map('h', { builtin.help_tags, layouts.find_files }, 'Find Help Tags')
 tele_map('k', { builtin.keymaps, layouts.find_files }, 'Find Keymaps')
 
@@ -39,7 +39,7 @@ telescope.setup {
 		selection_caret = ' ',
 		path_display = { 'truncate' },
 		border = true,
-		initial_mode = 'normal', -- normal
+		initial_mode = 'insert', -- normal
 		layout_strategy = 'vertical',
 		scroll_strategy = 'limit',
 		mappings = require('plugins.telescope.keymaps'),
