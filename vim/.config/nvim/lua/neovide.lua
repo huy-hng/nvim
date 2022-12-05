@@ -1,3 +1,4 @@
+---@diagnostic disable: param-type-mismatch
 local g = vim.g
 local go = vim.go
 
@@ -5,38 +6,41 @@ local go = vim.go
 --                      |=> Setup specific Settings <=|
 --==============================================================================
 
-local function get_hostname()
-	local handle = io.popen('hostname')
-	local result
-	if handle then
-		result = handle:read('*a')
-		result = result:gsub('[%p%c%s]', '')
+local function blur_on_kde()
+	local pid_cmd = 'xdotool search --class neovide'
+	local blur_cmd =
+		'xprop -f _KDE_NET_WM_BLUR_BEHIND_REGION 32c -set _KDE_NET_WM_BLUR_BEHIND_REGION 0 -id '
+
+	local handle = io.popen(pid_cmd)
+	if handle ~= nil then
+		local pids = handle:read('*a')
+		for _, pid in ipairs(vim.fn.split(pids, '\n')) do
+			io.popen(blur_cmd .. pid)
+		end
 		handle:close()
 	end
-	return result
 end
 
 local function manjaro()
-	g.neovide_refresh_rate = 120
-	g.gui_font_default_size = 11
-	g.neovide_scale_factor = 1.0
+	g.neovide_refresh_rate = 119
+
+	go.winblend = 0
+	go.pumblend = 0
+	g.neovide_default_transparency = 0.67
+	g.neovide_transparency = g.neovide_default_transparency
+
+	vim.schedule(blur_on_kde)
 end
 
 local function chromebook()
 	g.neovide_refresh_rate = 59
-
-	g.gui_font_default_size = 11
-	g.neovide_scale_factor = 1.0
+	g.neovide_default_transparency = 1
 end
 
 g.gui_font_face = 'FiraCode Nerd Font'
 g.gui_font_face = 'CaskaydiaCove Nerd Font'
-
-if get_hostname() == 'huystower' then
-	manjaro()
-else
-	chromebook()
-end
+g.gui_font_default_size = 11
+g.neovide_scale_factor = 1.0
 
 -----------------------------------------
 --             -> Looks <-
@@ -48,24 +52,23 @@ go.pumblend = 50
 g.neovide_fullscreen = true
 g.neovide_profiler = false
 
-g.neovide_transparency = 1
 local blur_amount = 7
 g.neovide_floating_blur_amount_x = blur_amount
 g.neovide_floating_blur_amount_y = blur_amount
-
--- g.neovide_background_color = '#0f1117'.printf('%x', float2nr(255 * g:transparency))
 
 -----------------------------------------
 --             -> Sizes <-
 -----------------------------------------
 g.neovide_underline_automatic_scaling = true
 g.gui_font_size = g.gui_font_default_size
+g.
 
 --==============================================================================
 --                              |=> Behavior <=|
 --==============================================================================
 
-g.neovide_refresh_rate_idle = 15
+g.neovide_no_idle = false -- not sure if this helps with anything
+g.neovide_refresh_rate_idle = 60
 g.neovide_confirm_quit = true
 g.neovide_remember_window_size = true
 g.neovide_scroll_animation_length = 0.4
@@ -73,8 +76,6 @@ g.neovide_hide_mouse_when_typing = true
 
 g.neovide_touch_deadzone = 100
 g.neovide_touch_drag_timeout = 0.3
-
--- g.neovide_no_idle = true -- not sure if this helps with anything
 
 --==============================================================================
 --                               |=> Cursor <=|
@@ -118,8 +119,6 @@ local function reset_gui_font()
 	g.gui_font_size = g.gui_font_default_size
 	refresh_gui_font()
 end
-
-reset_gui_font()
 
 nmap('<C-_>', FN(resize_gui_font, -0.5))
 nmap('<C-+>', FN(resize_gui_font, 0.5))
@@ -180,3 +179,81 @@ local function test_sizes()
 	nmap('<C-(>', resize(pairs[9]))
 end
 -- test_sizes()
+
+--==============================================================================
+--                     |=> Machine Specific Settings <=|
+--==============================================================================
+
+local function change_transparency(neovide_transparency, winblend, pumblend, speed)
+	print(neovide_transparency, winblend, pumblend, speed)
+
+	neovide_transparency = neovide_transparency or g.neovide_default_transparency
+	local duration = speed or 500
+
+	go.winblend = winblend
+	go.pumblend = pumblend
+
+	local step_size = 0.01
+	local diff = math.abs(neovide_transparency - g.neovide_transparency)
+	local steps = math.ceil(diff / step_size)
+
+
+	local step_duration = duration / steps
+
+	if g.neovide_transparency - neovide_transparency < 0 then step_size = step_size * -1 end
+
+	local pos = vim.fn.getcurpos()
+	local line = pos[2]
+	local col = pos[3]
+	local update_direction = -1
+	if line == 1 then update_direction = 1 end
+
+	for i = 1, steps do
+		vim.defer_fn(function()
+			if i == steps then
+				g.neovide_transparency = neovide_transparency
+				vim.schedule(function()
+					vim.fn.cursor { line, col }
+					vim.api.nvim_exec('mode', false)
+				end)
+				return
+			end
+			g.neovide_transparency = g.neovide_transparency - step_size
+
+			if i % 2 == 0 then
+				vim.fn.cursor { line, col }
+			elseif i % math.ceil(steps / 2) == 0 then
+				-- vim.schedule(function()
+				-- 	vim.api.nvim_exec('mode', false)
+				-- end)
+			else
+				vim.fn.cursor { line + update_direction, col }
+			end
+		end, step_duration * i)
+	end
+end
+
+local speed = 300
+nmap('<localleader>1', { change_transparency,  1, 67, 50 , speed })
+nmap('<localleader>2', { change_transparency,  g.neovide_default_transparency, 0, 0 , speed })
+
+
+
+local function get_hostname()
+	local handle = io.popen('hostname')
+	local result
+	if handle then
+		result = handle:read('*a')
+		result = result:gsub('[%p%c%s]', '')
+		handle:close()
+	end
+	return result
+end
+
+if get_hostname() == 'huystower' then
+	manjaro()
+else
+	chromebook()
+end
+
+reset_gui_font()
