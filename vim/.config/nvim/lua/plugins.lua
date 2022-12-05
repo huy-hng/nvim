@@ -44,11 +44,25 @@ return packer.startup {
 		-----------------------------------------
 		--          -> Completion <-
 		-----------------------------------------
-		use('hrsh7th/nvim-cmp') -- The completion plugin
-		use('hrsh7th/cmp-buffer') -- buffer completions
-		use('hrsh7th/cmp-path') -- path completions
-		use('hrsh7th/cmp-cmdline') -- cmdline completions
-		-- use 'folke/neodev.nvim'
+		use { -- The completion plugin
+			'hrsh7th/nvim-cmp',
+			event = { 'InsertEnter', 'CmdlineEnter', 'CmdwinEnter' },
+			config = function()
+				vim.schedule(FN(Prequire, 'plugins.cmp'))
+			end,
+		}
+		use { 'hrsh7th/cmp-buffer', after = 'nvim-cmp' } -- buffer completions
+		use { 'hrsh7th/cmp-path', after = 'nvim-cmp' } -- path completions
+		use { 'hrsh7th/cmp-cmdline', after = 'nvim-cmp' } -- cmdline completions
+		-- nvim completion
+		use { 'hrsh7th/cmp-nvim-lsp', after = 'nvim-cmp' }
+		use { 'hrsh7th/cmp-nvim-lua', after = 'nvim-cmp' }
+		use { 'hrsh7th/cmp-nvim-lsp-signature-help', after = 'nvim-cmp' }
+		use { 'hrsh7th/cmp-nvim-lsp-document-symbol', after = 'nvim-cmp' }
+
+		use { 'dmitmel/cmp-cmdline-history', after = 'nvim-cmp' }
+		use { 'andersevenrud/cmp-tmux', after = 'nvim-cmp' }
+
 		use {
 			'folke/neodev.nvim',
 			config = function()
@@ -58,32 +72,21 @@ return packer.startup {
 			end,
 		}
 
-		-- nvim completion
-		use('hrsh7th/cmp-nvim-lsp')
-		use('hrsh7th/cmp-nvim-lua')
-		use('hrsh7th/cmp-nvim-lsp-signature-help')
-		use('hrsh7th/cmp-nvim-lsp-document-symbol')
+		use {
+			'L3MON4D3/LuaSnip',
+			after = 'nvim-cmp',
+			config = function()
+				Prequire('plugins.luasnip.init')
+			end,
+		} -- snippet engine
+		use { 'saadparwaiz1/cmp_luasnip', after = 'LuaSnip' } -- snippet completions
 
-		use('dmitmel/cmp-cmdline-history')
-		use('andersevenrud/cmp-tmux')
-
-		use('L3MON4D3/LuaSnip') -- snippet engine
-		use('saadparwaiz1/cmp_luasnip') -- snippet completions
-
-		use('rafamadriz/friendly-snippets') -- a bunch of snippets to use
+		use { 'rafamadriz/friendly-snippets', after = 'LuaSnip' } -- a bunch of snippets to use
 
 		-----------------------------------------
 		--              -> LSP <-
 		-----------------------------------------
-		use {
-			'williamboman/mason.nvim',
-			opt = false,
-			-- cmd = 'Mason*',
-			-- event = 'TabEnter',
-			-- config = function()
-			-- 	require('lsp.mason')
-			-- end,
-		}
+		use('williamboman/mason.nvim')
 
 		use {
 			'williamboman/mason-lspconfig.nvim',
@@ -102,12 +105,10 @@ return packer.startup {
 			'nvim-telescope/telescope.nvim',
 			tag = '0.1.0',
 			requires = 'nvim-lua/plenary.nvim',
-			opt = false,
-			-- keys = '<C-p>',
-			-- config = function()
-			-- 	require('plugins.telescope')
-			-- end,
 		}
+
+		use('stevearc/dressing.nvim') -- replace vim.input etc
+		use('ziontee113/icon-picker.nvim') -- icon picker with telescope support
 		use('ThePrimeagen/harpoon')
 
 		-----------------------------------------
@@ -126,8 +127,6 @@ return packer.startup {
 		use { 'nvim-treesitter/nvim-treesitter-textobjects', disable = false }
 		use { 'RRethy/nvim-treesitter-textsubjects', disable = false }
 		use { 'p00f/nvim-ts-rainbow', disable = false } -- highlight parentheses in different colors
-		-- after = 'nvim-treesitter',
-		-- disable = true,
 
 		use { 'mfussenegger/nvim-treehopper', requires = 'phaazon/hop.nvim' }
 
@@ -176,9 +175,11 @@ return packer.startup {
 		-----------------------------------------
 		-- startscreens
 		-- use 'glepnir/dashboard-nvim'
-		use { 'mhinz/vim-startify', disable = false }
-		-- use 'goolord/alpha-nvim'
+		use { 'mhinz/vim-startify', disable = true }
+		use('goolord/alpha-nvim')
 
+		use('powerman/vim-plugin-AnsiEsc') -- colorize ansi escape colors
+		use { 'm00qek/baleia.nvim', tag = 'v1.2.0' } -- colorize ansi escape colors
 		use('kyazdani42/nvim-web-devicons') -- file icons
 		use('kyazdani42/nvim-tree.lua') -- file tree
 		use('kevinhwang91/rnvimr') -- ranger
@@ -195,8 +196,8 @@ return packer.startup {
 		-----------------------------------------
 		--           -> Zen Mode <-
 		-----------------------------------------
-		use('junegunn/limelight.vim')
-		use('junegunn/goyo.vim')
+		-- use('junegunn/limelight.vim')
+		-- use('junegunn/goyo.vim')
 
 		use('folke/zen-mode.nvim')
 		use('folke/twilight.nvim')
@@ -206,26 +207,14 @@ return packer.startup {
 		--===============================================================================
 		-- syntax error
 		use('folke/which-key.nvim')
-		use {
-			'sindrets/diffview.nvim', -- side by side diff view
-			opt = false,
-			-- cmd = 'Diffview*',
-			-- config = function()
-			-- 	require('plugins.git.diffview')
-			-- end,
-		}
+		use('sindrets/diffview.nvim') -- side by side diff view
 		use {
 			'TimUntersberger/neogit', -- magit clone
-			requires = {
-				'nvim-lua/plenary.nvim',
-			},
-			opt = false,
-			-- keys = '<C-g>',
-			-- config = function()
-			-- 	require('plugins.git.neogit')
-			-- end,
+			requires = { 'nvim-lua/plenary.nvim' },
 		}
+		-- test startup times
 		use('dstein64/vim-startuptime')
+		use('lewis6991/impatient.nvim')
 
 		use { 'akinsho/toggleterm.nvim', tag = '*' }
 
@@ -239,6 +228,7 @@ return packer.startup {
 		-- use 'easymotion/vim-easymotion'
 
 		use('tpope/vim-obsession') -- save vim sessions
+		use { 'jedrzejboczar/possession.nvim', requires = { 'nvim-lua/plenary.nvim' } } -- save vim sessions
 		use('tpope/vim-fugitive') -- git stuff
 		use('tpope/vim-surround')
 		use('numToStr/Comment.nvim')
@@ -248,15 +238,8 @@ return packer.startup {
 			requires = { 'nvim-lua/plenary.nvim' },
 		}
 
-		use {
-			'windwp/nvim-autopairs', -- pair brackets
-			opt = false,
-			-- cmd = 'UIEnter',
-			-- keys = { '(', '{', '[' , "'", '"'},
-			-- config = function()
-			-- 	require('plugins.autopairs')
-			-- end,
-		}
+		use('windwp/nvim-autopairs') -- pair brackets
+
 		use {
 			'mg979/vim-visual-multi',
 			branch = 'master',
@@ -267,6 +250,7 @@ return packer.startup {
 		if packer_bootstrap then packer.sync() end
 	end,
 	config = {
+		compile_path = vim.fn.stdpath('config') .. '/lua/plugins/packer_compiled.lua',
 		display = {
 			open_fn = function()
 				return require('packer.util').float { border = 'rounded' }
