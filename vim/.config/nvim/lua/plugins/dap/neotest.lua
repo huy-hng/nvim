@@ -51,10 +51,12 @@ neotest.setup {
 		border = 'rounded',
 		max_height = 0.6,
 		max_width = 0.6,
-		options = {},
-		-- relative = 'editor', -- editor | win | cursor
-		-- row = 0,
-		-- col = 0,
+		-- options = {
+			-- options below arent excepted
+			-- relative = 'win', -- editor | win | cursor
+			-- row = 0,
+			-- col = 0,
+		-- },
 	},
 	highlights = {
 		adapter_name = 'NeotestAdapterName',
@@ -76,7 +78,18 @@ neotest.setup {
 		unknown = 'NeotestUnknown',
 	},
 	icons = {
-		running_animated = { '', '🞅', '🞈', '🞉', '', '', '🞉', '🞈', '🞅', '', },
+		running_animated = {
+			'',
+			'🞅',
+			'🞈',
+			'🞉',
+			'',
+			'',
+			'🞉',
+			'🞈',
+			'🞅',
+			'',
+		},
 		child_indent = '│',
 		child_prefix = '├',
 		collapsed = '─',
