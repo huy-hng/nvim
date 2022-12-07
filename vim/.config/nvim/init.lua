@@ -33,5 +33,5 @@ end
 minimal_init()
 
 if not vim.g.minimal then
-	extra_features()
+	pcall(extra_features)
 end
