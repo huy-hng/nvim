@@ -22,10 +22,17 @@ function FN(f, ...)
 	end
 end
 
+function math.clamp(num, lower, upper)
+	return math.min(upper, math.max(num, lower))
+end
+
 function Schedule(fn, ...)
 	local args = { ... }
 	return vim.schedule(function()
-		return fn(unpack(args))
+		local status = pcall(fn, unpack(args))
+		-- local fn_name = debug.getinfo(1, 'n')
+		-- P(fn_name)
+		if not status then print('Schedule', debug.traceback()) end
 	end)
 end
 
