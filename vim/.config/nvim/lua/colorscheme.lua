@@ -1,18 +1,11 @@
--- vim.g.colors_name = 'tokyonight-night'
--- vim.cmd "colorscheme tokyonight-night"
+ColorTheme = ''
 
--- set colorscheme to nightfly with protected call
--- in case it isn't installed
-
-local status, catpuccin = pcall(require, 'catpuccin')
--- local lualine = catpuccin.setup
--- P(lualine)
+local status, catppuccin = pcall(require, 'catppuccin')
 if status then
-	catpuccin.setup()
+	catppuccin.setup()
+	ColorTheme = 'catppuccin-mocha'
 	-- vim.g.catppuccin_flavour = 'latte' -- latte, frappe, macchiato, mocha
 end
-
-ColorTheme = 'catppuccin-mocha'
 
 -- ColorTheme = 'tokyonight-night'
 -- ColorTheme = 'tokyonight-day'
