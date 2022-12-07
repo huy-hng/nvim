@@ -199,4 +199,4 @@ function FoldText()
 	return indent .. line .. ' ---- ' .. line_num .. ' lines folded '
 end
 -- vim.o.foldtext = 'foldtext()'
-vim.go.foldtext = 'v:lua.FoldText()'
+vim.o.foldtext = 'v:lua.FoldText()'
