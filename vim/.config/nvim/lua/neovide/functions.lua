@@ -1,8 +1,6 @@
 local os_fn = require('neovide.os_functions')
 
 local g = vim.g
-local go = vim.go
-local o = vim.o
 
 M = {}
 
@@ -42,22 +40,15 @@ end
 -- print(linear_distribution(0,67,0.5))
 
 M.change_window_opacity = function(delta, speed)
-	speed = speed or 50
+	speed = speed or 10
 	local max_winblend = 67
 	local max_pumblend = 50
 
-	math.clamp()	
 	local new_transparency = g.neovide_transparency + delta
-
-	if new_transparency > 1 then
-		new_transparency = 1
-	elseif new_transparency < 0 then
-		new_transparency = 0
-	end
+	new_transparency = math.clamp(new_transparency, 0, 1)
 
 	local new_winblend = linear_distribution(0, max_winblend, new_transparency)
 	local new_pumblend = linear_distribution(0, max_pumblend, new_transparency)
-	print(new_transparency, new_winblend, new_pumblend)
 
 	os_fn.animate_transparency_change(new_transparency, new_winblend, new_pumblend, speed)
 end

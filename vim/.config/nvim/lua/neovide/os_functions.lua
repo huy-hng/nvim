@@ -21,8 +21,9 @@ M.get_hostname = function()
 	return result
 end
 
-M.enable_blur_on_kde = function(blur)
-	if blur == nil then blur = true end
+M.toggle_blur_on_kde = function(blur)
+	-- print()
+	if blur == nil then blur = not g.neovide_blur end
 
 	g.neovide_blur = blur
 

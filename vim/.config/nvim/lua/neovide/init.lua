@@ -13,7 +13,7 @@ local function manjaro()
 
 	go.winblend = 0
 	go.pumblend = 0
-	Schedule(os_fn.enable_blur_on_kde, false)
+	Schedule(os_fn.toggle_blur_on_kde, true)
 end
 
 local function chromebook()
