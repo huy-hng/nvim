@@ -41,7 +41,7 @@ go.foldcolumn = '0'
 go.foldclose = '' -- set to 'all' to close folds after cursor leaves
 go.foldminlines = 2
 go.foldmethod = 'expr'
-go.foldexpr = 'nvim_treesitter#foldexpr()'
+-- go.foldexpr = 'nvim_treesitter#foldexpr()'
 
 -- editor
 go.cmdheight = 0

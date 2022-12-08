@@ -178,8 +178,10 @@ return packer.startup {
 		use { 'mhinz/vim-startify', disable = true }
 		use('goolord/alpha-nvim')
 
-		use('powerman/vim-plugin-AnsiEsc') -- colorize ansi escape colors
-		use { 'm00qek/baleia.nvim', tag = 'v1.2.0' } -- colorize ansi escape colors
+		-- colorize ansi escape colors (of which neither work well)
+		use('powerman/vim-plugin-AnsiEsc')
+		use { 'm00qek/baleia.nvim', tag = 'v1.2.0' }
+
 		use('kyazdani42/nvim-web-devicons') -- file icons
 		use('kyazdani42/nvim-tree.lua') -- file tree
 		use('kevinhwang91/rnvimr') -- ranger
@@ -191,14 +193,12 @@ return packer.startup {
 			requires = { 'kyazdani42/nvim-web-devicons', opt = true },
 		}
 
-		use('moll/vim-bbye') -- stop fucking closing my shit
+		-- better folding lines and column
+		use {'kevinhwang91/nvim-ufo', requires = 'kevinhwang91/promise-async'}
 
 		-----------------------------------------
 		--           -> Zen Mode <-
 		-----------------------------------------
-		-- use('junegunn/limelight.vim')
-		-- use('junegunn/goyo.vim')
-
 		use('folke/zen-mode.nvim')
 		use('folke/twilight.nvim')
 
@@ -217,6 +217,8 @@ return packer.startup {
 		use('lewis6991/impatient.nvim')
 
 		use { 'akinsho/toggleterm.nvim', tag = '*' }
+
+		use('moll/vim-bbye') -- stop fucking closing my shit
 
 		----------------------------------------
 		--            -> Motion <-
