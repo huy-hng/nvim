@@ -3,15 +3,30 @@
 ----------------------------------------
 local cnoreabbrev = vim.cmd.cnoreabbrev
 
-cnoreabbrev('telp', 'tab help')
-cnoreabbrev('hvw', 'tab help vimwiki')
-cnoreabbrev('sovim', 'so $HOME/.config/nvim/init.vim')
-cnoreabbrev('solua', 'so $HOME/.config/nvim/init.lua')
+local cmd_abbrevs = {
+	telp = 'tab help',
+	hvw = 'tab help vimwiki',
+	sovim = 'so $HOME/.config/nvim/init.vim',
+	solua = 'so $HOME/.config/nvim/init.lua',
 
-cnoreabbrev('h', 'vertical h')
-cnoreabbrev('vwtoc', 'VimwikiTOC')
-cnoreabbrev('packi', 'PackerInstall')
-cnoreabbrev('kirbs', [[\(.*\)]])
+	h = 'vertical h',
+	vwtoc = 'VimwikiTOC',
+	packi = 'PackerInstall',
+	kirbs = [[\(.*\)]],
+
+	vimdict = [[s/'\(.*\)':/\1 =/g]],
+	substitutesubmatch = [[s/\(, \|{\)\zs'\(.\{-}\)': \ze/\2 = /g]]
+	-- \(, \|{\) capturing group that matches either ", " or "{"
+	-- \zs start of match
+	-- '\(.\{-}\)': matches as few "." as possible
+	-- \ze end of match
+	-- /\2 = /g use second capture
+}
+
+for abbrev, long_form in pairs(cmd_abbrevs) do
+	cnoreabbrev(abbrev, long_form)
+end
+vim.api.nvim_create_user_command('ListAbbrevs', FN(P, cmd_abbrevs), {})
 
 vim.api.nvim_create_user_command('HighlightFile', 'so $VIMRUNTIME/syntax/hitest.vim', {})
 -- vim.cmd [[command! -nargs=1 -complete=help Help :enew | :set buftype=help | :h <args>]]
