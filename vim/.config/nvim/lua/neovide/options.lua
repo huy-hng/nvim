@@ -3,14 +3,13 @@ local go = vim.go
 local o = vim.o
 
 
-g.neovide_profiler = false
 
 --==============================================================================
 --                             |=> Appearence <=|
 --==============================================================================
 g.neovide_fullscreen = true
 
-g.neovide_refresh_rate = 60
+-- g.neovide_refresh_rate = 60
 g.neovide_refresh_rate_idle = 15
 go.winblend = 66
 go.pumblend = 50
@@ -18,6 +17,7 @@ go.pumblend = 50
 g.neovide_default_transparency = 1
 
 local blur_amount = 7
+g.neovide_floating_blur = true
 g.neovide_floating_blur_amount_x = blur_amount
 g.neovide_floating_blur_amount_y = blur_amount
 g.gui_font_face = 'FiraCode Nerd Font'

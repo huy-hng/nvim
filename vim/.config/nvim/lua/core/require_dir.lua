@@ -4,9 +4,8 @@ local function correct_format(relative_path)
 	return string.gsub(relative_path, '/', '.')
 end
 
-
 local function get_all_requires(dir)
-	local file_paths = vim.api.nvim_get_runtime_file(dir..'/**/*.lua', true)
+	local file_paths = vim.api.nvim_get_runtime_file(dir .. '/**/*.lua', true)
 	-- print(unpack(file_paths))
 
 	local formatted = {}
@@ -16,7 +15,9 @@ local function get_all_requires(dir)
 
 		-- skip the requires.lua file thats being created by this script
 		local is_requires_file = string.find(relative, REQUIRES_FILE_NAME)
-		if is_requires_file then goto continue end
+		if is_requires_file then
+			goto continue
+		end
 
 		local format = correct_format(relative)
 		table.insert(formatted, format)
@@ -25,7 +26,6 @@ local function get_all_requires(dir)
 	end
 	return formatted
 end
-
 
 local function write_to_file(dir, text)
 	-- Opens a file in read
@@ -36,14 +36,13 @@ local function write_to_file(dir, text)
 	io.output(file)
 
 	for _, path in ipairs(text) do
-		local require_text = "require '"..correct_format(path).."'\n"
+		local require_text = "require '" .. correct_format(path) .. "'\n"
 		io.write(require_text)
 	end
 	io.close(file)
 
 	-- return file_path
 end
-
 
 function UpdateAllRequireFiles()
 	for _, dir in ipairs(REQUIRE_DIRS) do
@@ -54,13 +53,12 @@ end
 
 vim.cmd('command! UpdateAllRequireFiles lua UpdateAllRequireFiles()')
 
-
 return function(dir)
 	for _, require_file in ipairs(get_all_requires(dir)) do
 		-- print(require_file)
 		-- require('plenary.reload').reload_module(require_file)
-		if not pcall(require, require_file) then
-			print('Error importing:', require_file, debug.traceback())
-		end
+		local stack_trace = debug.traceback('require_dir: Error importing: ' .. require_file, 3)
+		local status, errors = pcall(require, require_file)
+		if not status then print(stack_trace, errors) end
 	end
 end

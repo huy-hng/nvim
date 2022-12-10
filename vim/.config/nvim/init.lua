@@ -1,10 +1,10 @@
 if require('first_load')() then return end
 
+-- NVIM_CONFIG_PATH = vim.fn.fnamemodify('$MYVIMRC', ':p:h')
 NVIM_CONFIG_PATH = os.getenv('HOME') .. '/.config/nvim/'
 package.path = NVIM_CONFIG_PATH .. '?.lua;' .. package.path
 
 local require_dir = require('core.require_dir')
-
 
 local function minimal_init()
 	require_dir('lua/core')
@@ -22,6 +22,7 @@ local function extra_features()
 	Prequire('plugins')
 	Prequire('lazy_plugins')
 
+	Prequire('plugins.cmp.init')
 	Prequire('plugins.lualine')
 	Prequire('plugins.alpha')
 	Prequire('plugins.packer_compiled')
@@ -32,6 +33,4 @@ end
 
 minimal_init()
 
-if not vim.g.minimal then
-	pcall(extra_features)
-end
+if not vim.g.minimal then pcall(extra_features) end

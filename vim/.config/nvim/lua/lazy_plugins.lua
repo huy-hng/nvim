@@ -51,11 +51,11 @@ local function buf_read_pre()
 	pcall(require, 'plugins.database')
 	pcall(require, 'plugins.harpoon')
 	pcall(require, 'plugins.leap')
-	-- pcall(require, 'plugins.luasnip.init')
+	-- pcall(require, 'plugins.snippets.init')
 	pcall(require, 'plugins.ranger')
 end
 
-lazy_require('lsp.init', 'FileType', { 'python', 'lua', 'c' })
+lazy_require('lsp.init', 'FileType', { 'python', 'lua', 'c', 'json' })
 -- lazy_require('plugins.lualine', 'WinEnter')
 lazy_require_function(buf_read_pre, 'BufReadPre')
 lazy_require_dir('lua/plugins/dap', 'FileType', 'python')

@@ -1,6 +1,8 @@
 ---@diagnostic disable: lowercase-global
 
-local function extract_fn_from_table(rhs)
+-- refactor to somehwere else
+-- returns a function that executes function
+function ExtractFnFromTable(rhs)
 	if type(rhs) ~= 'table' then return rhs end
 
 	local fn = table.remove(rhs, 1)
@@ -18,7 +20,7 @@ local function bind(op, outer_opts)
 
 	return function(lhs, rhs, description, opts)
 		opts = vim.tbl_extend('force', outer_opts, { desc = description or '' }, opts or {})
-		rhs = extract_fn_from_table(rhs)
+		rhs = ExtractFnFromTable(rhs)
 		local status, _ = pcall(vim.keymap.set, op, lhs, rhs, opts)
 		if not status then print('Keymap Error: ', op, lhs, rhs, debug.traceback()) end
 	end
@@ -141,7 +143,7 @@ function PrefixMap(mode, key_prefix, desc_prefix, outer_opts)
 	if desc_prefix then desc_prefix = desc_prefix .. ' ' end
 	return function(lhs, rhs, desc, opts)
 		lhs = key_prefix .. lhs
-		rhs = extract_fn_from_table(rhs)
+		rhs = ExtractFnFromTable(rhs)
 		desc = desc_prefix .. (desc or '')
 		opts = vim.tbl_extend('force', outer_opts or {}, { desc = desc }, opts or {})
 

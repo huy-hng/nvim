@@ -15,7 +15,8 @@ local cmd_abbrevs = {
 	kirbs = [[\(.*\)]],
 
 	vimdict = [[s/'\(.*\)':/\1 =/g]],
-	substitutesubmatch = [[s/\(, \|{\)\zs'\(.\{-}\)': \ze/\2 = /g]]
+	substitutesubmatch = [[s/\(, \|{\)\zs'\(.\{-}\)': \ze/\2 = /g]],
+	localfun2module = [[%s/local function \(.*\)(/M.\1 = function(]],
 	-- \(, \|{\) capturing group that matches either ", " or "{"
 	-- \zs start of match
 	-- '\(.\{-}\)': matches as few "." as possible
@@ -26,10 +27,10 @@ local cmd_abbrevs = {
 for abbrev, long_form in pairs(cmd_abbrevs) do
 	cnoreabbrev(abbrev, long_form)
 end
-vim.api.nvim_create_user_command('ListAbbrevs', FN(P, cmd_abbrevs), {})
 
-vim.api.nvim_create_user_command('HighlightFile', 'so $VIMRUNTIME/syntax/hitest.vim', {})
--- vim.cmd [[command! -nargs=1 -complete=help Help :enew | :set buftype=help | :h <args>]]
-vim.api.nvim_create_user_command('Help', function(data)
+Commander('ListAbbrevs', FN(P, cmd_abbrevs))
+Commander('HighlightFile', 'so $VIMRUNTIME/syntax/hitest.vim')
+Commander('H', function(data)
 	Exec('enew | set buftype=help | h ' .. data.args)
 end, { nargs = 1, complete = 'help' })
+-- vim.cmd [[command! -nargs=1 -complete=help Help :enew | :set buftype=help | :h <args>]]

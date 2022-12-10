@@ -19,6 +19,15 @@
 -- 	end,
 -- })
 
+vim.api.nvim_create_autocmd({ 'WinEnter', 'WinNew' }, {
+	group = vim.api.nvim_create_augroup('Test', { clear = true }),
+	callback = function(data)
+		-- P(data)
+		local wins = vim.api.nvim_list_wins()
+		-- P(wins)
+	end,
+})
+
 vim.api.nvim_create_autocmd({ 'BufEnter', 'BufAdd', 'BufNew', 'BufNewFile', 'BufWinEnter' }, {
 	group = vim.api.nvim_create_augroup('TS_FOLD_WORKAROUND', {}),
 	callback = function()
@@ -50,7 +59,6 @@ vim.api.nvim_create_autocmd('User', {
 		end)
 	end,
 })
--- vim.cmd.autocmd('User StartifyReady let &l:stl = ""')
 
 ----------------------------------------
 --         -> Line Number <-
@@ -75,43 +83,33 @@ vim.api.nvim_create_autocmd('CursorHold', {
 })
 
 vim.cmd([[
-
-" set updatetime=1000
-" function! LineNumbers(show=1)
-" 	augroup line_numbers
-" 		autocmd!
-" 		
-" 		" autocmd InsertEnter * set norelativenumber
-" 		" autocmd InsertLeave * set relativenumber
-" 		" autocmd CursorHold * set relativenumber
-" 		" autocmd CursorMoved * set norelativenumber
-" 		" if &rnu == 'relativenumber' | exe "normal! g'\"" | endif
-" 	augroup END
-" 	if (a:show == 0)
-" 		autocmd! line_numbers
-" 	endif
-" endfunction
-" call LineNumbers()
-
 set autoread
 
 augroup Python
 	autocmd FileType python nnoremap <buffer> <A-m> <cmd>!python %<CR>
 augroup END
 
-augroup CommandlineWindow
-	autocmd!
-	autocmd CmdwinEnter * nnoremap <buffer> <ESC> <cmd>q<CR>
-	autocmd CmdwinEnter * nnoremap <buffer> ; :
-	autocmd CmdwinEnter * TSContextDisable
-	autocmd CmdwinLeave * TSContextEnable
-	autocmd CmdlineEnter * set cmdheight=1
-	autocmd CmdlineLeave * set cmdheight=0
-	" autocmd WinEnter * nnoremap <buffer> <CR> g_
-	" autocmd BufEnter * nnoremap <buffer> <CR> g_
-	" au ModeChanged * echomsg mode()
-augroup END
 
+":h cmdwin
+function! CommandWindowCollapse(collapse=0)
+	augroup CommandlineWindow 
+		autocmd!
+		
+		autocmd CmdwinEnter * nnoremap <buffer> <ESC> <cmd>q<CR>
+		autocmd CmdwinEnter * nnoremap <buffer> ; :
+		autocmd CmdwinEnter * TSContextDisable
+		autocmd CmdwinLeave * TSContextEnable
+		autocmd CmdlineEnter * set cmdheight=1
+		autocmd CmdlineLeave * set cmdheight=0
+		" autocmd CmdwinEnter [/?]  startinsert
+	augroup END
+	if (a:collapse == 1)
+		autocmd! CommandlineWindow
+		set cmdheight=1
+	endif
+endfunction
+
+call CommandWindowCollapse(0)
 
 augroup DisableCompletion
 	autocmd!
@@ -156,7 +154,6 @@ augroup NoComment
 	autocmd InsertLeave * :set formatoptions-=cro
 augroup END
 
-set updatetime=1000
 function! LineNumbers(show=1)
 	augroup line_numbers
 		autocmd!
@@ -171,7 +168,7 @@ function! LineNumbers(show=1)
 		autocmd! line_numbers
 	endif
 endfunction
-call LineNumbers()
+" call LineNumbers()
 
 
 augroup filetypes
