@@ -1,7 +1,7 @@
 local lspconfig = require('lspconfig')
 
 local servers = {
-	-- 'jsonls',
+	'jsonls',
 	'sumneko_lua',
 	'pyright',
 	'clangd',

@@ -31,6 +31,7 @@ mason_null_ls.setup({
 		'prettier', -- ts/js formatter
 		'stylua', -- lua formatter
 		'yamlfmt',
+		'fixjson',
 	},
 	-- auto-install configured formatters & linters (with null-ls)
 	automatic_installation = true,

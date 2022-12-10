@@ -16,6 +16,7 @@ null_ls.setup({
 		formatting.autopep8.with({ extra_args = { '--ignore W191,E402' } }),
 		formatting.stylua,
 		formatting.yamlfmt,
+		formatting.fixjson,
 		formatting.prettier.with({ extra_args = { '--no-semi', '--single-quote', '--jsx-single-quote' } }),
 		-- diagnostics.flake8
 	},

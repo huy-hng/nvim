@@ -4,14 +4,14 @@ _LspMessageBuffer = _LspMessageBuffer or vim.api.nvim_create_buf(false, true)
 
 local bufnr = _LspMessageBuffer
 local border = {
-	{ '🭽', 'FloatBorder' },
-	{ '▔', 'FloatBorder' },
-	{ '🭾', 'FloatBorder' },
-	{ '▕', 'FloatBorder' },
-	{ '🭿', 'FloatBorder' },
-	{ '▁', 'FloatBorder' },
-	{ '🭼', 'FloatBorder' },
-	{ '▏', 'FloatBorder' },
+	{ '╭', 'FloatBorder' },
+	{ '─', 'FloatBorder' },
+	{ '╮', 'FloatBorder' },
+	{ '│', 'FloatBorder' },
+	{ '╯', 'FloatBorder' },
+	{ '─', 'FloatBorder' },
+	{ '╰', 'FloatBorder' },
+	{ '│', 'FloatBorder' },
 }
 
 local create_little_window = function(messages)

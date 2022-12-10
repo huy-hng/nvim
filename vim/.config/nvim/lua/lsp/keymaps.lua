@@ -39,12 +39,13 @@ return function(bufnr)
 
 	lsp_map('<leader>wa', vim.lsp.buf.add_workspace_folder, 'Add Workspace')
 	lsp_map('<leader>wr', vim.lsp.buf.remove_workspace_folder, 'Remove Workspace')
-	lsp_map('<leader>wl', { vim.pretty_print, FN(vim.lsp.buf.list_workspace_folders) }, 'List Workspaces')
+	lsp_map('<leader>wl', function()
+		vim.pretty_print(vim.lsp.buf.list_workspace_folders())
+	end, 'List Workspaces')
 
 	lsp_map('<F2>', vim.lsp.buf.rename, 'Rename')
 	lsp_map('<F12>', vim.lsp.buf.references, 'References')
 	lsp_map('<leader>ca', vim.lsp.buf.code_action, 'Code Actions')
 	lsp_map('<leader>ff', lsp_formatting, 'Format Document')
 	-- lsp_map('<leader>lr', require('lsp.codelens').run, 'codelens')
-
 end
