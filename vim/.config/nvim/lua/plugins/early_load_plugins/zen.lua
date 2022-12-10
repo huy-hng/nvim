@@ -1,4 +1,4 @@
-local has_zen, zen = pcall(require, 'zen-mode')
+local has_zen, zen = pcall(R, 'zen-mode')
 if not has_zen then return end
 
 local has_twilight, twilight = pcall(require, 'twilight')
@@ -46,12 +46,20 @@ zen.setup {
 		},
 	},
 	-- callback where you can add custom code when the Zen window opens
-	on_open = function(win) end,
+	on_open = function(win)
+		print(win)
+		-- P(vim.api.nvim_list_tabpages())
+		-- Exec('tabnew')
+		P(vim.api.nvim_tabpage_get_win(0))
+		-- Schedule(vim.api.nvim_set_current_win, win)
+	end,
 	-- callback where you can add custom code when the Zen window closes
 	on_close = function()
 		Exec('TwilightDisable')
 	end,
 }
+
+
 
 twilight.setup {
 	dimming = {

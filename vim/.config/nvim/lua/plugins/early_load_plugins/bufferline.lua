@@ -22,7 +22,7 @@ bufferline.setup {
 		middle_mouse_command = nil, -- can be a string | function, see 'Mouse actions'
 
 		-- focused can be thought of as right side of current buffer
-		separator_style = {'║', ' '}, -- [focused and unfocused]
+		-- separator_style = {'║', ' '}, -- [focused and unfocused]
 		indicator = { -- and indicator.icon can be thought of as left side
 			icon = '║', -- this should be omitted if indicator style is not 'icon'
 			style = 'underline', -- icon | underline | none
