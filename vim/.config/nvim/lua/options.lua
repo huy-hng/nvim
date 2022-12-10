@@ -1,3 +1,4 @@
+---@diagnostic disable: cast-local-type
 local opt = vim.opt
 local o = vim.o
 local go = vim.go
@@ -12,8 +13,8 @@ g.maplocalleader = '\\'
 --                             |=> Appearance <=|
 --==============================================================================
 -- window transparency
-go.winblend = 10
-go.pumblend = 10
+o.winblend = 10
+o.pumblend = 10
 
 -- line numbers
 o.relativenumber = true -- show relative line numbers
@@ -28,46 +29,48 @@ o.cursorlineopt = 'number'
 -- o.background = "dark" -- colorschemes that can be light or dark will be made dark
 o.termguicolors = true -- true color
 
--- gutter
+----------------------------------------------Gutter------------------------------------------------
+-- o.colorcolumn = '81,101'
+o.colorcolumn = ''
 o.signcolumn = 'yes' -- show sign column so that text doesn't shift
-o.numberwidth = 4 -- set to something smaller to reduce gutter size
+o.numberwidth = 1 -- set to something smaller to reduce gutter size
 
 -- folding
-go.foldenable = false
+go.foldenable = true
 o.foldlevelstart = 99 -- find a way to get the highest possible folds in a file and set it to it
 					  -- or just zR at on bufenter
--- go.foldcolumn = 'auto:4'
-go.foldcolumn = '0'
+ -- find a way to get the highest possible folds in a file and set it to it
+go.foldcolumn = 'auto:4'
+-- go.foldcolumn = '1'
 go.foldclose = '' -- set to 'all' to close folds after cursor leaves
 go.foldminlines = 2
 go.foldmethod = 'expr'
 -- go.foldexpr = 'nvim_treesitter#foldexpr()'
 
--- editor
+----------------------------------------------Editor------------------------------------------------
 go.cmdheight = 0
 go.ruler = true
 -- go.winbar = '%#bold# %{expand("%:.")}'
-go.laststatus = 3
+go.laststatus = 3 -- global statusline
 go.cmdwinheight = 20
+go.showcmd = false
+go.showmode = false
+go.ruler = false
+-- print(vim.v.echospace)
+-- print(vim.v.scrollstart)
+-- opt_g.shortmess:append('')
 
 -- display indentations
 o.list = true
--- o.lcs = 'tab:· ,trail:·,nbsp:+'
--- go.listchars = 'tab: ,trail:·,nbsp:+'
--- go.listchars = 'tab:│ ,trail:·,nbsp:+'
-go.listchars = 'tab:┆ ,trail:·,nbsp:+'
--- opt.listchars:append {
--- 	tab = '│',
--- 	trail = '·',
--- 	nbsp = '+',
--- }
--- |│¦┆┇┊┋
-opt_g.fillchars:append {
-	-- fold = '·' or '-',
-	fold = '-' or '-',
-	foldopen = '┬' or '-',
-	foldclose = '+',
-	foldsep = '│' or '|',
+o.listchars = 'tab:▏ ,trail:·,nbsp:+'
+
+-- |│¦┆┇┊┋▕▔▏
+opt.fillchars:append {
+	--     
+	fold = '·', -- '-' or '-' what the fold text is  filled with
+	foldopen = '', -- '┬' or '-',
+	foldclose = '', --  '+',
+	foldsep = ' ', --  '│' or '|',
 	eob = ' ' -- End of buffer, to remove ~ from the side
 	-- horiz = '─' or '-',
 }
@@ -94,6 +97,9 @@ go.timeoutlen = 300
 --==============================================================================
 --                              |=> Behavior <=|
 --==============================================================================
+
+-- to edit with no text in visual block mode
+o.virtualedit = 'block'
 
 -- tabs & indentation
 o.tabstop = 4 -- spaces for tabs (prettier default)
@@ -134,7 +140,7 @@ o.lazyredraw = true
 o.splitright = true -- split vertical window to the right
 o.splitbelow = true -- split horizontal window to the bottom
 
--- o.iskeyword:append("-") -- consider string-string as whole word
+opt.iskeyword:append("-") -- consider string-string as whole word
 go.swapfile = false
 o.undofile = true
 o.mouse = 'a'
@@ -146,10 +152,11 @@ go.compatible = false
 -- stop auto comment for new lines
 opt.formatoptions:remove { 'c', 'r', 'o' }
 
+opt_g.path:append(NVIM_CONFIG_PATH)
 opt_g.path:append('**')
 
 opt.switchbuf:append { 'useopen', 'usetab', 'vsplit' }
-opt.sessionoptions:remove { 'terminal', 'blank'}
+opt.sessionoptions:remove {'buffers', 'terminal', 'blank'}
 
 --==============================================================================
 --                          |=> Plugin Settings <=|
@@ -161,34 +168,13 @@ g.startuptime_sourced = 1
 g.startuptime_exe_args = { '--noplugin' }
 g.startuptime_exe_args = {}
 
--- Folding
--- vim.cmd([[
--- 	set foldtext=v:folddashes.substitute(getline(v:foldstart),'/\\*\\\|\\*/\\\|{{{\\d\\=','','g')
-
--- 	function! MyFoldText()
--- 		let line = getline(v:foldstart)
--- 		echom line
--- 		" let sub = substitute(line, '/\*\|\*/\|{{{\d\=', '', 'g')
--- 		" let sub = substitute(line, '/\\*\\\|\\*/\\\|{{{\\d\\=', '', 'g')
-
--- 		" return v:folddashes .. sub
--- 		return line
--- 		" v:foldstart	line number of first line in the fold
--- 		" v:foldend		line number of last line in the fold
--- 		" v:folddashes	a string that contains dashes to represent the foldlevel.
--- 		" v:foldlevel	the foldlevel of the fold
--- 	endfunction
--- 	" set foldtext=
-
--- 	set foldtext=MyFoldText()
--- ]])
-
 function FoldText()
 	local v = vim.v
 	local line = vim.fn.getline(v.foldstart)
 	local line_num = v.foldend - v.foldstart
 
 	-- remove tab indentations
+	---@diagnostic disable-next-line: param-type-mismatch
 	line = vim.fn.substitute(line, '	', '', 'g')
 	line = vim.fn.substitute(line, '    ', '', 'g')
 
@@ -198,5 +184,4 @@ function FoldText()
     -- local sub = vim.fn.substitute(line, [[/*|*/|{{{\d\=]], '', 'g')
 	return indent .. line .. ' ---- ' .. line_num .. ' lines folded '
 end
--- vim.o.foldtext = 'foldtext()'
 vim.o.foldtext = 'v:lua.FoldText()'
