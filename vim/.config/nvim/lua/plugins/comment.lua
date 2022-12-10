@@ -1,8 +1,13 @@
 local Comment = require('Comment')
 
+local has_ft, ft = pcall(require, 'Comment.ft')
+if not has_ft then return end
+
+
+
 local comment_empty = {
 	padding = true,
-	sticky = false,
+	sticky = true,
 	ignore = nil,
 }
 
@@ -35,8 +40,10 @@ local extra_conf = {
 }
 
 Comment.setup(conf)
+ft.set('vimwiki', '- %s')
 
 local api = require('Comment.api')
+
 
 local fn = require('core.wrappers').fn
 
@@ -54,9 +61,7 @@ local toggle_comment = function()
 	-- api.toggle.linewise('V'j
 
 	local mode = vim.fn.mode()
-	-- vim.cmd('set statusline=' .. mode)
-	-- print(mode)
-	if mode == 'n' then
+	if mode == 'n' or mode == 'i' then
 		api.toggle.linewise.current(nil, comment_empty)
 		return
 	end
