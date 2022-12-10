@@ -46,10 +46,12 @@ return packer.startup {
 		-----------------------------------------
 		use { -- The completion plugin
 			'hrsh7th/nvim-cmp',
-			event = { 'InsertEnter', 'CmdlineEnter', 'CmdwinEnter' },
-			config = function()
-				vim.schedule(FN(Prequire, 'plugins.cmp'))
-			end,
+			-- event = { 'VimEnter' },
+			opt = false,
+			-- event = { 'InsertEnter', 'CmdlineEnter', 'CmdwinEnter' },
+			-- config = function()
+			-- 	vim.schedule(FN(Prequire, 'plugins.cmp'))
+			-- end,
 		}
 		use { 'hrsh7th/cmp-buffer', after = 'nvim-cmp' } -- buffer completions
 		use { 'hrsh7th/cmp-path', after = 'nvim-cmp' } -- path completions
@@ -66,9 +68,7 @@ return packer.startup {
 		use {
 			'folke/neodev.nvim',
 			config = function()
-				require('neodev').setup {
-					library = { plugins = { 'neotest' }, types = true },
-				}
+				require('neodev').setup { library = { plugins = { 'neotest' }, types = true } }
 			end,
 		}
 
@@ -76,7 +76,7 @@ return packer.startup {
 			'L3MON4D3/LuaSnip',
 			after = 'nvim-cmp',
 			config = function()
-				Prequire('plugins.luasnip.init')
+				Prequire('plugins.snippets.init')
 			end,
 		} -- snippet engine
 		use { 'saadparwaiz1/cmp_luasnip', after = 'LuaSnip' } -- snippet completions
@@ -130,18 +130,19 @@ return packer.startup {
 
 		use { 'mfussenegger/nvim-treehopper', requires = 'phaazon/hop.nvim' }
 
-		--===============================================================================
-		--                             |=> Development <=|
-		--===============================================================================
+		--==================================================================================================
+		--                                          Development
+		--==================================================================================================
 
-		use('mfussenegger/nvim-dap') -- debugging
+		---------------------------------------------Debugging----------------------------------------------
+
+		use('mfussenegger/nvim-dap')
 		use { 'mfussenegger/nvim-dap-python', requires = { 'mfussenegger/nvim-dap' } }
 		use { 'rcarriga/nvim-dap-ui', requires = { 'mfussenegger/nvim-dap' } }
 		use { 'theHamsta/nvim-dap-virtual-text', requires = { 'mfussenegger/nvim-dap' } }
 
-		----------------------------------------
-		--           -> Testing <-
-		----------------------------------------
+		----------------------------------------------Testing-----------------------------------------------
+
 		-- use('vim-test/vim-test') -- for pytest and other testing frameworks
 		use { 'nvim-neotest/neotest-python' }
 		-- use { 'nvim-neotest/neotest-python', ft = 'python' }
@@ -153,27 +154,23 @@ return packer.startup {
 			},
 		}
 
-		-----------------------------------------
-		--           -> Database <-
-		-----------------------------------------
+		---------------------------------------------Database-----------------------------------------------
 		use('tpope/vim-dadbod')
 		use('kristijanhusak/vim-dadbod-ui')
 
-		--===============================================================================
-		--                                 |=> Style <=|
-		--===============================================================================
+		--==================================================================================================
+		--                                             Style
+		--==================================================================================================
 
-		-----------------------------------------
-		--            -> Themes <-
-		-----------------------------------------
+		----------------------------------------------Themes------------------------------------------------
+
 		use { 'folke/tokyonight.nvim', branch = 'main' }
 		use { 'catppuccin/nvim', as = 'catppuccin' }
 		use('lunarvim/darkplus.nvim')
 
-		-----------------------------------------
-		--        -> User Interface <-
-		-----------------------------------------
-		-- startscreens
+		------------------------------------------User Interface--------------------------------------------
+		use('lukas-reineke/indent-blankline.nvim') -- indentation lines
+
 		-- use 'glepnir/dashboard-nvim'
 		use { 'mhinz/vim-startify', disable = true }
 		use('goolord/alpha-nvim')
@@ -194,17 +191,15 @@ return packer.startup {
 		}
 
 		-- better folding lines and column
-		use {'kevinhwang91/nvim-ufo', requires = 'kevinhwang91/promise-async'}
+		use { 'kevinhwang91/nvim-ufo', requires = 'kevinhwang91/promise-async' }
 
-		-----------------------------------------
-		--           -> Zen Mode <-
-		-----------------------------------------
+		---------------------------------------------Zen Mode-----------------------------------------------
 		use('folke/zen-mode.nvim')
 		use('folke/twilight.nvim')
 
-		--===============================================================================
-		--                          |=> Smaller Features <=|
-		--===============================================================================
+		--==================================================================================================
+		--                                         Small Features
+		--==================================================================================================
 		-- syntax error
 		use('folke/which-key.nvim')
 		use('sindrets/diffview.nvim') -- side by side diff view
@@ -220,9 +215,8 @@ return packer.startup {
 
 		use('moll/vim-bbye') -- stop fucking closing my shit
 
-		----------------------------------------
-		--            -> Motion <-
-		----------------------------------------
+		----------------------------------------------Motion------------------------------------------------
+
 		use('unblevable/quick-scope')
 		-- use 'ggandor/leap.nvim'
 		-- use 'ggandor/lightspeed.nvim' -- older version of leap
@@ -230,7 +224,7 @@ return packer.startup {
 		-- use 'easymotion/vim-easymotion'
 
 		use('tpope/vim-obsession') -- save vim sessions
-		use { 'jedrzejboczar/possession.nvim', requires = { 'nvim-lua/plenary.nvim' } } -- save vim sessions
+		-- use { 'jedrzejboczar/possession.nvim', requires = { 'nvim-lua/plenary.nvim' } } -- save vim sessions
 		use('tpope/vim-fugitive') -- git stuff
 		use('tpope/vim-surround')
 		use('numToStr/Comment.nvim')
@@ -247,6 +241,11 @@ return packer.startup {
 			branch = 'master',
 			keys = { '<C-n>' },
 		}
+
+		--==================================================================================================
+		--                                              End
+		--==================================================================================================
+
 		-- Automatically set up your configuration after cloning packer.nvim
 		-- Put this at the end after all plugins
 		if packer_bootstrap then packer.sync() end
