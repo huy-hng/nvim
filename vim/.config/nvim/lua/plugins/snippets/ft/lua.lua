@@ -38,6 +38,17 @@ local require_var = function(args, _)
 	})
 end
 
+local function requirefolder(--[[ args, parent, user_args ]])
+	-- text from i(2) in this example i.e. { { "456" } }
+	-- parent snippet or parent node
+	-- user_args from opts.user_args
+	local path = vim.fn.expand('%:h')
+	path = vim.fn.substitute(path, '^lua/', '', '')
+	print(path)
+	path = string.gsub(path, '/', '.')
+	return path .. '.'
+end
+
 return {
 	snippet('ignore', t('--stylua: ignore')),
 
@@ -74,8 +85,18 @@ return {
 	),
 
 	snippet(
+		'reqfold',
+		fmt([[local {} = require('{}{}')]], {
+			rep(1),
+			f(requirefolder),
+			i(1),
+		})
+	),
+
+	snippet(
 		'preq',
-		fmt([[
+		fmt(
+			[[
 		local has_{}, {}{} = pcall(require, '{}')
 		if not has_{} then return end
 		{}

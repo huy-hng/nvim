@@ -42,68 +42,68 @@ end
 
 local toexpand_count = 0
 return {
-	s('cond', {
-		t('will only expand in c-style comments'),
-		}, {
-			condition = function(line_to_cursor --[[ , matched_trigger, captures ]])
-				local commentstring = '%s*' .. vim.bo.commentstring:gsub('%%s', '')
-				-- optional whitespace followed by //
-				return line_to_cursor:match(commentstring)
-			end,
-	}),
-	s('ternary', {
-		-- equivalent to "${1:cond} ? ${2:then} : ${3:else}"
-		i(1, 'cond'),
-		t(' ? '),
-		i(2, 'then'),
-		t(' : '),
-		i(3, 'else'),
-	}),
-	-- callbacks table
-	s('toexpand', c(1, { t('hello'), t('world'), t('last') }), {
-		callbacks = {
-			[1] = {
-				[events.enter] = function(--[[ node ]])
-					toexpand_count = toexpand_count + 1
-					print('Number of times entered:', toexpand_count)
-				end,
-			},
-		},
-	}),
+	-- s('cond', {
+	-- 	t('will only expand in c-style comments'),
+	-- 	}, {
+	-- 		condition = function(line_to_cursor --[[ , matched_trigger, captures ]])
+	-- 			local commentstring = '%s*' .. vim.bo.commentstring:gsub('%%s', '')
+	-- 			-- optional whitespace followed by //
+	-- 			return line_to_cursor:match(commentstring)
+	-- 		end,
+	-- }),
+	-- s('ternary', {
+	-- 	-- equivalent to "${1:cond} ? ${2:then} : ${3:else}"
+	-- 	i(1, 'cond'),
+	-- 	t(' ? '),
+	-- 	i(2, 'then'),
+	-- 	t(' : '),
+	-- 	i(3, 'else'),
+	-- }),
+	-- -- callbacks table
+	-- s('toexpand', c(1, { t('hello'), t('world'), t('last') }), {
+	-- 	callbacks = {
+	-- 		[1] = {
+	-- 			[events.enter] = function(--[[ node ]])
+	-- 				toexpand_count = toexpand_count + 1
+	-- 				print('Number of times entered:', toexpand_count)
+	-- 			end,
+	-- 		},
+	-- 	},
+	-- }),
 
-	-- regTrig
-	--    snippet.captures
-	-- s({ trig = "AbstractGenerator.*Factory", regTrig = true }, { t "yo" }),
+	-- -- regTrig
+	-- --    snippet.captures
+	-- -- s({ trig = "AbstractGenerator.*Factory", regTrig = true }, { t "yo" }),
 
-	-- third arg,
-	s('never_expands', t('this will never expand, condition is false'), {
-		condition = function()
-			return false
-		end,
-	}),
+	-- -- third arg,
+	-- s('never_expands', t('this will never expand, condition is false'), {
+	-- 	condition = function()
+	-- 		return false
+	-- 	end,
+	-- }),
 
-	-- docTrig ??
+	-- -- docTrig ??
 
-	-- functions
+	-- -- functions
 
-	-- date -> Tue 16 Nov 2021 09:43:49 AM EST
-	s({ trig = 'date' }, {
-		f(function()
-			return string.format(string.gsub(vim.bo.commentstring, '%%s', ' %%s'), os.date())
-		end, {}),
-	}),
+	-- -- date -> Tue 16 Nov 2021 09:43:49 AM EST
+	-- s({ trig = 'date' }, {
+	-- 	f(function()
+	-- 		return string.format(string.gsub(vim.bo.commentstring, '%%s', ' %%s'), os.date())
+	-- 	end, {}),
+	-- }),
 
-	-- Simple snippet, basics
-	s('for', {
-		t('for '),
-		i(1, 'k, v'),
-		t(' in '),
-		i(2, 'ipairs()'),
-		t { 'do', '  ' },
-		i(0),
-		t { '', '' },
-		t('end'),
-	}),
+	-- -- Simple snippet, basics
+	-- s('for', {
+	-- 	t('for '),
+	-- 	i(1, 'k, v'),
+	-- 	t(' in '),
+	-- 	i(2, 'ipairs()'),
+	-- 	t { 'do', '  ' },
+	-- 	i(0),
+	-- 	t { '', '' },
+	-- 	t('end'),
+	-- }),
 
 	-- Alternative printf-like notation for defining snippets. It uses format
 	-- string with placeholders similar to the ones used with Python's .format().
