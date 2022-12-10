@@ -9,11 +9,18 @@ local themes = require('telescope.themes')
 -- themes.get_ivy() -- bottom
 
 local tele_map = PrefixMap('n', '<leader>f', '[Telescope]')
-local layouts = R('plugins.telescope.layouts')
+local layouts = require('plugins.telescope.layouts')
 
 -- nmap('<C-p>', { builtin.find_files, { layout_strategy = 'cursor' } }, '[Telescope] Find Files')
 nmap('<C-p>', { builtin.find_files, layouts.find_files }, '[Telescope] Find Files')
-tele_map('p', { builtin.find_files, layouts.find_files }, 'Find Files')
+
+tele_map(
+	'p',
+	{ builtin.find_files, { find_command = { 'rg', '--files', '--hidden', '-g', '!.git' } } },
+	'Find Files'
+)
+tele_map('v', { builtin.find_files, { cwd = NVIM_CONFIG_PATH } }, 'Find Neovim Files')
+
 tele_map('l', { builtin.live_grep, layouts.find_files }, 'Live Grep')
 tele_map('g', { builtin.grep_string, layouts.list }, 'Grep String')
 tele_map('h', { builtin.help_tags, layouts.find_files }, 'Find Help Tags')
@@ -29,11 +36,10 @@ tele_map('T', CMD('Telescope'), 'Telescope')
 
 -- tele_map('c', builtin.current_buffer_fuzzy_find, 'Fuzzy Find in current Buffer')
 
-
 telescope.setup {
 	defaults = {
 		-- winblend = function() return vim.go.winblend end,
-		winblend = vim.go.winblend,
+		winblend = vim.o.winblend,
 		-- winblend = 75,
 		prompt_prefix = '  ',
 		selection_caret = ' ',

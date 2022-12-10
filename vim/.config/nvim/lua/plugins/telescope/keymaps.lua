@@ -3,11 +3,13 @@ local actions_generate = require('telescope.actions.generate')
 
 return {
 	i = {
-		['<C-n>'] = actions.cycle_history_next,
+		-- ['<C-n>'] = actions.cycle_history_next,
+		-- ['<C-p>'] = actions.cycle_history_prev,
+		['<down>'] = actions.cycle_history_next,
+		['<up>'] = actions.cycle_history_prev,
 		['<C-BS>'] = function()
 			Feedkeys('<C-w>', false)
 		end,
-		['<C-p>'] = actions.cycle_history_prev,
 
 		['<C-j>'] = actions.move_selection_next,
 		['<C-k>'] = actions.move_selection_previous,
