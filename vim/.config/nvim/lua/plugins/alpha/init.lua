@@ -67,13 +67,13 @@ dashboard.section.footer.val = footer
 dashboard.section.footer.opts.hl = 'Comment'
 
 local function get_padded_name(name, width)
+	width = width or 50
 	local needed_spaces = width - string.len(name)
 	local padded_name = name .. vim.fn['repeat'](' ', needed_spaces)
 	return padded_name
 end
 
 local function create_text(text, highlight, width)
-	width = width or 50
 	return {
 		type = 'text',
 		val = get_padded_name(text, width),

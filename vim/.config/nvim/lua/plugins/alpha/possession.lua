@@ -2,6 +2,7 @@ local has_query, query = pcall(require, 'possession.query')
 if not has_query then return end
 
 local config = require('possession.config')
+local commands = require('possession.commands')
 
 local utils = require('possession.utils')
 local workspaces = {
@@ -18,7 +19,14 @@ local workspaces = {
 	-- },
 }
 
-local button = function(sc, txt, keybind)
+local function get_padded_name(name, width)
+	width = width or 50
+	local needed_spaces = width - string.len(name)
+	local padded_name = name .. vim.fn['repeat'](' ', needed_spaces)
+	return padded_name
+end
+
+local button = function(sc, txt, cmd)
 	local opts = {
 		position = 'center',
 		shortcut = sc,
@@ -27,21 +35,16 @@ local button = function(sc, txt, keybind)
 		align_shortcut = 'right',
 		hl_shortcut = 'Keyword',
 	}
-	if keybind then
+	if cmd then
 		-- local keybind_opts = vim.F.if_nil(keybind_opts, { noremap = true, silent = true, nowait = true })
 		local keybind_opts = {}
-		opts.keymap = { 'n', sc, keybind, keybind_opts }
-	end
-
-	local function on_press()
-		local key = vim.api.nvim_replace_termcodes(keybind or sc .. '<Ignore>', true, false, true)
-		vim.api.nvim_feedkeys(key, 't', false)
+		opts.keymap = { 'n', sc, cmd, keybind_opts }
 	end
 
 	return {
 		type = 'button',
 		val = txt,
-		on_press = on_press,
+		on_press = cmd,
 		opts = opts,
 	}
 end
@@ -74,10 +77,18 @@ local function alpha_workspace_layout(workspace_specs, create_button, opts)
 	})
 
 	-- Transform a sessions+shortcuts into alpha.nvim buttons
-	local to_buttons = function(sessions_with_shortcuts)
+	local function to_buttons (sessions_with_shortcuts)
 		return vim.tbl_map(function(sws)
 			local shortcut, session_name = unpack(sws)
-			local cmd = string.format('<cmd>%s %s<cr>', config.commands.load, session_name)
+			-- local cmd = string.format('<cmd>%s %s<cr>', config.commands.load, session_name)
+			local cmd = function()
+				-- print('loading from custom')
+				-- if vim.bo.filetype == 'alpha' then Exec('Bdelete') end
+				-- print(vim.bo.filetype)
+				-- Defer(1000, commands.load, session_name)
+				Schedule(commands.load, session_name)
+				-- commands.load(session_name)
+			end
 			return create_button(shortcut, session_name, cmd)
 		end, sessions_with_shortcuts)
 	end
@@ -93,12 +104,6 @@ local function alpha_workspace_layout(workspace_specs, create_button, opts)
 	-- 	return buttons
 	-- end
 
-	local get_padded_name = function(name, width)
-		local needed_spaces = width - string.len(name)
-		local padded_name = name .. vim.fn['repeat'](' ', needed_spaces)
-		return padded_name
-	end
-
 	-- Generate a workspace section
 	local section = function(name, sessions_with_shortcuts)
 		return {
@@ -107,7 +112,8 @@ local function alpha_workspace_layout(workspace_specs, create_button, opts)
 				{ type = 'padding', val = 1 },
 				{
 					type = 'text',
-					val = get_padded_name(name, opts.width),
+					-- val = get_padded_name(name),
+					val = name,
 					opts = { position = 'center', hl = opts.title_highlight },
 				},
 				{ type = 'padding', val = 1 },
@@ -132,19 +138,15 @@ local function alpha_workspace_layout(workspace_specs, create_button, opts)
 	return layout
 end
 
-local function get_padded_name(name, width)
-	local needed_spaces = width - string.len(name)
-	local padded_name = name .. vim.fn['repeat'](' ', needed_spaces)
-	return padded_name
-end
-
 local get_layout = function()
-	local layout = query.alpha_workspace_layout(workspaces, button)
+	-- local layout = query.alpha_workspace_layout(workspaces, button)
+	local layout = alpha_workspace_layout(workspaces, button)
 
 	for _, section in ipairs(layout) do
 		for _, elem in ipairs(section.val) do
 			if elem.type == 'text' then
 				elem.val = get_padded_name(elem.val, 50)
+				-- elem.val = elem.val
 				elem.opts.position = 'center'
 			end
 			if elem.type == 'group' then elem.opts = { spacing = 1 } end
