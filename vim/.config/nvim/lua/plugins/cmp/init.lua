@@ -1,66 +1,23 @@
 local has_cmp, cmp = pcall(require, 'cmp')
+-- print('has_cmp', has_cmp)
 if not has_cmp then return end
-
-local has_luasnip, luasnip = pcall(require, 'luasnip')
-if not has_luasnip then return end
 
 local kind_icons = require('plugins.cmp.icons')
 
-local CompletionItemKind = {
-	Text = 1,
-	Method = 2,
-	Function = 3,
-	Constructor = 4,
-	Field = 5,
-	Variable = 6,
-	Class = 7,
-	Interface = 8,
-	Module = 9,
-	Property = 10,
-	Unit = 11,
-	Value = 12,
-	Enum = 13,
-	Keyword = 14,
-	Snippet = 15,
-	Color = 16,
-	File = 17,
-	Reference = 18,
-	Folder = 19,
-	EnumMember = 20,
-	Constant = 21,
-	Struct = 22,
-	Event = 23,
-	Operator = 24,
-	TypeParameter = 25,
-}
-local reverse = vim.tbl_add_reverse_lookup(CompletionItemKind)
+local compare = cmp.config.compare
+local compare_fn = R('plugins.cmp.compare')
 
-local kind_mapper =
-	{ 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25 }
+local has_luasnip, luasnip = pcall(require, 'luasnip')
+-- print('has_luasnip', has_luasnip)
 
--- %s/^<\(.*\)>{/local entry_\1 = {
--- %s/= <\(.*\)>{/= {
--- %s/<\(.*\)> = {/\1 = {
--- %s/= <\(.*\)>{/=
--- %s/ <\(.*\)>{/{/
--- %s/= <\(.*\)>,/= '\1',/
--- %s/= <\(.*\)>/= '\1'/
--- %s/<\(table .\)>,/'\1',/g
--- %s/<\(table ..\)>,/'\1',/g
--- %s/, <\(table .\)>//g
-
-local function redir(data)
-	return function()
-		vim.cmd.redir('>> get_kind.lua')
-		vim.pretty_print(data)
-		vim.cmd.redir('END')
-	end
-end
-
-Counter = 0
 cmp.setup {
 	snippet = {
 		expand = function(args)
+			if not has_luasnip then
+				has_luasnip, luasnip = pcall(require, 'luasnip')
+				if not has_luasnip then return end
+			end
+			require('plugins.snippets')
 			luasnip.lsp_expand(args.body) -- For `luasnip` users.
 		end,
 	},
@@ -90,7 +47,7 @@ cmp.setup {
 				nvim_lsp = '[LSP]',
 				-- nvim_lua = '[API]',
 				buffer = '[Buffer]',
-				cmdline_history = '[History]',
+				-- cmdline_history = '[History]',
 				path = '[Path]',
 				tmux = '[Tmux]',
 			})[entry.source.name]
@@ -98,11 +55,11 @@ cmp.setup {
 		end,
 	},
 	sources = cmp.config.sources({
+		{ name = 'luasnip' },
 		{ name = 'nvim_lsp' },
 		{ name = 'nvim_lsp_signature_help' },
-		{ name = 'nvim_lua' },
-		{ name = 'luasnip' },
-		{ name = 'cmdline_history' },
+		-- { name = 'nvim_lua' },
+		-- { name = 'cmdline_history' },
 	}, {
 		{ name = 'tmux' },
 		{
@@ -123,22 +80,25 @@ cmp.setup {
 	}),
 	sorting = {
 		comparators = {
+			-- available comparisons from cmp.config.compare ordered by default ordering
+			-- compare.offset, -- in python offset is the same everywhere
+			-- compare.exact, -- if whats written is exactly found in the completion menu
+			-- -- compare.scopes, -- i think ranks stuff in the same scope higher (off by default)
+			-- compare.score, -- in python score is the same everywhere, in lua in ranks lsp stuff higher
+			-- compare.recently_used,
+			-- compare.locality, -- no clue what this does
+			-- compare.kind, -- sort by kind (method, enum, function, etc.)
+			-- compare.sort_text, -- kinda sorts alphabetically but not quite
+			-- compare.length,
+			-- compare.order, -- perfect for python: putting __ completions further down
+
 			function(entry1, entry2)
-				Counter = Counter + 1
-
-				-- if Counter % 10 == 0 then
-				-- local kind = reverse[entry1:get_kind()]
-				-- vim.schedule(redir(kind))
-				-- if Counter == 1 then
-				-- 	vim.schedule(redir(entry1))
-				-- end
-				local kind1 = kind_mapper[entry1:get_kind()]
-				local kind2 = kind_mapper[entry2:get_kind()]
-
-				-- P(entry1)
-				-- P(entry2)
-				if kind1 < kind2 then return true end
+				local normal1, normal2, better = compare_fn.base_comparer(entry1, entry2)
+				if not normal1 then return end
+				if not normal2 then return true end
+				return better
 			end,
+			compare.score,
 		},
 	},
 	confirm_opts = {

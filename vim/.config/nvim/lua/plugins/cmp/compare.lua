@@ -68,7 +68,7 @@ M.order = function(entry1, entry2)
 	-- end
 end
 
-M.is_normal = function(name)
+local is_normal = function(name)
 	local double = string.starts(name, '__')
 	local single = string.starts(name, '_')
 	return not (double or single)
@@ -77,14 +77,41 @@ end
 M.base_comparer = function(entry1, entry2)
 	local item_name1 = entry1:get_word()
 	local item_name2 = entry2:get_word()
-	local normal1 = M.is_normal(item_name1)
-	local normal2 = M.is_normal(item_name2)
+	local normal1 = is_normal(item_name1)
+	local normal2 = is_normal(item_name2)
 
 	local better = (entry1.id - entry2.id) < 0
 	return normal1, normal2, better
 end
 
+M.underscore = function(entry1, entry2)
+	-- entry1:get_vim_item() could also be useful
+	local normal1, normal2, better = M.base_comparer(entry1, entry2)
+	-- works
+	-- if not normal1 then return end
+	-- if not normal2 then return true end
 
--- M.underscore =
+	local function printer()
+		P(better, entry1:get_word(), entry2:get_word())
+	end
+	-- if entry1:get_word() == '__doc__' or entry2:get_word() == '__doc__' then
+	-- 	print('=====================================')
+	-- 	printer()
+	-- end
+
+	if better and normal1 and normal2 then return true end
+	if better and normal1 and not normal2 then return true end
+	if better and not normal1 and normal2 then
+		printer()
+		return true
+	end
+	if better and not normal1 and not normal2 then return true end
+
+	-- if not better and     normal1 and     normal2 then return false end
+	-- -- if not better and     normal1 and not normal2 then return end
+	-- if not better and not normal1 and     normal2 then return true end
+	-- if not better and not normal1 and not normal2 then return false end
+end
+
 
 return M

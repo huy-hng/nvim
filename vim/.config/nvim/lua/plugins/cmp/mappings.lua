@@ -1,12 +1,5 @@
 local status, cmp = pcall(require, 'cmp')
-if not status then
-	return
-end
-
-local check_backspace = function()
-	local col = vim.fn.col '.' - 1
-	return col == 0 or vim.fn.getline('.'):sub(col, col):match '%s'
-end
+if not status then return end
 
 local if_visible = function(fn)
 	return function(_)
