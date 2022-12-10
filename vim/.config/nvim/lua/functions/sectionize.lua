@@ -1,17 +1,26 @@
+---@diagnostic disable: param-type-mismatch
+
+-- TODO: refactor both main functions sectionize and sectionize_oneline to one function
+-- that takes in basically the same paramaters plus options
+-- options could be how many lines before and after should be commented
+-- or whether to fill the line with the text with the divider as well
+
 local status, comment = pcall(require, 'Comment.api')
-if not status then
-	return
+if not status then return end
+
+local function repeater(char, times)
+	return vim.fn['repeat'](char, times)
 end
 
 local create_divider = function(size, divider)
 	comment.toggle.linewise.current(nil, {})
 	local comment_len = vim.fn.strlen(vim.fn.getline('.'))
-	local cmd = 'A' .. vim.fn['repeat'](divider, size - comment_len)
+	local cmd = 'A' .. repeater(divider, size - comment_len)
 	-- Schedule(Feedkeys, cmd)
 	Normal(cmd)
 end
 
-function Sectionize(size, location, divider, surround)
+local function sectionize(size, location, divider, surround)
 	Normal('O')
 	create_divider(size, divider)
 
@@ -28,15 +37,52 @@ function Sectionize(size, location, divider, surround)
 	spaces = spaces - 2
 
 	vim.fn.cursor { vim.fn.line('.'), 2 }
-	Normal('wi' .. vim.fn['repeat'](' ', vim.fn.float2nr(spaces)))
+	Normal('wi' .. repeater(' ', vim.fn.float2nr(spaces)))
 	Normal('o')
 	create_divider(size, divider)
 end
 
-vim.api.nvim_create_user_command('SmallSection', function()
-	Sectionize(40, 0.5, '-', { '-> ', ' <-' })
-end, {})
+-- comments line and returns length of comment string
+local function comment_and_length()
+	local line_len_before = vim.fn.strlen(vim.fn.getline('.'))
+	comment.toggle.linewise.current(nil, {})
+	local line_len_after = vim.fn.strlen(vim.fn.getline('.'))
 
-vim.api.nvim_create_user_command('BigSection', function()
-	Sectionize(80, 0.5, '=', { '|=> ', ' <=|' })
-end, {})
+	return line_len_after - line_len_before
+end
+
+local function set_cursor_col(col)
+	vim.fn.cursor { vim.fn.line('.'), col }
+end
+
+local function sectionize_oneline(size, location, divider, surround)
+	local comment_len = comment_and_length()
+	if comment_len == 0 then comment_len = 1 end
+	set_cursor_col(comment_len)
+
+	Normal('a' .. surround[1])
+	Normal('A' .. surround[2])
+
+	local text_len = string.len(vim.fn.getline('.'))
+	local text_middle = vim.fn.floor(text_len / 2.0)
+	local left_dividers = location * size - text_middle - comment_len
+	local right_dividers = size - left_dividers - text_len
+
+	left_dividers = vim.fn.float2nr(left_dividers)
+
+	set_cursor_col(comment_len)
+	Normal('a' .. repeater(divider, left_dividers))
+	Normal('A' .. repeater(divider, right_dividers))
+end
+
+local commander = function(name, fn, ...)
+	local args = { ... }
+	vim.api.nvim_create_user_command(name,  function()
+		fn(unpack(args))
+	end, {})
+end
+
+commander('SmallSection', sectionize, 40, 0.5, '-', { '-> ', ' <-' })
+-- commander('BigSection', sectionize, 80, 0.5, '=', { '|=> ', ' <=|' })
+commander('BigSection', sectionize, 100, 0.5, '=', { '', '' })
+commander('OnelineSection', sectionize_oneline, 100, 0.5, '-', { '-', '-' })
