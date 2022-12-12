@@ -1,17 +1,5 @@
 local g = vim.g
 
-vim.api.nvim_create_autocmd('FileType', {
-	group = vim.api.nvim_create_augroup('VimwikiGroup', { clear = true }),
-	pattern = 'vimwiki',
-	callback = function()
-		vim.wo.winbar = ''
-		vim.wo.foldexpr = 'nvim_treesitter#foldexpr()'
-		Schedule(Exec, 'TSBufDisable highlight')
-	end,
-})
-
-vim.o.concealcursor = 'nc'
-
 -- g.vimwiki_ext2syntax = {'.md': 'markdown'}
 -- g.vimwiki_listsyms = ' ○◐●✓' " fancier todo checkmarks
 -- g.vimwiki_listsyms = '✗○◐●✓' " fancier todo checkmarks
@@ -23,9 +11,8 @@ g.vimwiki_diary_header = 'Daily Log'
 g.vimwiki_diary_index = 'daily_log'
 g.vimwiki_diary_rel_path = 'daily_log/'
 g.vimwiki_dir_link = 'main'
-g.vimwiki_filetypes = {}
---  g.vimwiki_filetypes = ['markdown']
---  g.vimwiki_folding = 'list:quick'
+-- g.vimwiki_filetypes = {'markdown'}
+-- g.vimwiki_folding = 'list:quick'
 g.vimwiki_folding = 'custom'
 g.vimwiki_hl_cb_checked = 1
 g.vimwiki_hl_headers = 0

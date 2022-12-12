@@ -130,8 +130,8 @@ possession.setup {
 	},
 	plugins = {
 		close_windows = {
-			-- hooks = { 'before_load' },
-			hooks = {},
+			hooks = { 'before_load' },
+			-- hooks = {},
 			preserve_layout = false, -- or fun(win): boolean
 			match = {
 				floating = false,
@@ -142,7 +142,7 @@ possession.setup {
 					local win_conf = vim.api.nvim_win_get_config(win)
 					-- P(win_conf)
 					-- if vim.bo.filetype == 'alpha' then Exec('Bdelete') end
-					print('close window:', vim.bo.buftype, vim.bo.filetype)
+					-- print('close window:', vim.bo.buftype, vim.bo.filetype)
 				end, -- or fun(win): boolean
 				-- i could make a custom function to not close vimwiki buffers
 			},
