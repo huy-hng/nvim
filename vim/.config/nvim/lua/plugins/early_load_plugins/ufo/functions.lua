@@ -47,10 +47,12 @@ M.fold_text_handler = function(virtText, lnum, endLnum, width, truncate)
 	local curWidth = 0
 	for _, chunk in ipairs(virtText) do
 		local chunkText = chunk[1]
-		if chunkText == '\t' then
-			chunk[1] = vim.fn.substitute(chunkText , '\t', '▏   ', 'g')
+
+		chunk[1] = vim.fn.substitute(chunkText, '\t', '▏   ', 'g')
+		if string.find(chunkText, '\t') then
 			chunk[2] = 'Whitespace'
 		end
+
 		local chunkWidth = vim.fn.strdisplaywidth(chunkText)
 		if targetWidth > curWidth + chunkWidth then
 			table.insert(newVirtText, chunk)
@@ -89,6 +91,101 @@ M.inspectVirtTextForFoldedLines = function()
 		return virtText
 	end
 	return fold_virt_text_handler
+end
+
+M.set_keymaps = function(bufnr)
+	local ufomap = PrefixMap('n', '', '[UFO]', { buffer = bufnr })
+
+	ufomap('[f', M.goPreviousClosedAndPeek, 'go to previous fold and peek')
+	ufomap(']f', M.goNextClosedAndPeek, 'go to next fold and peek')
+
+	ufomap('zR', ufo.openAllFolds, 'open all folds')
+	ufomap('zM', ufo.closeAllFolds, 'close all folds')
+
+	-- ufomap('z;', ufo.goPreviousStartFold, 'inspect')
+	ufomap('zX', { M.applyFoldsAndThenCloseAllFolds, 'treesitter' }, 'Apply and close folds')
+
+	-- ufomap('zr', ufo.openFoldsExceptKinds, 'open folds except kinds')
+	-- ufomap('zm', ufo.closeFoldsWith, 'close folds with') -- closeAllFolds == closeFoldsWith(0)
+
+	ufomap('K', M.peekOrHover, 'peek or hover')
+end
+
+-----------------------------------------providerSelector-------------------------------------------
+
+--- if you prefer treesitter provider rather than lsp,
+--- return ftMap[filetype] or {'treesitter', 'indent'}
+M.selectProviderWithFt = function()
+	local ftMap = {
+		vim = 'indent',
+		python = { 'indent' },
+		git = '',
+	}
+	require('ufo').setup {
+		provider_selector = function(bufnr, filetype, buftype)
+			-- return a table with string elements: 1st is name of main provider, 2nd is fallback
+			-- return a string type: use ufo inner providers
+			-- return a string in a table: like a string type above
+			-- return empty string '': disable any providers
+			-- return `nil`: use default value {'lsp', 'indent'}
+			-- return a function: it will be involved and expected return `UfoFoldingRange[]|Promise`
+
+			-- if you prefer treesitter provider rather than lsp,
+			-- return ftMap[filetype] or {'treesitter', 'indent'}
+			return ftMap[filetype]
+		end,
+	}
+end
+
+-- lsp->treesitter->indent
+M.selectProviderWithChainByDefault = function()
+	local ftMap = {
+		vim = 'indent',
+		python = { 'indent' },
+		git = '',
+	}
+
+	---@param bufnr number
+	---@return Promise
+	local function customizeSelector(bufnr)
+		local function handleFallbackException(err, providerName)
+			if type(err) == 'string' and err:match('UfoFallbackException') then
+				return require('ufo').getFolds(bufnr, providerName)
+			else
+				return require('promise').reject(err)
+			end
+		end
+
+		return require('ufo')
+			.getFolds(bufnr, 'lsp')
+			:catch(function(err) return handleFallbackException(err, 'treesitter') end)
+			:catch(function(err) return handleFallbackException(err, 'indent') end)
+	end
+
+	require('ufo').setup {
+		provider_selector = function(bufnr, filetype, buftype) return ftMap[filetype] or customizeSelector end,
+	}
+end
+
+M.selectProviderWithFunction = function()
+	---@param bufnr number
+	---@return UfoFoldingRange[]
+	local function customizeSelector(bufnr)
+		local res = {}
+		table.insert(res, { startLine = 1, endLine = 3 })
+		table.insert(res, { startLine = 5, endLine = 10 })
+		return res
+	end
+
+	local ftMap = {
+		vim = 'indent',
+		python = { 'indent' },
+		git = customizeSelector,
+	}
+
+	require('ufo').setup {
+		provider_selector = function(bufnr, filetype, buftype) return ftMap[filetype] end,
+	}
 end
 
 return M
