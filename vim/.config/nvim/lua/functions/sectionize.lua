@@ -8,9 +8,7 @@
 local status, comment = pcall(require, 'Comment.api')
 if not status then return end
 
-local function repeater(char, times)
-	return vim.fn['repeat'](char, times)
-end
+local function repeater(char, times) return vim.fn['repeat'](char, times) end
 
 local create_divider = function(size, divider)
 	comment.toggle.linewise.current(nil, {})
@@ -51,9 +49,7 @@ local function comment_and_length()
 	return line_len_after - line_len_before
 end
 
-local function set_cursor_col(col)
-	vim.fn.cursor { vim.fn.line('.'), col }
-end
+local function set_cursor_col(col) vim.fn.cursor { vim.fn.line('.'), col } end
 
 local function sectionize_oneline(size, location, divider, surround)
 	local comment_len = comment_and_length()
@@ -75,14 +71,7 @@ local function sectionize_oneline(size, location, divider, surround)
 	Normal('A' .. repeater(divider, right_dividers))
 end
 
-local commander = function(name, fn, ...)
-	local args = { ... }
-	vim.api.nvim_create_user_command(name,  function()
-		fn(unpack(args))
-	end, {})
-end
-
-commander('SmallSection', sectionize, 40, 0.5, '-', { '-> ', ' <-' })
--- commander('BigSection', sectionize, 80, 0.5, '=', { '|=> ', ' <=|' })
-commander('BigSection', sectionize, 100, 0.5, '=', { '', '' })
-commander('OnelineSection', sectionize_oneline, 100, 0.5, '-', { '-', '-' })
+Commander('SmallSection', { sectionize, 80, 0.5, '-', { '-> ', ' <-' } })
+Commander('BigSection', { sectionize, 80, 0.5, '=', { '|=> ', ' <=|' } })
+Commander('BigSection', { sectionize, 100, 0.5, '=', { '', '' } })
+Commander('OnelineSection', { sectionize_oneline, 100, 0.5, '-', { '-', '-' } })
