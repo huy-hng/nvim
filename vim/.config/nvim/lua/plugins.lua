@@ -75,9 +75,7 @@ return packer.startup {
 		use {
 			'L3MON4D3/LuaSnip',
 			after = 'nvim-cmp',
-			config = function()
-				Prequire('plugins.snippets.init')
-			end,
+			config = function() Prequire('plugins.snippets.init') end,
 		} -- snippet engine
 		use { 'saadparwaiz1/cmp_luasnip', after = 'LuaSnip' } -- snippet completions
 
@@ -169,6 +167,19 @@ return packer.startup {
 		use('lunarvim/darkplus.nvim')
 
 		------------------------------------------User Interface--------------------------------------------
+		-- Packer
+		use {
+			'folke/noice.nvim',
+			-- requires = {
+			-- 	-- if you lazy-load any plugin below, make sure to add proper `module="..."` entries
+				'MunifTanjim/nui.nvim',
+			-- 	--   `nvim-notify` is only needed, if you want to use the notification view.
+			-- 	--   If not available, we use `mini` as the fallback
+			-- 	'rcarriga/nvim-notify',
+			-- },
+			after = 'nvim-cmp'
+		}
+
 		use('lukas-reineke/indent-blankline.nvim') -- indentation lines
 
 		-- use 'glepnir/dashboard-nvim'
@@ -224,7 +235,7 @@ return packer.startup {
 		-- use 'easymotion/vim-easymotion'
 
 		use('tpope/vim-obsession') -- save vim sessions
-		-- use { 'jedrzejboczar/possession.nvim', requires = { 'nvim-lua/plenary.nvim' } } -- save vim sessions
+		use { 'jedrzejboczar/possession.nvim', requires = { 'nvim-lua/plenary.nvim' } } -- save vim sessions
 		use('tpope/vim-fugitive') -- git stuff
 		use('tpope/vim-surround')
 		use('numToStr/Comment.nvim')
@@ -253,9 +264,7 @@ return packer.startup {
 	config = {
 		compile_path = vim.fn.stdpath('config') .. '/lua/plugins/packer_compiled.lua',
 		display = {
-			open_fn = function()
-				return require('packer.util').float { border = 'rounded' }
-			end,
+			open_fn = function() return require('packer.util').float { border = 'rounded' } end,
 		},
 		profile = {
 			enable = true,
