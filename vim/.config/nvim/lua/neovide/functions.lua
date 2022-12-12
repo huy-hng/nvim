@@ -4,9 +4,10 @@ local g = vim.g
 
 M = {}
 
-local refresh_gui_font = function()
+local function refresh_gui_font()
 	vim.o.guifont = string.format('%s:h%s', vim.g.gui_font_face, vim.g.gui_font_size)
 end
+
 M.refresh_gui_font = refresh_gui_font
 
 M.resize_gui_font = function(delta)
@@ -37,14 +38,17 @@ local function linear_distribution(beginning, ending, ratio)
 	return rounder((ending - beginning) * ratio)
 end
 
--- print(linear_distribution(0,67,0.5))
-
-M.change_window_opacity = function(delta, speed)
+M.change_window_opacity = function(value, speed, absolute)
 	speed = speed or 10
 	local max_winblend = 67
 	local max_pumblend = 50
 
-	local new_transparency = g.neovide_transparency + delta
+	local new_transparency
+	if absolute then
+		new_transparency = value
+	else
+		new_transparency = g.neovide_transparency + value
+	end
 	new_transparency = math.clamp(new_transparency, 0, 1)
 
 	local new_winblend = linear_distribution(0, max_winblend, new_transparency)

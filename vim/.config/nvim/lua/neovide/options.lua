@@ -1,12 +1,11 @@
+---------------------------------------------Variables----------------------------------------------
+
 local g = vim.g
 local go = vim.go
 local o = vim.o
 
+--------------------------------------------Appearence----------------------------------------------
 
-
---==============================================================================
---                             |=> Appearence <=|
---==============================================================================
 g.neovide_fullscreen = true
 
 -- g.neovide_refresh_rate = 60
@@ -23,18 +22,15 @@ g.neovide_floating_blur_amount_y = blur_amount
 g.gui_font_face = 'FiraCode Nerd Font'
 g.gui_font_face = 'CaskaydiaCove Nerd Font'
 
------------------------------------------
---             -> Sizes <-
------------------------------------------
+-----------------------------------------------Sizes------------------------------------------------
+
 g.neovide_scale_factor = 1.0
 g.gui_font_default_size = 11
 g.gui_font_size = g.gui_font_default_size
 
 g.neovide_underline_automatic_scaling = true
 
---==============================================================================
---                              |=> Behavior <=|
---==============================================================================
+---------------------------------------------Behavior-----------------------------------------------
 
 g.neovide_no_idle = false -- not sure if this helps with anything
 g.neovide_confirm_quit = true
@@ -45,9 +41,7 @@ g.neovide_hide_mouse_when_typing = true
 g.neovide_touch_deadzone = 100
 g.neovide_touch_drag_timeout = 0.3
 
---==============================================================================
---                               |=> Cursor <=|
---==============================================================================
+----------------------------------------------Cursor------------------------------------------------
 
 g.neovide_cursor_animation_length = 0.02
 g.neovide_cursor_trail_size = 0.2
@@ -55,9 +49,7 @@ g.neovide_cursor_animation_length = 0.03 -- 0.13
 g.neovide_cursor_trail_size = 0.5 -- 0.8
 g.neovide_cursor_antialiasing = true
 
---==============================================================================
---                             |=> Animation <=|
---==============================================================================
+---------------------------------------------Animation----------------------------------------------
 
 -- railgun | torpedo | pixiedust | sonicboom | ripple | wireframe
 g.neovide_cursor_vfx_mode = 'pixiedust'

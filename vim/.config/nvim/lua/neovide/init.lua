@@ -32,6 +32,10 @@ local function post_init()
 
 	g.neovide_transparency = g.neovide_default_transparency
 	functions.reset_gui_font()
+	functions.change_window_opacity(g.neovide_transparency, 0 , true)
 end
 
 post_init()
+
+-- turn off when multigrid is enabled since it causes lag for some reason
+-- Exec('TSContextDisable')
