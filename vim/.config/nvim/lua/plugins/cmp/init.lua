@@ -1,5 +1,4 @@
 local has_cmp, cmp = pcall(require, 'cmp')
--- print('has_cmp', has_cmp)
 if not has_cmp then return end
 
 local kind_icons = require('plugins.cmp.icons')
@@ -8,7 +7,6 @@ local compare = cmp.config.compare
 local compare_fn = R('plugins.cmp.compare')
 
 local has_luasnip, luasnip = pcall(require, 'luasnip')
--- print('has_luasnip', has_luasnip)
 
 cmp.setup {
 	snippet = {
@@ -94,11 +92,24 @@ cmp.setup {
 
 			function(entry1, entry2)
 				local normal1, normal2, better = compare_fn.base_comparer(entry1, entry2)
-				if not normal1 then return end
-				if not normal2 then return true end
-				return better
+				-- local better = compare_fn.base_comparer(entry1, entry2)
+				-- if not normal1 then return false end
+				-- if normal1 and not normal2 then return true end
+				if better and     normal1 and     normal2 then return end
+				if better and     normal1 and not normal2 then return end
+				if better and not normal1 and     normal2 then return false end
+				if better and not normal1 and not normal2 then return end
+
+				if not better and     normal1 and     normal2 then return end
+				if not better and     normal1 and not normal2 then return true end
+				if not better and not normal1 and     normal2 then return end
+				if not better and not normal1 and not normal2 then return end
+
+				-- return better
 			end,
+
 			compare.score,
+			compare.order,
 		},
 	},
 	confirm_opts = {
@@ -128,7 +139,7 @@ cmp.setup.filetype('gitcommit', {
 cmp.setup.cmdline({ '/', '?' }, {
 	mapping = cmp.mapping.preset.cmdline(),
 	sources = {
-		{ name = 'cmdline_history' },
+		-- { name = 'cmdline_history' },
 		{ name = 'nvim_lsp_document_symbol' },
 		{ name = 'buffer' },
 	},
@@ -139,20 +150,20 @@ cmp.setup.cmdline(':', {
 	mapping = cmp.mapping.preset.cmdline(),
 	sources = cmp.config.sources({
 		{ name = 'cmdline' },
-		{ name = 'cmdline_history' },
+		-- { name = 'cmdline_history' },
 		{ name = 'path' },
 	}, {}),
 	-- completion = { autocomplete = false },
 	formatting = {
 		fields = { 'kind', 'abbr', 'menu' },
-		format = function(entry, vim_item)
-			local icon = kind_icons[vim_item.kind]
-			if entry.source.name == 'cmdline_history' then icon = kind_icons[entry.source.name] end
-			vim_item.kind = string.format('%s', icon)
-			vim_item.menu = ({
-				cmdline_history = '[History]',
-			})[entry.source.name]
-			return vim_item
-		end,
+		-- format = function(entry, vim_item)
+		-- 	local icon = kind_icons[vim_item.kind]
+		-- 	if entry.source.name == 'cmdline_history' then icon = kind_icons[entry.source.name] end
+		-- 	vim_item.kind = string.format('%s', icon)
+		-- 	vim_item.menu = ({
+		-- 		cmdline_history = '[History]',
+		-- 	})[entry.source.name]
+		-- 	return vim_item
+		-- end,
 	},
 })

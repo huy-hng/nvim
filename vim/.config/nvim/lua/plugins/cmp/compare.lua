@@ -80,7 +80,12 @@ M.base_comparer = function(entry1, entry2)
 	local normal1 = is_normal(item_name1)
 	local normal2 = is_normal(item_name2)
 
-	local better = (entry1.id - entry2.id) < 0
+
+	local better
+	local diff = entry1.id - entry2.id
+	if diff < 0 then better = true end
+
+	-- local better = (entry1.id - entry2.id) < 0
 	return normal1, normal2, better
 end
 
