@@ -1,212 +1,222 @@
--- vim.api.nvim_create_augroup("filetypes", { clear = true })
--- vim.api.nvim_create_autocmd({ 'BufNewFile', 'BufRead' }, {
--- 	pattern = {
--- 		'*.env',
--- 		'*.profile',
--- 		'*.rc',
--- 		'*.login',
--- 		'*.logout',
--- 		-- '*.',
--- 	},
--- 	callback = vim.opt_local.filetype(), -- Or myvimfun
--- })
+---@diagnostic disable: lowercase-global
+-- autocmd(event, pattern, {cmd: string}|{fn: fn|table}, {*opts})
+-- autocmd(event, nil, cmd|fn, {*opts})
+-- autocmd(event, nil, cmd|fn)
+-- autocmd(event, cmd|fn) <-- works only when the third argument is empty
+function autocmd(events, pattern, command, opts)
+	-- group: string | integer
+	-- callback: fn | command: string
+	-- pattern: string | array
+	-- buffer: int
+	-- desc: string
+	-- once: bool
+	-- nested: bool
+	opts = opts or {}
 
--- vim.api.nvim_create_autocmd('CmdwinEnter', {
--- 	group = vim.api.nvim_create_augroup('CMDwin', { clear = true }),
--- 	callback = function()
--- 		nmap('<esc>', CMD('q'))
--- 		vim.api.nvim_command('TSContextDisable')
--- 	end,
--- })
+	if command == nil then
+		command = pattern
+		pattern = nil
+	end
 
-vim.api.nvim_create_autocmd({ 'WinEnter', 'WinNew' }, {
-	group = vim.api.nvim_create_augroup('Test', { clear = true }),
-	callback = function(data)
+	if type(command) == 'string' then
+		opts.command = command
+	elseif type(command) == 'table' then
+		opts.callback = ExtractFnFromTable(command)
+	else
+		opts.callback = command
+	end
+
+	opts.pattern = pattern
+	return { events, opts }
+end
+
+function create_autocmd(group, cmd)
+	cmd[2].group = group
+	vim.api.nvim_create_autocmd(cmd[1], cmd[2])
+end
+
+function nested_autocmd(data, events, pattern, command, opts)
+	local cmd = autocmd(events, pattern, command, opts)
+	create_autocmd(data.group, cmd)
+end
+
+function augroup(name, clear, autocmds)
+	local group = vim.api.nvim_create_augroup(name, { clear = clear })
+	for _, cmd in ipairs(autocmds) do
+		create_autocmd(group, cmd)
+	end
+end
+
+vim.o.updatetime = 2000
+local function renu(on)
+	return function()
+		if not vim.o.number then
+			vim.o.relativenumber = false
+			return
+		end
+
+		if on and not vim.o.relativenumber then
+			-- print(vim.o.relativenumber)
+			vim.o.relativenumber = true
+		elseif vim.o.relativenumber then
+			vim.o.relativenumber = false
+		end
+	end
+end
+
+augroup('renu', true, {
+	-- autocmd('CursorHold', renu(true)),
+	-- autocmd('CursorMoved', renu(false)),
+	-- autocmd('ModeChanged', renu(false)),
+})
+
+augroup('FileTypes', true, {
+	autocmd({ 'BufNewFile', 'BufRead' }, '*.tmux', 'set filetype=tmux'),
+	autocmd({ 'BufNewFile', 'BufRead' }, '*.vim', 'set filetype=vim'),
+	autocmd({ 'BufNewFile', 'BufRead' }, '*.ron', 'set filetype=rust'),
+	--stylua: ignore
+	autocmd({ 'BufNewFile', 'BufRead' }, { '*.env', '*.profile', '*.rc', '*.login', '*.logout'},
+		'set filetype=bash'), -- callback = vim.opt_local.filetype()
+})
+
+augroup('Testing', true, {
+	-- autocmd('BufAdd', { print, 'add' }),
+	-- autocmd('BufReadPre', { print, 'readpre' }),
+	-- autocmd('BufRead', { print, 'read' }),
+	-- autocmd('BufReadPost', { print, 'readpost' }),
+	-- autocmd('BufWinEnter', { print, 'winenter' }),
+	-- autocmd('BufEnter', { print, 'enter' }),
+	autocmd({ 'WinEnter', 'WinNew' }, function(data)
 		-- P(data)
 		local wins = vim.api.nvim_list_wins()
 		-- P(wins)
-	end,
+	end),
 })
 
-vim.api.nvim_create_autocmd({ 'BufEnter', 'BufAdd', 'BufNew', 'BufNewFile', 'BufWinEnter' }, {
-	group = vim.api.nvim_create_augroup('TS_FOLD_WORKAROUND', {}),
-	callback = function()
+augroup('TS_FOLD_WORKAROUND', false, {
+	autocmd({ 'BufEnter', 'BufAdd', 'BufNew', 'BufNewFile', 'BufWinEnter' }, function()
 		-- vim.o.foldexpr = 'nvim_treesitter#foldexpr()'
-	end,
+	end),
 })
 
 -- highlight yanked text
-vim.api.nvim_create_autocmd('TextYankPost', {
-	group = vim.api.nvim_create_augroup('AfterYank', { clear = true }),
-	callback = function()
-		vim.highlight.on_yank {
-			higroup = 'Visual',
-			-- on_visual = false
-			-- timeout = 50,
-		}
-	end,
+augroup('AfterYank', true, {
+	--stylua: ignore
+	autocmd( 'TextYankPost',
+		FN(vim.highlight.on_yank, { higroup = 'Visual', on_visual = false, timeout = 150 })
+	),
 })
 
-vim.api.nvim_create_autocmd('User', {
-	-- pattern = 'StartifyReady',
-	pattern = 'AlphaReady',
-	group = vim.api.nvim_create_augroup('alpha', { clear = true }),
-	callback = function()
-		vim.schedule(function()
-			vim.cmd.highlight('StatusLine guibg=bg')
-			vim.wo.statusline = ' '
-			vim.wo.winbar = ' '
-		end)
-	end,
+augroup('Vimwiki', true, {
+	autocmd('FileType', 'vimwiki', function()
+		require('cmp').setup.buffer { enabled = false }
+		vim.o.number = false
+		vim.o.relativenumber = false
+
+		vim.o.concealcursor = 'nc'
+		-- vim.wo.foldexpr = 'nvim_treesitter#foldexpr()'
+		-- Schedule(Exec, 'TSBufDisable highlight')
+	end),
+
+	-- add date in vimwikiw
+	autocmd(
+		'BufNewFile',
+		'*/daily_log/[0-9]*.md',
+		[[0r !echo "= $(date -d '%:t:r' +'\%A, \%b \%d') =\n"]]
+	),
+
+	-- -- autocmd({ 'BufNewFile', 'BufEnter' }, '*.md', function(data)
+	-- -- 	local ft = vim.api.nvim_buf_get_option(data.buf, 'ft')
+	-- -- 	-- local foldexpr = vim.api.nvim_buf_get_option(data.buf, 'foldexpr')
+	-- -- 	if ft == 'vimwiki' then
+	-- -- 		vim.wo.foldexpr = 'nvim_treesitter#foldexpr()'
+	-- -- 		Exec('TSBufDisable highlight')
+	-- -- 		-- Schedule(Exec, 'TSBufDisable highlight')
+	-- -- 	end
+	-- -- end),
 })
 
-----------------------------------------
---         -> Line Number <-
-----------------------------------------
-local ln_group = vim.api.nvim_create_augroup('renu', { clear = true })
-vim.api.nvim_create_autocmd('CursorMoved', {
-	group = ln_group,
-	callback = function()
-		if vim.o.relativenumber then vim.o.relativenumber = false end
-	end,
+augroup('CommandlineWindow', true, {
+	autocmd('CmdwinLeave', function() Exec('TSContextEnable') end),
+	autocmd('CmdwinEnter', function()
+		local opts = { buffer = true }
+		nmap('<esc>', vim.cmd.quit, '', opts)
+		-- nmap('<esc>', '<cmd>q<CR>', '', opts)
+		nmap(';', ':', '', opts)
+		Exec('TSContextDisable')
+	end),
+
+	autocmd('CmdlineEnter', function() vim.o.cmdheight = 1 end),
+	autocmd('CmdlineLeave', function(data)
+		vim.o.cmdheight = 0
+
+		-- if vim.v.event.abort then
+		-- 	vim.o.cmdheight = 0
+		-- 	return
+		-- end
+		-- Defer(4000, function() vim.o.cmdheight = 0 end)
+	end),
 })
 
-vim.api.nvim_create_autocmd('CursorHold', {
-	group = ln_group,
-	callback = function()
-		if not vim.o.relativenumber and vim.o.number then
-			vim.o.relativenumber = true
-		else
-			vim.o.relativenumber = false
-		end
-	end,
+augroup('AutoSource', true, {
+	-- autocmd('BufWritePost', '*.lua', 'so %'),
+	-- autocmd('BufWritePost', '*.lua', 'so $HOME/.config/nvim/init.lua')
 })
 
 vim.cmd([[
 set autoread
 
-augroup Python
-	autocmd FileType python nnoremap <buffer> <A-m> <cmd>!python %<CR>
-augroup END
-
-
 ":h cmdwin
-function! CommandWindowCollapse(collapse=0)
-	augroup CommandlineWindow 
-		autocmd!
-		
-		autocmd CmdwinEnter * nnoremap <buffer> <ESC> <cmd>q<CR>
-		autocmd CmdwinEnter * nnoremap <buffer> ; :
-		autocmd CmdwinEnter * TSContextDisable
-		autocmd CmdwinLeave * TSContextEnable
-		autocmd CmdlineEnter * set cmdheight=1
-		autocmd CmdlineLeave * set cmdheight=0
-		" autocmd CmdwinEnter [/?]  startinsert
-	augroup END
-	if (a:collapse == 1)
-		autocmd! CommandlineWindow
-		set cmdheight=1
-	endif
-endfunction
+" function! CommandWindowCollapse(collapse=0)
+" 	augroup CommandlineWindow 
+" 		autocmd!
+" 		
+" 		autocmd CmdwinEnter * nnoremap <buffer> <ESC> <cmd>q<CR>
+" 		autocmd CmdwinEnter * nnoremap <buffer> ; :
+" 		autocmd CmdwinEnter * TSContextDisable
+" 		autocmd CmdwinLeave * TSContextEnable
+" 		autocmd CmdlineEnter * set cmdheight=1
+" 		autocmd CmdlineLeave * set cmdheight=0
+" 		" autocmd CmdwinEnter [/?]  startinsert
+" 	augroup END
+" 	if (a:collapse == 1)
+" 		autocmd! CommandlineWindow
+" 		set cmdheight=1
+" 	endif
+" endfunction
 
-call CommandWindowCollapse(0)
-
-augroup DisableCompletion
-	autocmd!
-	" change to vimwiki TODO
-	autocmd FileType vimwiki lua require('cmp').setup.buffer {enabled = false}
-	autocmd FileType vimwiki setlocal nonu nornu
-	autocmd BufNewFile,BufEnter *.md call LineNumbers(0)
-augroup END
+" call CommandWindowCollapse(0)
 
 augroup somegroup
 	autocmd!
-	" autocmd TabNewEntered * Startify
+
 
 	" Set to auto read when a file is changed from the outside
 	" autocmd FocusGained,BufEnter,CursorHold,CursorHoldI * if mode() != 'c' | checktime | endif
 
 	" Return to last edit position when opening files
 	autocmd BufReadPost * if line("'\"") > 1 && line("'\"") <= line("$") | exe "normal! g'\"" | endif
-
-	" autocmd BufEnter * if &filetype == 'help' | set conceallevel=0 | else | set conceallevel=2 | endif
 augroup END
-
-
-augroup Testing
-	autocmd!
-	" doesnt happen for startup
-	" autocmd BufAdd * :echo 'add'
-	" autocmd BufReadPre * :echo 'readpre'
-	" autocmd BufRead * :echo 'read'
-	" autocmd BufReadPost * :echo 'readpost'
-	" autocmd BufWinEnter * :echo 'winenter'
-	" autocmd BufEnter * :echo 'enter'
-augroup END
-
-
 
 augroup NoComment
 	autocmd!
-
 	autocmd BufEnter * :set formatoptions-=cro
 	autocmd InsertEnter * :set formatoptions-=cro
 	autocmd InsertLeave * :set formatoptions-=cro
 augroup END
 
-function! LineNumbers(show=1)
-	augroup line_numbers
-		autocmd!
-		
-		" autocmd InsertEnter * set norelativenumber
-		" autocmd InsertLeave * set relativenumber
-		" autocmd CursorHold * set relativenumber
-		" autocmd CursorMoved * set norelativenumber
-		" if &rnu == 'relativenumber' | exe "normal! g'\"" | endif
-	augroup END
-	if (a:show == 0)
-		autocmd! line_numbers
-	endif
-endfunction
-" call LineNumbers()
 
+" augroup filetypes
+" 	autocmd!
+" 	autocmd BufNewFile,BufRead *.env     set filetype=bash
+" 	autocmd BufNewFile,BufRead *.profile set filetype=bash
+" 	autocmd BufNewFile,BufRead *.rc      set filetype=bash
+" 	autocmd BufNewFile,BufRead *.login   set filetype=bash
+" 	autocmd BufNewFile,BufRead *.logout  set filetype=bash
 
-augroup filetypes
-	autocmd!
-	autocmd BufNewFile,BufRead *.env     set filetype=bash
-	autocmd BufNewFile,BufRead *.profile set filetype=bash
-	autocmd BufNewFile,BufRead *.rc      set filetype=bash
-	autocmd BufNewFile,BufRead *.login   set filetype=bash
-	autocmd BufNewFile,BufRead *.logout  set filetype=bash
+" 	autocmd BufNewFile,BufRead *.tmux    set filetype=tmux
+" 	autocmd BufNewFile,BufRead *.vim     set filetype=vim
 
-	autocmd BufNewFile,BufRead *.tmux    set filetype=tmux
-	autocmd BufNewFile,BufRead *.vim     set filetype=vim
-
-	autocmd BufNewFile,BufRead *.ron     set filetype=rust
-
-
-augroup END
-
-augroup filestuff
-	autocmd!
-	" reload vim when vim/lua files are saved
-	" autocmd BufWritePost *.vim,*.lua :so %
-	" autocmd BufWritePost *.vim,*.lua :so $HOME/.config/nvim/init.lua
-	" autocmd BufWritePost *.vim,*.lua silent! exec "so $HOME/.config/nvim/init.vim"
-
-	" add date in vimwikiw
-	autocmd BufNewFile */daily_log/[0-9]*.md : 0r !echo "= $(date -d '%:t:r' +'\%A, \%b \%d') =\n"
-augroup END
-
-
-"augroup VimrcAuGroup
-"	autocmd!
-"	autocmd FileType vimwiki setlocal foldmethod=expr |
-"		\ setlocal foldenable | set foldexpr=VimwikiFoldLevelCustom(v:lnum)
-"augroup END
-
-
-" Plugins not listed here because of load order
-" Goyo
-
+" 	autocmd BufNewFile,BufRead *.ron     set filetype=rust
+" augroup END
 ]])
