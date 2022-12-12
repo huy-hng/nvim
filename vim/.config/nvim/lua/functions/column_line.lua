@@ -75,32 +75,15 @@ end
 
 -----------------------------------------------Setup------------------------------------------------
 
-local function create_autocmds()
-	local augroup = vim.api.nvim_create_augroup('VirtColumnAutogroup', { clear = true })
-
-	vim.api.nvim_create_autocmd(
-		{ 'FileChangedShellPost', 'TextChanged', 'TextChangedI', 'CompleteChanged', 'BufWinEnter' },
-		{
-			pattern = '*',
-			group = augroup,
-			callback = FN(refresh),
-		}
-	)
-
-	vim.api.nvim_create_autocmd({ 'VimEnter', 'SessionLoadPost' }, {
-		pattern = '*',
-		group = augroup,
-		callback = FN(refresh, true),
-	})
-
-	vim.api.nvim_create_autocmd('OptionSet', {
-		pattern = 'colorcolumn',
-		group = augroup,
-		callback = FN(refresh),
-	})
-end
-
-create_autocmds()
-
--- local start = os.clock()
--- print(string.format('elapsed time: %.2f\n', os.clock() - start))
+augroup('ColumnLine', true, {
+	autocmd('OptionSet', 'colorcolumn', FN(refresh)),
+	autocmd({
+		'FileChangedShellPost',
+		'TextChanged',
+		'TextChangedI',
+		'CompleteChanged',
+		'BufWinEnter',
+		'VimEnter',
+		'SessionLoadPost',
+	}, '*', FN(refresh)),
+})
