@@ -1,7 +1,7 @@
 local has_lualine, lualine = pcall(require, 'lualine')
 if not has_lualine then return end
 
-local components = require('plugins.lualine.components')
+local comp = R('plugins.lualine.components')
 
 local has_cat, cat = pcall(require, 'lualine.themes.catppuccin')
 if not has_cat then return end
@@ -10,12 +10,6 @@ cat.normal.c.bg = 'bg'
 cat.inactive.a.bg = 'bg'
 cat.inactive.b.bg = 'bg'
 cat.inactive.c.bg = 'bg'
-
-local function session_name()
-	local has_session, session = pcall(require, 'possession.session')
-	if not has_session then return '' end
-	return ('  ' .. session.session_name) or '%#Error#NO SESSION'
-end
 
 lualine.setup {
 	options = {
@@ -40,11 +34,11 @@ lualine.setup {
 	},
 	sections = {
 		lualine_a = { 'mode' },
-		lualine_b = { components.branch, 'diff', 'diagnostics' },
-		lualine_c = { 'filename', session_name },
-		lualine_x = { 'searchcount', 'filetype' },
+		lualine_b = { comp.branch, 'diff', 'diagnostics' },
+		lualine_c = { 'filename', comp.session_name },
+		lualine_x = { 'searchcount', comp.indentation, comp.filetype},
 		lualine_y = { 'progress', 'location' },
-		lualine_z = { { 'os.date("%a")', icons_enabled = true, icon = '' }, 'os.date("%H:%M")' },
+		lualine_z = { comp.date, comp.time },
 	},
 	inactive_sections = {
 		lualine_a = {},
@@ -57,18 +51,18 @@ lualine.setup {
 	tabline = {
 		lualine_a = {},
 		lualine_b = {},
-		lualine_c = { components.bufferline },
+		lualine_c = { comp.bufferline },
 		-- lualine_c = {},
 		lualine_x = {},
 		lualine_y = {},
-		lualine_z = { components.tabs },
+		lualine_z = { comp.tabs },
 	},
 	winbar = {
-		lualine_c = { components.filename },
-		lualine_x = { components.symbols },
+		lualine_c = { comp.filename },
+		lualine_x = { comp.symbols },
 	},
 	inactive_winbar = {
-		lualine_c = { components.filename },
+		lualine_c = { comp.filename },
 	},
 	extensions = { 'nvim-tree', 'nvim-dap-ui', 'symbols-outline', 'quickfix' },
 }
@@ -81,9 +75,7 @@ lualine.setup {
 -- 	-- P(cmd)
 -- end
 
-function string.starts(String, Start)
-	return string.sub(String, 1, string.len(Start)) == Start
-end
+function string.starts(String, Start) return string.sub(String, 1, string.len(Start)) == Start end
 
 -- local groups = Exec('augroup')
 -- local split = vim.fn.split(groups, '  ')
