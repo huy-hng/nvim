@@ -1,13 +1,9 @@
 local function keep_column(action, change_line)
 	return function()
-		-- local pos = vim.fn.getcurpos()
-		-- local column = pos[5]
-		-- P(pos)
-
 		local column = vim.fn.col('.')
 		local line = vim.fn.line('.')
 
-		vim.api.nvim_command('normal! ' .. action)
+		Normal(action)
 
 		if change_line then
 			line = vim.fn.line('.')
@@ -62,8 +58,12 @@ nmap('yl', 'yl')
 -- icmap('<C-r', '<C-G>u<C-r>')
 
 -- copy current line above / below
-nmap('<A-J>', keep_column('yyp'))
-nmap('<A-K>', keep_column('yyP'))
+imap('<A-K>', keep_column('yyPi',true ))
+imap('<A-J>', keep_column('yypi',true ))
+
+nmap('<A-J>', keep_column('yyp', true))
+nmap('<A-K>', keep_column('yyP', true))
+
 vmap('<A-J>', keep_column("Y'>p"))
 vmap('<A-K>', keep_column("Y'<P"))
 
