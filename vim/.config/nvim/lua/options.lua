@@ -17,8 +17,8 @@ o.winblend = 10
 o.pumblend = 10
 
 -- line numbers
-o.relativenumber = true -- show relative line numbers
-o.number = true -- shows absolute line number on cursor line (when relative number is on)
+go.relativenumber = false -- show relative line numbers
+go.number = true -- shows absolute line number on cursor line (when relative number is on)
 
 -- cursor line
 o.cursorline = true -- highlight the current cursor line
@@ -42,10 +42,10 @@ o.foldlevelstart = 99 -- find a way to get the highest possible folds in a file 
  -- find a way to get the highest possible folds in a file and set it to it
 go.foldcolumn = 'auto:4'
 -- go.foldcolumn = '1'
-go.foldclose = '' -- set to 'all' to close folds after cursor leaves
-go.foldminlines = 2
-go.foldmethod = 'expr'
--- go.foldexpr = 'nvim_treesitter#foldexpr()'
+o.foldclose = '' -- set to 'all' to close folds after cursor leaves
+o.foldminlines = 1
+o.foldmethod = 'expr'
+o.foldexpr = 'nvim_treesitter#foldexpr()'
 
 ----------------------------------------------Editor------------------------------------------------
 go.cmdheight = 0
@@ -101,18 +101,21 @@ go.timeoutlen = 300
 -- to edit with no text in visual block mode
 o.virtualedit = 'block'
 
--- tabs & indentation
-o.tabstop = 4 -- spaces for tabs (prettier default)
-o.shiftwidth = 4 -- spaces for indent width
--- o.expandtab = true -- expand tab to spaces
-o.autoindent = true -- copy indent from current line when starting new one
-o.smartindent = true
-o.smarttab = true
-
 -- show complete option popup
 -- go.completeopt = 'menu,menuone,noselect,preview'
 
--- line wrapping
+--------------------------------------------Indentation---------------------------------------------
+-- indentation width
+go.tabstop = 4 -- tab
+go.shiftwidth = 4 -- space
+
+go.expandtab = false -- false to use tabs, true for spaces
+
+go.autoindent = true -- copy indent from current line when starting new one
+go.smartindent = true
+go.smarttab = true
+
+---------------------------------------------Wrapping-----------------------------------------------
 o.wrap = false -- disable line wrapping
 o.showbreak = '--> ' -- prefix for soft-wrapped lines
 o.linebreak = true -- soft-wrap lines only at certain characters (see :help breakat)
@@ -128,7 +131,7 @@ o.smartcase = true -- if you include mixed case in your search, assumes you want
 o.incsearch = true
 
 o.hidden = true
-o.lazyredraw = true
+o.lazyredraw = false
 
 -- backspace
 -- o.backspace = 'indent,eol,start' -- allow backspace on indent, end of line or insert mode start position
@@ -143,7 +146,13 @@ o.splitbelow = true -- split horizontal window to the bottom
 opt.iskeyword:append("-") -- consider string-string as whole word
 go.swapfile = false
 o.undofile = true
+
+-----------------------------------------------Mouse------------------------------------------------
+
 o.mouse = 'a'
+o.mousemodel = 'extend'
+o.selectmode = 'mouse'
+
 -- No annoying sound on errors
 go.errorbells = false
 go.visualbell = false
@@ -179,9 +188,9 @@ function FoldText()
 	line = vim.fn.substitute(line, '    ', '', 'g')
 
 	local indent_level = vim.fn.indent(v.foldstart)
-    local indent = vim.fn['repeat'](' ', indent_level)
+	local indent = vim.fn['repeat'](' ', indent_level)
 
-    -- local sub = vim.fn.substitute(line, [[/*|*/|{{{\d\=]], '', 'g')
+	-- local sub = vim.fn.substitute(line, [[/*|*/|{{{\d\=]], '', 'g')
 	return indent .. line .. ' ---- ' .. line_num .. ' lines folded '
 end
 vim.o.foldtext = 'v:lua.FoldText()'
