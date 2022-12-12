@@ -14,7 +14,6 @@ local parsers = require('nvim-treesitter.parsers')
 local ft_to_parser = parsers.filetype_to_parsername
 -- ft_to_parser.someft = "python" -- the someft filetype will use the python parser and queries.
 -- local avail = parsers.available_parsers()
-parsers.filetype_to_parsername['vimwiki'] = 'markdown'
--- ft_to_parser['vimwiki.markdown'] = nil
+-- parsers.filetype_to_parsername['vimwiki'] = 'markdown'
 -- P(parsers)
 
