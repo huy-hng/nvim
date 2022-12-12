@@ -1,16 +1,5 @@
 ---@diagnostic disable: lowercase-global
 
--- refactor to somehwere else
--- returns a function that executes function
-function ExtractFnFromTable(rhs)
-	if type(rhs) ~= 'table' then return rhs end
-
-	local fn = table.remove(rhs, 1)
-	local args = rhs
-	return function()
-		fn(unpack(args))
-	end
-end
 
 local function bind(op, outer_opts)
 	outer_opts = outer_opts or {

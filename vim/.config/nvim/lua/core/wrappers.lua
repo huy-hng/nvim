@@ -66,8 +66,18 @@ function Schedule(fn, ...)
 	end)
 end
 
+function ExtractFnFromTable(rhs)
+	if type(rhs) ~= 'table' then return rhs end
+
+	local fn = table.remove(rhs, 1)
+	local args = rhs
+	return function()
+		fn(unpack(args))
+	end
+end
+
 function Commander(name, command, opts)
-	if type(command) == 'table' then command = ExtractFnFromTable() end
+	if type(command) == 'table' then command = ExtractFnFromTable(command) end
 	vim.api.nvim_create_user_command(name, command, opts or {})
 end
 
