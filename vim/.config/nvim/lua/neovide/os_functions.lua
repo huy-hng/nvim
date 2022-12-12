@@ -1,8 +1,6 @@
 ---@diagnostic disable: param-type-mismatch
 
 local g = vim.g
-local go = vim.go
-local o = vim.o
 
 M = {}
 
@@ -48,8 +46,15 @@ M.animate_transparency_change = function(neovide_transparency, winblend, pumblen
 	neovide_transparency = neovide_transparency or g.neovide_default_transparency
 	local duration = speed or 500
 
-	o.winblend = winblend
-	o.pumblend = pumblend
+	-- o.winblend = winblend
+	vim.go.pumblend = pumblend
+
+	for _, winnr in ipairs(vim.api.nvim_list_wins()) do
+		vim.api.nvim_win_set_option(winnr, 'winblend', winblend)
+	end
+
+	-- vim.cmd.windo('set winblend=' .. winblend)
+	-- vim.cmd.windo('set pumblend=' .. pumblend)
 
 	local step_size = 0.01
 	local diff = math.abs(neovide_transparency - g.neovide_transparency)
