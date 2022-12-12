@@ -1,6 +1,6 @@
 local lspconfig = require('lspconfig')
 
-local servers = {
+local language_servers = {
 	'jsonls',
 	'sumneko_lua',
 	'pyright',
@@ -13,14 +13,14 @@ local lsp_flags = {
 }
 
 local opts = {
-	on_attach = require('lsp.handlers').on_attach,
-	capabilities = require('lsp.handlers').capabilities,
+	on_attach = require('lsp.keymaps').on_attach,
+	capabilities = require('lsp.capabilities'),
 	flags = lsp_flags,
 }
 
-for _, server in pairs(servers) do
+for _, server in ipairs(language_servers) do
 	local has_custom_opts, server_custom_opts = pcall(require, 'lsp.servers.' .. server)
-	if has_custom_opts then
+	if has_custom_opts then --
 		opts = vim.tbl_deep_extend('force', opts, server_custom_opts)
 	end
 	lspconfig[server].setup(opts)

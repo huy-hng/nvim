@@ -1,12 +1,8 @@
----@diagnostic disable: missing-parameter
-
 local debug = false
 
 local M = {}
 
-local function handler(name, fn, config)
-	vim.lsp.handlers[name] = vim.lsp.with(fn, config)
-end
+local function handler(name, fn, config) vim.lsp.handlers[name] = vim.lsp.with(fn, config) end
 
 -- local function max_window_size()
 -- 	local width = vim.api.nvim_win_get_width(0)
@@ -81,6 +77,8 @@ handler('textDocument/hover', function(_, result, ctx, lsp_config)
 
 	local content = vim.fn.split(result.contents.value, '\n')
 	local line_lengths = vim.tbl_map(string.len, content)
+
+	if vim.tbl_isempty(line_lengths) then line_lengths = { 1 } end
 	local content_width = math.max(unpack(line_lengths))
 
 	local max_window_width, max_window_height = max_window_size()
@@ -89,9 +87,10 @@ handler('textDocument/hover', function(_, result, ctx, lsp_config)
 		lsp_config.wrap_at = math.min(content_width, max_window_width)
 	end
 
-	lsp_config.border = 'rounded'
-	local _--[[ bufnr ]], winnr = vim.lsp.handlers.hover(_, result, ctx, lsp_config)
+	-- lsp_config.border = 'rounded'
+	local bufnr, winnr = vim.lsp.handlers.hover(_, result, ctx, lsp_config)
 	if winnr == nil then return end
+	require('lsp.keymaps').close_with_esc(winnr)
 
 	local win_config = vim.api.nvim_win_get_config(winnr)
 	-- P(win_config.height, win_config.width)
@@ -128,7 +127,7 @@ vim.lsp.handlers['textDocument/definition'] = function(_, result)
 	end
 end
 
-vim.lsp.handlers['window/showMessage'] = require('lsp.show_message')
+-- vim.lsp.handlers['window/showMessage'] = require('lsp.show_message')
 
 -- handler('textDocument/publishDiagnostics', vim.lsp.diagnostic.on_publish_diagnostics, {
 -- 	update_in_insert = true,
@@ -149,43 +148,6 @@ vim.lsp.handlers['window/showMessage'] = require('lsp.show_message')
 -- 	end
 -- 	illuminate.on_attach(client)
 -- end
-M.implementation = function()
-	local params = vim.lsp.util.make_position_params()
-
-	vim.lsp.buf_request(0, 'textDocument/implementation', params, function(err, result, ctx, config)
-		local bufnr = ctx.bufnr
-		local ft = vim.api.nvim_buf_get_option(bufnr, 'filetype')
-
-		-- In go code, I do not like to see any mocks for impls
-
-		vim.lsp.handlers['textDocument/implementation'](err, result, ctx, config)
-		vim.cmd([[normal! zz]])
-	end)
-end
-
--- if you want to set up formatting on save, you can use this as a callback
--- local augroup = vim.api.nvim_create_augroup('LspFormatting', {})
-local lsp_keymaps = require('lsp.keymaps')
-
-M.on_attach = function(client, bufnr)
-	-- autoformat on save
-	-- if client.supports_method 'textDocument/formatting' then
-	-- 	vim.api.nvim_clear_autocmds({ group = augroup, buffer = bufnr })
-	-- 	vim.api.nvim_create_autocmd('BufWritePre', {
-	-- 		group = augroup,
-	-- 		buffer = bufnr,
-	-- 		callback = function() lsp_formatting(bufnr) end,
-	-- 	})
-	-- end
-	-- TODO: refactor this into a method that checks if string in list
-	lsp_keymaps(bufnr)
-	-- lsp_highlight_document(client)
-end
-
-local capabilities = vim.lsp.protocol.make_client_capabilities()
-
-local has_cmp_lsp, cmp_nvim_lsp = pcall(require, 'cmp_nvim_lsp')
-if has_cmp_lsp then M.capabilities = cmp_nvim_lsp.default_capabilities(capabilities) end
 
 -- vim.lsp.util.open_floating_preview({'asd', 'asd2' })
 -- vim.lsp.util.preview_location()
