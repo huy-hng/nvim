@@ -1,5 +1,5 @@
-local has_indent, indent = pcall(require, 'indent_blankline')
-if not has_indent then return end
+-- local has_indent, indent = pcall(require, 'plugins.indent_blankline')
+-- if not has_indent then return end
 
 local active_color = '#7f849c'
 local inactive_color = '#45475a'
@@ -7,7 +7,7 @@ local inactive_color = '#45475a'
 vim.api.nvim_set_hl(0, 'IndentBlanklineChar', { fg = inactive_color })
 vim.api.nvim_set_hl(0, 'IndentBlanklineContextChar', { fg = active_color })
 vim.api.nvim_set_hl(0, 'IndentBlanklineContextStart', { sp = active_color, underline = true })
-indent.setup()
+-- indent.setup()
 
 local config = {
 	enabled = false,

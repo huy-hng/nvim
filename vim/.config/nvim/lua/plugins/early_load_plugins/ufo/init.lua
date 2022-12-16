@@ -1,7 +1,7 @@
 local has_ufo, ufo = pcall(R, 'ufo')
 if not has_ufo then return end
 
-local fn = R('plugins.early_load_plugins.ufo.functions')
+local fn = require('plugins.early_load_plugins.ufo.functions')
 
 --- ufo.closeFoldsWith(level)
 --- ufo.openFoldsExceptKinds(kinds)

@@ -13,6 +13,7 @@ M.peekOrHover = function()
 		-- 	vim.keymap.set('n', k, '<CR>' .. k, { noremap = false, buffer = bufnr })
 		-- end
 	else
+		-- Feedkeys('K')
 		vim.lsp.buf.hover()
 	end
 end
@@ -108,6 +109,9 @@ M.set_keymaps = function(bufnr)
 	-- ufomap('zr', ufo.openFoldsExceptKinds, 'open folds except kinds')
 	-- ufomap('zm', ufo.closeFoldsWith, 'close folds with') -- closeAllFolds == closeFoldsWith(0)
 
+	-- calls the function below. If it there is nothing to peek, then lsp.hover will be executed
+	-- which is defined in lsp.handlers. If the lsp doesnt provide anything, regular 'K' will be executed
+	-- which is the keywordprg option, defined in options.lua.
 	ufomap('K', M.peekOrHover, 'peek or hover')
 end
 

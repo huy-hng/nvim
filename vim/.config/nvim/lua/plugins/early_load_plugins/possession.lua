@@ -6,71 +6,71 @@ require('telescope').load_extension('possession')
 
 SHOULD_AUTOSAVE_SESSION = true
 PRINT_SESSION_ACTIONS = false
-
--- good autocommands:
--- not during startup:
---   BufAdd new buffer added to list
---   WinEnter: (good) after entering another window, not for the first window on startup
---   WinNew: (good) after creating a window, not for the first window on startup
-
--- BufDelete
--- BufEnter
--- BufLeave may be a less expensive BufEnter
--- BufWinEnter may also be a less expensive BufEnter
--- BufWinLeave before buffer is removed from a window
+MAX_SAVE_INTERVAL = 2 -- in seconds
+local last_save = os.time()
 
 local function print_messages(...)
-	if PRINT_SESSION_ACTIONS then print(unpack { ... }) end
+	if PRINT_SESSION_ACTIONS then Notify(unpack { ... }) end
 end
 
-local function stop_save()
+--- good autocommands:
+--- not during startup:
+---   BufAdd new buffer added to list
+---   WinEnter: (good) after entering another window, not for the first window on startup
+---   WinNew: (good) after creating a window, not for the first window on startup
+---
+--- BufDelete
+--- BufEnter
+--- BufLeave may be a less expensive BufEnter
+--- BufWinEnter may also be a less expensive BufEnter
+--- BufWinLeave before buffer is removed from a window
+local function save(data)
+	print_messages(data.event)
+	if data.event == 'CmdWinEnter' or vim.fn.mode() == 'c' then return end
+	-- if data.file == '' and data.match == '' then return end -- use this for BufAdd
+	local buftype = {
+		'acwrite',
+		'help',
+		'nofile',
+		'nowrite',
+		'quickfix',
+		'terminal',
+		'prompt',
+	}
+	-- dont save when entering floating window
+	if vim.api.nvim_win_get_config(0).relative ~= '' then return end
+
+	local new_save = os.time()
+	if new_save - last_save < MAX_SAVE_INTERVAL then return end
+	last_save = new_save
+	Schedule(commands.save, '', true)
+	-- commands.save('', true)
+end
+
+local function start_autosave_autocmd()
+	print_messages('Starting Autosave Session')
+	Augroup('AutosaveSession', {
+		Autocmd({ 'WinEnter', 'WinNew' }, save),
+	})
+end
+
+local function stop_autosave_autocmd()
 	print_messages('Stopping Autosave Session')
 	pcall(vim.api.nvim_del_augroup_by_name, 'AutosaveSession')
 end
 
-local function start_save()
-	print_messages('Starting Autosave Session')
-	local group = vim.api.nvim_create_augroup('AutosaveSession', { clear = true })
-
-	-- vim.api.nvim_create_autocmd('CmdwinEnter', {
-	-- 	group = group,
-	-- 	callback = function(data)
-	-- 		if
-	-- 	end
-	-- })
-	vim.api.nvim_create_autocmd({ 'WinEnter', 'WinNew', 'CmdWinEnter' }, {
-		group = group,
-		callback = function(data)
-			if data.event == 'CmdWinEnter' then return end
-			-- if data.file == '' and data.match == '' then return end -- use this for BufAdd
-			local buftype = {
-				'acwrite',
-				'help',
-				'nofile',
-				'nowrite',
-				'quickfix',
-				'terminal',
-				'prompt',
-			}
-			local win_conf = vim.api.nvim_win_get_config(0)
-			-- dont save when entering floating window
-			if win_conf.relative == '' then
-				-- Schedule(commands.save, '', true)
-				commands.save('', true)
-			end
-		end,
-	})
+local function reload_autosaver()
+	stop_autosave_autocmd()
+	start_autosave_autocmd()
 end
-
--- stop_save()
--- start_save()
+reload_autosaver()
 
 function AutosaveSession(save)
 	if save == false then
-		stop_save()
+		stop_autosave_autocmd()
 		return
 	end
-	if SHOULD_AUTOSAVE_SESSION then Schedule(start_save) end
+	if SHOULD_AUTOSAVE_SESSION then Schedule(start_autosave_autocmd) end
 end
 
 possession.setup {
@@ -152,9 +152,7 @@ possession.setup {
 				-- 'before_load',
 				-- vim.o.sessionoptions:match('buffer') and 'before_save',
 			},
-			force = function()
-				print('hiddenbuffer force:', vim.bo.buftype, vim.bo.filetype)
-			end, -- or fun(buf): boolean
+			force = function() print('hiddenbuffer force:', vim.bo.buftype, vim.bo.filetype) end, -- or fun(buf): boolean
 		},
 		nvim_tree = false,
 		-- tabby = false,
