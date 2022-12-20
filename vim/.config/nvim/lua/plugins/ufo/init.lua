@@ -1,7 +1,8 @@
 local has_ufo, ufo = pcall(R, 'ufo')
 if not has_ufo then return end
 
-local fn = require('plugins.early_load_plugins.ufo.functions')
+local fn = R('plugins.ufo.functions')
+local fold_text = R('plugins.ufo.fold_text_handler')
 
 --- ufo.closeFoldsWith(level)
 --- ufo.openFoldsExceptKinds(kinds)
@@ -19,6 +20,8 @@ ufo.setup {
 		local ftMap = {
 			help = '',
 			vimwiki = 'indent',
+			Outline = '',
+			norg = '',
 		}
 		if ftMap[filetype] ~= '' then --
 			fn.set_keymaps(bufnr)
@@ -31,8 +34,9 @@ ufo.setup {
 	open_fold_hl_timeout = 150,
 	close_fold_kinds = { 'imports', 'comment' },
 	-- close_fold_kinds = {},
-	fold_virt_text_handler = fn.fold_text_handler,
-	-- fold_virt_text_handler = fn.inspectVirtTextForFoldedLines(),
+	fold_virt_text_handler = fold_text.mark_copier,
+	-- fold_virt_text_handler = fold_text.fold_text_handler,
+	-- fold_virt_text_handler = fold_text.inspectVirtTextForFoldedLines,
 	enable_get_fold_virt_text = true,
 	preview = {
 		win_config = {
