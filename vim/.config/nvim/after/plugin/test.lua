@@ -1,0 +1,1 @@
+-- print('after/plugin/test.lua')

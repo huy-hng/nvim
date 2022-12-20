@@ -1,36 +1,23 @@
-local ls = require('luasnip')
-
-local snippet = ls.s
-local snippet_from_nodes = ls.sn
-
-local i = ls.insert_node
-local t = ls.text_node
-local d = ls.dynamic_node
-local c = ls.choice_node
-local f = ls.function_node
-
-local fmt = require('luasnip.extras.fmt').fmt
-local extras = require('luasnip.extras')
-local rep = extras.rep
+---@diagnostic disable: undefined-global
 
 -- local shared = R('tj.snips')
 local same = function(index)
-	return f(function(args)
-		return args[1]
-	end, { index })
+	return f(function(args) return args[1] end, { index })
 end
 
-local newline = function(text)
-	return t { '', text }
-end
+local newline = function(text) return t { '', text } end
 
 local require_var = function(args, _)
 	local text = args[1][1] or ''
+	text = text:gsub('-', '_')
 	local split = vim.split(text, '.', { plain = true })
 
 	local options = {}
 	for len = 0, #split - 1 do
-		table.insert(options, t(table.concat(vim.list_slice(split, #split - len, #split), '_')))
+		local sliced = vim.list_slice(split, #split - len, #split)
+		P(sliced)
+		P(table.concat(sliced, '_'))
+		table.insert(options, t(table.concat(sliced, '_')))
 	end
 
 	return snippet_from_nodes(nil, {
@@ -50,7 +37,17 @@ local function requirefolder(--[[ args, parent, user_args ]])
 end
 
 return {
+	snippet('ifreturn', t('if true then return end')),
+	snippet('cast', t('---@cast ')),
 	snippet('ignore', t('--stylua: ignore')),
+
+	--stylua: ignore
+	snippet('iftype', fmt([[
+	if type({}) == '{}' then
+		{}
+	end
+	{}
+	]], { i(1), i(2), i(3), i(4) })),
 
 	-- snippet('lf', {
 	-- 	desc = 'table function',
@@ -67,7 +64,7 @@ return {
 	-- TODO: I don't know how I would like to set this one up.
 	-- snippet('f', fmt('function({})\n  {}\nend', { i(1), i(0) })),
 
-	-- snippet('test', { 'mirrored: ', i(1), ' // ', same(1), ' | ', i(0) }),
+	snippet('test', { t('mirrored: '), i(1), t(' // '), same(1), t(' | '), i(0) }),
 
 	snippet(
 		'pcall',

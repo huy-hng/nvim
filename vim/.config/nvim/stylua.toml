@@ -1,4 +1,4 @@
 column_width = 100
 quote_style = 'AutoPreferSingle' # AutoPreferDouble, AutoPreferSingle, ForceDouble, ForceSingle
 call_parentheses = 'NoSingleTable' # Always, NoSingleString, NoSingleTable, None
-collapse_simple_statement = 'ConditionalOnly' # Never, FunctionOnly, ConditionalOnly, or Always
+collapse_simple_statement = 'Always' # Never, FunctionOnly, ConditionalOnly, or Always
