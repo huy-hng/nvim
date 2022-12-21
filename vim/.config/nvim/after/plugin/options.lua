@@ -1,0 +1,2 @@
+-- vim.go.winminheight = 1
+-- vim.go.winminwidth = 1

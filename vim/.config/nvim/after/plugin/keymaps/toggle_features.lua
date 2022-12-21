@@ -27,6 +27,9 @@ local function toggle_wrap()
 		vim.o.wrap = false
 		Nmap('j', 'j')
 		Nmap('k', 'k')
+		Nmap('0', 'g^')
+		Nmap('^', 'g0')
+		Nmap('$', 'g$')
 	else
 		echo('wrapping text')
 		vim.o.wrap = true

@@ -7,6 +7,13 @@ options.view.mappings.list = mappings
 
 nvim_tree.setup(options)
 
+local events = require('nvim-tree.events')
+
+-- with relative path
+events.on_file_created(function(file) vim.cmd.edit(file.fname) end)
+-- with absolute path
+-- events.on_file_created(function(file) vim.cmd.edit(vim.fn.fnamemodify(file.fname, ':p')) end)
+
 function NvimTreeFloat(enable)
 	-- toggle
 	if enable == nil then enable = not options.view.float.enable end
@@ -22,6 +29,6 @@ function NvimTreeFloat(enable)
 end
 
 local functions = require('plugins.tree.functions')
-nmap('<C-e>', functions.focus_tree, 'Toggle Nvim Tree')
-nmap('<A-E>', NvimTreeFloat, 'Toggle Nvim Tree')
+Nmap('<C-e>', functions.focus_tree, 'Toggle Nvim Tree')
+Nmap('<A-E>', NvimTreeFloat, 'Toggle Nvim Tree')
 -- nmap('<leader>e', functions.focus_tree, 'Toggle Nvim Tree')

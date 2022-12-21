@@ -3,7 +3,7 @@ Nmap('<C-CR>', 'g_', 'Go to end of line')
 ICmap('<C-BS>', { Feedkeys, '<C-w>' }, 'Delete Word')
 ICmap('<C-h>', '<C-w>', 'Delete Word')
 
-Nmap('<esc>', '<esc>', 'Escape / no highlight', { callback = vim.cmd.noh })
+Nmap('<esc>', '<esc>', 'Escape / no highlight', { callback = vim.cmd.noh, nowait = true })
 
 Commander(
 	'W',
@@ -12,8 +12,8 @@ Commander(
 )
 -- vim.api.nvim_create_user_command('W', "execute 'w !sudo tee >/dev/null %:p:S' | setl nomod", {})
 
--- nmap('<leader>w', { vim.api.nvim_exec, 'silent w', false }, 'Write File')
-Nmap('<leader>w', vim.cmd.write, 'Write File')
+Nmap('<leader>w', { vim.api.nvim_exec, 'silent w', false }, 'Write File')
+-- Nmap('<leader>w', vim.cmd.write, 'Write File')
 Nmap('<leader>q', QuitLastBuffer, 'Close Buffer')
 Nmap('<leader>Q', vim.cmd.quit, 'Quit')
 Nmap('<S-Space>Q', vim.cmd.quit, 'Quit')
@@ -32,12 +32,6 @@ Nmap('<A-m>', { Exec, 'w | ! %:p' }, 'Save and execute file')
 
 -- Nmap('<leader>x', '<cmd>!chmod u+x %<CR>', 'Make current file executable')
 Nmap('<leader>x', { Exec, '!chmod u+x %' }, 'Make current file executable')
-
-Nmap(
-	'<leader>ss',
-	[[:%s/\<<C-r><C-w>\>/<C-r><C-w>/gI<Left><Left><Left>]],
-	'Substitute word under cursor'
-)
 
 --==============================================================================
 --                              |=> Folding <=|
@@ -62,8 +56,10 @@ Nmap('zl', '10zl')
 -- nmap('<A-h>', '10zh')
 -- nmap('<A-l>', '10zl')
 
-Nmap('<C-d>', '<C-d>zz')
-Nmap('<C-u>', '<C-u>zz')
+Nmap('<C-d>', '<C-d>zzzz')
+Nmap('<C-u>', '<C-u>zzzz')
+Nmap('<C-d>', '<C-d>zzzz')
+Nmap('<C-u>', '<C-u>zzzz')
 
 -- Cursor movement in insert and command mode
 ICmap('<A-h>', { Feedkeys, '<Left>' })

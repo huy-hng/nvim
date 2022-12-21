@@ -70,9 +70,9 @@ g.db_ui_force_echo_notifications = 0 -- To force echoing messages to command lin
 
 local function focus_drawer()
 	if vim.bo.filetype == 'dbui' then
-		Exec('DBUIToggle')
+		vim.cmd.DBUIToggle()
 	else
-		Exec('DBUI')
+		vim.cmd.DBUI()
 	end
 end
 
@@ -90,11 +90,11 @@ vim.api.nvim_create_autocmd('FileType', {
 })
 
 local db_map = PrefixMap('n', '<leader>D', '[DB]')
-nmap('<C-S-D>', focus_drawer, 'Toggle Drawer')
-db_map('u', CMD('DBUIToggle'), 'Toggle Drawer')
-db_map('f', CMD('DBUIFindBuffer'), 'Find buffer in DBUI drawer')
-db_map('r', CMD('DBUIRenameBuffer'), 'Rename buffer or saved query')
-db_map('q', CMD('DBUILastQueryInfo'), 'Print last query and time')
-db_map('q', CMD('DBUIHideNotifications'), 'Hide all visible notifications')
+Nmap('<C-S-D>', focus_drawer, 'Toggle Drawer')
+db_map('u', vim.cmd.DBUIToggle, 'Toggle Drawer')
+db_map('f', vim.cmd.DBUIFindBuffer, 'Find buffer in DBUI drawer')
+db_map('r', vim.cmd.DBUIRenameBuffer, 'Rename buffer or saved query')
+db_map('q', vim.cmd.DBUILastQueryInfo, 'Print last query and time')
+db_map('q', vim.cmd.DBUIHideNotifications, 'Hide all visible notifications')
 
 return M

@@ -1,13 +1,17 @@
 local status, wk = pcall(require, 'which-key')
 if not status then return end
 
--- wk.register { ['<leader>l'] = { name = 'LSP' } }
+----------------------------------------------Labels------------------------------------------------
+
+wk.register { ['<leader>w'] = { name = 'Vimwiki' } }
 wk.register { ['<leader>b'] = { name = 'Buffers' } }
 wk.register { ['<leader>f'] = { name = 'Telescope' } }
 wk.register { ['<leader>D'] = { name = 'Database' } }
 wk.register { ['<leader>d'] = { name = 'NeoTest' } }
 wk.register { ['<leader>a'] = { name = 'Harpon' } }
 wk.register { ['<leader>t'] = { name = 'Tabs' } }
+
+------------------------------------------Window Commands-------------------------------------------
 
 wk.register {
 	['<C-w>'] = {
@@ -33,7 +37,6 @@ wk.register {
 	},
 }
 
-
 local function example()
 	-- As an example, we will create the following mappings:
 	--  * <leader>ff find files
@@ -53,9 +56,7 @@ local function example()
 			e = 'Edit File', -- same as above
 			['1'] = 'which_key_ignore', -- special label to hide it in the popup
 			b = {
-				function()
-					print('bar')
-				end,
+				function() print('bar') end,
 				'Foobar',
 			}, -- you can also pass functions!
 		},

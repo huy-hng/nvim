@@ -2,12 +2,13 @@ local M = {}
 
 function M.set_width(width, bufnr)
 	if not width then return end
-	BO(bufnr, 'tabstop', width)
-	BO(bufnr, 'shiftwidth', width)
+	bufnr = bufnr or 0
+	vim.bo[bufnr].tabstop = width
+	vim.bo[bufnr].shiftwidth = width
 end
 
 local function set_indent_type(expand, width, bufnr)
-	BO(bufnr, 'expandtab', expand)
+	vim.bo[bufnr or 0].expandtab = expand
 	M.set_width(width, bufnr)
 end
 
@@ -20,7 +21,7 @@ function M.set_spaces(width, bufnr)
 end
 
 function M.toggle_indent_type(bufnr)
-	local expand = not BO(bufnr, 'expandtab')
+	local expand = not vim.bo[bufnr or 0].expandtab
 	set_indent_type(expand, nil, bufnr)
 end
 

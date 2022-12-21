@@ -16,7 +16,7 @@ alpha.keymaps_element.button = function(el, conf, state)
 	end
 end
 
-nmap('<leader>S', { alpha.start, false }, 'Open Start Screen')
+Nmap('<leader>S', { alpha.start, false }, 'Open Start Screen')
 
 -- alpha.setup(multi_column)
 
@@ -58,7 +58,8 @@ end
 dashboard.section.header.val = header
 
 dashboard.section.buttons.val = {
-	dashboard.button('e', '  New file', ':ene <BAR> startinsert <CR>'),
+	-- dashboard.button('e', '  New file', ':enew <BAR> startinsert <CR>'),
+	dashboard.button('e', '  New file', '<cmd>enew<cr>'),
 	dashboard.button('q', '  Quit NVIM', QuitLastBuffer),
 }
 

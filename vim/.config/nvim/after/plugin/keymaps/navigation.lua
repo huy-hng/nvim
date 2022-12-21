@@ -1,7 +1,3 @@
--- folding shortcuts
-Nmap('<A-l>', Wrap(pcall, vim.cmd.foldopen))
-Nmap('<A-h>', Wrap(pcall, vim.cmd.foldclose))
-
 ----------------------------------------------Windows-----------------------------------------------
 -- Move between windows
 Nmap('<C-h>', Wrap(vim.cmd.wincmd, 'h'))
@@ -38,3 +34,9 @@ Nmap('<leader>l', vim.cmd.tabnext, 'Next Tab')
 -- nmap('<C-j>', '<cmd>cprev<CR>zz')
 -- nmap('<leader>k', '<cmd>lnext<CR>zz')
 -- nmap('<leader>j', '<cmd>lprev<CR>zz')
+
+-----------------------------------------Fold Navigation Mode---------------------------------------
+-- folding shortcuts
+Nmap('<A-h>', Wrap(pcall, vim.cmd.foldclose))
+Nmap('<A-l>', Wrap(pcall, vim.cmd.foldopen))
+

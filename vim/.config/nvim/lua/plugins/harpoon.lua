@@ -1,7 +1,5 @@
 local status, harpoon = pcall(require, 'harpoon')
-if not status then
-	return
-end
+if not status then return end
 
 harpoon.setup {
 	save_on_toggle = false,
@@ -41,18 +39,14 @@ local harpoon_ui = require('harpoon.ui')
 local harpoon_mark = require('harpoon.mark')
 local harpoon_term = require('harpoon.term')
 
-local prefix = '<leader>a'
-nmap(prefix .. 'h', harpoon_ui.toggle_quick_menu, 'Open Harpoon')
-nmap(prefix .. 'a', harpoon_mark.add_file, 'Add file')
-nmap(prefix .. 'c', require('harpoon.cmd-ui').toggle_quick_menu, '')
+local harpoonmap = PrefixMap('n', '<leader>a', '[Harpoon]')
+harpoonmap('h', harpoon_ui.toggle_quick_menu, 'Open Harpoon')
+harpoonmap('a', harpoon_mark.add_file, 'Add file')
+harpoonmap('c', require('harpoon.cmd-ui').toggle_quick_menu, '')
 
-nmap('<leader>1', FN(harpoon_ui.nav_file, 1))
-nmap('<leader>2', FN(harpoon_ui.nav_file, 2))
-nmap('<leader>3', FN(harpoon_ui.nav_file, 3))
-nmap('<leader>4', FN(harpoon_ui.nav_file, 4))
-nmap('<leader>5', FN(harpoon_ui.nav_file, 5))
-nmap('<leader>6', FN(harpoon_ui.nav_file, 6))
-nmap('<leader>7', FN(harpoon_ui.nav_file, 7))
-nmap('<leader>8', FN(harpoon_ui.nav_file, 8))
-nmap('<leader>9', FN(harpoon_ui.nav_file, 9))
-nmap('<leader>0', FN(harpoon_term.gotoTerminal, 1))
+harpoonmap = PrefixMap('n', '', '[Harpoon]')
+for i in ipairs(vim.fn.range(1, 9)) do
+	local keymap = string.format('<A-%s>', i)
+	harpoonmap(keymap, { harpoon_ui.nav_file, i }, 'Go to File')
+end
+harpoonmap('<A-0>', { harpoon_term.gotoTerminal, 1 }, 'Open Terminal')

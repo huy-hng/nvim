@@ -1,12 +1,17 @@
 local function keep_column(action, change_line)
 	return function()
+		if false then
+			-- this entire thing can be simplified with just marks
+			-- only change_line isnt implemented with this
+			Feedkeys('mz' .. action .. '`z')
+			return
+		end
 		local column = vim.fn.col('.')
 		local line = vim.fn.line('.')
 
 		Normal(action)
 
 		if change_line then line = vim.fn.line('.') end
-
 		vim.fn.cursor { line, column }
 	end
 end
@@ -94,6 +99,13 @@ Nmap('<A-k>', move_line('-2'))
 Vmap('<A-j>', ":m'>+<cr>`<my`>mzgv`yo`z=gv")
 Vmap('<A-k>', ":m'<-2<cr>`>my`<mzgv`yo`z=gv")
 
+---------------------------------------------Substitution-------------------------------------------
+
+Nmap(
+	'<leader>ss',
+	[[:%s/\<<C-r><C-w>\>/<C-r><C-w>/gI<Left><Left><Left>]],
+	'Substitute word under cursor'
+)
 --------------------------------------------Indentation---------------------------------------------
 
 Imap('<C-Tab>', '<C-t>')

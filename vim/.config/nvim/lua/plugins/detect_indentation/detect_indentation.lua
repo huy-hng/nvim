@@ -20,7 +20,7 @@ local ts_enabled = ts_parsers ~= nil and ts_highlighter ~= nil and ts_utils ~= n
 -- Get the configuration's value or its default if not set
 local function config(config_key, default_value)
 	-- Attempt to get filetype specific config if available
-	local ft_preferences = preferences['filetype_' .. BO(0, 'filetype')]
+	local ft_preferences = preferences['filetype_' .. vim.bo.filetype]
 	if type(ft_preferences) == 'table' then
 		local value = ft_preferences[config_key]
 		if value ~= nil then return value end
@@ -113,11 +113,11 @@ function M.set_indentation(indent, bufnr)
 	if indent == default then return end
 	local expandtab = indent == 0 and false or true
 
-	BO(bufnr, 'expandtab', expandtab)
+	vim.bo[bufnr].expandtab = expandtab
 	if not expandtab then return end
 
-	BO(bufnr, 'shiftwidth', indent)
-	BO(bufnr, 'softtabstop', indent)
+	vim.bo[bufnr].shiftwidth = indent
+	vim.bo[bufnr].softtabstop = indent
 end
 
 -- Attempt to detect current buffer's indentation and apply it to local settings
@@ -185,19 +185,12 @@ function M.detect(data)
 	end
 
 	if not detected then
-		print('Indentation could not be detected.')
+		-- vim.notify('Indentation could not be detected.')
 		return
 	end
 
 	M.set_indentation(detected, bufnr)
+	return detected
 end
-
-augroup('DetectIndent', true, {
-	-- autocmd('OptionSet', { 'expandtab', 'tabstop', 'shiftwidth' }, M.detect),
-	autocmd('BufReadPost', M.detect),
-	autocmd('BufNew', function(data) --
-		nested_autocmd(data, 'BufWritePost', '*', M.detect, { once = true })
-	end),
-})
 
 return M

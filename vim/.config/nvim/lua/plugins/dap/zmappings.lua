@@ -13,9 +13,7 @@ local dap_prefix = '<leader>d'
 local dap_map = PrefixMap('n', dap_prefix, '[DAP]')
 
 local function get_input(msg)
-	return function()
-		vim.fn.input { msg }
-	end
+	return function() vim.fn.input { msg } end
 end
 
 dap_map('b', dap.toggle_breakpoint, 'toggle breakpoint')
@@ -30,14 +28,12 @@ dap_map('l', dap.run_last, 'Run Last')
 
 dap_map('E', { dapui.eval, get_input('[DAP] Expression > ') }, 'evaluate expression')
 dap_map('e', dapui.eval, 'evaluate expression under cursor')
-vmap(dap_prefix .. 'e', dapui.eval, 'evaluate expression under cursor')
+Vmap(dap_prefix .. 'e', dapui.eval, 'evaluate expression under cursor')
 
 local original = {}
 local debug_map = function(lhs, rhs, desc)
 	local keymaps = vim.api.nvim_get_keymap('n')
-	original[lhs] = vim.tbl_filter(function(v)
-		return v.lhs == lhs
-	end, keymaps)[1] or true
+	original[lhs] = vim.tbl_filter(function(v) return v.lhs == lhs end, keymaps)[1] or true
 
 	vim.keymap.set('n', lhs, rhs, { desc = desc })
 end
@@ -79,9 +75,7 @@ dap.listeners.before.event_terminated['dapui_config'] = function()
 	debug_unmap()
 end
 
-dap.listeners.before.event_exited['dapui_config'] = function()
-	dapui.close()
-end
+dap.listeners.before.event_exited['dapui_config'] = function() dapui.close() end
 
 --==============================================================================
 --                              |=> Neotest <=|
@@ -163,10 +157,10 @@ neomap('n', neotest.run.run, 'Run nearest test')
 neomap('N', { neotest.run.run, { strategy = 'dap' } }, 'Debug nearest test')
 
 -- test entire file
-neomap('f', { neotest.run.run, FN(vim.fn.expand, '%') }, 'Run current file')
+neomap('f', { neotest.run.run, TryWrap(vim.fn.expand, '%') }, 'Run current file')
 neomap(
 	'fd',
-	{ neotest.run.run, { FN(vim.fn.expand, '%'), strategy = 'dap' } },
+	{ neotest.run.run, { TryWrap(vim.fn.expand, '%'), strategy = 'dap' } },
 	'Debug current file'
 )
 
