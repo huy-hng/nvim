@@ -12,10 +12,6 @@ local popup_config = {
 	-- focusable = false,
 }
 
-local function repeater(char, times)
-	return vim.fn['repeat'](char, times)
-end
-
 local function does_column_line_exist()
 	for _, bufnr in ipairs(buffers) do
 		local path = api.nvim_buf_get_name(bufnr)
@@ -44,7 +40,7 @@ local function main()
 		-- api.nvim_buf_set_name(bufnr, 'Column Line')
 	end
 
-	api.nvim_buf_set_lines(bufnr, 0, -1, false, repeater({ '▏' }, popup_config.height))
+	api.nvim_buf_set_lines(bufnr, 0, -1, false, Repeat({ '▏' }, popup_config.height))
 	local winid = api.nvim_open_win(bufnr, true, popup_config)
 
 	api.nvim_win_set_option(winid, 'winblend', 100)

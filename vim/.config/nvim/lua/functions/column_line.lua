@@ -56,12 +56,14 @@ local function set_line(bufnr, column)
 	end
 end
 
-local function refresh(force)
-	if force then
-		local win = vim.api.nvim_get_current_win()
-		-- vim.cmd([[noautocmd windo lua refrfeshcolumnline()]])
-		if vim.api.nvim_win_is_valid(win) then vim.api.nvim_set_current_win(win) end
-	end
+local function refresh(data)
+	if data.event == 'CmdWinEnter' or vim.fn.mode() == 'c' then return end
+
+	-- if force then
+	-- 	local win = vim.api.nvim_get_current_win()
+	-- 	-- vim.cmd([[noautocmd windo lua refrfeshcolumnline()]])
+	-- 	if vim.api.nvim_win_is_valid(win) then vim.api.nvim_set_current_win(win) end
+	-- end
 
 	local bufnr = vim.api.nvim_get_current_buf()
 
@@ -75,15 +77,19 @@ end
 
 -----------------------------------------------Setup------------------------------------------------
 
-augroup('ColumnLine', true, {
-	autocmd('OptionSet', 'colorcolumn', FN(refresh)),
-	autocmd({
-		'FileChangedShellPost',
-		'TextChanged',
-		'TextChangedI',
-		'CompleteChanged',
-		'BufWinEnter',
-		'VimEnter',
-		'SessionLoadPost',
-	}, '*', FN(refresh)),
+Augroup('ColumnLine', {
+	Autocmd('OptionSet', 'colorcolumn', refresh),
+
+	Autocmd('BufWinEnter', function(data) --
+		if data.event == 'CmdWinEnter' or vim.fn.mode() == 'c' then return end
+		NestedAutocmd(data, {
+			'FileChangedShellPost',
+			'TextChanged',
+			'TextChangedI',
+			'CompleteChanged',
+			'BufWinEnter',
+			'VimEnter',
+			'SessionLoadPost',
+		}, nil, refresh)
+	end),
 })

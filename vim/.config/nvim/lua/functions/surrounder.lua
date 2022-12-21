@@ -18,20 +18,20 @@ function Surrounder(...)
 end
 
 
-vmap("'", Surrounder("'"))
-vmap('"', Surrounder('"'))
-vmap('<A-*>', Surrounder('*'))
-vmap('`', Surrounder('`'))
+Vmap("'", Surrounder("'"))
+Vmap('"', Surrounder('"'))
+Vmap('<A-*>', Surrounder('*'))
+Vmap('`', Surrounder('`'))
 -- vmap('=', Surrounder('='))
 
-vmap('(', Surrounder('(', ')'))
-vmap(')', Surrounder('( ', ' )'))
+Vmap('(', Surrounder('(', ')'))
+Vmap(')', Surrounder('( ', ' )'))
 
-vmap('<', Surrounder('<', '>'))
-vmap('>', Surrounder('< ', ' >'))
+Vmap('<', Surrounder('<', '>'))
+Vmap('>', Surrounder('< ', ' >'))
 
-vmap('[', Surrounder('[', ']'))
-vmap(']', Surrounder('[ ', ' ]'))
+Vmap('[', Surrounder('[', ']'))
+Vmap(']', Surrounder('[ ', ' ]'))
 
-vmap('{', Surrounder('{', '}'))
-vmap('}', Surrounder('{ ', ' }'))
+Vmap('{', Surrounder('{', '}'))
+Vmap('}', Surrounder('{ ', ' }'))

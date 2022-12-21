@@ -1,17 +1,14 @@
 REQUIRES_FILE_NAME = 'requires'
 
-local function correct_format(relative_path)
-	return string.gsub(relative_path, '/', '.')
-end
+local function correct_format(relative_path) return string.gsub(relative_path, '/', '.') end
 
 local function get_all_requires(dir)
 	local file_paths = vim.api.nvim_get_runtime_file(dir .. '/**/*.lua', true)
-	-- print(unpack(file_paths))
 
 	local formatted = {}
 	for _, path in ipairs(file_paths) do
 		-- find first 'lua' and capture everything until '.lua
-		local relative = string.match(path, 'nvim/(.*).lua$')
+		local relative = string.match(path, 'nvim/lua/(.*).lua$')
 
 		-- skip the requires.lua file thats being created by this script
 		local is_requires_file = string.find(relative, REQUIRES_FILE_NAME)
@@ -20,7 +17,13 @@ local function get_all_requires(dir)
 		end
 
 		local format = correct_format(relative)
-		table.insert(formatted, format)
+
+		local is_init_file = string.match(path, dir .. '/init.lua')
+		if is_init_file then
+			table.insert(formatted, 1, format)
+		else
+			table.insert(formatted, format)
+		end
 
 		::continue::
 	end
@@ -54,11 +57,15 @@ end
 vim.cmd('command! UpdateAllRequireFiles lua UpdateAllRequireFiles()')
 
 return function(dir)
+	-- print(' ')
+	-- print(dir)
 	for _, require_file in ipairs(get_all_requires(dir)) do
 		-- print(require_file)
 		-- require('plenary.reload').reload_module(require_file)
-		local stack_trace = debug.traceback('require_dir: Error importing: ' .. require_file, 3)
-		local status, errors = pcall(require, require_file)
-		if not status then print(stack_trace, errors) end
+		-- print(require_file)
+		require(require_file)
+		-- local stack_trace = debug.traceback('require_dir: Error importing: ' .. require_file, 2)
+		--local status, errors = pcall(require, require_file)
+		-- if not status then print(stack_trace, errors) end
 	end
 end

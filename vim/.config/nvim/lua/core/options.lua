@@ -9,16 +9,18 @@ local opt_g = vim.opt_global
 g.mapleader = ' '
 g.maplocalleader = '\\'
 
---==============================================================================
---                             |=> Appearance <=|
---==============================================================================
+----------------------------------------------Appearance--------------------------------------------
 -- window transparency
 o.winblend = 10
 o.pumblend = 10
 
+o.conceallevel = 2
+o.concealcursor = 'nc'
+
 -- line numbers
 go.relativenumber = false -- show relative line numbers
-go.number = true -- shows absolute line number on cursor line (when relative number is on)
+go.number = true -- shows absolute line number on cursor line
+o.number = true
 
 -- cursor line
 o.cursorline = true -- highlight the current cursor line
@@ -38,8 +40,8 @@ o.numberwidth = 1 -- set to something smaller to reduce gutter size
 -- folding
 go.foldenable = true
 o.foldlevelstart = 99 -- find a way to get the highest possible folds in a file and set it to it
-					  -- or just zR at on bufenter
- -- find a way to get the highest possible folds in a file and set it to it
+-- or just zR at on bufenter
+-- find a way to get the highest possible folds in a file and set it to it
 go.foldcolumn = 'auto:4'
 -- go.foldcolumn = '1'
 o.foldclose = '' -- set to 'all' to close folds after cursor leaves
@@ -53,16 +55,17 @@ go.ruler = true
 -- go.winbar = '%#bold# %{expand("%:.")}'
 go.laststatus = 3 -- global statusline
 go.cmdwinheight = 20
-go.showcmd = false
-go.showmode = false
-go.ruler = false
+-- go.showcmd = true
+-- go.showmode = false
+-- go.ruler = false
 -- print(vim.v.echospace)
 -- print(vim.v.scrollstart)
 -- opt_g.shortmess:append('')
 
 -- display indentations
 o.list = true
-o.listchars = 'tab:▏ ,trail:·,nbsp:+'
+-- o.listchars = 'tab:▏ ,trail:·,nbsp:+'
+o.listchars = 'tab:  ,trail:·,nbsp:+'
 
 -- |│¦┆┇┊┋▕▔▏
 opt.fillchars:append {
@@ -71,7 +74,7 @@ opt.fillchars:append {
 	foldopen = '', -- '┬' or '-',
 	foldclose = '', --  '+',
 	foldsep = ' ', --  '│' or '|',
-	eob = ' ' -- End of buffer, to remove ~ from the side
+	eob = ' ', -- End of buffer, to remove ~ from the side
 	-- horiz = '─' or '-',
 }
 
@@ -79,11 +82,14 @@ opt.fillchars:append {
 --                       |=> Editor User Interface <=|
 --==============================================================================
 
+-- go.winminheight = 1
+-- go.winminwidth = 1
+
 -- disable netrw
 g.loaded_netrw = 1
 g.loaded_netrwPlugin = 1
 
-go.scrolloff = 8
+go.scrolloff = 4
 go.sidescroll = 1
 go.sidescrolloff = 8
 opt_g.wildignore:append { '*.o', '*~', '*.pyc' }
@@ -143,9 +149,19 @@ o.lazyredraw = false
 o.splitright = true -- split vertical window to the right
 o.splitbelow = true -- split horizontal window to the bottom
 
-opt.iskeyword:append("-") -- consider string-string as whole word
+opt_g.iskeyword:append('-') -- consider string-string as whole word
+-- opt.iskeyword:remove({'-', '_'}) -- consider string-string as whole word
+opt.isfname:append('@-@') -- use @ for filename completion
+
+-- when pressing "K" then do a vim command, pressing K on 'h statusline' will open the help page
+-- go.keywordprg = ':help'
+go.keywordprg = ':help'
+
 go.swapfile = false
+go.backup = false
 o.undofile = true
+
+go.updatetime = 2000 -- used for CursorHold
 
 -----------------------------------------------Mouse------------------------------------------------
 
@@ -165,7 +181,7 @@ opt_g.path:append(NVIM_CONFIG_PATH)
 opt_g.path:append('**')
 
 opt.switchbuf:append { 'useopen', 'usetab', 'vsplit' }
-opt.sessionoptions:remove {'buffers', 'terminal', 'blank'}
+opt.sessionoptions:remove { 'buffers', 'terminal', 'blank' }
 
 --==============================================================================
 --                          |=> Plugin Settings <=|
@@ -173,7 +189,7 @@ opt.sessionoptions:remove {'buffers', 'terminal', 'blank'}
 
 g.startuptime_event_width = 40
 g.startuptime_tries = 10
-g.startuptime_sourced = 1
+g.startuptime_sourced = 0
 g.startuptime_exe_args = { '--noplugin' }
 g.startuptime_exe_args = {}
 

@@ -10,7 +10,7 @@ end
 
 local function blink(duration)
 	show_cursor(true)
-	vim.defer_fn(FN(show_cursor, false), duration)
+	Defer(duration, show_cursor, false)
 end
 
 function FlashCursor(times, blink_time)
@@ -18,8 +18,8 @@ function FlashCursor(times, blink_time)
 	blink_time = blink_time == nil and 200 or blink_time
 	for i = 1, times do
 		local wait = blink_time * 2 * (i - 1)
-		vim.defer_fn(FN(blink, blink_time), wait)
+		Defer(wait, blink, blink_time)
 	end
 end
 
-nmap('<leader><CR>', FN(FlashCursor, 3), 'Flash Cursor')
+Nmap('<leader><CR>', { FlashCursor, 3 }, 'Flash Cursor')
