@@ -1,62 +1,8 @@
 -----------------------------------------------Popup------------------------------------------------
-
-local function is_scratch_buffer(bufnr)
-	local is_loaded = vim.api.nvim_buf_is_loaded(bufnr)
-	local name = vim.api.nvim_buf_get_name(bufnr)
-	local hidden = vim.bo[bufnr].bufhidden
-	local type = vim.bo[bufnr].buftype
-	-- P(bufnr, type, hidden, is_loaded, name)
-	if hidden == 'hide' and type == 'nofile' and name == '' then --
-		return true
-	end
-end
-
-local function delete_all_scratch_buffers()
-	local bufs = vim.api.nvim_list_bufs()
-	-- print(' ')
-	for _, bufnr in ipairs(bufs) do
-		if is_scratch_buffer(bufnr) then --
-			Schedule(vim.api.nvim_buf_delete, bufnr, {})
-		end
-	end
-end
-
-nmap('\\3', delete_all_scratch_buffers, 'Delete all scratch buffers')
-
 local log = function(...)
-	local msg = Formatter(...)
+	-- local msg = Formatter(...)
 	-- print(msg)
 	-- vim.notify(msg, 'debug')
-end
-
-local function open_vimwiki_in_background(wikicmd)
-	if not wikicmd then return end
-
-	local bufnr
-	CreateAutocmd('BufWinEnter', '*.md', function(data)
-		if vim.bo[data.buf].filetype == 'vimwiki' then
-			bufnr = data.buf
-			return true
-		end
-	end)
-
-	-- local winid = vim.api.nvim_open_win(0, false, {
-	-- 	width = 1,
-	-- 	height = 1,
-	-- 	relative = 'editor',
-	-- 	row = 0,
-	-- 	col = 0,
-	-- })
-	-- vim.api.nvim_win_call(winid, CMD(wikicmd))
-	-- vim.fn.win_execute(winid, wikicmd, true)
-	-- Schedule(vim.api.nvim_win_close, winid, true)
-
-	local scratch = vim.api.nvim_create_buf(false, true)
-	vim.api.nvim_buf_call(scratch, CMD(wikicmd))
-	-- Schedule(vim.api.nvim_buf_delete, scratch, {})
-	Defer(2000, vim.api.nvim_buf_delete, scratch, {})
-
-	return bufnr
 end
 
 local Popup = require('nui.popup')
@@ -116,12 +62,9 @@ local function create_popup()
 			local ft = vim.api.nvim_buf_get_option(bufnr, 'filetype')
 			if ft == 'vimwiki' then --
 				popup.bufnr = bufnr
-				nmap(
-					'q',
-					function() popup:hide() end,
-					'Close popup',
-					{ buffer = bufnr, nowait = true }
-				)
+				Nmap('q', function() --
+					popup:hide()
+				end, 'Close popup', { buffer = bufnr, nowait = true })
 			end
 		end),
 	})
@@ -130,27 +73,21 @@ local function create_popup()
 end
 
 local function open_popup(wikicmd)
-	local default_command = 'VimwikiIndex'
-
-	-- local bufnr = open_vimwiki_in_background(wikicmd)
+	-- local default_command = 'VimwikiIndex'
+	local default_command = vim.cmd.VimwikiIndex
 
 	if not popup then
-		-- log('mounting', wikicmd or default_command)
 		popup = create_popup()
 		wikicmd = wikicmd or default_command
-		-- popup.bufnr = bufnr or open_vimwiki_in_background(default_command)
 		popup:mount()
-	-- elseif bufnr then
-	-- 	popup.bufnr = bufnr
-	-- 	log('opening different buffer', bufnr)
 	end
 
 	popup:show()
 
-	-- vim.fn.win_execute(popup.winid, wikicmd, true)
-	if wikicmd then Exec(wikicmd) end
+	if wikicmd then wikicmd() end
 
 	log('new window:', popup.winid)
+	Feedkeys('zz')
 
 	Augroup('VimwikiOpenPopup', {
 		Autocmd({ 'WinLeave' }, '*', function(data)
@@ -175,11 +112,27 @@ local function open_popup(wikicmd)
 	})
 end
 
-local vw = PrefixMap('n', '<leader>w', '[Vimwiki]')
-vw('j', open_popup, 'Open last view')
-vw('w', { open_popup, 'VimwikiIndex' }, 'Index')
-vw('<leader>w', { open_popup, 'VimwikiMakeDiaryNote' }, 'Daily Log')
+local function wrapper(cmd)
+	return function() open_popup(cmd) end
+end
 
+local vw = PrefixMap('n', '<leader>d', '[Vimwiki]')
+local cmd = vim.cmd
+
+vw('j', wrapper(), 'Open last view')
+
+vw('w', wrapper(cmd.VimwikiIndex), 'Wiki Index')
+
+vw('i', wrapper(cmd.VimwikiDiaryIndex), 'Daily Log Index')
+vw('l', wrapper(cmd.VimwikiDiaryGenerateLinks), 'Update Daily Log Index')
+
+vw('d', wrapper(cmd.VimwikiMakeDiaryNote), 'Daily Log Note')
+vw('y', wrapper(cmd.VimwikiMakeYesterdayDiaryNote), 'Yesterday Log Note')
+vw('m', wrapper(cmd.VimwikiMakeTomorrowDiaryNote), 'Tomorrow Log Note')
+
+Nmap('<leader>ww', '<nop>')
+
+-- vw('t', wrapper(vim.cmd.VimwikiTabMakeDiaryNote), 'Daily Log Tab')
 -----------------------------------------------Setup------------------------------------------------
 
 local g = vim.g

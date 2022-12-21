@@ -3,6 +3,9 @@ local M = {}
 local function printer(...)
 	-- print(...)
 end
+local function Printer(...)
+	-- P(...)
+end
 
 Augroup('Autosaver', {
 	Autocmd('BufWritePost', '*/ufo/fold_text_handler.lua', function(data)
@@ -39,45 +42,77 @@ local function get_ext_marks(ns, lnum)
 	local namespaces = vim.api.nvim_get_namespaces()
 	local namespace = namespaces[ns]
 	-- local cb = ns['neorg-code-blocks']
+	if not namespace then return end
 	local conceals = vim.api.nvim_buf_get_extmarks(0, namespace, 0, -1, { details = true })
 	if #conceals > 0 then return bin_search_row(lnum, conceals) end
 end
 
 M.mark_copier = function(virtText, lnum, endLnum, width, truncate)
 	local icons = get_ext_marks('neorg-conceals', lnum - 1)
+
+	-- print('-----------------------------------')
+	-- for _, chunk in ipairs(virtText) do
+	-- 	P(chunk)
+	-- end
+
+	local details
+	local conceal_pair
+	local col_start
+	local col_end
+	if icons then
+		details = icons[4]
+		conceal_pair = details.virt_text[1]
+		col_start = icons[3] -- this many chars have to be behind the mark
+		col_end = details.end_col -- until this col the mark goes (exclusive)
+
+		conceal_pair[1] = conceal_pair[1] .. ' '
+		printer('start:', col_start, 'end:', col_end)
+		Printer(conceal_pair[1])
+		printer(' ')
+
+		-- local conceal_length = #conceal_chars[1]
+		-- conceal_length = col_end - col_start - 1
+	end
 	-- if icons then P(lnum, icons[4].virt_text, virtText) end
-	if icons then P(lnum, icons, virtText) end
+	-- if icons then P(lnum, icons, virtText) end
 
 	local curWidth = 0
 	local lastWidth = 0
+	local newVirtText = {}
 	for i, chunk in ipairs(virtText) do
 		local chunkText = chunk[1] --[[@as string]]
-
 		lastWidth = curWidth
 		curWidth = curWidth + vim.fn.strdisplaywidth(chunkText)
+
 		-- use indent lines
 		if chunkText:match('\t') then
 			local subbed = chunkText:gsub('\t', '▏   ')
-			virtText[i][1] = subbed
-			virtText[i][2] = 'Whitespace'
+			printer(subbed)
+			-- virtText[i][1] = subbed
+			-- virtText[i][2] = 'Whitespace'
+			table.insert(newVirtText, { subbed, 'Whitespace' })
+			goto continue
 		end
 
 		if icons then
-			local details = icons[4]
-			local conceal_char = details.virt_text[1][1]
-			local col_start = icons[3]
-			local col_end = details.end_col
-
-			if curWidth >= col_start then
-			end
-
-			if lastWidth == col_start and curWidth == col_end then
-				-- break
-				virtText[i][1] = conceal_char .. ' '
-				-- print('found')
+			printer('last:', lastWidth, 'current:', curWidth, vim.inspect(chunkText))
+			if lastWidth >= col_start and curWidth <= col_end then --
+				if conceal_pair then
+					table.insert(newVirtText, conceal_pair)
+					conceal_pair = nil
+				end
+				goto continue
 			end
 		end
 
+		table.insert(newVirtText, chunk)
+
+		::continue::
+		printer(' ')
+	end
+
+	for _, chunk in ipairs(newVirtText) do
+		Printer(chunk)
 	end
 
 	local completed = get_ext_marks('neorg-completion-level', lnum - 1)
@@ -87,15 +122,15 @@ M.mark_copier = function(virtText, lnum, endLnum, width, truncate)
 		for i, pair in ipairs(details.virt_text) do
 			if i == 1 then pair[1] = ' ' .. pair[1] end
 			if #pair == 1 then table.insert(pair, 'Normal') end
-			table.insert(virtText, pair)
+			table.insert(newVirtText, pair)
 		end
 	end
 
 	local suffix = ('  %d '):format(endLnum - lnum)
 
-	table.insert(virtText, { suffix, 'FoldColumn' })
+	table.insert(newVirtText, { suffix, 'FoldColumn' })
 
-	return virtText
+	return newVirtText
 end
 
 M.fold_text_handler = function(virtText, lnum, endLnum, width, truncate)

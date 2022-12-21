@@ -1,7 +1,5 @@
 local status_ok, configs = pcall(require, 'nvim-treesitter.configs')
-if not status_ok then
-	return
-end
+if not status_ok then return end
 
 -- https://github.com/nvim-treesitter/nvim-treesitter-textobjects
 
@@ -13,10 +11,10 @@ local select = {
 
 	keymaps = {
 		-- You can use the capture groups defined in textobjects.scm
-		["af"] = "@function.outer",
-		["if"] = "@function.inner",
-		["ac"] = "@class.outer",
-		["ic"] = { query = "@class.inner", desc = "Select inner part of a class region" },
+		['af'] = '@function.outer',
+		['if'] = '@function.inner',
+		['ac'] = '@class.outer',
+		['ic'] = { query = '@class.inner', desc = 'Select inner part of a class region' },
 	},
 	-- You can choose the select mode (default is charwise 'v')
 	--
@@ -26,9 +24,9 @@ local select = {
 	-- and should return the mode ('v', 'V', or '<c-v>') or a table
 	-- mapping query_strings to modes.
 	selection_modes = {
-		['@parameter.outer'] = 'v', -- charwise
-		['@function.outer'] = 'V', -- linewise
-		['@class.outer'] = '<c-v>', -- blockwise
+		-- ['@parameter.outer'] = 'v', -- charwise
+		-- ['@function.outer'] = 'V', -- linewise
+		-- ['@class.outer'] = '<c-v>', -- blockwise
 	},
 	-- If you set this to `true` (default is `false`) then any textobject is
 	-- extended to include preceding or succeeding whitespace. Succeeding
@@ -44,50 +42,57 @@ local select = {
 local swap = {
 	enable = true,
 	swap_next = {
-		["<leader>a"] = "@parameter.inner",
+		['<leader>a'] = '@parameter.inner',
 	},
 	swap_previous = {
-		["<leader>A"] = "@parameter.inner",
+		['<leader>A'] = '@parameter.inner',
 	},
 }
 local move = {
 	enable = true,
 	set_jumps = true, -- whether to set jumps in the jumplist
 	goto_next_start = {
-		["]m"] = "@function.outer",
-		["]]"] = { query = "@class.outer", desc = "Next class start" },
+		[']a'] = { query = '@attribute.inner', desc = 'Next attribute' },
+		[']b'] = { query = '@block.inner', desc = 'Next block' },
+		[']c'] = { query = '@call.outer', desc = 'Next call' },
+		[']fr'] = { query = '@frame.outer', desc = 'Next frame' },
+		[']s'] = { query = '@statement.outer', desc = 'Next statement' },
+		[']p'] = { query = '@parameter.inner', desc = 'Next paramter' },
+		[']m'] = '@function.outer',
+		[']]'] = { query = '@class.outer', desc = 'Next class start' },
 	},
 	goto_next_end = {
-		["]M"] = "@function.outer",
-		["]["] = "@class.outer",
+		[']M'] = '@function.outer',
+		[']['] = '@class.outer',
 	},
 	goto_previous_start = {
-		["[m"] = "@function.outer",
-		["[["] = "@class.outer",
+		['[p'] = { query = '@parameter.inner', desc = 'Prev paramter' },
+		['[a'] = { query = '@attribute.inner', desc = 'Prev attribute' },
+		['[m'] = '@function.outer',
+		['[['] = '@class.outer',
 	},
 	goto_previous_end = {
-		["[M"] = "@function.outer",
-		["[]"] = "@class.outer",
+		['[M'] = '@function.outer',
+		['[]'] = '@class.outer',
 	},
 }
 local lsp_interop = {
 	enable = true,
 	border = 'solid',
 	peek_definition_code = {
-		["<leader>df"] = "@function.outer",
-		["<leader>dF"] = "@class.outer",
+		['<leader>df'] = '@function.outer',
+		['<leader>dF'] = '@class.outer',
 	},
 }
 
-configs.setup({
+configs.setup {
 	textobjects = {
 		select = select,
 		move = move,
 		swap = swap,
 		lsp_interop = lsp_interop,
-	}
-})
-
+	},
+}
 
 -- has .inner/.outer
 -- @attribute

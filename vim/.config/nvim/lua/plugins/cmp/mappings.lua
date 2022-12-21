@@ -1,6 +1,45 @@
 local status, cmp = pcall(require, 'cmp')
 if not status then return end
 
+local has_luasnip, ls = pcall(require, 'luasnip')
+if not has_luasnip then return end
+
+local function jump_or_select_item(fn, jumpdir)
+	return function(_)
+		-- vim.notify(ls.in_snippet())
+		ls.unlink_current_if_deleted()
+		if ls.in_snippet() and ls.jumpable(jumpdir) then
+			ls.jump(jumpdir)
+		elseif cmp.visible() then
+			fn()
+		else
+			cmp.complete()
+		end
+	end
+end
+
+local function choice_node_or_select_item(fn)
+	return function(_)
+		if ls.choice_active() then
+			ls.change_choice(1)
+		elseif cmp.visible() then
+			fn()
+		else
+			cmp.complete()
+		end
+	end
+end
+
+local function if_not_visible_feedkeys(fn, keys)
+	return function(_)
+		if cmp.visible() then
+			fn()
+		else
+			Feedkeys(keys)
+		end
+	end
+end
+
 local if_visible = function(fn)
 	return function(_)
 		if cmp.visible() then
@@ -12,89 +51,56 @@ local if_visible = function(fn)
 end
 
 return {
+	['<C-c>'] = ls.unlink_current,
+
 	-- navigation
-	['<C-n>'] = if_visible(cmp.select_next_item),
-	['<C-p>'] = if_visible(cmp.select_prev_item),
-	-- ['<C-j>'] = cmp.mapping(if_visible(cmp.select_next_item), { 'i' }),
-	-- ['<C-k>'] = cmp.mapping(if_visible(cmp.select_prev_item), { 'i' }),
+	['<C-n>'] = cmp.mapping(choice_node_or_select_item(cmp.select_next_item), { 'i', 's' }),
+	['<C-p>'] = cmp.mapping(choice_node_or_select_item(cmp.select_prev_item), { 'i', 's' }),
 
-	-- ['A-d'] = cmp.mapping.select_next_item { behavior = cmp.SelectBehavior, count = 4 },
-	-- ['A-u'] = cmp.mapping.select_prev_item { behavior = cmp.SelectBehavior, count = 4 },
+	['<C-j>'] = cmp.mapping {
+		-- i = if_visible(cmp.select_next_item),
+		i = jump_or_select_item(cmp.select_next_item, 1),
+		s = jump_or_select_item(cmp.select_next_item, 1),
+		-- i = next_item,
+		-- s = next_item,
+		c = if_not_visible_feedkeys(cmp.select_next_item, '<Down>'),
+	},
+	['<C-k>'] = cmp.mapping {
+		-- i = if_visible(cmp.select_prev_item),
+		i = jump_or_select_item(cmp.select_prev_item, -1),
+		s = jump_or_select_item(cmp.select_prev_item, -1),
+		-- i = prev_item,
+		-- s = prev_item,
+		c = if_not_visible_feedkeys(cmp.select_prev_item, '<Up>'),
+	},
+	-- ['<C-k>'] = cmp.mapping(if_visible(cmp.select_prev_item), { 'i', 'c' }),
 
-	['<C-u>'] = cmp.mapping.scroll_docs(-4),
-	['<C-d>'] = cmp.mapping.scroll_docs(4),
+	['<C-f>'] = cmp.mapping.select_next_item { behavior = cmp.SelectBehavior, count = 16 },
+	['<C-b>'] = cmp.mapping.select_prev_item { behavior = cmp.SelectBehavior, count = 16 },
+
+	['<C-u>'] = cmp.mapping.scroll_docs(-8),
+	['<C-d>'] = cmp.mapping.scroll_docs(8),
 
 	-- accept / abort
-	['<C-c>'] = cmp.abort,
+	-- ['<C-c>'] = cmp.abort,
+	['<C-e>'] = cmp.mapping {
+		i = cmp.mapping.abort(),
+		c = cmp.mapping.close(),
+	},
 	['<C-l>'] = cmp.mapping.confirm { select = true },
 
 	-- open completion menu
-	['<C-Space>'] = if_visible(cmp.mapping.confirm { select = true }),
+
+	['<C-Space>'] = cmp.mapping(
+		if_visible(cmp.mapping.confirm { select = true }),
+		{ 'i', 's', 'c' }
+	),
 
 	-- remove bindings
-	['<C-y>'] = cmp.config.disable,
+	-- ['<C-p>'] = cmp.config.disable,
+	-- ['<C-n>'] = cmp.config.disable,
+	-- ['<C-y>'] = cmp.config.disable,
 	['<Tab>'] = cmp.config.disable,
-	['<C-e>'] = cmp.config.disable,
+	['<S-Tab>'] = cmp.config.disable,
+	-- ['<C-e>'] = cmp.config.disable,
 }
-
--- ['<CR>'] = cmp.mapping.confirm({ select = false }), -- Accept currently selected item. Set `select` to `false` to only confirm explicitly selected items.
--- ["<tab>"] = cmp.mapping {
---   i = cmp.config.disable,
---   c = function(fallback)
---     fallback()
---   end,
--- },
-
--- Testing
--- ["<c-q>"] = cmp.mapping.confirm {
---	behavior = cmp.ConfirmBehavior.Replace,
---	select = true,
--- },
-
--- If you want tab completion :'(
---  First you have to just promise to read `:help ins-completion`.
---
--- ["<Tab>"] = function(fallback)
---   if cmp.visible() then
---     cmp.select_next_item()
---   else
---     fallback()
---   end
--- end,
--- ["<S-Tab>"] = function(fallback)
---   if cmp.visible() then
---     cmp.select_prev_item()
---   else
---     fallback()
---   end
--- end,
-
--- alternate tab and shift tab
--- ['<Tab>'] = cmp.mapping(function(fallback)
---	if cmp.visible() then
---		cmp.select_next_item()
---	elseif luasnip.expandable() then
---		luasnip.expand()
---	elseif luasnip.expand_or_jumpable() then
---		luasnip.expand_or_jump()
---	elseif check_backspace() then
---		fallback()
---	else
---		fallback()
---	end
--- end, {
---	'i',
---	's',
--- }),
--- ['<S-Tab>'] = cmp.mapping(function(fallback)
---	if cmp.visible() then
---		cmp.select_prev_item()
---	elseif luasnip.jumpable(-1) then
---		luasnip.jump(-1)
---	else
---		fallback()
---	end
--- end, {
---	'i',
---	's',
--- }),

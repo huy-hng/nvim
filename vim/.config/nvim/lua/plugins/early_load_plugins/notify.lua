@@ -42,8 +42,6 @@ function AddNotification(winid)
 	table.insert(OpenNotifications, winid)
 end
 
-nmap('\\1', notify.dismiss, 'Dismiss all notifications')
-
 notify.setup {
 	level = 2,
 	timeout = 4000,
@@ -72,7 +70,10 @@ notify.setup {
 vim.notify = notify
 
 local function inspector(arg)
-	if type(arg) == 'string' then return arg end
+	if type(arg) == 'string' then
+		arg = string.gsub(arg, '\n', '')
+		return arg
+	end
 	return vim.inspect(arg)
 end
 

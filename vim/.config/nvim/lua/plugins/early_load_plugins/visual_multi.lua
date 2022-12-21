@@ -7,7 +7,7 @@ g.VM_mouse_mappings = 0 -- set to 1 to enable mouse mappings
 -- 	['Goto Prev'] = '<C-p>',
 -- }
 
-g.VM_leader = { default = '\\', visual = '\\', buffer = 'z' }
+g.VM_leader = { default = [[\\]], visual = [[\\]], buffer = [[\\]] }
 
 -- see h vm-mappings for more information
 -- also h visual-multi is pretty interesting

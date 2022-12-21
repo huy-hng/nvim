@@ -1,8 +1,8 @@
-local has_ufo, ufo = pcall(R, 'ufo')
+local has_ufo, ufo = pcall(require, 'ufo')
 if not has_ufo then return end
 
-local fn = R('plugins.ufo.functions')
-local fold_text = R('plugins.ufo.fold_text_handler')
+local fn = require('plugins.ufo.functions')
+local fold_text = require('plugins.ufo.fold_text_handler')
 
 --- ufo.closeFoldsWith(level)
 --- ufo.openFoldsExceptKinds(kinds)
@@ -14,6 +14,8 @@ local fold_text = R('plugins.ufo.fold_text_handler')
 --- ufo.applyFolds(bufnr, ranges)
 ---
 --- ufo.setFoldVirtTextHandler(bufnr, handler)
+
+Nmap('K', fn.peekOrHover, '[UFO] peek or hover')
 ufo.setup {
 	-- provider_selector = fn.selectProviderWithChainByDefault,
 	provider_selector = function(bufnr, filetype, buftype)

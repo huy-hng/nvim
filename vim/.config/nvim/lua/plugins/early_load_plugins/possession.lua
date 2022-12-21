@@ -6,7 +6,7 @@ require('telescope').load_extension('possession')
 
 SHOULD_AUTOSAVE_SESSION = true
 PRINT_SESSION_ACTIONS = false
-MAX_SAVE_INTERVAL = 2 -- in seconds
+MAX_SAVE_INTERVAL = 5 -- in seconds
 local last_save = os.time()
 
 local function print_messages(...)

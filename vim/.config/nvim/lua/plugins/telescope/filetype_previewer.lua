@@ -7,7 +7,7 @@ local actions = require('telescope.actions')
 local action_state = require('telescope.actions.state')
 
 return function(opts)
-	opts = opts or require('plugins.telescope.layouts').find_files
+	opts = opts or require('plugins.telescope.layouts').vert_list_insert
 
 	local view = vim.fn.winsaveview()
 	local filetypes = vim.fn.getcompletion('', 'filetype')

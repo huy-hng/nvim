@@ -54,12 +54,8 @@ zen.setup {
 		-- Schedule(vim.api.nvim_set_current_win, win)
 	end,
 	-- callback where you can add custom code when the Zen window closes
-	on_close = function()
-		Exec('TwilightDisable')
-	end,
+	on_close = function(win) vim.cmd.TwilightDisable() end,
 }
-
-
 
 twilight.setup {
 	dimming = {

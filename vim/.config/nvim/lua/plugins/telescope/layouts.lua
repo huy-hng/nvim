@@ -31,13 +31,13 @@ local vertical_list = function()
 	}
 end
 
-M.find_files = vertical_list()
-M.find_files.initial_mode = 'insert'
+M.vert_list_insert = vertical_list()
+M.vert_list_insert.initial_mode = 'insert'
 
-M.list = vertical_list()
-M.list.initial_mode = 'normal'
+M.vert_list_normal = vertical_list()
+M.vert_list_normal.initial_mode = 'normal'
 
-M.drops = {
+M.dropdown = {
 	results_title = false,
 
 	path_display = { 'smart' },

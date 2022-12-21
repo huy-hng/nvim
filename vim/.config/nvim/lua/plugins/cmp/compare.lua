@@ -1,4 +1,18 @@
-M = {}
+local M = {}
+
+-- available comparisons from cmp.config.compare ordered by default ordering
+-- compare.offset, -- in python offset is the same everywhere
+-- compare.exact, -- if whats written is exactly found in the completion menu
+-- compare.scopes, -- i think ranks stuff in the same scope higher (off by default)
+-- compare.score, -- in python score is the same everywhere, in lua in ranks lsp stuff higher
+-- compare.recently_used,
+-- compare.locality, -- no clue what this does, i think which code is closer?
+-- compare.kind, -- sort by kind (method, enum, function, etc.)
+-- compare.sort_text, -- kinda sorts alphabetically but not quite
+-- compare.length,
+-- compare.order, -- perfect for python: putting __ completions further down
+
+
 
 -- %s/^<\(.*\)>{/local entry_\1 = {
 -- %s/= <\(.*\)>{/= {
@@ -80,7 +94,6 @@ M.base_comparer = function(entry1, entry2)
 	local normal1 = is_normal(item_name1)
 	local normal2 = is_normal(item_name2)
 
-
 	local better
 	local diff = entry1.id - entry2.id
 	if diff < 0 then better = true end
@@ -89,16 +102,14 @@ M.base_comparer = function(entry1, entry2)
 	return normal1, normal2, better
 end
 
-M.underscore = function(entry1, entry2)
+M._underscore = function(entry1, entry2)
 	-- entry1:get_vim_item() could also be useful
 	local normal1, normal2, better = M.base_comparer(entry1, entry2)
 	-- works
 	-- if not normal1 then return end
 	-- if not normal2 then return true end
 
-	local function printer()
-		P(better, entry1:get_word(), entry2:get_word())
-	end
+	local function printer() P(better, entry1:get_word(), entry2:get_word()) end
 	-- if entry1:get_word() == '__doc__' or entry2:get_word() == '__doc__' then
 	-- 	print('=====================================')
 	-- 	printer()
@@ -118,5 +129,20 @@ M.underscore = function(entry1, entry2)
 	-- if not better and not normal1 and not normal2 then return false end
 end
 
+M.underscore = function(entry1, entry2)
+	local normal1, normal2, better = M.base_comparer(entry1, entry2)
+	-- local better = compare_fn.base_comparer(entry1, entry2)
+	-- if not normal1 then return false end
+	-- if normal1 and not normal2 then return true end
+	if better and normal1 and normal2 then return end
+	if better and normal1 and not normal2 then return end
+	if better and not normal1 and normal2 then return false end
+	if better and not normal1 and not normal2 then return end
+
+	if not better and normal1 and normal2 then return end
+	if not better and normal1 and not normal2 then return true end
+	if not better and not normal1 and normal2 then return end
+	if not better and not normal1 and not normal2 then return end
+end
 
 return M

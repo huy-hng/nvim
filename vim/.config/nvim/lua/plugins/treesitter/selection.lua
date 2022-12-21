@@ -1,29 +1,27 @@
-local status_ok, configs = pcall(require, 'nvim-treesitter.configs')
-if not status_ok then
-	return
-end
+local has_config, configs = pcall(require, 'nvim-treesitter.configs')
+if not has_config then return end
 
-configs.setup({
+Nmap('<A-L>', { Feedkeys, 'v<A-L>', false })
+
+configs.setup {
 	textsubjects = {
 		enable = true,
-		prev_selection = ',', -- (Optional) keymap to select the previous selection
+		prev_selection = '<A-H>', -- (Optional) keymap to select the previous selection
 		keymaps = {
-			['.'] = 'textsubjects-smart',
-			-- [';'] = 'textsubjects-container-outer',
+			['<A-L>'] = 'textsubjects-smart',
+			[':'] = 'textsubjects-container-outer',
 			['i;'] = 'textsubjects-container-inner',
 		},
 	},
 
 	incremental_selection = {
 		-- :help nvim-treesitter-incremental-selection-mod
-		enable = true,
+		enable = false,
 		keymaps = {
-			init_selection = '<A-L>', -- in normal mode, start incremental selection.
-			scope_incremental = '<A-B>', -- in visual mode, increment to the upper named parent.
-			node_incremental = '<A-L>', -- in visual mode, increment to the upper scope
-			node_decremental = '<A-H>', -- in visual mode, decrement to the previous named node.
+			-- init_selection = '<A-L>', -- in normal mode, start incremental selection.
+			-- scope_incremental = '<A-B>', -- in visual mode, increment to the upper named parent.
+			-- node_incremental = '<A-L>', -- in visual mode, increment to the upper scope
+			-- node_decremental = '<A-H>', -- in visual mode, decrement to the previous named node.
 		},
 	},
-
-
-})
+}

@@ -3,6 +3,8 @@ M = {}
 local has_lualine, lualine = pcall(require, 'lualine')
 if not has_lualine then return end
 
+M.seperator = { '%=' }
+
 ------------------------------------------Statusline Left-------------------------------------------
 
 M.branch = {
@@ -26,8 +28,14 @@ end
 
 -----------------------------------------Statusline Right-------------------------------------------
 
-local set_indentation = R('plugins.detect_indentation.set_indentation')
+M.extra_mode = {
+	function()
+		local bufnr = vim.api.nvim_get_current_buf()
+		return vim.b[bufnr].ExtraMode or ''
+	end
+}
 
+local set_indentation = require('plugins.detect_indentation.set_indentation')
 M.indentation = {
 	function()
 		local indent_type
@@ -51,8 +59,9 @@ M.indentation = {
 		if button == 'r' then set_indentation.toggle_indent_type() end
 		if button == 'l' then --
 			---@diagnostic disable-next-line: param-type-mismatch
-			local width = tonumber(vim.fn.input('Indentation width: '))
-			set_indentation.set_width(width)
+			vim.ui.input('Indentation width: ', function (width)
+				set_indentation.set_width(tonumber(width))
+			end)
 		end
 
 		Schedule(lualine.refresh, {
@@ -103,42 +112,66 @@ M.tabs = {
 
 ----------------------------------------------Winbar------------------------------------------------
 
-M.filename = function()
-	local function pretty_name()
-		local file_name = string.gsub(vim.fn.expand('%:t'), '%%', '')
-		local ok, devicons = pcall(require, 'nvim-web-devicons')
-		local f_icon = ''
-		local f_hl = ''
-		if ok then
-			f_icon, f_hl = devicons.get_icon_by_filetype(vim.bo.filetype)
-		end
-		-- if filetype doesn't match devicon will set f_icon to nil so add a patch
-		f_icon = f_icon == nil and '' or (f_icon .. ' ')
-		f_hl = f_hl == nil and '' or f_hl
-		local ns_prefix = '%#LspSagaWinbar'
-		return '%#' .. f_hl .. '#' .. f_icon .. '%*' .. ns_prefix .. 'File#' .. file_name .. '%*'
+local filename = function()
+	local file_name = string.gsub(vim.fn.expand('%:t'), '%%', '')
+
+	local f_icon, f_hl
+	local ok, devicons = pcall(require, 'nvim-web-devicons')
+	if ok then
+		f_icon, f_hl = devicons.get_icon_by_filetype(vim.bo.filetype)
 	end
-
-	---@diagnostic disable-next-line: param-type-mismatch
-	if vim.fn.bufname('%') == '' then return '' end
-
-	local file_name = pretty_name()
-
-	local sep = vim.loop.os_uname().sysname == 'Windows' and '\\' or '/'
-	-- local path_list = vim.split(string.gsub(vim.fn.expand '%:~:.:h', '%%', ''), sep, {})
-	local path_list = vim.split(vim.fn.expand('%:~:.:h'), sep, {})
-
-	local file_path = '%*' -- start with correct highlight group
-
-	for _, cur in ipairs(path_list) do
-		if cur == '.' or cur == '~' then
-			file_path = ''
-		else
-			file_path = file_path .. cur .. ' %#LspSagaWinbarSep#> %*'
-		end
-	end
-	return file_path .. file_name
+	-- if filetype doesn't match devicon will set f_icon to nil so add a patch
+	f_icon = not f_icon and '' or (f_icon .. ' ')
+	f_hl = f_hl or ''
+	local ns_prefix = '%#LspSagaWinbar'
+	return '%#' .. f_hl .. '#' .. f_icon .. '%*' .. ns_prefix .. 'File#' .. file_name .. '%*'
 end
+
+M.filename = filename
+
+M.filepath = {
+	-- color = { bg = 'red' },
+	function()
+		---@diagnostic disable-next-line: param-type-mismatch
+		if vim.fn.bufname('%') == '' then return '' end
+
+		local file_name = filename()
+
+		local sep = vim.loop.os_uname().sysname == 'Windows' and '\\' or '/'
+		-- local path_list = vim.split(string.gsub(vim.fn.expand '%:~:.:h', '%%', ''), sep, {})
+		local path_list = vim.split(vim.fn.expand('%:~:.:h'), sep, {})
+
+		-- local file_path = '%*' -- start with correct highlight group
+		local file_path = '' -- start with correct highlight group
+
+		for _, cur in ipairs(path_list) do
+			if cur == '.' or cur == '~' then
+				-- file_path = ''
+			else
+				file_path = file_path .. cur .. '%#LspSagaWinbarSep#  %*'
+				-- file_path = file_path .. cur .. '%#LspSagaWinbarSep# > %*'
+			end
+		end
+		return file_path .. file_name
+	end,
+}
+
+M.diff = {
+	'diff',
+	colored = true, -- Displays a colored diff status if set to true
+	-- diff_color = {
+	-- 	-- Same color values as the general color option can be used here.
+	-- 	added = 'DiffAdd', -- Changes the diff's added color
+	-- 	modified = 'DiffChange', -- Changes the diff's modified color
+	-- 	removed = 'DiffDelete', -- Changes the diff's removed color you
+	-- },
+	-- symbols = { added = '+', modified = '~', removed = '-' }, -- Changes the symbols used by the diff.
+	symbols = { added = ' ', modified = ' ', removed = ' ' }, -- Changes the symbols used by the diff.
+	source = nil, -- A function that works as a data source for diff.lualine
+	-- It must return a table as such:
+	--   { added = add_count, modified = modified_count, removed = removed_count }
+	-- or nil on failure. count <= 0 won't be displayed.
+}
 
 M.symbols = function()
 	local has_symbolwinbar, symbolwinbar = pcall(require, 'lspsaga.symbolwinbar')

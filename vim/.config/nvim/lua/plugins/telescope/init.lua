@@ -1,54 +1,22 @@
 local status_telescope, telescope = pcall(require, 'telescope')
 if not status_telescope then return end
 
-local builtin = require('telescope.builtin')
-local themes = require('telescope.themes')
+local mappings = require('plugins.telescope.keymaps')
 
--- themes.get_dropdown() -- more vertical
--- themes.get_cursor() -- tiny
--- themes.get_ivy() -- bottom
-
-local tele_map = PrefixMap('n', '<leader>f', '[Telescope]')
-local layouts = require('plugins.telescope.layouts')
-
--- nmap('<C-p>', { builtin.find_files, { layout_strategy = 'cursor' } }, '[Telescope] Find Files')
-nmap('<C-p>', { builtin.find_files, layouts.find_files }, '[Telescope] Find Files')
-
-tele_map(
-	'p',
-	{ builtin.find_files, { find_command = { 'rg', '--files', '--hidden', '-g', '!.git' } } },
-	'Find Files'
-)
-tele_map('v', { builtin.find_files, { cwd = NVIM_CONFIG_PATH } }, 'Find Neovim Files')
-
-tele_map('l', { builtin.live_grep, layouts.find_files }, 'Live Grep')
-tele_map('g', { builtin.grep_string, layouts.list }, 'Grep String')
-tele_map('h', { builtin.help_tags, layouts.find_files }, 'Find Help Tags')
-tele_map('k', { builtin.keymaps, layouts.find_files }, 'Find Keymaps')
-
-tele_map('b', { builtin.buffers, layouts.list }, 'Find Buffers')
-tele_map('o', { builtin.oldfiles, layouts.list }, 'Find Old Files')
-
-tele_map('r', builtin.resume, 'Resume')
-tele_map('t', builtin.treesitter, 'Treesitter')
-
-tele_map('T', CMD('Telescope'), 'Telescope')
-
--- tele_map('c', builtin.current_buffer_fuzzy_find, 'Fuzzy Find in current Buffer')
-
-telescope.setup {
+local config = {
 	defaults = {
 		-- winblend = function() return vim.go.winblend end,
 		winblend = vim.o.winblend,
 		-- winblend = 75,
 		prompt_prefix = '  ',
+		cycle_layout_list = {},
 		selection_caret = ' ',
 		path_display = { 'truncate' },
 		border = true,
 		initial_mode = 'insert', -- normal
 		layout_strategy = 'vertical',
 		scroll_strategy = 'limit',
-		mappings = require('plugins.telescope.keymaps'),
+		mappings = mappings,
 		layout_config = {
 			width = { 0.6, max = 180 },
 
@@ -95,3 +63,12 @@ telescope.setup {
 		-- please take a look at the readme of the extension you want to configure
 	},
 }
+
+telescope.setup(config)
+
+Augroup('TelescopeRefresh', {
+	Autocmd('OptionSet', 'winblend', function()
+		config.defaults.winblend = vim.o.winblend
+		telescope.setup(config)
+	end),
+})

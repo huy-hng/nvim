@@ -15,8 +15,10 @@ lualine.setup {
 	options = {
 		icons_enabled = true,
 		theme = cat,
-		component_separators = { left = '', right = '' },
 		section_separators = { left = '', right = '' },
+		component_separators = { left = '', right = '' },
+		-- section_separators = { left = '', right = '' },
+		-- component_separators = { left = '', right = '' },
 		disabled_filetypes = { 'alpha' },
 		-- disabled_filetypes = {
 		-- 	statusline = { 'alpha' },
@@ -24,7 +26,7 @@ lualine.setup {
 		-- 	tabline = { 'alpha' },
 		-- },
 		ignore_focus = {},
-		always_divide_middle = true,
+		always_divide_middle = false,
 		globalstatus = true,
 		refresh = {
 			statusline = 1000,
@@ -34,20 +36,13 @@ lualine.setup {
 	},
 	sections = {
 		lualine_a = { 'mode' },
-		lualine_b = { comp.branch, 'diff', 'diagnostics' },
-		lualine_c = { 'filename', comp.session_name },
-		lualine_x = { 'searchcount', comp.indentation, comp.filetype},
+		lualine_b = { comp.branch },
+		lualine_c = { comp.session_name, comp.filepath },
+		lualine_x = { 'searchcount', comp.extra_mode, comp.indentation, comp.filetype },
 		lualine_y = { 'progress', 'location' },
 		lualine_z = { comp.date, comp.time },
 	},
-	inactive_sections = {
-		lualine_a = {},
-		lualine_b = {},
-		lualine_c = { 'filename' },
-		lualine_x = { 'progress' },
-		lualine_y = {},
-		lualine_z = {},
-	},
+	inactive_sections = {},
 	tabline = {
 		lualine_a = {},
 		lualine_b = {},
@@ -58,16 +53,22 @@ lualine.setup {
 		lualine_z = { comp.tabs },
 	},
 	winbar = {
-		lualine_c = { comp.filename },
+		lualine_a = {},
+		lualine_b = {},
+		lualine_c = { comp.diff, 'diagnostics', comp.filename },
 		lualine_x = { comp.symbols },
+		lualine_z = {},
 	},
 	inactive_winbar = {
-		lualine_c = { comp.filename },
+		lualine_b = {},
+		lualine_c = { comp.diff, 'diagnostics', comp.filename },
+		lualine_x = {},
 	},
-	extensions = { 'nvim-tree', 'nvim-dap-ui', 'symbols-outline', 'quickfix' },
+	-- extensions = { 'nvim-tree', 'nvim-dap-ui', 'quickfix' },
+	extensions = { 'nvim-dap-ui', 'quickfix' },
 }
 
--- vim.api.nvim_del_augroup_by_name('lualine_wb_refresh')
+-- vim.api.nvim_del_augroup_by_name()
 
 -- local cmds = vim.api.nvim_get_autocmds { event = 'CursorMoved' }
 -- for _, cmd in ipairs(cmds) do

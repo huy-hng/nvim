@@ -1,18 +1,6 @@
 --- @type number[]
 PopupWindows = {}
 
-
-local function close_all_floating_wins()
-	local wins = vim.api.nvim_list_wins()
-	for _, winid in ipairs(wins) do
-		local config = vim.api.nvim_win_get_config(winid)
-		if config.relative ~= '' then
-			print(winid)
-			vim.api.nvim_win_close(winid, false)
-		end
-	end
-end
-
 local function get_buf_ft(filetype)
 	local bufs = vim.api.nvim_list_bufs()
 
@@ -54,18 +42,50 @@ local Split = require('nui.split')
 local function create_split()
 	return Split {
 		relative = 'editor',
-		position = 'bottom',
-		size = '20%',
+		position = 'left',
+		size = '25%',
+		win_options = {
+			number = false,
+		},
 	}
 end
 
-local split = create_split()
--- split:mount()
-function WriteToSplit(...)
-	local args = Formatter(...)
-	vim.api.nvim_buf_set_lines(split.bufnr, -1, -1, false, { args })
+-- NuiOutput = create_split()
+
+function NewOutput()
+	if NuiOutput then NuiOutput:unmount() end
+
+	NuiOutput = create_split()
+	NuiOutput:mount()
+	return NuiOutput
 end
 
-nmap('\\2', close_all_floating_wins, 'close all floating windows')
+function ClearOutput()
+	if not NuiOutput then return end
+	if not NuiOutput.bufnr then return end
+	vim.api.nvim_buf_set_lines(NuiOutput.bufnr, 0, -1, false, { '' })
+	-- Try(1, vim.api.nvim_buf_set_lines, NuiOutput.bufnr, 0, -1, false, { '' })
+end
+
+local function inspector(arg)
+	if type(arg) == 'string' then --
+		return { arg }
+	end
+
+	arg = vim.inspect(arg)
+	arg = vim.split(arg, '\n', {})
+	return arg
+end
+
+function WriteToSplit(...)
+	if not NuiOutput then NuiOutput = NewOutput() end
+	NuiOutput:mount()
+
+	local args = vim.tbl_map(inspector, { ... })
+	for _, arg in ipairs(args) do
+		vim.api.nvim_buf_set_lines(NuiOutput.bufnr, -1, -1, false, arg)
+		-- Try(1, vim.api.nvim_buf_set_lines, NuiOutput.bufnr, -1, -1, false, arg)
+	end
+end
 
 return M

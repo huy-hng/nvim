@@ -1,9 +1,9 @@
 local status_ok, configs = pcall(require, 'nvim-treesitter.configs')
-if not status_ok then
-	return
-end
+if not status_ok then return end
 
-configs.setup({
+Nmap('\\0', vim.cmd.TSHighlightCapturesUnderCursor)
+
+configs.setup {
 	playground = {
 		enable = true,
 		disable = {},
@@ -22,5 +22,9 @@ configs.setup({
 			show_help = '?',
 		},
 	},
-
-})
+	query_linter = {
+		enable = false,
+		use_virtual_text = true,
+		lint_events = { 'BufWrite', 'CursorHold' },
+	},
+}

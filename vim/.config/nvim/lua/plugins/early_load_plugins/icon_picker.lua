@@ -6,6 +6,6 @@ picker.setup {
 }
 -- local sources = ' nerd_font emoji symbols'
 local sources = ' nerd_font'
-nmap('<leader>fi', CMD('IconPickerNormal' .. sources))
+Nmap('<leader>fi', Wrap(vim.cmd.IconPickerNormal, sources), 'Icon Picker')
 -- nmap('<leader><leader>y', CMD('IconPickerYank' .. sources))
 -- imap('C-i>', CMD('IconPickerInsert' .. sources))
