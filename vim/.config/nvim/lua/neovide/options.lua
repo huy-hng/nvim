@@ -19,8 +19,9 @@ local blur_amount = 7
 g.neovide_floating_blur = true
 g.neovide_floating_blur_amount_x = blur_amount
 g.neovide_floating_blur_amount_y = blur_amount
-g.gui_font_face = 'FiraCode Nerd Font'
+-- g.gui_font_face = 'FiraCode Nerd Font'
 g.gui_font_face = 'CaskaydiaCove Nerd Font'
+-- g.gui_font_face = 'Caskaydia Cove Nerd Font Complete'
 
 -----------------------------------------------Sizes------------------------------------------------
 
@@ -35,7 +36,7 @@ g.neovide_underline_automatic_scaling = true
 g.neovide_no_idle = false -- not sure if this helps with anything
 g.neovide_confirm_quit = true
 g.neovide_remember_window_size = true
-g.neovide_scroll_animation_length = 0.4
+g.neovide_scroll_animation_length = 0.5 -- has been 0.4 most of the time
 g.neovide_hide_mouse_when_typing = true
 
 g.neovide_touch_deadzone = 100
@@ -43,8 +44,6 @@ g.neovide_touch_drag_timeout = 0.3
 
 ----------------------------------------------Cursor------------------------------------------------
 
-g.neovide_cursor_animation_length = 0.02
-g.neovide_cursor_trail_size = 0.2
 g.neovide_cursor_animation_length = 0.03 -- 0.13
 g.neovide_cursor_trail_size = 0.5 -- 0.8
 g.neovide_cursor_antialiasing = true

@@ -40,7 +40,7 @@ end
 
 M.change_window_opacity = function(value, speed, absolute)
 	speed = speed or 10
-	local max_winblend = 67
+	local max_winblend = 75
 	local max_pumblend = 50
 
 	local new_transparency
