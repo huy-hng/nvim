@@ -71,6 +71,7 @@ end
 
 handler('textDocument/hover', function(_, result, ctx, lsp_config)
 	if result == nil then
+		-- Feedkeys('K')
 		vim.lsp.handlers.hover(_, result, ctx, lsp_config)
 		return
 	end
@@ -86,14 +87,16 @@ handler('textDocument/hover', function(_, result, ctx, lsp_config)
 	if max_window_width > 1 then --
 		lsp_config.wrap_at = math.min(content_width, max_window_width)
 	end
+	-- lsp_config.border = { '█', '▀', '█', '█', '█', '▄', '█', '█' }
 
+	lsp_config.border = { ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ' }
 	-- lsp_config.border = 'rounded'
 	local bufnr, winnr = vim.lsp.handlers.hover(_, result, ctx, lsp_config)
 	if winnr == nil then return end
-	require('lsp.keymaps').close_with_esc(winnr)
+
+	require('plugins.lsp.keymaps').close_with_esc(winnr)
 
 	local win_config = vim.api.nvim_win_get_config(winnr)
-	-- P(win_config.height, win_config.width)
 
 	if max_window_height > 1 then
 		win_config.height = math.min(win_config.height, max_window_height)
@@ -103,9 +106,6 @@ handler('textDocument/hover', function(_, result, ctx, lsp_config)
 		win_config.width = math.min(win_config.width, max_window_width)
 	end
 
-	-- P(win_config.height, win_config.width)
-
-	-- win_config.anchor = 'SE'
 	vim.api.nvim_win_set_config(winnr, win_config)
 end, {})
 
@@ -121,13 +121,13 @@ vim.lsp.handlers['textDocument/definition'] = function(_, result)
 	end
 
 	if vim.tbl_islist(result) then
-		vim.lsp.util.jump_to_location(result[1], 'utf-8')
+		vim.lsp.util.jump_to_location(result[1], 'utf-8', true)
 	else
-		vim.lsp.util.jump_to_location(result, 'utf-8')
+		vim.lsp.util.jump_to_location(result, 'utf-8', true)
 	end
 end
 
--- vim.lsp.handlers['window/showMessage'] = require('lsp.show_message')
+-- vim.lsp.handlers['window/showMessage'] = require('plugins.lsp.show_message')
 
 -- handler('textDocument/publishDiagnostics', vim.lsp.diagnostic.on_publish_diagnostics, {
 -- 	update_in_insert = true,

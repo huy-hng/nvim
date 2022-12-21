@@ -9,10 +9,11 @@ if not status then return end
 -- local file_path = ... -- pathOfThisFile is now 'lib.foo.bar'
 -- print(file_path)
 
-local require_path = (...):match('(.-)[^%.]+$') -- returns 'lib.foo.'
+-- local require_path = (...):match('(.-)[^%.]+$') -- returns 'lib.foo.'
+-- require(require_path .. 'mason')
 
-require(require_path .. 'mason')
-require(require_path .. 'handlers')
-require(require_path .. 'diagnostic')
-require(require_path .. 'server_setup')
-require(require_path .. 'null-ls')
+require('plugins.lsp.mason')
+require('plugins.lsp.handlers')
+require('plugins.lsp.diagnostic')
+require('plugins.lsp.server_setup')
+require('plugins.lsp.null-ls')

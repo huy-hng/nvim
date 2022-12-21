@@ -1,9 +1,7 @@
 ---@diagnostic disable: missing-parameter
 local M = {}
 
-local function unmapper(bufnr)
-	unmap('n', '<esc>', { buffer = bufnr })
-end
+local function unmapper(bufnr) UNmap('n', '<esc>', { buffer = bufnr }) end
 
 function M.close_with_esc(win_id, bufnr)
 	bufnr = bufnr or 0
@@ -12,7 +10,7 @@ function M.close_with_esc(win_id, bufnr)
 	-- 	autocmd('WinClosed', '*', { unmapper, bufnr }, { buffer = bufnr }),
 	-- })
 
-	nmap('<esc>', function()
+	Nmap('<esc>', function()
 		pcall(vim.api.nvim_win_close, win_id, true)
 		unmapper(bufnr)
 	end, 'close diagnostic float', { buffer = bufnr })
@@ -79,8 +77,12 @@ local lsp_keymaps = function(bufnr)
 		'List Workspaces'
 	)
 
+	local layout = require('plugins.telescope.layouts').vert_list_normal
+	local references = require('telescope.builtin').lsp_references
+	lsp_map('gr', { references, layout }, '[Telescope] LSP References')
 	lsp_map('<F2>', vim.lsp.buf.rename, 'Rename')
-	lsp_map('<F12>', vim.lsp.buf.references, 'References')
+	-- telescope references defined in telescope keymaps
+	-- lsp_map('<F12>', vim.lsp.buf.references, 'References')
 	lsp_map('<leader>ca', vim.lsp.buf.code_action, 'Code Actions')
 	lsp_map('<leader>ff', lsp_formatting, 'Format Document')
 	-- lsp_map('<leader>lr', require('lsp.codelens').run, 'codelens')

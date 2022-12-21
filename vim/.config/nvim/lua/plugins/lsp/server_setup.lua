@@ -13,13 +13,13 @@ local lsp_flags = {
 }
 
 local opts = {
-	on_attach = require('lsp.keymaps').on_attach,
-	capabilities = require('lsp.capabilities'),
+	on_attach = require('plugins.lsp.keymaps').on_attach,
+	capabilities = require('plugins.lsp.capabilities'),
 	flags = lsp_flags,
 }
 
 for _, server in ipairs(language_servers) do
-	local has_custom_opts, server_custom_opts = pcall(require, 'lsp.servers.' .. server)
+	local has_custom_opts, server_custom_opts = pcall(require, 'plugins.lsp.servers.' .. server)
 	if has_custom_opts then --
 		opts = vim.tbl_deep_extend('force', opts, server_custom_opts)
 	end
