@@ -40,9 +40,9 @@ local function requirefolder(--[[ args, parent, user_args ]])
 	return path .. '.'
 end
 
-
 return {
 	snippet('curfile', f(get_relative_path())),
+	snippet('api', t('vim.api.')),
 	snippet('ifreturn', t('if true then return end')),
 	snippet('cast', t('---@cast ')),
 	snippet('ignore', t('--stylua: ignore')),
@@ -53,6 +53,18 @@ return {
 		{}
 	end
 	]], { i(1), i(2), i(0)})),
+
+	snippet(
+		'for .. ipairs()',
+		fmt(
+			[[
+	for {}, {} in ipairs({}) do
+		{}
+	end
+	]],
+			{ i(1, '_'), i(2, 'val'), i(3), i(0) }
+		)
+	),
 
 	-- snippet('lf', {
 	-- 	desc = 'table function',
