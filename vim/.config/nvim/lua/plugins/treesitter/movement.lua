@@ -1,5 +1,4 @@
 local ts_utils = require('nvim-treesitter.ts_utils')
-local ts = require('nvim-treesitter')
 local locals = require('nvim-treesitter.locals')
 
 Augroup('Treesitter', {

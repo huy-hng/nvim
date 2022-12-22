@@ -2,6 +2,7 @@ local status_telescope, telescope = pcall(require, 'telescope')
 if not status_telescope then return end
 
 local mappings = require('plugins.telescope.keymaps')
+telescope.load_extension('notify')
 
 local config = {
 	defaults = {

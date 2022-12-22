@@ -1,7 +1,7 @@
 local status_ok, configs = pcall(require, 'nvim-treesitter.configs')
 if not status_ok then return end
 
-ft_highlight = {
+Filetype_hl = {
 	'vimwiki'
 }
 
@@ -16,7 +16,7 @@ configs.setup {
 		additional_vim_regex_highlighting = false,
 
 		disable = function(lang, buf)
-			if vim.tbl_contains(ft_highlight, lang) then return true end
+			if vim.tbl_contains(Filetype_hl, lang) then return true end
 
 			local max_filesize = 100 * 1024 -- 100 KB
 			local ok, stats = pcall(vim.loop.fs_stat, vim.api.nvim_buf_get_name(buf))
@@ -25,7 +25,7 @@ configs.setup {
 	},
 
 	rainbow = {
-		enable = false,
+		enable = true,
 		-- disable = { "jsx", "cpp" }, list of languages you want to disable the plugin for
 		extended_mode = true, -- Also highlight non-bracket delimiters like html tags, boolean or table: lang -> boolean
 		max_file_lines = nil, -- Do not enable for files with more than n lines, int

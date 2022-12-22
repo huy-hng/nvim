@@ -14,9 +14,9 @@ local tele_map = PrefixMap('n', '<leader>f', '[Telescope]')
 --------------------------------------------Find Files----------------------------------------------
 
 -- nmap('<C-p>', { builtin.find_files, { layout_strategy = 'cursor' } }, '[Telescope] Find Files')
+-- tele_map('p', { builtin.find_files, { find_command = find_command } }, 'Find Ignored Files')
 Nmap('<C-p>', { builtin.find_files, layouts.vert_list_insert }, '[Telescope] Find Files')
 local find_command = { 'rg', '--files', '--hidden', '-g', '!.git' }
-tele_map('p', { builtin.find_files, { find_command = find_command } }, 'Find Ignored Files')
 tele_map('b', { builtin.buffers, layouts.vert_list_normal }, 'Find Buffers')
 tele_map('o', { builtin.oldfiles, layouts.vert_list_normal }, 'Find Old Files')
 
@@ -41,16 +41,37 @@ tele_map('r', builtin.resume, 'Resume')
 tele_map('t', builtin.treesitter, 'Treesitter')
 
 ------------------------------------Different Working Directory-------------------------------------
-local function run_in_cwd(fn)
-	return function() fn { cwd = vim.fn.expand('%:p:r') } end
-end
-tele_map('P', run_in_cwd(builtin.find_files), '[Telescope] Find Files in buffer dir')
-tele_map('L', run_in_cwd(builtin.live_grep), '[Telescope] Live Grep in buffer dir')
 
-tele_map('v', {
-	builtin.find_files,
-	vim.tbl_extend('force', layouts.vert_list_insert, { cwd = NVIM_CONFIG_PATH }),
-}, 'Find Neovim Files')
+local function vert_list_insert(opts) --
+	return vim.tbl_extend('force', layouts.vert_list_insert, opts)
+end
+
+local function layout_opts(layout, opts) --
+	return vim.tbl_extend('force', layout, opts)
+end
+
+local function run_with_layout(fn, layout, opts)
+	return function() fn(vim.tbl_extend('force', layout, opts)) end
+end
+
+-- runs in dir or the cwd
+---@param fn function
+---@param dir string path
+local function run_in_dir(fn, dir)
+	local opts = { cwd = dir or vim.fn.expand('%:p:h') }
+	P(opts)
+	fn(layout_opts(layouts.vert_list_insert, opts))
+end
+
+tele_map('P', { run_in_dir, builtin.find_files }, 'Find Files in buffer dir')
+tele_map('L', { run_in_dir, builtin.live_grep }, 'Live Grep in buffer dir')
+
+tele_map('v', { run_in_dir, builtin.find_files, NVIM_CONFIG_PATH }, 'Find Neovim Files')
+tele_map(
+	'p',
+	{ run_in_dir, builtin.find_files, '/home/huy/.local/share/nvim/site/pack/packer' },
+	'Find Neovim Files'
+)
 
 local maps = {
 	['<C-u>'] = actions.results_scrolling_up,

@@ -46,15 +46,15 @@ wk.setup {
 	},
 	window = {
 		border = 'none', -- none, single, double, shadow
-		position = 'bottom', -- bottom, top
+		position = 'top', -- bottom, top
 		padding = { 1, 4, 1, 4 }, -- extra window padding [top, right, bottom, left]
 		margin = { 0, 0, 0, 0 }, -- extra window margin [top, right, bottom, left]
-		winblend = vim.go.winblend,
+		winblend = vim.o.winblend,
 	},
 	layout = {
-		height = { min = 10, max = 50 }, -- min and max height of the columns
-		-- width = { min = 20, max = 50 }, -- min and max width of the columns
-		spacing = 8, -- spacing between columns
+		height = { min = 10, max = 20 }, -- min and max height of the columns
+		width = { min = 60, max = 80 }, -- min and max width of the columns
+		spacing = 16, -- spacing between columns
 		align = 'center', -- align columns left, center or right
 	},
 	ignore_missing = false, -- enable this to hide mappings for which you didn't specify a label

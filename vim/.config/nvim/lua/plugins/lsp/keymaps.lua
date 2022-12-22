@@ -1,7 +1,7 @@
 ---@diagnostic disable: missing-parameter
 local M = {}
 
-local function unmapper(bufnr) UNmap('n', '<esc>', { buffer = bufnr }) end
+local function unmapper(bufnr) Unmap('n', '<esc>', { buffer = bufnr }) end
 
 function M.close_with_esc(win_id, bufnr)
 	bufnr = bufnr or 0

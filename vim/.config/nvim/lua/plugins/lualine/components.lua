@@ -23,16 +23,20 @@ M.branch = {
 M.session_name = function()
 	local has_session, session = pcall(require, 'possession.session')
 	if not has_session then return '' end
-	return ('  ' .. session.session_name) or '%#Error#NO SESSION'
+
+	local name = '%#Error#NO SESSION'
+	if session.session_name then name = '  ' .. session.session_name end
+
+	return name
 end
 
 -----------------------------------------Statusline Right-------------------------------------------
 
-M.extra_mode = {
+M.metamap = {
 	function()
 		local bufnr = vim.api.nvim_get_current_buf()
-		return vim.b[bufnr].ExtraMode or ''
-	end
+		return vim.b[bufnr].MetaMap or ''
+	end,
 }
 
 local set_indentation = require('plugins.detect_indentation.set_indentation')
@@ -59,9 +63,10 @@ M.indentation = {
 		if button == 'r' then set_indentation.toggle_indent_type() end
 		if button == 'l' then --
 			---@diagnostic disable-next-line: param-type-mismatch
-			vim.ui.input('Indentation width: ', function (width)
-				set_indentation.set_width(tonumber(width))
-			end)
+			vim.ui.input(
+				'Indentation width: ',
+				function(width) set_indentation.set_width(tonumber(width)) end
+			)
 		end
 
 		Schedule(lualine.refresh, {

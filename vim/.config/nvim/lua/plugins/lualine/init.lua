@@ -38,7 +38,7 @@ lualine.setup {
 		lualine_a = { 'mode' },
 		lualine_b = { comp.branch },
 		lualine_c = { comp.session_name, comp.filepath },
-		lualine_x = { 'searchcount', comp.extra_mode, comp.indentation, comp.filetype },
+		lualine_x = { 'searchcount', comp.metamap, comp.indentation, comp.filetype },
 		lualine_y = { 'progress', 'location' },
 		lualine_z = { comp.date, comp.time },
 	},
