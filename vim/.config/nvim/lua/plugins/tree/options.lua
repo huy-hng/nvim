@@ -6,12 +6,12 @@ return {
 	on_attach = 'disable',
 	select_prompts = false,
 	view = {
-		adaptive_size = false,
+		adaptive_size = true,
 		centralize_selection = false,
 		width = 30,
 		hide_root_folder = false,
 		side = 'left',
-		preserve_window_proportions = false,
+		preserve_window_proportions = true,
 		number = false,
 		relativenumber = false,
 		signcolumn = 'yes',
@@ -28,7 +28,7 @@ return {
 				-- anchor = 'NE',
 				-- col = vim.api.nvim_win_get_width(0) - 35,
 
-				width = 35,
+				width = 30,
 				height = vim.api.nvim_win_get_height(0) - 2,
 			},
 		},
@@ -100,8 +100,9 @@ return {
 		auto_open = true,
 	},
 	update_focused_file = { -- uncollapses folders until it finds the file
-		enable = true,
+		enable = false,
 		update_root = false,
+		debounce_delay = 15,
 		-- ignore_list = { 'help' },
 	},
 	ignore_ft_on_setup = {},
@@ -110,9 +111,9 @@ return {
 		args = {},
 	},
 	diagnostics = {
-		enable = true,
+		enable = false,
 		show_on_dirs = false,
-		show_on_open_dirs = true,
+		show_on_open_dirs = false,
 		debounce_delay = 10,
 		severity = {
 			min = vim.diagnostic.severity.WARN,
@@ -184,7 +185,7 @@ return {
 	},
 	live_filter = {
 		prefix = '[FILTER]: ',
-		always_show_folders = true,
+		always_show_folders = false,
 	},
 	log = {
 		enable = false,

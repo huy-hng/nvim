@@ -20,9 +20,11 @@ function NvimTreeFloat(enable)
 
 	if enable or enable == nil then
 		options.view.float.enable = true
+		options.update_focused_file.enable = false
 		options.view.mappings.list[1].action = 'edit_no_picker'
 	else
 		options.view.float.enable = false
+		options.update_focused_file.enable = true
 		options.view.mappings.list[1].action = 'edit'
 	end
 	nvim_tree.setup(options)
@@ -31,4 +33,5 @@ end
 local functions = require('plugins.tree.functions')
 Nmap('<C-e>', functions.focus_tree, 'Toggle Nvim Tree')
 Nmap('<A-E>', NvimTreeFloat, 'Toggle Nvim Tree')
+-- print(options.update_focused_file.enable)
 -- nmap('<leader>e', functions.focus_tree, 'Toggle Nvim Tree')
