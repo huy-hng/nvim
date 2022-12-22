@@ -1,7 +1,10 @@
+-- ../../../plugins/extra_modes/lua/extra_modes/init.lua
+
+local has_metamap, MetaMap = pcall(require, 'metamap')
+if not has_metamap then return end
+
 local has_ufo, ufo = pcall(require, 'ufo')
 local functions = require('plugins.ufo.functions')
-
-local fn = R('core.keymappers')
 
 local function temp_change_cursor_color()
 	local group_id = vim.fn.hlID('Cursor')
@@ -85,67 +88,61 @@ local function goPreviousStartFold()
 	if previousLnum then vim.cmd(('norm! %dgg_'):format(previousLnum)) end
 end
 
-local function start_navigation()
-	vim.o.cursorline = true
-	-- vim.o.cursorcolumn = true
-	vim.o.cursorlineopt = 'both'
-	local bufnr = vim.api.nvim_get_current_buf()
+-- MapSpaceCapital('n', 'F', start_navigation, 'Start Fold navigation mode')
+-- Nmap('<C-f>', start_navigation, 'Start Fold navigation mode')
 
-	if vim.b[bufnr].ExtraMode then return end
-	local saved_mappings = {}
-	local mapper = fn.create_mapper('n', saved_mappings)
-
-	mapper('m', 'zm')
-	mapper('M', 'zM')
-	mapper('r', 'zr')
-	mapper('R', 'zR')
-	mapper('C', 'zC', 'close the entire fold until level 0')
-	mapper('O', 'zO', 'open the entire fold')
-
-	mapper('h', Wrap(pcall, vim.cmd.foldclose))
-	mapper('l', Wrap(pcall, vim.cmd.foldopen))
-	mapper('j', 'zj^', 'Move to the start of the next fold')
-	mapper('k', 'zk^', 'Move to the end of the previous fold')
-	-- mapper('K', 'zk')
-
-	mapper('<C-j>', ']z', 'Move to the end of the current open fold')
-	mapper('<C-k>', '[z', 'Move to the start of the current open fold')
-
-	if has_ufo then
-		mapper('M', ufo.closeAllFolds, 'close all folds')
-		mapper('R', ufo.openAllFolds, 'open all folds')
-
-		mapper('<CR>', ufo.peekFoldedLinesUnderCursor, 'Peek Fold', { nowait = true })
-
-		mapper('k', ufo.goPreviousStartFold, 'Go to start of prev fold')
-		-- mapper('K', ufo.goPreviousClosedFold, 'Go to prev closed fold')
-		mapper('K', ufo.peekFoldedLinesUnderCursor, 'Go to prev closed fold')
-		mapper('J', functions.goNextClosedAndPeek, 'Go to next closed fold')
-
-		mapper('1', { ufo.closeFoldsWith, 0 })
-		mapper('2', { ufo.closeFoldsWith, 1 })
-		mapper('3', { ufo.closeFoldsWith, 2 })
-		mapper('4', { ufo.closeFoldsWith, 3 })
-		mapper('5', { ufo.closeFoldsWith, 4 })
-		mapper('6', { ufo.closeFoldsWith, 5 })
-		mapper('7', { ufo.closeFoldsWith, 6 })
-	end
-
-	local function end_navigation()
-		-- vim.o.cursorcolumn = false
-		vim.o.cursorlineopt = 'number'
-		fn.restore_maps(saved_mappings, bufnr)
-		vim.notify('Exiting ' .. vim.b[bufnr].ExtraMode or '' .. 'mode')
-		vim.b[bufnr].ExtraMode = nil
-	end
-
-	mapper('q', end_navigation)
-	mapper('<Esc>', end_navigation)
-	mapper('<leader>F', end_navigation)
-	mapper('<S-Space>F', end_navigation)
-
-	vim.b[bufnr].ExtraMode = 'Fold'
-	vim.notify('Entering ' .. vim.b[bufnr].ExtraMode .. 'mode')
+local function end_navigation()
+	vim.o.cursorcolumn = false
+	vim.o.cursorlineopt = 'number'
+	-- extra_modes.restore_maps(saved_mappings, bufnr)
+	-- vim.notify('Exiting ' .. vim.b[bufnr].ExtraMode or '' .. 'mode')
+	-- vim.b[bufnr].ExtraMode = nil
 end
 
-MapSpaceCapital('n', 'F', start_navigation, 'Start Fold navigation mode')
+local function start_navigation()
+	vim.o.cursorline = true
+	vim.o.cursorlineopt = 'both'
+	-- vim.o.cursorcolumn = true
+end
+
+local map = MetaMap.new('Fold Navigation')
+
+map:enter('n', '<C-f>', start_navigation)
+map:exit('n', { 'q', '<esc>', '<C-f>' }, end_navigation)
+
+map:nmap('m', 'zm')
+map:nmap('M', 'zM')
+map:nmap('r', 'zr')
+map:nmap('R', 'zR')
+map:nmap('C', 'zC', 'close the entire fold until level 0')
+map:nmap('O', 'zO', 'open the entire fold')
+
+map:nmap('h', Wrap(pcall, vim.cmd.foldclose))
+map:nmap('l', Wrap(pcall, vim.cmd.foldopen))
+map:nmap('j', 'zj^', 'Move to the start of the next fold')
+map:nmap('k', 'zk^', 'Move to the end of the previous fold')
+-- map:nmap('K', 'zk')
+
+map:nmap('<C-j>', ']z', 'Move to the end of the current open fold')
+map:nmap('<C-k>', '[z', 'Move to the start of the current open fold')
+
+if has_ufo then
+	map:nmap('M', ufo.closeAllFolds, 'close all folds')
+	map:nmap('R', ufo.openAllFolds, 'open all folds')
+
+	map:nmap('<CR>', ufo.peekFoldedLinesUnderCursor, 'Peek Fold', { nowait = true })
+
+	-- map:nmap('k', 'zz', 'Go to start of prev fold', { callback = ufo.goPreviousStartFold })
+	map:nmap('k', ufo.goPreviousStartFold, 'Go to start of prev fold')
+	-- map:nmap('K', ufo.goPreviousClosedFold, 'Go to prev closed fold')
+	map:nmap('K', ufo.peekFoldedLinesUnderCursor, 'Go to prev closed fold')
+	map:nmap('J', functions.goNextClosedAndPeek, 'Go to next closed fold')
+
+	map:nmap('1', { ufo.closeFoldsWith, 0 })
+	map:nmap('2', { ufo.closeFoldsWith, 1 })
+	map:nmap('3', { ufo.closeFoldsWith, 2 })
+	map:nmap('4', { ufo.closeFoldsWith, 3 })
+	map:nmap('5', { ufo.closeFoldsWith, 4 })
+	map:nmap('6', { ufo.closeFoldsWith, 5 })
+	map:nmap('7', { ufo.closeFoldsWith, 6 })
+end
