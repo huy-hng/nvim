@@ -12,6 +12,10 @@ return packer.startup {
 	function(use)
 		use('wbthomason/packer.nvim')
 
+		------------------------------------------My Plugins----------------------------------------
+
+		use(NVIM_CONFIG_PATH .. 'plugins/metamap')
+
 		-------------------------------------------Utility------------------------------------------
 
 		use('windwp/nvim-autopairs') -- pair brackets
@@ -31,11 +35,7 @@ return packer.startup {
 		use('ThePrimeagen/harpoon')
 
 		use('vimwiki/vimwiki')
-		use {
-			'nvim-neorg/neorg',
-			run = ':Neorg sync-parsers', -- This is the important bit!
-			requires = 'nvim-lua/plenary.nvim',
-		}
+		use { 'nvim-neorg/neorg', requires = 'nvim-lua/plenary.nvim' }
 		use('jceb/vim-orgmode')
 
 		use { 'nvim-tree/nvim-tree.lua', requires = { 'nvim-tree/nvim-web-devicons' } }
@@ -154,8 +154,6 @@ return packer.startup {
 			requires = { 'MunifTanjim/nui.nvim', 'rcarriga/nvim-notify' },
 		}
 
-		use('lukas-reineke/indent-blankline.nvim') -- indentation lines
-
 		-- use 'glepnir/dashboard-nvim'
 		use { 'mhinz/vim-startify', disable = true }
 		use('goolord/alpha-nvim')
@@ -168,7 +166,11 @@ return packer.startup {
 
 		use('nvim-tree/nvim-web-devicons')
 
-		use('tiagovla/scope.nvim') -- scope buffers to tabs
+		use {
+			'tiagovla/scope.nvim',
+			config = function() require('scope').setup() end,
+		} -- scope buffers to tabs
+
 		use { 'nvim-lualine/lualine.nvim', requires = { 'nvim-tree/nvim-web-devicons' } }
 
 		-- better folding lines and column
