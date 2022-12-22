@@ -30,7 +30,7 @@ ufo.setup {
 			-- fn.customizeBufFoldText()
 		end
 
-		return ftMap[filetype] or { 'treesitter', 'indent' }
+		return ftMap[filetype] or { 'lsp', 'indent' }
 	end,
 
 	open_fold_hl_timeout = 150,

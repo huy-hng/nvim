@@ -7,22 +7,22 @@ local function Printer(...)
 	-- P(...)
 end
 
-Augroup('Autosaver', {
-	Autocmd('BufWritePost', '*/ufo/fold_text_handler.lua', function(data)
-		vim.cmd.luafile('lua/plugins/ufo/init.lua')
-		Schedule(print, '======================================================================')
-	end),
-})
+-- Augroup('Autosaver', {
+-- 	Autocmd('BufWritePost', '*/ufo/fold_text_handler.lua', function(data)
+-- 		vim.cmd.luafile('lua/plugins/ufo/init.lua')
+-- 		Schedule(print, '======================================================================')
+-- 	end),
+-- })
 
 local function calc_middle(lower, upper) return math.ceil((upper - lower) / 2) + lower end
 
----@return table
+---@return table | nil
 local function bin_search_row(row_num, extmarks)
 	local lower = 0
 	local upper = #extmarks
 	local middle = calc_middle(lower, upper)
 	printer('looking for:', row_num)
-	for _ = 1, 15 do
+	for _ = 1, 30 do
 		printer('bin', lower, middle, upper)
 		local ext_row_num = extmarks[middle][2]
 		printer(ext_row_num)

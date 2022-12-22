@@ -2,18 +2,18 @@ local ufo = require('ufo')
 
 local M = {}
 M.peekOrHover = function()
-	local winid = ufo.peekFoldedLinesUnderCursor(nil, false)
+	local winid = ufo.peekFoldedLinesUnderCursor(false, false)
 	if not winid then vim.lsp.buf.hover() end
 end
 
 M.goPreviousClosedAndPeek = function()
 	ufo.goPreviousClosedFold()
-	ufo.peekFoldedLinesUnderCursor()
+	ufo.peekFoldedLinesUnderCursor(false, false)
 end
 
 M.goNextClosedAndPeek = function()
 	ufo.goNextClosedFold()
-	ufo.peekFoldedLinesUnderCursor()
+	ufo.peekFoldedLinesUnderCursor(false, false)
 end
 
 M.applyFoldsAndThenCloseAllFolds = function(providerName)
@@ -45,7 +45,7 @@ M.set_keymaps = function(bufnr)
 	ufomap('zM', ufo.closeAllFolds, 'close all folds')
 
 	-- ufomap('z;', ufo.goPreviousStartFold, 'inspect')
-	ufomap('zX', { M.applyFoldsAndThenCloseAllFolds, 'treesitter' }, 'Apply and close folds')
+	ufomap('zX', { M.applyFoldsAndThenCloseAllFolds, 'lsp' }, 'Apply and close folds')
 
 	-- ufomap('zr', ufo.openFoldsExceptKinds, 'open folds except kinds')
 	-- ufomap('zm', ufo.closeFoldsWith, 'close folds with') -- closeAllFolds == closeFoldsWith(0)
@@ -53,7 +53,7 @@ M.set_keymaps = function(bufnr)
 	-- calls the function below. If it there is nothing to peek, then lsp.hover will be executed
 	-- which is defined in lsp.handlers. If the lsp doesnt provide anything, regular 'K' will be executed
 	-- which is the keywordprg option, defined in options.lua.
-	ufomap('K', M.peekOrHover, 'peek or hover')
+	-- ufomap('K', M.peekOrHover, 'peek or hover')
 end
 
 -----------------------------------------providerSelector-------------------------------------------

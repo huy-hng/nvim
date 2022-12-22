@@ -1,4 +1,5 @@
 local functions = require('plugins.tree.functions')
+local tree = require('nvim-tree.api').tree
 -- local api = require('nvim-tree.api')
 
 -- nmap('<leader>mn', api.marks.navigate.next)
@@ -6,9 +7,7 @@ local functions = require('plugins.tree.functions')
 -- nmap('<leader>ms', api.marks.navigate.select)
 
 return {
-	--==============================================================================
-	--                          |=> custom mappings <=|
-	--==============================================================================
+	-----------------------------------------Custom Mappings----------------------------------------
 
 	{ key = { 'l', '<CR>' }, action = 'edit_no_picker' },
 	-- { key = { "l", "<CR>" }, action = "edit" },
@@ -18,9 +17,7 @@ return {
 	{ key = '?', action = 'toggle_help' },
 	{ key = '<Tab>', action = 'preview', action_cb = functions.preview },
 
-	--==============================================================================
-	--                          |=> default mappings <=|
-	--==============================================================================
+	-----------------------------------------Default Mappings---------------------------------------
 
 	----------------------------------------
 	--            -> editor <-
@@ -80,6 +77,7 @@ return {
 	--             -> view <-
 	----------------------------------------
 	{ key = 'W', action = 'collapse_all' },
+	-- { key = 'W', action = 'collapse_all', action_cb = function() tree.collapse_all(true) end },
 	{ key = 'E', action = 'expand_all' },
 
 	{ key = 'I', action = 'toggle_git_ignored' },
