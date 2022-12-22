@@ -8,16 +8,17 @@ Nmap('<C-SPACE>', '<nop>')
 
 Nmap('QQ', 'Q')
 Map('Q', 'q')
-Nmap('q', '<nop>')
+-- Nmap('q', '<nop>')
+-- Nmap('q:', '')
+-- Nmap('q/', '')
+-- Unmap('n', 'q:')
+-- UNmap('n', 'q/')
 
 Map('<C-;>', 'q:')
 -- Map(';', ':', '', { callback = function() vim.o.cmdheight = 1 end })
 Map(':', ';', '', { silent = false })
 Map(';', ':', '', { silent = false })
-
-Nmap('q:', '<nop>')
-Nmap('q/', '<nop>')
-Nmap('<leader>:', 'q:')
+Nmap('<leader>;', 'q:')
 Nmap('<leader>/', 'q/')
 
 -- Remap 0 to first non-blank character
@@ -33,7 +34,7 @@ Vmap('V', 'V')
 -- break undo sequence before pasting from register
 Imap('<C-r>', '<C-g>u<C-r>')
 Imap('<C-v>', '<C-g>u<C-r>+')
-Cmap('<C-v>', '<C-r>+')
+Cmap('<C-v>', '<C-r>+', 'Paste from clipboard', { silent = false })
 
 -- keep cursor centered when searching
 Nmap('n', 'nzzzv')
@@ -41,10 +42,7 @@ Nmap('N', 'Nzzzv')
 
 Nmap('#', '*NN')
 
-
 Nmap('zj', 'zj^', 'Move to the start of the next fold')
 Nmap('zk', 'zk^', 'Move to the end of the previous fold')
 local has_ufo, ufo = pcall(require, 'ufo')
-if has_ufo then
-	Nmap('zk', ufo.goPreviousStartFold, 'Move to the end of the previous fold')
-end
+if has_ufo then Nmap('zk', ufo.goPreviousStartFold, 'Move to the end of the previous fold') end

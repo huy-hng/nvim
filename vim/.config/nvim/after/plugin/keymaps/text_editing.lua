@@ -1,4 +1,5 @@
 local function keep_column(action, change_line)
+	count = 0
 	return function()
 		if false then
 			-- this entire thing can be simplified with just marks
@@ -70,34 +71,123 @@ Vmap('<A-K>', keep_column("Y'<P"))
 
 ------------------------------------move line(s) above / below--------------------------------------
 
--- nmap('<A-j>', 'mz<cmd>m+<cr>`z')
--- nmap('<A-k>', 'mz<cmd>m-2<cr>`z')
--- vmap('<A-j>', ":m'>+<cr>`<my`>mzgv`yo`z")
--- vmap('<A-k>', ":m'<-2<cr>`>my`<mzgv`yo`z")
-
+local a = require('plenary.async')
 local function move_line(direction)
+	local move = a.void(function() pcall(vim.cmd.move, direction) end)
+	local indent = a.void(function() vim.api.nvim_feedkeys('==', 'n', false) end)
+	-- local last_time = os.clock()
+
 	return function()
-		vim.cmd.move(direction)
-		vim.api.nvim_feedkeys('==', 'n', false)
+		-- local cur_time = os.clock()
+		-- local time_between_moves = 0.001 -- probably milliseconds
+		-- if cur_time - last_time < time_between_moves then
+		-- 	print('returning')
+		-- 	return
+		-- end
+		vim.schedule(function()
+			a.run(move, indent)
+
+			-- pcall(vim.cmd.move, direction)
+			-- vim.schedule(function()
+			-- 	vim.api.nvim_feedkeys('==', 'n', false)
+			-- 	-- Schedule(vim.api.nvim_feedkeys, '==', 'n', false)
+			-- end)
+		end)
+		-- last_time = cur_time
 	end
 end
 
 local function move_visual_line(direction)
 	return function()
 		vim.cmd.move(direction)
-		-- vim.api.nvim_feedkeys('==', 'n', false)
+		vim.api.nvim_feedkeys('==', 'n', false)
 	end
 end
 
+local count = 0
+local locked = false
+
+local function ScheduleWrapAsync(fn, ...)
+	local args = { ... }
+	local async_fn = a.void(function() fn(unpack(args)) end)
+	return ScheduleWrap(a.run, async_fn, nil)
+end
+
+local function ScheduleAsync(fn, ...)
+	local args = { ... }
+	local async_fn = a.void(function() fn(unpack(args)) end)
+	Schedule(a.run, async_fn, nil)
+end
+
+local over_the_counter = 0
+local function fn1(direction)
+	-- 	vim.cmd.move(move)
+	-- 	vim.api.nvim_feedkeys('==', 'n', false)
+	-- end)
+	local indent = ScheduleWrapAsync(vim.api.nvim_feedkeys, '==', 'n', false)
+
+	local mover = function(move)
+		ScheduleAsync(function() pcall(vim.cmd.move, move) end)
+	end
+
+	local counter = 0
+	local wrapped = function()
+		counter = counter + direction
+		if locked then
+			-- WriteOut(over_the_counter .. ' locked')
+			return
+		end
+
+		-- WriteOut(over_the_counter .. ' scheduling')
+		locked = true
+
+		vim.schedule(function()
+			-- WriteOut(over_the_counter .. ' running schedule')
+
+			local move
+			if counter > 0 then
+				move = '+' .. counter
+			else
+				move = tostring(math.min(-2, counter))
+			end
+
+			-- WriteOut(over_the_counter .. ' moving ' .. move)
+			mover(move)
+
+			-- WriteOut(over_the_counter .. ' indenting')
+			indent()
+
+			-- WriteOut(over_the_counter .. ' done')
+			locked = false
+			over_the_counter = over_the_counter + 1
+			counter = 0
+		end)
+	end
+	-- return ScheduleWrap(wrapped)
+	return wrapped
+end
+Defer(2000, PrintOut)
+
 Nmap('<A-j>', move_line('+'))
 Nmap('<A-k>', move_line('-2'))
+
+Nmap('<A-j>', fn1(1))
+Nmap('<A-k>', fn1(-1))
+-- this is a comment
+
+-- Nmap('<A-j>', counter(1))
+-- Nmap('<A-k>', counter(-1))
+
 -- nmap('<A-j>', '<cmd>m+<cr>==')
 -- nmap('<A-k>', '<cmd>m-2<cr>==')
 
--- vmap('<A-j>', move_visual_line("'>+"))
--- vmap('<A-k>', move_visual_line("<-2"))
 Vmap('<A-j>', ":m'>+<cr>`<my`>mzgv`yo`z=gv")
 Vmap('<A-k>', ":m'<-2<cr>`>my`<mzgv`yo`z=gv")
+
+-- nmap('<A-j>', 'mz<cmd>m+<cr>`z')
+-- nmap('<A-k>', 'mz<cmd>m-2<cr>`z')
+-- vmap('<A-j>', ":m'>+<cr>`<my`>mzgv`yo`z")
+-- vmap('<A-k>', ":m'<-2<cr>`>my`<mzgv`yo`z")
 
 ---------------------------------------------Substitution-------------------------------------------
 
@@ -118,3 +208,8 @@ Nmap('<C-S-Tab>', '<<')
 
 Vmap('<Tab>', '>gv')
 Vmap('<S-Tab>', '<gv')
+
+------------------------------------------Blackhole Register----------------------------------------
+-- Nmap('x', '"_x')
+-- Nmap <leader>d "_d
+-- Nmap <leader>c "_c

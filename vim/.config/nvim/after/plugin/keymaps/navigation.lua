@@ -6,10 +6,10 @@ Nmap('<C-k>', Wrap(vim.cmd.wincmd, 'k'))
 Nmap('<C-l>', Wrap(vim.cmd.wincmd, 'l'))
 
 -- resize windows with arrow keys
-Nmap('<Up>', Wrap(vim.cmd.resize, '-4'))
-Nmap('<Down>', Wrap(vim.cmd.resize, '+4'))
-Nmap('<Left>', Wrap(vim.cmd.wincmd, '4>'))
-Nmap('<Right>', Wrap(vim.cmd.wincmd, '4<'))
+Nmap('<Up>', { Schedule, Wrap(vim.cmd.resize, '-4') })
+Nmap('<Down>', { Schedule, Wrap(vim.cmd.resize, '+4') })
+Nmap('<Left>', { Schedule, Wrap(vim.cmd.wincmd, '4>') })
+Nmap('<Right>', { Schedule, Wrap(vim.cmd.wincmd, '4<') })
 
 -- nmap('<S-Up>',    '<cmd>aboveleft split<CR><cmd>bnext<CR><cmd>wincmd p<CR>')
 -- nmap('<S-Down>',  '<cmd>belowright split<CR><cmd>bnext<CR><cmd>wincmd p<CR>')
@@ -39,4 +39,3 @@ Nmap('<leader>l', vim.cmd.tabnext, 'Next Tab')
 -- folding shortcuts
 Nmap('<A-h>', Wrap(pcall, vim.cmd.foldclose))
 Nmap('<A-l>', Wrap(pcall, vim.cmd.foldopen))
-
