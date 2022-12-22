@@ -8,6 +8,7 @@ M.source_names = {
 	cmdline_history = '[History]',
 	latex_symbols = '[LaTeX]',
 	luasnip = '[Snippet]',
+	neorg = '[Neorg]',
 	nvim_lsp = '[LSP]',
 	nvim_lua = '[Lua]',
 	omni = '[Omni]',
@@ -19,7 +20,6 @@ M.source_names = {
 M.sources = cmp.config.sources({
 	{ name = 'luasnip' },
 	{ name = 'nvim_lsp' },
-	{ name = 'neorg' },
 	{ name = 'nvim_lsp_signature_help' },
 	-- { name = 'omni' },
 
