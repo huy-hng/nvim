@@ -16,6 +16,7 @@ local namespace = vim.api.nvim_create_namespace('ColumnLine')
 ---------------------------------------------Functions----------------------------------------------
 
 local function should_set(line_text, column)
+	-- P(line_text)
 	local width = vim.fn.strdisplaywidth(line_text)
 	if width < column then return true end
 	-- local char_index = vim.fn.strgetchar(line_text, column) + 2
@@ -56,9 +57,7 @@ local function set_line(bufnr, column)
 	end
 end
 
-local function refresh(data)
-	if data.event == 'CmdWinEnter' or vim.fn.mode() == 'c' then return end
-
+local function refresh()
 	-- if force then
 	-- 	local win = vim.api.nvim_get_current_win()
 	-- 	-- vim.cmd([[noautocmd windo lua refrfeshcolumnline()]])
@@ -80,16 +79,21 @@ end
 Augroup('ColumnLine', {
 	Autocmd('OptionSet', 'colorcolumn', refresh),
 
-	Autocmd('BufWinEnter', function(data) --
-		if data.event == 'CmdWinEnter' or vim.fn.mode() == 'c' then return end
-		NestedAutocmd(data, {
-			'FileChangedShellPost',
-			'TextChanged',
-			'TextChangedI',
-			'CompleteChanged',
-			'BufWinEnter',
-			'VimEnter',
-			'SessionLoadPost',
-		}, nil, refresh)
+	Autocmd({
+		'FileChangedShellPost',
+		'TextChanged',
+		'TextChangedI',
+		'CompleteChanged',
+		'VimEnter',
+		'SessionLoadPost',
+		-- 'BufEnter',
+		-- 'BufWinEnter',
+		-- 'WinEnter',
+	}, function()
+		local mode = vim.fn.mode()
+		if mode == 'c' then return end
+		refresh()
 	end),
-})
+}, true, true)
+
+return refresh

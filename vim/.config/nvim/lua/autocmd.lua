@@ -1,65 +1,3 @@
--- TODO refactor this to development?
-
--- autocmd(event, pattern, {cmd: string}|{fn: fn|table}, {*opts})
--- autocmd(event, nil, cmd|fn, {*opts})
--- autocmd(event, nil, cmd|fn)
---- shortform
---- autocmd(event, cmd|fn) <-- works only when the third argument is empty
----param events  string | string[]
----param pattern string | string[] | nil
----param command function | string | table
----param opts table|nil
----overload fun(events: string|string[], command: function|string): table
-function Autocmd(events, pattern, command, opts)
-	-- group: string | integer
-	-- callback: fn | command: string
-	-- pattern: string | array
-	-- buffer: int
-	-- desc: string
-	-- once: bool
-	-- nested: bool
-	opts = opts or {}
-
-	if command == nil then
-		command = pattern --[[@as function]]
-		pattern = nil
-	end
-
-	if type(command) == 'string' then
-		opts.command = command
-	elseif type(command) == 'table' then
-		opts.callback = ExtractFnFromTable(command, 3)
-	else
-		opts.callback = command
-	end
-
-	opts.pattern = pattern
-	return { events, opts }
-end
-
-function CreateAutocmd(events, pattern, command, opts)
-	local cmd = Autocmd(events, pattern, command, opts)
-	vim.api.nvim_create_autocmd(cmd[1], cmd[2])
-end
-
-function NestedAutocmd(data, events, pattern, command, opts)
-	opts = opts or {}
-	opts.group = data.group
-	CreateAutocmd(events, pattern, command, opts)
-end
-
-function Augroup(name, autocmds, clear, active)
-	-- print(name, clear, active)
-	local group = vim.api.nvim_create_augroup(name, { clear = clear or true })
-	if active == false then return end
-	for _, cmd in ipairs(autocmds) do
-		cmd[2].group = group
-		vim.api.nvim_create_autocmd(cmd[1], cmd[2])
-	end
-end
-
-function CreateAugroup(name, clear) vim.api.nvim_create_augroup(name, { clear = clear }) end
-
 vim.o.updatetime = 2000 -- used for CursorHold
 
 local detect_indent = require('plugins.detect_indentation.detect_indentation').detect
@@ -135,7 +73,7 @@ Augroup('Testing', {
 	Autocmd('BufReadPost', { print, 'readpost' }),
 	Autocmd('BufWinEnter', { print, 'winenter' }),
 	Autocmd('BufEnter', { print, 'enter' }),
-	Autocmd({ 'WinEnter', 'WinNew' }, function(data)
+	Autocmd({ 'WinEnter', 'WinNew' }, function()
 		-- P(data)
 		local wins = vim.api.nvim_list_wins()
 		-- P(wins)
@@ -156,7 +94,7 @@ Augroup('AfterYank', { -- highlight yanked text
 })
 
 Augroup('Vimwiki', {
-	Autocmd('FileType', 'vimwiki', function(data)
+	Autocmd('FileType', 'vimwiki', function()
 		vim.o.number = false
 		vim.o.relativenumber = false
 		vim.o.wrap = true
@@ -175,7 +113,7 @@ Augroup('Vimwiki', {
 		require('cmp').setup.buffer { enabled = false }
 	end),
 
-	Autocmd('BufWinEnter', '*/daily_log/[0-9]*.md', function(data) vim.wo.winbar = false end),
+	Autocmd('BufWinEnter', '*/daily_log/[0-9]*.md', function() vim.wo.winbar = false end),
 
 	-- add date in vimwikiw
 	Autocmd(
@@ -193,27 +131,6 @@ Augroup('Vimwiki', {
 	-- -- 		-- Schedule(Exec, 'TSBufDisable highlight')
 	-- -- 	end
 	-- -- end),
-})
-
-Augroup('CommandlineWindow', {
-	Autocmd('CmdwinLeave', { vim.cmd.TSContextEnable }),
-	Autocmd('CmdwinEnter', function()
-		vim.o.cmdheight = 0
-		local opts = { buffer = true, silent = false }
-		Nmap('<esc>', vim.cmd.quit, '', opts)
-		Nmap('q', vim.cmd.quit, '', opts)
-		Nmap(';', ':', '', opts)
-		Nmap('<C-;>', '', '', opts)
-		vim.cmd.TSContextDisable()
-	end),
-
-	Autocmd('CmdlineEnter', function() vim.o.cmdheight = 1 end),
-	Autocmd('CmdlineLeave', function() vim.o.cmdheight = 0 end),
-	-- if vim.v.event.abort then
-	-- 	vim.o.cmdheight = 0
-	-- 	return
-	-- end
-	-- Defer(4000, function() vim.o.cmdheight = 0 end)
 })
 
 Augroup('AutoSource', {
@@ -305,7 +222,7 @@ Augroup('renu', {
 }, true, false)
 
 Augroup('Misc', {
-	Autocmd('BufReadPost', function(data)
+	Autocmd('BufReadPost', function()
 		local line = vim.fn.line('\'"')
 		-- if line > 1 and line <= vim.fn.line('$') then Normal('g\'"') end
 
@@ -313,10 +230,80 @@ Augroup('Misc', {
 		-- autocmd BufReadPost * if line("'\"") > 1 && line("'\"") <= line("$") | exe "normal! g'\"" | endif
 	end),
 
+	-- Autocmd('CmdwinEnter', { vim.api.nvim_del_augroup_by_name, 'NoCmdWinHere' }),
 	-- Set to auto read when a file is changed from the outside
-	Autocmd({ 'FocusGained', 'BufEnter', 'CursorHold', 'CursorHoldI' }, function(data)
-		if vim.fn.mode() ~= 'c' then vim.cmd.checktime() end
+	-- NotCmdWinEnter({
+	-- 	'FocusGained',
+	-- 	'BufEnter',
+	-- 	'CursorHold',
+	-- 	'CursorHoldI',
+	-- }, function() vim.cmd.checktime() end),
+
+	-- Autocmd('BufWinEnter', function(data) --
+	-- 	if data.event == 'CmdWinEnter' or vim.fn.mode() == 'c' then return end
+	-- 	NestedAutocmd(data, {
+	-- 		'FocusGained',
+	-- 		'BufEnter',
+	-- 		'CursorHold',
+	-- 		'CursorHoldI',
+	-- 	}, nil, vim.cmd.checktime)
+	-- end),
+})
+
+---------------------------------------------Commandline--------------------------------------------
+
+Augroup('NoCmdWinHere', {
+	Autocmd({
+		'InsertEnter',
+		'FocusGained',
+		'BufEnter',
+		'BufWinEnter',
+		'WinEnter',
+		'CursorHold',
+		'CursorHoldI',
+	}, function()
+		local mode = vim.fn.mode()
+		if mode == 'c' then return end
+		vim.cmd.checktime()
 	end),
 })
 
--- print(fold)
+Augroup('CommandlineWindow', {
+	Autocmd('CmdlineEnter', function() vim.o.cmdheight = 1 end),
+	Autocmd('CmdlineLeave', function() vim.o.cmdheight = 0 end),
+
+	Autocmd('CmdwinLeave', function()
+		vim.cmd.TSContextEnable()
+		RestoreAugroup('NoCmdWinHere')
+		RestoreAugroup('ColumnLine')
+	end),
+
+	Autocmd('CmdwinEnter', 'startinsert'),
+	Autocmd('CmdwinEnter', function()
+		DeleteAugroup('NoCmdWinHere')
+		DeleteAugroup('ColumnLine')
+
+		Schedule(function()
+			-- P(data)
+			vim.o.cmdheight = 0
+			vim.g.neovide_scroll_animation_length = 0
+
+			local opts = { buffer = true, silent = false }
+			Nmap(';', ':', '', opts)
+
+			Nmap('<C-k>', vim.cmd.quit, '', opts)
+			Nmap('q', vim.cmd.quit, '', opts)
+			Nmap('<C-;>', vim.cmd.quit, '', opts)
+			Nmap('<leader>;', vim.cmd.quit, '', opts)
+			Imap('<C-;>', function()
+				Feedkeys('<Esc>')
+				vim.cmd.quit()
+			end, '', opts)
+
+			vim.cmd.TSContextDisable()
+			vim.cmd.TSBufDisable('highlight')
+
+			Defer(200, function() vim.g.neovide_scroll_animation_length = 0.5 end)
+		end)
+	end),
+})
