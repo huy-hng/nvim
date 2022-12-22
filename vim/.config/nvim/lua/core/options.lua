@@ -15,7 +15,7 @@ o.winblend = 10
 o.pumblend = 10
 
 o.conceallevel = 2
-o.concealcursor = 'nc'
+o.concealcursor = 'c'
 
 -- line numbers
 go.relativenumber = false -- show relative line numbers
@@ -58,8 +58,6 @@ go.cmdwinheight = 20
 -- go.showcmd = true
 -- go.showmode = false
 -- go.ruler = false
--- print(vim.v.echospace)
--- print(vim.v.scrollstart)
 -- opt_g.shortmess:append('')
 
 -- display indentations

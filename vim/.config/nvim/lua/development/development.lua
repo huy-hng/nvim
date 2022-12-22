@@ -12,10 +12,14 @@ end
 
 RELOAD = function(...) require('plenary.reload').reload_module(...) end
 
+
+---@param name string
 R = function(name)
 	RELOAD(name)
 	return require(name)
 end
+
+
 
 LOADED = function(name) vim.pretty_print(package.loaded[name]) end
 
@@ -44,11 +48,14 @@ function AutoReloadFolder(load)
 	local path = vim.fn.expand('%:h')
 	local folder = vim.fn.expand('%:h:t')
 	local init_file = vim.fn.expand('%')
-	-- vim.notify('Autoreloading ' .. folder)
+	vim.notify('Autoreloading ' .. folder)
+	print('Autoreloading ' .. folder)
+	print(path, folder, init_file)
 	Augroup('Autosave' .. init_file, {
 		Autocmd('BufWritePost', path .. '*', function(data) --
 			vim.cmd.luafile(init_file)
 			vim.notify('Reloaded ' .. vim.fn.fnamemodify(init_file, 't'))
+			print('Reloaded ' .. vim.fn.fnamemodify(init_file, 't'))
 		end),
 	}, true, load)
 

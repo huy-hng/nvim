@@ -19,6 +19,14 @@ function DeleteAllScratchBuffers()
 	end
 end
 
+-- function DeleteAllUnloadedBuffers()
+-- 	local bufs = vim.api.nvim_list_bufs()
+-- 	for _, bufnr in ipairs(bufs) do
+-- 		local is_loaded = vim.api.nvim_buf_is_loaded(bufnr)
+-- 		if not is_loaded then Schedule(vim.api.nvim_buf_delete, bufnr, {}) end
+-- 	end
+-- end
+
 function CloseAllFloatingWindows()
 	local wins = vim.api.nvim_list_wins()
 	for _, winid in ipairs(wins) do
@@ -30,11 +38,8 @@ function CloseAllFloatingWindows()
 	end
 end
 
-
-
 local has_notify, notify = pcall(require, 'notify')
-if has_notify then
-	Nmap('\\1', notify.dismiss, 'Dismiss all notifications')
-end
+if has_notify then Nmap('\\1', notify.dismiss, 'Dismiss all notifications') end
 Nmap('\\2', CloseAllFloatingWindows, 'Close all floating windows')
 Nmap('\\3', DeleteAllScratchBuffers, 'Delete all scratch buffers')
+-- Nmap('\\4', DeleteAllUnloadedBuffers, 'Delete all unloaded buffers')
