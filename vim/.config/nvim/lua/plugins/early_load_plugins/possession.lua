@@ -1,6 +1,7 @@
 local has_possession, possession = pcall(require, 'possession')
 if not has_possession then return end
 
+
 local commands = require('possession.commands')
 require('telescope').load_extension('possession')
 
@@ -25,6 +26,9 @@ end
 --- BufWinEnter may also be a less expensive BufEnter
 --- BufWinLeave before buffer is removed from a window
 local function save(data)
+	local session = require('possession.session')
+	if not session.session_name then return end
+
 	print_messages(data.event)
 	if data.event == 'CmdWinEnter' or vim.fn.mode() == 'c' then return end
 	-- if data.file == '' and data.match == '' then return end -- use this for BufAdd
