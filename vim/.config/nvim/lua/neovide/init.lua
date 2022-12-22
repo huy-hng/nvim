@@ -9,9 +9,9 @@ require('neovide.options')
 
 
 local function manjaro()
-	g.neovide_refresh_rate = 119
+	g.neovide_refresh_rate = 240
 
-	g.neovide_refresh_rate_idle = 119
+	g.neovide_refresh_rate_idle = 120
 	g.neovide_default_transparency = 0.7
 
 	-- o.winblend = 0

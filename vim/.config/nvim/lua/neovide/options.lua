@@ -44,6 +44,9 @@ g.neovide_touch_drag_timeout = 0.3
 
 ----------------------------------------------Cursor------------------------------------------------
 
+-- g.neovide_cursor_animation_length = 0 -- 0.13
+-- g.neovide_cursor_trail_size = 0 -- 0.8
+
 g.neovide_cursor_animation_length = 0.03 -- 0.13
 g.neovide_cursor_trail_size = 0.5 -- 0.8
 g.neovide_cursor_antialiasing = true
@@ -51,6 +54,7 @@ g.neovide_cursor_antialiasing = true
 ---------------------------------------------Animation----------------------------------------------
 
 -- railgun | torpedo | pixiedust | sonicboom | ripple | wireframe
+-- g.neovide_cursor_vfx_mode = ''
 g.neovide_cursor_vfx_mode = 'pixiedust'
 g.neovide_cursor_vfx_opacity = 200 -- 200
 g.neovide_cursor_vfx_particle_lifetime = 1.2 -- 1.2

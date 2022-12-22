@@ -1,3 +1,34 @@
+-- from http://lua-users.org/wiki/SimpleLuaClasses
+
+Account = {}
+Account.__index = Account
+
+function Account:new(balance)
+	local acc = {} -- our new object
+	setmetatable(acc, Account) -- make Account handle lookup
+	acc.balance = balance -- initialize our object
+	return acc
+end
+
+function Account:withdraw(amount) --
+	self.balance = self.balance - amount
+end
+
+-- create and use an Account
+local acc = Account:new(1000)
+local acc2 = Account:new(2000)
+
+-- print(acc.balance)
+-- print(acc2.balance)
+
+-- acc:withdraw(100)
+
+-- print(acc.balance)
+-- print(acc2.balance)
+
+
+-----------------------------------example from luas official site----------------------------------
+
 Account = { balance = 0 }
 
 function Account:new(o)

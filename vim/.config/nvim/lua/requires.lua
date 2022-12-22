@@ -21,11 +21,13 @@ end
 
 -----------------------------------------------Plugins----------------------------------------------
 
+-- TODO put early load plugins in here
 function M.extra_features()
 	if vim.g.minimal then return end
 
 	require('plugins.packer')
 
+	require('plugins.ufo')
 	require('plugins.indent_blankline.new')
 	require('plugins.snippets.init')
 
@@ -66,19 +68,18 @@ function M.lazyload()
 	if vim.g.minimal then return end
 
 	local function buf_read_pre()
-		-- print('lazy bufreadpre')
 		require_dir('lua/plugins/treesitter')
 		require_dir('lua/plugins/lspsaga')
 		require_dir('lua/plugins/whichkey')
 		require_dir('lua/plugins/git')
 
-		require('plugins.ufo')
 		require('plugins.comment')
 		require('plugins.database')
 		require('plugins.harpoon')
 		require('plugins.leap')
 		require('plugins.ranger')
 		require('plugins.neorg')
+		require('plugins.undotree')
 		-- require('plugins.snippets.init')
 	end
 
