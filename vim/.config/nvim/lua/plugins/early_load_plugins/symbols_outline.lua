@@ -1,7 +1,7 @@
 local has_outline, outline = pcall(require, 'symbols-outline')
 if not has_outline then return end
 
-local outlinemap = PrefixMap('n', '<localleader>', '[Symbols Outline]')
+local outlinemap = MapCreator('n', '<localleader>', '[Symbols Outline]')
 outlinemap('o', outline.toggle_outline, 'Toggle Symbols Outline')
 -- outlinemap('o', outline.open_outline, 'Toggle Symbols Outline')
 -- outlinemap('c', outline.close_outline, 'Toggle Symbols Outline')

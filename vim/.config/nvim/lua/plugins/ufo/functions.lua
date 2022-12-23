@@ -36,13 +36,15 @@ M.customizeBufFoldText = function()
 end
 
 M.set_keymaps = function(bufnr)
-	local ufomap = PrefixMap('n', '', '[UFO]', { buffer = bufnr })
+	local ufomap = MapCreator('n', '', '[UFO]', { buffer = bufnr })
 
 	ufomap('[f', M.goPreviousClosedAndPeek, 'go to previous fold and peek')
 	ufomap(']f', M.goNextClosedAndPeek, 'go to next fold and peek')
 
 	ufomap('zR', ufo.openAllFolds, 'open all folds')
 	ufomap('zM', ufo.closeAllFolds, 'close all folds')
+
+	-- ufomap('K', M.peekOrHover, 'peek or hover')
 
 	-- ufomap('z;', ufo.goPreviousStartFold, 'inspect')
 	ufomap('zX', { M.applyFoldsAndThenCloseAllFolds, 'lsp' }, 'Apply and close folds')

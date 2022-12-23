@@ -116,7 +116,7 @@ local function wrapper(cmd)
 	return function() open_popup(cmd) end
 end
 
-local vw = PrefixMap('n', '<leader>d', '[Vimwiki]')
+local vw = MapCreator('n', '<leader>d', '[Vimwiki]')
 local cmd = vim.cmd
 
 vw('j', wrapper(), 'Open last view')

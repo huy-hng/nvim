@@ -9,7 +9,7 @@ local themes = require('telescope.themes')
 
 local layouts = require('plugins.telescope.layouts')
 
-local tele_map = PrefixMap('n', '<leader>f', '[Telescope]')
+local tele_map = MapCreator('n', '<leader>f', '[Telescope]')
 
 --------------------------------------------Find Files----------------------------------------------
 

@@ -52,8 +52,8 @@ local lsp_keymaps = function(bufnr)
 	vim.api.nvim_buf_set_option(bufnr, 'omnifunc', 'v:lua.vim.lsp.omnifunc')
 	local opts = { buffer = bufnr }
 
-	local lsp_map = PrefixMap('n', '', '[LSP]', opts)
-	local diag_map = PrefixMap('n', '', '[Diagnostic]', opts)
+	local lsp_map = MapCreator('n', '', '[LSP]', opts)
+	local diag_map = MapCreator('n', '', '[Diagnostic]', opts)
 
 	-- See `:help vim.diagnostic.*` for documentation on any of the below functions
 	diag_map('<leader>e', diagnostic_float, 'open Float')
@@ -62,7 +62,7 @@ local lsp_keymaps = function(bufnr)
 	lsp_map('<leader>r', vim.diagnostic.setloclist)
 
 	-- See `:help vim.lsp.*` for documentation on any of the below functions
-	lsp_map('K', vim.lsp.buf.hover, 'Hover')
+	-- lsp_map('K', vim.lsp.buf.hover, 'Hover')
 	lsp_map('gD', vim.lsp.buf.declaration, 'Declaration')
 	lsp_map('gd', vim.lsp.buf.definition, 'Definition')
 	lsp_map('gi', M.implementation, 'Implementation')

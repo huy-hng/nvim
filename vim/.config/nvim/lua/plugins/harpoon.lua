@@ -39,12 +39,12 @@ local harpoon_ui = require('harpoon.ui')
 local harpoon_mark = require('harpoon.mark')
 local harpoon_term = require('harpoon.term')
 
-local harpoonmap = PrefixMap('n', '<leader>a', '[Harpoon]')
+local harpoonmap = MapCreator('n', '<leader>a', '[Harpoon]')
 harpoonmap('h', harpoon_ui.toggle_quick_menu, 'Open Harpoon')
 harpoonmap('a', harpoon_mark.add_file, 'Add file')
 harpoonmap('c', require('harpoon.cmd-ui').toggle_quick_menu, '')
 
-harpoonmap = PrefixMap('n', '', '[Harpoon]')
+harpoonmap = MapCreator('n', '', '[Harpoon]')
 for i in ipairs(vim.fn.range(1, 9)) do
 	local keymap = string.format('<A-%s>', i)
 	harpoonmap(keymap, { harpoon_ui.nav_file, i }, 'Go to File')

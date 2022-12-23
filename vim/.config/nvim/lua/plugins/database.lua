@@ -77,7 +77,7 @@ local function focus_drawer()
 end
 
 -- check out 'shortmess' to remove hit-enter prompt
-local buf_map = PrefixMap('n', '', '[DB (Buffer)]', { silent=true, noremap = false, buffer = true })
+local buf_map = MapCreator('n', '', '[DB (Buffer)]', { silent=true, noremap = false, buffer = true })
 vim.api.nvim_create_autocmd('FileType', {
 	pattern = 'dbui',
 	group = vim.api.nvim_create_augroup('DBUIMappings', { clear = true }),
@@ -89,7 +89,7 @@ vim.api.nvim_create_autocmd('FileType', {
 	end,
 })
 
-local db_map = PrefixMap('n', '<leader>D', '[DB]')
+local db_map = MapCreator('n', '<leader>D', '[DB]')
 Nmap('<C-S-D>', focus_drawer, 'Toggle Drawer')
 db_map('u', vim.cmd.DBUIToggle, 'Toggle Drawer')
 db_map('f', vim.cmd.DBUIFindBuffer, 'Find buffer in DBUI drawer')

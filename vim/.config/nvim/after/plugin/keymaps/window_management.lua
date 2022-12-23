@@ -1,4 +1,4 @@
-local win_prefix = PrefixMap('n', '<C-w>', '[Window]')
+local win_prefix = MapCreator('n', '<C-w>', '[Window]')
 
 win_prefix('<C-h>', '<C-w>R', 'Move current window to the left')
 win_prefix('<C-l>', '<C-w>r', 'Move current window to the right')

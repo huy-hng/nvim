@@ -10,7 +10,7 @@ if not has_dapui then return end
 
 local dap_prefix = '<leader>d'
 
-local dap_map = PrefixMap('n', dap_prefix, '[DAP]')
+local dap_map = MapCreator('n', dap_prefix, '[DAP]')
 
 local function get_input(msg)
 	return function() vim.fn.input { msg } end
@@ -97,7 +97,7 @@ local function open_win_fn()
 	}
 	local winid = vim.api.nvim_open_win(0, true, popup_config)
 
-	local output_map = PrefixMap('n', '', '[Neotest]', { buffer = true })
+	local output_map = MapCreator('n', '', '[Neotest]', { buffer = true })
 	local close_win = function()
 		vim.api.nvim_del_augroup_by_name('NeotestOutputWin')
 		vim.api.nvim_win_close(winid, false)
@@ -142,7 +142,7 @@ local output_opts = {
 --             -> Run <-
 ----------------------------------------
 -- local neomap = PrefixMap('n', dap_prefix, '[Neotest]')
-local neomap = PrefixMap('n', '<localleader>', '[Neotest]')
+local neomap = MapCreator('n', '<localleader>', '[Neotest]')
 -- global test commands
 -- Map({ key_prefix = '<leader>d', desc_prefix = '[Neotest]' }, {
 neomap('s', neotest.run.stop, 'Stop test')

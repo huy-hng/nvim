@@ -78,10 +78,10 @@ end
 
 -- neovide bindings
 -- if vim.g.neovide then
-local commap = PrefixMap({ 'n', 'i', 'v' }, '', '[Comment]')
+local commap = MapCreator({ 'n', 'i', 'v' }, '', '[Comment]')
 commap('<C-/>', toggle_comment, 'Toggle')
 
-commap = PrefixMap({ 'n', 'i' }, '', '[Comment]')
+commap = MapCreator({ 'n', 'i' }, '', '[Comment]')
 -- map({ 'n', 'i' }, '<C-/>', fn(api.toggle.linewise.current, nil, comment_empty), 'Toggle Comment')
 commap('<A-/>', api.insert.linewise.eol, 'Comment at end of line')
 -- map({ 'n', 'i' }, '<A-/>a', api.insert.linewise.eol, 'Comment at end of line')
