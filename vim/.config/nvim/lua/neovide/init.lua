@@ -20,8 +20,10 @@ local function manjaro()
 end
 
 local function chromebook()
-	g.neovide_refresh_rate = 59
+	g.neovide_refresh_rate = 60
 	g.neovide_default_transparency = 1
+	g.gui_font_default_size = 10.5
+	g.gui_font_default_size = 10.5
 end
 
 local function post_init()

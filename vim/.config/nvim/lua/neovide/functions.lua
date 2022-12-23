@@ -4,22 +4,33 @@ local g = vim.g
 
 M = {}
 
-local function refresh_gui_font()
+M.refresh_gui_font = function() --
 	vim.o.guifont = string.format('%s:h%s', vim.g.gui_font_face, vim.g.gui_font_size)
 end
-
-M.refresh_gui_font = refresh_gui_font
 
 M.resize_gui_font = function(delta)
 	g.gui_font_size = g.gui_font_size + delta
 	-- print('Font Size: ', g.gui_font_size)
-	refresh_gui_font()
+	M.refresh_gui_font()
 end
 
 M.reset_gui_font = function()
 	g.gui_font_size = g.gui_font_default_size
-	refresh_gui_font()
+	M.refresh_gui_font()
 end
+
+M.toggle_fonts = function()
+	if g.gui_font_face == 'FiraCode Nerd Font' then
+		g.gui_font_face = 'CaskaydiaCove Nerd Font'
+		g.gui_font_default_size = 10
+	else
+		g.gui_font_face = 'FiraCode Nerd Font'
+		g.gui_font_default_size = 10
+	end
+	M.reset_gui_font()
+end
+
+Nmap('<C-|>', M.toggle_fonts)
 
 M.resize_scale = function(delta, absolute)
 	if absolute ~= nil then

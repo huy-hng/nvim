@@ -21,7 +21,6 @@ g.neovide_floating_blur_amount_x = blur_amount
 g.neovide_floating_blur_amount_y = blur_amount
 -- g.gui_font_face = 'FiraCode Nerd Font'
 g.gui_font_face = 'CaskaydiaCove Nerd Font'
--- g.gui_font_face = 'Caskaydia Cove Nerd Font Complete'
 
 -----------------------------------------------Sizes------------------------------------------------
 
