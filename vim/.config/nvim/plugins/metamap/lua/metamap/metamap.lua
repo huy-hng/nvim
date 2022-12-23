@@ -1,24 +1,5 @@
 local utils = require('metamap.utils')
 
----@enum modes
-local modes = {
-	n = 'n',
-	v = 'v',
-	x = 'x',
-	s = 's',
-	o = 'o',
-	i = 'i',
-	c = 'c',
-	l = 'l',
-	t = 't',
-}
-
----@alias mode modes | modes[]
----@alias lhs string | table
----@alias rhs string | function | table
----@alias desc string?
----@alias opts table?
-
 ---@class MetaMap
 ---@field registered_maps { mode: mode, lhs: string|table, rhs: string|function, opts: table? }
 ---@field saved_maps table<string, table|string>
@@ -42,17 +23,15 @@ end
 
 --------------------------------------------register maps-------------------------------------------
 
----@param mode mode can be one of { n, v, x, s, o, i, c, l, t }
+---@param mode mode
 ---@param lhs lhs if a table is passed, every lhs in table will be mapped to rhs
 ---@param rhs rhs if a table is passed, the first element will be called, and the other elements are treated as parameters
 ---@param desc desc
 ---@param opts opts
 ---@overload fun(mode: mode, lhs: lhs, rhs: rhs, opts: opts)
 function MetaMap:map(mode, lhs, rhs, desc, opts)
-	if type(rhs) == 'table' then
-		local fn = select(1, unpack(rhs))
-		local args = { select(2, unpack(rhs)) }
-		rhs = function() fn(unpack(args)) end
+	if type(rhs) == 'table' then --
+		rhs = utils.table_to_function(rhs)
 	end
 
 	opts = opts or {}
@@ -94,7 +73,7 @@ function MetaMap:exit(mode, lhs, callback, opts)
 		if type(callback) == 'function' then callback() end
 		local bufnr = vim.api.nvim_get_current_buf()
 
-		vim.b[bufnr].MetaMap  = nil
+		vim.b[bufnr].MetaMap = nil
 		vim.notify('Exiting ' .. self.name .. ' mode')
 		self:restore_maps(bufnr)
 	end, 'Exit ' .. self.name, opts or {})

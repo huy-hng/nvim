@@ -1,3 +1,4 @@
+----------------------------------------------deprecated--------------------------------------------
 local M = {}
 
 function M.pop_key_from_tbl(tbl, key)
@@ -53,5 +54,7 @@ function M.create_mapper(mode, saved)
 		Nmap(lhs, rhs, desc, opts)
 	end
 end
+
+--------------------------------------------end deprecated------------------------------------------
 
 return require('metamap.metamap')
