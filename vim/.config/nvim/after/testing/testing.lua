@@ -90,6 +90,6 @@ end
 
 -- vim.fn.timer_start()
 -- slow_fn()
-print('after')
 
 local function async() local a = require('plenary.async') end
+

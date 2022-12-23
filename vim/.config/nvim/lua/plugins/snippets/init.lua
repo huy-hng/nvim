@@ -27,7 +27,7 @@ ls.config.set_config {
 	-- If true, Snippets that were exited can still be jumped back into.
 	-- As Snippets are not removed when their text is deleted, they have to be removed manually
 	-- via LuasnipUnlinkCurrent if delete_check_events is not enabled (set to eg. 'TextChanged').
-	history = true,
+	history = false,
 
 	-- This one is cool cause if you have dynamic snippets, it updates as you type!
 	-- Choose which events trigger an update of the active nodes' dependents.

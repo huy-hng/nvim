@@ -54,6 +54,8 @@ return {
 	end
 	]], { i(1), i(2), i(0)})),
 
+	snippet('asserttype', fmt([[assert(type({}) == '{}')]], { i(1), i(2) })),
+
 	snippet(
 		'for .. ipairs()',
 		fmt(
