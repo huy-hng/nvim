@@ -20,6 +20,7 @@ local function toggle_conceal()
 	end
 end
 
+-- TODO: metamap
 local function toggle_wrap()
 	-- local wrap = vim.o.wrap
 	if vim.o.wrap then
@@ -35,6 +36,9 @@ local function toggle_wrap()
 		vim.o.wrap = true
 		Nmap('j', 'gj')
 		Nmap('k', 'gk')
+		Nmap('0', '^')
+		Nmap('^', '0')
+		Nmap('$', '$')
 	end
 end
 

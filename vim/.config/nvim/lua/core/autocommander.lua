@@ -3,11 +3,11 @@
 -- autocmd(event, nil, cmd|fn)
 --- shortform
 --- autocmd(event, cmd|fn) <-- works only when the third argument is empty
----param events  string | string[]
 ---param pattern string | string[] | nil
 ---param command function | string | table
 ---param opts table|nil
 ---overload fun(events: string|string[], command: function|string): table
+---@param events autocmd-events
 function Autocmd(events, pattern, command, opts)
 	-- group: string | integer
 	-- callback: fn | command: string
@@ -40,6 +40,11 @@ function CreateAutocmd(events, pattern, command, opts)
 	vim.api.nvim_create_autocmd(cmd[1], cmd[2])
 end
 
+---@param data table
+---@param events autocmd-events
+---@param pattern string
+---@param command any
+---@param opts any
 function NestedAutocmd(data, events, pattern, command, opts)
 	opts = opts or {}
 	opts.group = data.group

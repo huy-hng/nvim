@@ -40,3 +40,6 @@ Commander(
 	"execute 'w !sudo tee % > /dev/null' <bar> edit!",
 	{ desc = ':W sudo saves the file' }
 )
+
+-- Unmap('n', '<localleader>t')
+Nmap('<localleader>t', '<Plug>PlenaryTestFile', '', { remap = true })
