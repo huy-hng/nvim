@@ -12,13 +12,12 @@ local l = require('luasnip.extras').lambda
 local rep = require('luasnip.extras').rep
 local fmt = require('luasnip.extras.fmt').fmt
 
-
 local M = {}
 M.same = function(index)
 	return f(function(args) return args[1] end, { index })
 end
 
-M.newline = function(text) return t { '', text } end
+M.newline = function(text) return t { '', text or '' } end
 
 M.shortcut = function(val)
 	if type(val) == 'string' then return { t { val }, i(0) } end

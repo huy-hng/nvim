@@ -1,4 +1,5 @@
 ---@diagnostic disable: undefined-global
+local utils = require('plugins.snippets.utils')
 
 local require_var = function(args, _)
 	local text = args[1][1] or ''
@@ -40,29 +41,60 @@ local function requirefolder(--[[ args, parent, user_args ]])
 	return path .. '.'
 end
 
+-- local type_fmt = fmt("type({}) {}= '{}'", { i(1), c(2, { t('='), t('~') }), i(3) })
+
+local type_fmt =
+	function() return fmt("type({}) {}= '{}'", { i(1), c(2, { t('='), t('~') }), i(3) }) end
+
 return {
-	snippet('curfile', f(get_relative_path())),
+	--------------------------------------------Shortcuts-------------------------------------------
 	snippet('api', t('vim.api.')),
+	snippet('fn', t('vim.fn.')),
+	snippet('@', t('---@')),
 	snippet('ifreturn', t('if true then return end')),
-	snippet('cast', t('---@cast ')),
 	snippet('ignore', t('--stylua: ignore')),
 
-	--stylua: ignore
-	snippet('iftype', fmt([[
-	if type({}) == '{}' then
-		{}
-	end
-	]], { i(1), i(2), i(0)})),
+	--------------------------------------------One Liners------------------------------------------
 
-	snippet('asserttype', fmt([[assert(type({}) == '{}')]], { i(1), i(2) })),
+	snippet('curfile', f(get_relative_path())),
+
+	snippet('continue', fmt('goto continue{}::continue::', { utils.newline() })),
+	snippet('p', fmt("print('{}'){}{}", { i(1, ' '), utils.newline(), i(0) })),
+
+	--stylua: ignore
+	snippet('module',
+		fmt([[
+			---@module '{}'
+			local {} = R('{}')
+			{}
+		]], { i(1), d(2, require_var, { 1 }), rep(1), i(0), })
+	),
+
+	--stylua: ignore
+	snippet('M', fmt([[
+		local M = {{}}
+		return M
+	]], {})),
+
+	-- snippet('asserttype', fmt('assert({})', { sn(1, type_fmt) })),
+	snippet('type', sn(1, type_fmt())),
+
+	-- stylua: ignore
+	snippet('iftype', fmt([[
+		if {} then
+			{}
+		end
+	]], { sn(1, type_fmt()), i(0)})),
+
+	snippet('asserttype', fmt('assert({})', { sn(1, type_fmt()) })),
 
 	snippet(
 		'for .. ipairs()',
 		fmt(
 			[[
-	for {}, {} in ipairs({}) do
-		{}
-	end
+		for {}, {} in ipairs({}) do
+			{}
+		end
 	]],
 			{ i(1, '_'), i(2, 'val'), i(3), i(0) }
 		)
