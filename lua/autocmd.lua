@@ -249,8 +249,9 @@ Augroup('Misc', {
 	end),
 })
 
----@module 'functions.column_line'
-local column_line = R('functions.column_line')
+---@module 'column_line'
+local column_line = require('column_line')
+
 Augroup('ColumnLine', {
 	Autocmd('OptionSet', 'colorcolumn', column_line.refresh),
 	Autocmd({

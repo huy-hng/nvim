@@ -26,7 +26,6 @@ local function should_set(line_text, column)
 	column = column + 1
 	local width = vim.fn.strdisplaywidth(line_text)
 	if width < column then return true end
-	local test = print(' ', 'asddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd')
 
 	line_text = line_text:gsub('\t', string.rep(' ', vim.opt.tabstop:get()))
 	local char = string.sub(line_text, column, column)
