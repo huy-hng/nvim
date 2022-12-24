@@ -1,3 +1,14 @@
+function DeleteAllAutocmdsWithEvents(...) --
+	for _, event in ipairs { ... } do
+		local cmds = vim.api.nvim_get_autocmds { event = event }
+		for _, cmd in ipairs(cmds) do
+			print(cmd.group_name, cmp.desc)
+			vim.api.nvim_clear_autocmds { event = event, group = cmd.group }
+		end
+	end
+end
+
+
 local function is_scratch_buffer(bufnr)
 	local is_loaded = vim.api.nvim_buf_is_loaded(bufnr)
 	local name = vim.api.nvim_buf_get_name(bufnr)
@@ -19,13 +30,13 @@ function DeleteAllScratchBuffers()
 	end
 end
 
--- function DeleteAllUnloadedBuffers()
--- 	local bufs = vim.api.nvim_list_bufs()
--- 	for _, bufnr in ipairs(bufs) do
--- 		local is_loaded = vim.api.nvim_buf_is_loaded(bufnr)
--- 		if not is_loaded then Schedule(vim.api.nvim_buf_delete, bufnr, {}) end
--- 	end
--- end
+function DeleteAllUnloadedBuffers()
+	local bufs = vim.api.nvim_list_bufs()
+	for _, bufnr in ipairs(bufs) do
+		local is_loaded = vim.api.nvim_buf_is_loaded(bufnr)
+		if not is_loaded then Schedule(vim.api.nvim_buf_delete, bufnr, {}) end
+	end
+end
 
 function CloseAllFloatingWindows()
 	local wins = vim.api.nvim_list_wins()

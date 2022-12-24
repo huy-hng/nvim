@@ -1,5 +1,5 @@
 Augroup('Reloadtestffile', {
-	Autocmd('BufWritePost', vim.fn.expand('%'), { Feedkeys, '<Plug>PlenaryTestFile', false }),
+	Autocmd('BufWritePost', vim.fn.expand('%'), { Feedkeys, '<Plug>PlenaryTestFile', true }),
 })
 
 ---@return saved_buffer_keymap
@@ -90,48 +90,4 @@ describe('mapper', function()
 		assert.are.same(found_v.rhs, found_i.rhs)
 		assert.are.same(found_v.lhs, found_i.lhs)
 	end)
-
-	-- it('can push multiple mappings', function()
-	-- 	local rhs = "echo 'This is a test'"
-	-- 	require('mapper.class').push('test1', 'n', {
-	-- 		['asdf_1'] = rhs .. '1',
-	-- 		['asdf_2'] = rhs .. '2',
-	-- 	})
-
-	-- 	local found_1 = find_map('asdf_1')
-	-- 	assert.are.same(rhs .. '1', found_1.rhs)
-
-	-- 	local found_2 = find_map('asdf_2')
-	-- 	assert.are.same(rhs .. '2', found_2.rhs)
-	-- end)
-
-	-- it('can delete mappings after pop: no existing', function()
-	-- 	local rhs = "echo 'This is a test'"
-	-- 	require('mapper.class').push('test1', 'n', {
-	-- 		asdfasdf = rhs,
-	-- 	})
-
-	-- 	local found = find_map('asdfasdf')
-	-- 	assert.are.same(rhs, found.rhs)
-
-	-- 	require('mapper.class').pop('test1', 'n')
-	-- 	local after_pop = find_map('asdfasdf')
-	-- 	assert.are.same(nil, after_pop)
-	-- end)
-
-	-- it('can delete mappings after pop: yes existing', function()
-	-- 	vim.keymap.set('n', 'asdfasdf', "echo 'OG MAPPING'")
-
-	-- 	local rhs = "echo 'This is a test'"
-	-- 	require('mapper.class').push('test1', 'n', {
-	-- 		asdfasdf = rhs,
-	-- 	})
-
-	-- 	local found = find_map('asdfasdf')
-	-- 	assert.are.same(rhs, found.rhs)
-
-	-- 	require('mapper.class').pop('test1', 'n')
-	-- 	local after_pop = find_map('asdfasdf')
-	-- 	assert.are.same("echo 'OG MAPPING'", after_pop.rhs)
-	-- end)
 end)

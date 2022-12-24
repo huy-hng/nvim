@@ -1,15 +1,22 @@
 local utils = require('metamap.utils')
 -- local MapCreator = require('metamap.prefix_mapper')
 
-
 ---@alias mapper fun(mode:mode, lhs: lhs, rhs: rhs, desc: desc?, opts: opts?)
+
 
 ---@param mode mode the mode to map to
 ---@param lhs lhs keymap
 ---@param rhs rhs action
+---@param desc desc description
 ---@param opts opts options
----Oparam `desc` - description
----@overload fun(mode: mode, lhs: lhs, rhs: rhs, desc: desc, opts: table?)
+local function mapper(mode, lhs, rhs, desc, opts) end
+
+---@param mode mode the mode to map to
+---@param lhs lhs keymap
+---@param rhs rhs action
+---@param desc desc description
+---@param opts opts options
+---@overload fun(mode: mode, lhs: lhs, rhs: rhs, desc: desc?, opts: table?)
 local function mapper(mode, lhs, rhs, opts)
 	opts = opts or {}
 
@@ -54,8 +61,8 @@ end
 ---@field o mode_wrap
 ---@field t mode_wrap
 ---@field del mode_wrap
----cast mapper
 ---@return Map
+---cast mapper function
 local Map = function()
 	return setmetatable({}, {
 		__index = {

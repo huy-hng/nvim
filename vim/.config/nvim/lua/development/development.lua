@@ -13,7 +13,6 @@ end
 RELOAD = function(...) require('plenary.reload').reload_module(...) end
 
 
----@param name string
 R = function(name)
 	RELOAD(name)
 	return require(name)

@@ -1,12 +1,11 @@
 local os_fn = require('neovide.os_functions')
-local functions = require('neovide.functions')
+local functions = R('neovide.functions')
 
 local g = vim.g
 g.neovide_profiler = false
 
 require('neovide.mappings')
 require('neovide.options')
-
 
 local function manjaro()
 	g.neovide_refresh_rate = 240
@@ -22,20 +21,16 @@ end
 local function chromebook()
 	g.neovide_refresh_rate = 60
 	g.neovide_default_transparency = 1
-	g.gui_font_default_size = 10.5
-	g.gui_font_default_size = 10.5
+	g.neovide_default_transparency = 0.7
+	g.gui_font_default_size = 11
 end
 
 local function post_init()
-	if os_fn.get_hostname() == 'huystower' then
-		manjaro()
-	else
-		chromebook()
-	end
+	local device = os_fn.get_hostname() == 'huystower' and manjaro() or chromebook()
 
 	g.neovide_transparency = g.neovide_default_transparency
 	functions.reset_gui_font()
-	functions.change_window_opacity(g.neovide_transparency, 0 , true)
+	functions.change_window_opacity(g.neovide_transparency, 0, true)
 end
 
 post_init()
