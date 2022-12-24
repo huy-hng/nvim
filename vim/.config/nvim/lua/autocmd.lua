@@ -1,5 +1,3 @@
-vim.o.updatetime = 2000 -- used for CursorHold
-
 local detect_indent = require('plugins.detect_indentation.detect_indentation').detect
 Augroup('DetectIndent', {
 	-- Autocmd('OptionSet', { 'expandtab', 'tabstop', 'shiftwidth' }, detect_indent),
@@ -80,16 +78,22 @@ Augroup('Testing', {
 	end),
 }, true, false)
 
-Augroup('TS_FOLD_WORKAROUND', {
+Augroup('Treesitter', {
+	Autocmd({ 'WinEnter', 'InsertEnter', 'InsertLeave' }, function()
+		vim.cmd.TSBufDisable('rainbow')
+		-- vim.cmd.TSBufEnable('rainbow')
+		Schedule(vim.cmd.TSBufEnable, 'rainbow')
+	end),
+
 	Autocmd({ 'BufEnter', 'BufAdd', 'BufNew', 'BufNewFile', 'BufWinEnter' }, function()
 		-- vim.o.foldexpr = 'nvim_treesitter#foldexpr()'
 	end),
 })
 
 Augroup('AfterYank', { -- highlight yanked text
-	--stylua: ignore
 	Autocmd('TextYankPost', {
-		vim.highlight.on_yank, { higroup = 'Visual', on_visual = false, timeout = 150 }
+		vim.highlight.on_yank,
+		{ higroup = 'Visual', on_macro = true, on_visual = false, timeout = 150 },
 	}),
 })
 
@@ -186,40 +190,40 @@ Augroup('AutocmdTester', {
 	-- Autocmd('WinClosed', '*', printer),
 }, true, false)
 
-local function renu(on)
-	return function()
-		if not vim.o.number then
-			vim.o.relativenumber = false
-			return
-		end
-
-		if on and not vim.o.relativenumber then
-			-- print(vim.o.relativenumber)
-			vim.o.relativenumber = true
-		elseif vim.o.relativenumber then
-			vim.o.relativenumber = false
-		end
-	end
-end
-
+vim.o.updatetime = 500 -- used for CursorHold
+local line_numbers = require('functions.line_numbers')
 Augroup('renu', {
-	-- Autocmd('CursorHold', renu(true)),
-	-- Autocmd('CursorMoved', renu(false)),
-	-- Autocmd('ModeChanged', renu(false)),
+	Autocmd('CursorHold', line_numbers.renu_autocmd(true)),
+	Autocmd('CursorMoved', line_numbers.renu_autocmd(false)),
+
 	Autocmd('CursorMoved', function()
-		local start = vim.fn.line('w0')
-		local is_fold_before = vim.fn.foldclosed(start - 1)
-		local is_fold_after = vim.fn.foldclosed(start)
-		if is_fold_before > 0 or is_fold_after > 0 then
-			print('is fold', start)
-			vim.g.neovide_scroll_animation_length = 0
-		else
-			vim.g.neovide_scroll_animation_length = 0.5
-		end
+		-- local start = vim.fn.line('w0')
+		-- local is_fold_before = vim.fn.foldclosed(start - 1)
+		-- local is_fold_after = vim.fn.foldclosed(start)
+		-- if is_fold_before > 0 or is_fold_after > 0 then
+		-- 	-- print('is fold', start)
+		-- 	vim.g.neovide_scroll_animation_length = 0
+		-- else
+		-- 	vim.g.neovide_scroll_animation_length = 0.5
+		-- end
+
+		-- local line = vim.fn.line('w0')
+		-- local line = vim.fn.col('w0')
+		-- local col = vim.api.nvim_win_get_width(0)
+		-- local pos = vim.api.nvim_win_get_position(0)
+		-- -- P(config)
+		-- -- P(pos)
+
+		-- local winid = vim.api.nvim_get_current_win()
+		-- local info = vim.fn.getwininfo(winid)[1]
+		-- local editor_size = info.width - info.textoff
+		-- -- print(editor_size)
+		-- P(info)
+
 		-- local end_ = vim.fn.line('w$')
 		-- print(start, end_)
 	end),
-}, true, false)
+})
 
 Augroup('Misc', {
 	Autocmd('BufReadPost', function()
@@ -230,29 +234,7 @@ Augroup('Misc', {
 		-- autocmd BufReadPost * if line("'\"") > 1 && line("'\"") <= line("$") | exe "normal! g'\"" | endif
 	end),
 
-	-- Autocmd('CmdwinEnter', { vim.api.nvim_del_augroup_by_name, 'NoCmdWinHere' }),
-	-- Set to auto read when a file is changed from the outside
-	-- NotCmdWinEnter({
-	-- 	'FocusGained',
-	-- 	'BufEnter',
-	-- 	'CursorHold',
-	-- 	'CursorHoldI',
-	-- }, function() vim.cmd.checktime() end),
-
-	-- Autocmd('BufWinEnter', function(data) --
-	-- 	if data.event == 'CmdWinEnter' or vim.fn.mode() == 'c' then return end
-	-- 	NestedAutocmd(data, {
-	-- 		'FocusGained',
-	-- 		'BufEnter',
-	-- 		'CursorHold',
-	-- 		'CursorHoldI',
-	-- 	}, nil, vim.cmd.checktime)
-	-- end),
-})
-
----------------------------------------------Commandline--------------------------------------------
-
-Augroup('NoCmdWinHere', {
+	-- Reload file when it has been changed from outside
 	Autocmd({
 		'InsertEnter',
 		'FocusGained',
@@ -262,11 +244,31 @@ Augroup('NoCmdWinHere', {
 		'CursorHold',
 		'CursorHoldI',
 	}, function()
-		local mode = vim.fn.mode()
-		if mode == 'c' then return end
+		if Util.is_cmdwin() then return end
 		vim.cmd.checktime()
 	end),
 })
+
+---@module 'functions.column_line'
+local column_line = R('functions.column_line')
+Augroup('ColumnLine', {
+	Autocmd('OptionSet', 'colorcolumn', column_line.refresh),
+	Autocmd({
+		'FileChangedShellPost',
+		'TextChanged',
+		'TextChangedI',
+		'CompleteChanged',
+		'VimEnter',
+		'SessionLoadPost',
+		'BufWinEnter',
+		'WinEnter',
+	}, function()
+		-- if require('development.helpers').is_cmdwin() then return end
+		column_line.refresh()
+	end),
+})
+
+---------------------------------------------Commandline--------------------------------------------
 
 Augroup('CommandlineWindow', {
 	Autocmd('CmdlineEnter', function() vim.o.cmdheight = 1 end),
@@ -274,14 +276,14 @@ Augroup('CommandlineWindow', {
 
 	Autocmd('CmdwinLeave', function()
 		vim.cmd.TSContextEnable()
-		RestoreAugroup('NoCmdWinHere')
-		RestoreAugroup('ColumnLine')
+		-- RestoreAugroup('NoCmdWinHere')
+		-- RestoreAugroup('ColumnLine')
 	end),
 
 	Autocmd('CmdwinEnter', 'startinsert'),
 	Autocmd('CmdwinEnter', function()
-		DeleteAugroup('NoCmdWinHere')
-		DeleteAugroup('ColumnLine')
+		-- DeleteAugroup('NoCmdWinHere')
+		-- DeleteAugroup('ColumnLine')
 
 		Schedule(function()
 			-- P(data)
