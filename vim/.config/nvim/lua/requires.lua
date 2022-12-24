@@ -6,6 +6,7 @@ local require_dir = require('core.require_dir')
 function M.minimal_init()
 	require('core.profiler') -- start profiler at the beginning
 	require('ensure_packer') -- install packer if necessary
+	require('core.globals')
 
 	require_dir('lua/development')
 	require_dir('lua/core')

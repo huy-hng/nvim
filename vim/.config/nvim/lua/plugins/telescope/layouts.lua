@@ -1,4 +1,4 @@
-M = {}
+local M = {}
 
 local vertical_list = function()
 	return {
@@ -16,7 +16,8 @@ local vertical_list = function()
 			height = 0.5,
 			width = function(_, max_columns, _)
 				local third = math.floor(max_columns / 3)
-				return math.min(max_columns, math.max(60, third))
+				return math.clamp(third, max_columns, 100)
+				-- return math.min(max_columns, math.max(80, third))
 			end,
 
 			-- preview_height = 0.4,

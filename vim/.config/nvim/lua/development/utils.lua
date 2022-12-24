@@ -1,20 +1,43 @@
-function NilTrue(input) return input == nil and true or input end
+local M = {}
 
-function Wrap(f, ...)
+-- DeleteAllAutocmdsWithEvents('InsertCharPre')
+
+function M.nil_is_true(input) return input == nil and true or input end
+
+---@param winid number?
+---@return win_type
+function M.win_type(winid)
+	return vim.fn.win_gettype(winid)
+end
+
+---@param winid number?
+function M.is_cmdwin(winid)
+	winid = winid or vim.api.nvim_get_current_win()
+	local type = M.win_type(winid)
+
+	local mode = vim.fn.mode()
+	return type == 'command' or mode == 'c'
+end
+
+---@param f function
+---@param ... any
+function M.wrap(f, ...)
 	local args = { ... }
 	return function() return f(unpack(args)) end
 end
 
 local output = ''
-function WriteOut(str) output = output .. str .. '\n' end
-function PrintOut()
+function M.write_out(str) output = output .. str .. '\n' end
+
+function M.print_out()
 	print(output)
 	output = ''
 end
+
 -- function WriteOut(str) vim.api.nvim_out_write(str .. '\r') end
 -- function PrintOut() vim.api.nvim_out_write('\n') end
 
-function Out(...)
+function M.out(...)
 	for _, arg in ipairs { ... } do
 		if type(arg) == 'number' then arg = tostring(arg) end
 		vim.api.nvim_out_write(arg)
@@ -25,7 +48,7 @@ end
 
 ---@param rhs table
 ---@param traceback_level integer | nil if traceback_level is nil, dont try (faster)
-function ExtractFnFromTable(rhs, traceback_level)
+function M.extract_fn_from_table(rhs, traceback_level)
 	if type(rhs) ~= 'table' then return rhs end
 
 	local fn = table.remove(rhs, 1)
@@ -36,34 +59,19 @@ function ExtractFnFromTable(rhs, traceback_level)
 
 	return function() fn(unpack(args)) end
 end
-
----@param x number number to clamp
----@param lower number lower bound
----@param upper number upper bound
----@return number
-function math.clamp(x, lower, upper) --
-	return math.min(upper, math.max(x, lower))
-end
-
---- round to nearest integer
----@param x number
-function math.round(x) --
-	return math.floor(x + 0.5)
-end
-
 -----------------------------------------------Buffers----------------------------------------------
 
-function BuffersOpened() return vim.fn.len(vim.fn.getbufinfo { buflisted = 1 }) end
+function M.open_buffers() return vim.fn.len(vim.fn.getbufinfo { buflisted = 1 }) end
 
-function QuitLastBuffer()
-	if BuffersOpened() > 1 then
+function M.quit_last_buffer()
+	if M.open_buffers() > 1 then
 		vim.cmd.Bdelete()
 		return
 	end
 	vim.cmd.quit()
 end
 
-function SaveAndSource()
+function M.save_and_source()
 	-- vim.cmd([[
 	-- :silent! wa
 	-- :silent! write
@@ -81,3 +89,5 @@ function SaveAndSource()
 		vim.cmd.luafile('%')
 	end
 end
+
+return M

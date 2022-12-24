@@ -60,7 +60,7 @@ dashboard.section.header.val = header
 dashboard.section.buttons.val = {
 	-- dashboard.button('e', '  New file', ':enew <BAR> startinsert <CR>'),
 	dashboard.button('e', '  New file', '<cmd>enew<cr>'),
-	dashboard.button('q', '  Quit NVIM', QuitLastBuffer),
+	dashboard.button('q', '  Quit NVIM', Util.quit_last_buffer),
 }
 
 dashboard.section.sessions = require('plugins.alpha.possession')

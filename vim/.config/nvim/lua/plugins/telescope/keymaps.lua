@@ -99,7 +99,7 @@ local maps = {
 
 return {
 	i = vim.tbl_extend('force', maps, {
-		['<C-BS>'] = Wrap(Feedkeys, '<C-w>', false),
+		['<C-BS>'] = Util.wrap(Feedkeys, '<C-w>', true),
 
 		['<C-j>'] = actions.move_selection_next,
 		['<C-k>'] = actions.move_selection_previous,

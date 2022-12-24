@@ -1,6 +1,154 @@
 local M = {}
 
----@enum autocmd-events
+-- enum vs alias
+-- enum has no completion when doing
+-- if myenum == '...'
+-- but alias does
+-- 
+-- they both however provide completion when use as a type for a function param
+-- i personally like alias more for completion and readability
+
+---@alias win_type
+---| '' normal window
+---| 'autocmd' autocommand window. Temporary window used to execute autocommands.
+---| 'command' command window
+---| 'loclist' location list
+---| 'popup' floating window
+---| 'preview' preview window
+---| 'quickfix' quickfix list
+---| 'unknown' winid not found
+
+M.win_types = {
+	-- ['(empty)'] = '(empty)', -- normal window
+	autocmd = 'autocmd',
+	command = 'command',
+	loclist = 'loclist',
+	popup = 'popup',
+	preview = 'preview',
+	quickfix = 'quickfix',
+	unknown = 'unknown',
+}
+
+---@alias autocmd_events
+---| 'BufAdd'
+---| 'BufDelete'
+---| 'BufEnter'
+---| 'BufFilePost'
+---| 'BufFilePre'
+---| 'BufHidden'
+---| 'BufLeave'
+---| 'BufModifiedSet'
+---| 'BufNew'
+---| 'BufNewFile'
+---| 'BufRead'
+---| 'BufReadPost'
+---| 'BufReadCmd'
+---| 'BufReadPre'
+---| 'BufUnload'
+---| 'BufWinEnter'
+---| 'BufWinLeave'
+---| 'BufWipeout'
+---| 'BufWriteor'
+---| 'BufWritePre'
+---| 'BufWriteCmd'
+---| 'BufWritePost'
+---| 'ChanInfo'
+---| 'ChanOpen'
+---| 'CmdUndefined'
+---| 'CmdlineChanged'
+---| 'CmdlineEnter'
+---| 'CmdlineLeave'
+---| 'CmdwinEnter'
+---| 'CmdwinLeave'
+---| 'ColorScheme'
+---| 'ColorSchemePre'
+---| 'CompleteChanged'
+---| 'CompleteDonePre'
+---| 'CompleteDone'
+---| 'CursorHold'
+---| 'CursorHoldI'
+---| 'CursorMoved'
+---| 'CursorMovedI'
+---| 'DiffUpdated'
+---| 'DirChanged'
+---| 'DirChangedPre'
+---| 'ExitPre'
+---| 'FileAppendCmd'
+---| 'FileAppendPost'
+---| 'FileAppendPre'
+---| 'FileChangedRO'
+---| 'FileChangedShell'
+---| 'FileChangedShellPost'
+---| 'FileReadCmd'
+---| 'FileReadPost'
+---| 'FileReadPre'
+---| 'FileType'
+---| 'FileWriteCmd'
+---| 'FileWritePost'
+---| 'FileWritePre'
+---| 'FilterReadPost'
+---| 'FilterReadPre'
+---| 'FilterWritePost'
+---| 'FilterWritePre'
+---| 'FocusGained'
+---| 'FocusLost'
+---| 'FuncUndefined'
+---| 'UIEnter'
+---| 'UILeave'
+---| 'InsertChange'
+---| 'InsertCharPre'
+---| 'InsertEnter'
+---| 'InsertLeavePre'
+---| 'InsertLeave'
+---| 'MenuPopup'
+---| 'ModeChanged'
+---| 'OptionSet'
+---| 'QuickFixCmdPre'
+---| 'QuickFixCmdPost'
+---| 'QuitPre'
+---| 'RemoteReply'
+---| 'SearchWrapped'
+---| 'RecordingEnter'
+---| 'RecordingLeave'
+---| 'SessionLoadPost'
+---| 'ShellCmdPost'
+---| 'Signal'
+---| 'ShellFilterPost'
+---| 'SourcePre'
+---| 'SourcePost'
+---| 'SourceCmd'
+---| 'SpellFileMissing'
+---| 'StdinReadPost'
+---| 'StdinReadPre'
+---| 'SwapExists'
+---| 'Syntax'
+---| 'TabEnter'
+---| 'TabLeave'
+---| 'TabNew'
+---| 'TabNewEntered'
+---| 'TabClosed'
+---| 'TermOpen'
+---| 'TermEnter'
+---| 'TermLeave'
+---| 'TermClose'
+---| 'TermResponse'
+---| 'TextChanged'
+---| 'TextChangedI'
+---| 'TextChangedP'
+---| 'TextYankPost'
+---| 'User'
+---| 'UserGettingBored'
+---| 'VimEnter'
+---| 'VimLeave'
+---| 'VimLeavePre'
+---| 'VimResized'
+---| 'VimResume'
+---| 'VimSuspend'
+---| 'WinClosed'
+---| 'WinEnter'
+---| 'WinLeave'
+---| 'WinNew'
+---| 'WinScrolled'
 M.events = {
 	BufAdd = 'BufAdd',
 	BufDelete = 'BufDelete',
@@ -12,7 +160,7 @@ M.events = {
 	BufModifiedSet = 'BufModifiedSet',
 	BufNew = 'BufNew',
 	BufNewFile = 'BufNewFile',
-	BufReador = 'BufReador',
+	BufRead = 'BufRead',
 	BufReadPost = 'BufReadPost',
 	BufReadCmd = 'BufReadCmd',
 	BufReadPre = 'BufReadPre',
@@ -122,5 +270,6 @@ M.events = {
 	WinNew = 'WinNew',
 	WinScrolled = 'WinScrolled',
 }
+
 
 return M

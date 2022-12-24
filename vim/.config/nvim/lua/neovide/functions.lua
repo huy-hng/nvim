@@ -2,7 +2,7 @@ local os_fn = require('neovide.os_functions')
 
 local g = vim.g
 
-M = {}
+local M = {}
 
 M.refresh_gui_font = function() --
 	vim.o.guifont = string.format('%s:h%s', vim.g.gui_font_face, vim.g.gui_font_size)

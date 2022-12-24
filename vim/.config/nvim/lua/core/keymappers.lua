@@ -19,15 +19,15 @@ function MapCreator(mode, lhs_prefix, desc_prefix, outer_opts, fn_opts)
 		desc = desc_prefix .. (desc or '')
 		opts = vim.tbl_extend('force', outer_opts or {}, { desc = desc }, opts or {})
 
-		if type(rhs) == 'function' then
-			rhs = Wrap(rhs)
+		-- if type(rhs) == 'function' then
+		-- 	rhs = Wrap(rhs)
 			-- if fn_opts.fast then
 			-- 	rhs = Wrap(rhs)
 			-- else
 			-- 	rhs = TryWrap(2, rhs)
 			-- end
-		elseif type(rhs) == 'table' then
-			rhs = ExtractFnFromTable(rhs, fn_opts.fast and nil or 2)
+		if type(rhs) == 'table' then
+			rhs = Util.extract_fn_from_table(rhs, fn_opts.fast)
 		end
 
 		if opts.callback then
