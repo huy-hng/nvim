@@ -15,6 +15,7 @@ return packer.startup {
 		------------------------------------------My Plugins----------------------------------------
 
 		use(NVIM_CONFIG_PATH .. 'plugins/metamap')
+		use(NVIM_CONFIG_PATH .. 'plugins/column_line.nvim')
 
 		-------------------------------------------Utility------------------------------------------
 
