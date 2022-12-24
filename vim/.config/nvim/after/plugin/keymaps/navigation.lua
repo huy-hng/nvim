@@ -1,15 +1,15 @@
 ----------------------------------------------Windows-----------------------------------------------
 -- Move between windows
-Nmap('<C-h>', Wrap(vim.cmd.wincmd, 'h'))
-Nmap('<C-j>', Wrap(vim.cmd.wincmd, 'j'))
-Nmap('<C-k>', Wrap(vim.cmd.wincmd, 'k'))
-Nmap('<C-l>', Wrap(vim.cmd.wincmd, 'l'))
+Nmap('<C-h>', Util.wrap(vim.cmd.wincmd, 'h'))
+Nmap('<C-j>', Util.wrap(vim.cmd.wincmd, 'j'))
+Nmap('<C-k>', Util.wrap(vim.cmd.wincmd, 'k'))
+Nmap('<C-l>', Util.wrap(vim.cmd.wincmd, 'l'))
 
 -- resize windows with arrow keys
-Nmap('<Up>', { Schedule, Wrap(vim.cmd.resize, '-4') })
-Nmap('<Down>', { Schedule, Wrap(vim.cmd.resize, '+4') })
-Nmap('<Left>', { Schedule, Wrap(vim.cmd.wincmd, '4>') })
-Nmap('<Right>', { Schedule, Wrap(vim.cmd.wincmd, '4<') })
+Nmap('<Up>', { Schedule, Util.wrap(vim.cmd.resize, '-4') })
+Nmap('<Down>', { Schedule, Util.wrap(vim.cmd.resize, '+4') })
+Nmap('<Left>', { Schedule, Util.wrap(vim.cmd.wincmd, '4>') })
+Nmap('<Right>', { Schedule, Util.wrap(vim.cmd.wincmd, '4<') })
 
 -- nmap('<S-Up>',    '<cmd>aboveleft split<CR><cmd>bnext<CR><cmd>wincmd p<CR>')
 -- nmap('<S-Down>',  '<cmd>belowright split<CR><cmd>bnext<CR><cmd>wincmd p<CR>')
@@ -22,8 +22,8 @@ Nmap('<leader>tn', vim.cmd.tabnew, 'Open new Tab')
 Nmap('<leader>tc', vim.cmd.tabclose, 'Close Tab')
 
 Nmap('<leader>to', vim.cmd.tabonly, 'Close all Tabs except current')
-Nmap('<leader>th', Wrap(vim.cmd.tabmove, '-'), 'Move Tab left')
-Nmap('<leader>tl', Wrap(vim.cmd.tabmove, '+'), 'Move Tab right')
+Nmap('<leader>th', Util.wrap(vim.cmd.tabmove, '-'), 'Move Tab left')
+Nmap('<leader>tl', Util.wrap(vim.cmd.tabmove, '+'), 'Move Tab right')
 
 Nmap('<leader>h', vim.cmd.tabprevious, 'Previous Tab')
 Nmap('<leader>l', vim.cmd.tabnext, 'Next Tab')
@@ -37,5 +37,5 @@ Nmap('<leader>l', vim.cmd.tabnext, 'Next Tab')
 
 -----------------------------------------Fold Navigation Mode---------------------------------------
 -- folding shortcuts
-Nmap('<A-h>', Wrap(pcall, vim.cmd.foldclose))
-Nmap('<A-l>', Wrap(pcall, vim.cmd.foldopen))
+Nmap('<A-h>', Util.wrap(pcall, vim.cmd.foldclose))
+Nmap('<A-l>', Util.wrap(pcall, vim.cmd.foldopen))

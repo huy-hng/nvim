@@ -93,3 +93,49 @@ end
 
 local function async() local a = require('plenary.async') end
 
+local function vim_api()
+	vim.api.nvim_get_all_options_info()
+	vim.api.nvim_err_writeln()
+	vim.api.nvim_err_write()
+
+	vim.api.nvim_get_context()
+	vim.api.nvim_get_color_by_name()
+	vim.api.nvim_notify() -- ?
+	
+end
+
+local function vim_functions()
+	vim.fn.winlayout(1) -- get layout of tab
+
+	vim.fn.winline() -- where the cursor is relative to the window (not buffer)
+	vim.fn.wincol() -- get cursor column relative to window
+	-- print(vim.fn.screencol())
+	-- print(vim.fn.screenrow())
+
+	local winline = vim.fn.win_splitmove(winid, -10) -- move window
+	local info = vim.fn.api_info()
+	local winline = vim.fn.win_move_separator(winid, -10) -- change window size
+	P(info)
+end
+
+
+local function recurse_layout(parent, nodes)
+	for _, node in ipairs(nodes) do
+		local type, val = unpack(node)
+		if type ~= 'leaf' then
+			node = recurse_layout({}, val)
+			parent[type] = node
+		else
+			parent[val] = type
+		end
+	end
+	return parent
+end
+
+local function win_layout()
+	local tabnr = vim.api.nvim_get_current_tabpage()
+	local layout = vim.fn.winlayout(tabnr) -- get layout of tab
+
+	local formatted = recurse_layout({}, { layout })
+	P(formatted)
+end

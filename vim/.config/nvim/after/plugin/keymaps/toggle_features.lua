@@ -12,10 +12,10 @@ end
 
 local function toggle_conceal()
 	if vim.o.concealcursor == 'c' then
-		echo('conceal normal')
+		vim.notify('conceal normal')
 		vim.o.concealcursor = 'nc'
 	else
-		echo('dont conceal normal')
+		vim.notify('dont conceal normal')
 		vim.o.concealcursor = 'c'
 	end
 end
@@ -24,7 +24,7 @@ end
 local function toggle_wrap()
 	-- local wrap = vim.o.wrap
 	if vim.o.wrap then
-		echo('not wrapping text')
+		vim.notify('nowrap text')
 		vim.o.wrap = false
 		Nmap('j', 'j')
 		Nmap('k', 'k')
@@ -32,7 +32,7 @@ local function toggle_wrap()
 		Nmap('^', 'g0')
 		Nmap('$', 'g$')
 	else
-		echo('wrapping text')
+		vim.notify('wrap text')
 		vim.o.wrap = true
 		Nmap('j', 'gj')
 		Nmap('k', 'gk')

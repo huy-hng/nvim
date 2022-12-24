@@ -15,7 +15,7 @@ Nmap('<leader>bh', { bufferline.move, -1 }, 'Move Right')
 Nmap('<leader>bl', { bufferline.move, 1 }, 'Move Right')
 Nmap('<leader>bd', bufferline.close_buffer_with_pick, 'Pick')
 
-Nmap('<leader>bcd', { vim.fn.chdir, Wrap(vim.fn.expand, '%:p:h') }, 'Change dir to current buffer')
+Nmap('<leader>bcd', { vim.fn.chdir, Util.wrap(vim.fn.expand, '%:p:h') }, 'Change dir to current buffer')
 -- nmap('<leader>bd', bufferline.close_with_pick, 'Pick')
 
 Nmap('H', { bufferline.cycle, -1 }, 'Prev Buffer')

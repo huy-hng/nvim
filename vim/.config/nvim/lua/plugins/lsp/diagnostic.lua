@@ -1,8 +1,8 @@
 local signs = {
-	{ name = 'DiagnosticSignError', text = '' },
-	{ name = 'DiagnosticSignWarn', text = '' },
-	{ name = 'DiagnosticSignInfo', text = '' },
-	{ name = 'DiagnosticSignHint', text = '' },
+	{ name = 'DiagnosticSignError', text = '' }, --   
+	{ name = 'DiagnosticSignWarn', text = '◉' }, -- 
+	{ name = 'DiagnosticSignInfo', text = '' }, -- 
+	{ name = 'DiagnosticSignHint', text = '·' }, -- 
 }
 
 for _, sign in ipairs(signs) do
@@ -11,10 +11,11 @@ end
 
 vim.diagnostic.config {
 	-- disable virtual text
-	virtual_text = { severity = { min = vim.diagnostic.severity.ERROR } },
-	signs = { severity = { min = vim.diagnostic.severity.INFO } },
+	-- virtual_text = { severity = { min = vim.diagnostic.severity.ERROR } },
+	virtual_text = false,
+	signs = { severity = { min = vim.diagnostic.severity.HINT } },
 	update_in_insert = false,
-	underline = true,
+	underline = { severity = { min = vim.diagnostic.severity.WARN } },
 	severity_sort = true,
 	float = {
 		focusable = true,

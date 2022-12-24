@@ -30,7 +30,7 @@ local function move_wins(direction)
 			Schedule(vim.cmd.wincmd, win_dir)
 		end
 
-		Defer(delay, pcall, Wrap(vim.cmd.wincmd, cur_dir))
+		Defer(delay, pcall, Util.wrap(vim.cmd.wincmd, cur_dir))
 	end
 end
 
@@ -55,7 +55,27 @@ local function center()
 	P(curwin, wins)
 end
 
--- center()
+local function center_two_windows()
+	local wins = vim.api.nvim_tabpage_list_wins(0)
+
+	if #wins == 2 then
+		-- local ui = vim.api.nvim_list_uis()[1]
+		-- local width = ui.width -- can also be queried with :echo &columns
+		local columns = Exec('echo &columns')
+
+		local winid = vim.api.nvim_get_current_win()
+		local windows = vim.fn.getwininfo(winid)
+
+		local twothirds = math.floor(columns / 3) * 2
+
+		vim.api.nvim_win_set_width(0, twothirds)
+	end
+end
+
+MapSpaceCapital('n', 'C', center_two_windows)
+
+win_prefix('<C-c>', center_two_windows, 'In two win setup, center right win')
+
 
 Augroup('WindowCenterer', {
 	-- Autocmd('WinEnter', function(data) vim.notify(tostring(vim.api.nvim_get_current_win())) end),

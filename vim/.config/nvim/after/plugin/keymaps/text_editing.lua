@@ -1,7 +1,7 @@
-local function keep_column(action, change_line)
+local function keep_column(action, change_line, alt_method)
 	count = 0
 	return function()
-		if false then
+		if alt_method then
 			-- this entire thing can be simplified with just marks
 			-- only change_line isnt implemented with this
 			Feedkeys('mz' .. action .. '`z')
@@ -42,7 +42,7 @@ end
 
 Nmap('p', keep_column('p==', true), 'paste, keep column and indent')
 Nmap('P', keep_column('P==', true), 'paste, keep column and indent')
-Vmap('y', keep_column('y'))
+Vmap('y', keep_column('y', false, true))
 Vmap('Y', keep_column('Y'))
 Vmap('<C-c>', keep_column('"+y'))
 
@@ -166,7 +166,7 @@ local function fn1(direction)
 	-- return ScheduleWrap(wrapped)
 	return wrapped
 end
-Defer(2000, PrintOut)
+-- Defer(2000, Util.print_out)
 
 Nmap('<A-j>', move_line('+'))
 Nmap('<A-k>', move_line('-2'))
