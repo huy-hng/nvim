@@ -7,7 +7,7 @@ local function echo(...)
 	-- args = type(args) == 'table' and unpack(args)
 	vim.cmd.echo(string.format('"%s"', args))
 
-	Defer(2000, function() vim.o.cmdheight = cmdheight_before end)
+	nvim.defer(2000, function() vim.o.cmdheight = cmdheight_before end)
 end
 
 local function toggle_conceal()

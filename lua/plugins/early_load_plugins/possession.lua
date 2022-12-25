@@ -47,7 +47,7 @@ local function save(data)
 	local new_save = os.time()
 	if new_save - last_save < MAX_SAVE_INTERVAL then return end
 	last_save = new_save
-	Schedule(commands.save, '', true)
+	nvim.schedule(commands.save, '', true)
 	-- commands.save('', true)
 end
 
@@ -74,7 +74,7 @@ function AutosaveSession(save)
 		stop_autosave_autocmd()
 		return
 	end
-	if SHOULD_AUTOSAVE_SESSION then Schedule(start_autosave_autocmd) end
+	if SHOULD_AUTOSAVE_SESSION then nvim.schedule(start_autosave_autocmd) end
 end
 
 possession.setup {

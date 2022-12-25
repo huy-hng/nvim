@@ -31,8 +31,8 @@ return function(opts)
 
 					utils.highlighter(bufnr, ft)
 					-- vim.api.nvim_buf_set_option(buff, 'filetype', ft)
-					Schedule(vim.api.nvim_win_set_buf, winid, bufnr)
-					Schedule(vim.api.nvim_win_call, winid, function() vim.fn.winrestview(view) end)
+					nvim.schedule(vim.api.nvim_win_set_buf, winid, bufnr)
+					nvim.schedule(vim.api.nvim_win_call, winid, function() vim.fn.winrestview(view) end)
 					vim.api.nvim_buf_set_lines(telescope_bufnr, 0, -1, false, contents)
 				end,
 				teardown = function(self) vim.api.nvim_buf_delete(bufnr, {}) end,

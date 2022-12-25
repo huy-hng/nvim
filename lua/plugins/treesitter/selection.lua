@@ -1,7 +1,7 @@
 local has_config, configs = pcall(require, 'nvim-treesitter.configs')
 if not has_config then return end
 
-Nmap('<A-L>', { Feedkeys, 'v<A-L>', true })
+Nmap('<A-L>', { nvim.feedkeys, 'v<A-L>', true })
 
 configs.setup {
 	textsubjects = {

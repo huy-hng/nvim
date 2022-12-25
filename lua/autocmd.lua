@@ -82,7 +82,7 @@ Augroup('Treesitter', {
 	Autocmd({ 'WinEnter', 'InsertEnter', 'InsertLeave' }, function()
 		vim.cmd.TSBufDisable('rainbow')
 		-- vim.cmd.TSBufEnable('rainbow')
-		Schedule(vim.cmd.TSBufEnable, 'rainbow')
+		nvim.schedule(vim.cmd.TSBufEnable, 'rainbow')
 	end),
 
 	Autocmd({ 'BufEnter', 'BufAdd', 'BufNew', 'BufNewFile', 'BufWinEnter' }, function()
@@ -251,7 +251,6 @@ Augroup('Misc', {
 
 ---@module 'column_line'
 local column_line = require('column_line')
-
 Augroup('ColumnLine', {
 	Autocmd('OptionSet', 'colorcolumn', column_line.refresh),
 	Autocmd({
@@ -286,7 +285,7 @@ Augroup('CommandlineWindow', {
 		-- DeleteAugroup('NoCmdWinHere')
 		-- DeleteAugroup('ColumnLine')
 
-		Schedule(function()
+		nvim.schedule(function()
 			-- P(data)
 			vim.o.cmdheight = 0
 			vim.g.neovide_scroll_animation_length = 0
@@ -299,14 +298,14 @@ Augroup('CommandlineWindow', {
 			Nmap('<C-;>', vim.cmd.quit, '', opts)
 			Nmap('<leader>;', vim.cmd.quit, '', opts)
 			Imap('<C-;>', function()
-				Feedkeys('<Esc>')
+				nvim.feedkeys('<Esc>')
 				vim.cmd.quit()
 			end, '', opts)
 
 			vim.cmd.TSContextDisable()
 			vim.cmd.TSBufDisable('highlight')
 
-			Defer(200, function() vim.g.neovide_scroll_animation_length = 0.5 end)
+			nvim.defer(200, function() vim.g.neovide_scroll_animation_length = 0.5 end)
 		end)
 	end),
 })

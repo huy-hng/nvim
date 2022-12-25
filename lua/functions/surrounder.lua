@@ -1,7 +1,4 @@
-local function move_selection(len)
-end
-
-function Surrounder(...)
+return function (...)
 	local args = { ... }
 	return function()
 		local char1 = args[1]
@@ -10,28 +7,9 @@ function Surrounder(...)
 			char2 = args[2]
 		end
 
-		Feedkeys('<esc>`>a' .. char2 .. '<esc>`<i' .. char1 .. '<esc>')
+		nvim.feedkeys('<esc>`>a' .. char2 .. '<esc>`<i' .. char1 .. '<esc>')
 		-- move_selection(vim.fn.strlen(char1))
 		local len = vim.fn.strlen(char1)
-		Feedkeys('gv' .. len .. 'lo' .. len .. 'l')
+		nvim.feedkeys('gv' .. len .. 'lo' .. len .. 'l')
 	end
 end
-
-
-Vmap("'", Surrounder("'"))
-Vmap('"', Surrounder('"'))
-Vmap('<A-*>', Surrounder('*'))
-Vmap('`', Surrounder('`'))
--- vmap('=', Surrounder('='))
-
-Vmap('(', Surrounder('(', ')'))
-Vmap(')', Surrounder('( ', ' )'))
-
-Vmap('<', Surrounder('<', '>'))
-Vmap('>', Surrounder('< ', ' >'))
-
-Vmap('[', Surrounder('[', ']'))
-Vmap(']', Surrounder('[ ', ' ]'))
-
-Vmap('{', Surrounder('{', '}'))
-Vmap('}', Surrounder('{ ', ' }'))

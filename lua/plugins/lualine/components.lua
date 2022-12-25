@@ -69,7 +69,7 @@ M.indentation = {
 			)
 		end
 
-		Schedule(lualine.refresh, {
+		nvim.schedule(lualine.refresh, {
 			scope = 'all', -- scope of refresh all/tabpage/window
 			place = { 'statusline' }, -- lualine segment to refresh { 'statusline', 'winbar', 'tabline' }
 		})

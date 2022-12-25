@@ -27,10 +27,10 @@ local function move_wins(direction)
 		end
 
 		if not has_vertical_wins() then --
-			Schedule(vim.cmd.wincmd, win_dir)
+			nvim.schedule(vim.cmd.wincmd, win_dir)
 		end
 
-		Defer(delay, pcall, Util.wrap(vim.cmd.wincmd, cur_dir))
+		nvim.defer(delay, pcall, Util.wrap(vim.cmd.wincmd, cur_dir))
 	end
 end
 

@@ -35,7 +35,7 @@ return {
 	},
 	renderer = {
 		add_trailing = false,
-		group_empty = true,
+		group_empty = false,
 		highlight_git = false,
 		full_name = false,
 		highlight_opened_files = 'name',

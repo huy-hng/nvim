@@ -4,13 +4,13 @@ local function keep_column(action, change_line, alt_method)
 		if alt_method then
 			-- this entire thing can be simplified with just marks
 			-- only change_line isnt implemented with this
-			Feedkeys('mz' .. action .. '`z')
+			nvim.feedkeys('mz' .. action .. '`z')
 			return
 		end
 		local column = vim.fn.col('.')
 		local line = vim.fn.line('.')
 
-		Normal(action)
+		nvim.normal(action)
 
 		if change_line then line = vim.fn.line('.') end
 		vim.fn.cursor { line, column }
@@ -116,7 +116,7 @@ end
 local function ScheduleAsync(fn, ...)
 	local args = { ... }
 	local async_fn = a.void(function() fn(unpack(args)) end)
-	Schedule(a.run, async_fn, nil)
+	nvim.schedule(a.run, async_fn, nil)
 end
 
 local over_the_counter = 0

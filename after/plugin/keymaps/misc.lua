@@ -28,14 +28,14 @@ for abbrev, long_form in pairs(cmd_abbrevs) do
 	cnoreabbrev(abbrev, long_form)
 end
 
-Commander('ListAbbrevs', { P, cmd_abbrevs })
-Commander('HighlightFile', 'so $VIMRUNTIME/syntax/hitest.vim')
-Commander('H', function(data) -- 
+nvim.command('ListAbbrevs', { P, cmd_abbrevs })
+nvim.command('HighlightFile', 'so $VIMRUNTIME/syntax/hitest.vim')
+nvim.command('H', function(data) -- 
 	Exec('enew | set buftype=help | h ' .. data.args)
 end, { nargs = 1, complete = 'help' })
 -- vim.cmd [[command! -nargs=1 -complete=help Help :enew | :set buftype=help | :h <args>]]
 
-Commander(
+nvim.command(
 	'W',
 	"execute 'w !sudo tee % > /dev/null' <bar> edit!",
 	{ desc = ':W sudo saves the file' }

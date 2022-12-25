@@ -87,7 +87,7 @@ local function open_popup(wikicmd)
 	if wikicmd then wikicmd() end
 
 	log('new window:', popup.winid)
-	Feedkeys('zz')
+	nvim.feedkeys('zz')
 
 	Augroup('VimwikiOpenPopup', {
 		Autocmd({ 'WinLeave' }, '*', function(data)

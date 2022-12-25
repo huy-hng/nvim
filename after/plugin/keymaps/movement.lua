@@ -14,16 +14,16 @@ Nmap('<C-d>', '<C-d>zzzz')
 Nmap('<C-u>', '<C-u>zzzz')
 
 -- Cursor movement in insert and command mode
-ICmap('<A-h>', { Feedkeys, '<Left>' })
-ICmap('<A-j>', { Feedkeys, '<Down>' })
-ICmap('<A-k>', { Feedkeys, '<Up>' })
-ICmap('<A-l>', { Feedkeys, '<Right>' })
+ICmap('<A-h>', { nvim.feedkeys, '<Left>' })
+ICmap('<A-j>', { nvim.feedkeys, '<Down>' })
+ICmap('<A-k>', { nvim.feedkeys, '<Up>' })
+ICmap('<A-l>', { nvim.feedkeys, '<Right>' })
 
 -- Prev command in command mode
 -- cmap('<C-j>', BindFeedkeys('<Down>'))
 -- cmap('<C-k>', BindFeedkeys('<Up>'))
-Cmap('<C-n>', { Feedkeys, '<Down>' })
-Cmap('<C-p>', { Feedkeys, '<Up>' })
+Cmap('<C-n>', { nvim.feedkeys, '<Down>' })
+Cmap('<C-p>', { nvim.feedkeys, '<Up>' })
 
 Nmap('A', 'A', 'Move to correct indentation, or normal A', {
 	callback = function()

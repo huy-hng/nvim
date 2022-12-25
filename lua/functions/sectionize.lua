@@ -13,17 +13,17 @@ local create_divider = function(size, divider)
 	local comment_len = vim.fn.strlen(vim.fn.getline('.'))
 	local cmd = 'A' .. Repeat(divider, size - comment_len)
 	-- Schedule(Feedkeys, cmd)
-	Normal(cmd)
+	nvim.normal(cmd)
 end
 
 local function sectionize(size, location, divider, surround)
-	Normal('O')
+	nvim.normal('O')
 	create_divider(size, divider)
 
 	vim.fn.cursor { vim.fn.line('.') + 1, 1 }
 
-	Normal('i' .. surround[1])
-	Normal('A' .. surround[2])
+	nvim.normal('i' .. surround[1])
+	nvim.normal('A' .. surround[2])
 
 	comment.toggle.linewise.current()
 
@@ -33,8 +33,8 @@ local function sectionize(size, location, divider, surround)
 	spaces = spaces - 2
 
 	vim.fn.cursor { vim.fn.line('.'), 2 }
-	Normal('wi' .. Repeat(' ', vim.fn.float2nr(spaces)))
-	Normal('o')
+	nvim.normal('wi' .. Repeat(' ', vim.fn.float2nr(spaces)))
+	nvim.normal('o')
 	create_divider(size, divider)
 end
 
@@ -54,8 +54,8 @@ local function sectionize_oneline(size, location, divider, surround)
 	if comment_len == 0 then comment_len = 1 end
 	set_cursor_col(comment_len)
 
-	Normal('a' .. surround[1])
-	Normal('A' .. surround[2])
+	nvim.normal('a' .. surround[1])
+	nvim.normal('A' .. surround[2])
 
 	local text_len = string.len(vim.fn.getline('.'))
 	local text_middle = vim.fn.floor(text_len / 2.0)
@@ -65,11 +65,11 @@ local function sectionize_oneline(size, location, divider, surround)
 	left_dividers = vim.fn.float2nr(left_dividers)
 
 	set_cursor_col(comment_len)
-	Normal('a' .. Repeat(divider, left_dividers))
-	Normal('A' .. Repeat(divider, right_dividers))
+	nvim.normal('a' .. Repeat(divider, left_dividers))
+	nvim.normal('A' .. Repeat(divider, right_dividers))
 end
 
-Commander('SmallSection', { sectionize, 80, 0.5, '-', { '-> ', ' <-' } })
-Commander('BigSection', { sectionize, 80, 0.5, '=', { '|=> ', ' <=|' } })
-Commander('BigSection', { sectionize, 100, 0.5, '=', { '', '' } })
-Commander('OnelineSection', { sectionize_oneline, 100, 0.5, '-', { '-', '-' } })
+nvim.command('SmallSection', { sectionize, 80, 0.5, '-', { '-> ', ' <-' } })
+nvim.command('BigSection', { sectionize, 80, 0.5, '=', { '|=> ', ' <=|' } })
+nvim.command('BigSection', { sectionize, 100, 0.5, '=', { '', '' } })
+nvim.command('OnelineSection', { sectionize_oneline, 100, 0.5, '-', { '-', '-' } })

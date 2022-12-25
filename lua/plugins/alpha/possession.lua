@@ -86,7 +86,7 @@ local function alpha_workspace_layout(workspace_specs, create_button, opts)
 				-- if vim.bo.filetype == 'alpha' then Exec('Bdelete') end
 				-- print(vim.bo.filetype)
 				-- Defer(1000, commands.load, session_name)
-				Schedule(commands.load, session_name)
+				nvim.schedule(commands.load, session_name)
 				-- commands.load(session_name)
 			end
 			return create_button(shortcut, session_name, cmd)

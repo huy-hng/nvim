@@ -26,7 +26,7 @@ local function goto_node(node)
 	ts_utils.goto_node(node)
 	node_information(node)
 
-	Schedule(function()
+	nvim.schedule(function()
 		ts_utils.highlight_node(node, 0, namespace, 'Visual')
 
 		CreateAutocmd('CursorMoved', '*', function()

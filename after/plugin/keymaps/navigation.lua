@@ -6,10 +6,10 @@ Nmap('<C-k>', Util.wrap(vim.cmd.wincmd, 'k'))
 Nmap('<C-l>', Util.wrap(vim.cmd.wincmd, 'l'))
 
 -- resize windows with arrow keys
-Nmap('<Up>', { Schedule, Util.wrap(vim.cmd.resize, '-4') })
-Nmap('<Down>', { Schedule, Util.wrap(vim.cmd.resize, '+4') })
-Nmap('<Left>', { Schedule, Util.wrap(vim.cmd.wincmd, '4>') })
-Nmap('<Right>', { Schedule, Util.wrap(vim.cmd.wincmd, '4<') })
+Nmap('<Up>', { nvim.schedule, Util.wrap(vim.cmd.resize, '-4') })
+Nmap('<Down>', { nvim.schedule, Util.wrap(vim.cmd.resize, '+4') })
+Nmap('<Left>', { nvim.schedule, Util.wrap(vim.cmd.wincmd, '4>') })
+Nmap('<Right>', { nvim.schedule, Util.wrap(vim.cmd.wincmd, '4<') })
 
 -- nmap('<S-Up>',    '<cmd>aboveleft split<CR><cmd>bnext<CR><cmd>wincmd p<CR>')
 -- nmap('<S-Down>',  '<cmd>belowright split<CR><cmd>bnext<CR><cmd>wincmd p<CR>')

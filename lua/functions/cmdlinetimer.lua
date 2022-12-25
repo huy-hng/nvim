@@ -37,8 +37,8 @@ local function timer(time, fn)
 		end
 	end
 	queue[id] = fn
-	Defer(time, promise, id)
-	Defer(time, timer, time, fn)
+	nvim.defer(time, promise, id)
+	nvim.defer(time, timer, time, fn)
 end
 
 -- timer(100 , show_message)

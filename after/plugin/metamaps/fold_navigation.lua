@@ -18,7 +18,7 @@ end
 
 local go_to_first_sibling = '[z[zzj^'
 local go_to_last_sibling = function()
-	Feedkeys(']z]z')
+	nvim.feedkeys(']z]z')
 	ufo.goPreviousStartFold()
 end
 local recursively_close_except_cursor = ''

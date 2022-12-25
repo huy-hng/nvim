@@ -71,6 +71,12 @@ return {
 	),
 
 	--stylua: ignore
+	snippet('local M', fmt([[
+		local M = {{}}
+		return M
+	]], {})),
+
+	--stylua: ignore
 	snippet('M', fmt([[
 		local M = {{}}
 		return M

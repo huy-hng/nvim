@@ -53,7 +53,7 @@ function ChangeIndentation(data) --
 	fn(width)
 end
 
-Commander('Indent', ChangeIndentation, {
+nvim.command('Indent', ChangeIndentation, {
 	nargs = '+',
 	complete = function(arg_lead, cmdline, cursor_pos)
 		if arg_lead == '' then --

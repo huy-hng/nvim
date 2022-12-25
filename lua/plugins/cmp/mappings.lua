@@ -35,7 +35,7 @@ local function if_not_visible_feedkeys(fn, keys)
 		if cmp.visible() then
 			fn()
 		else
-			Feedkeys(keys)
+			nvim.feedkeys(keys)
 		end
 	end
 end
