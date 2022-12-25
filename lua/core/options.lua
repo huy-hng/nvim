@@ -20,6 +20,7 @@ o.concealcursor = 'c'
 -- line numbers
 go.relativenumber = true -- show relative line numbers
 go.number = true -- shows absolute line number on cursor line
+o.number = true
 
 -- cursor line
 o.cursorline = true -- highlight the current cursor line
@@ -109,7 +110,10 @@ o.virtualedit = 'block'
 --------------------------------------------Indentation---------------------------------------------
 -- indentation width
 go.tabstop = 4 -- tab
+o.tabstop = 4 -- tab
+
 go.shiftwidth = 4 -- space
+o.shiftwidth = 4 -- space
 
 go.expandtab = false -- false to use tabs, true for spaces
 
@@ -119,7 +123,8 @@ go.smarttab = true
 
 ---------------------------------------------Wrapping-----------------------------------------------
 o.wrap = false -- disable line wrapping
-o.showbreak = '--> ' -- prefix for soft-wrapped lines
+go.wrap = false -- disable line wrapping
+o.showbreak = '  > ' -- prefix for soft-wrapped lines
 o.linebreak = true -- soft-wrap lines only at certain characters (see :help breakat)
 o.breakindent = true -- indent wraps
 opt.cpoptions:append('n')

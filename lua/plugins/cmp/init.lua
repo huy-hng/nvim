@@ -5,7 +5,7 @@ if not has_cmp then
 end
 
 local kind_icons = require('plugins.cmp.icons')
-local mappings = R('plugins.cmp.mappings')
+local mappings = require('plugins.cmp.mappings')
 
 local compare = cmp.config.compare
 local compare_fn = require('plugins.cmp.compare')

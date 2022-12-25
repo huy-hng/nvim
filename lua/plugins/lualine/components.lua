@@ -85,6 +85,12 @@ M.filetype = {
 	on_click = function() preview_filetypes() end,
 }
 
+M.plugin_info = {
+	require('lazy.status').updates,
+	cond = require('lazy.status').has_updates,
+	color = { fg = '#ff9e64' },
+}
+
 M.date = {
 	'os.date("%a")',
 	icons_enabled = true,

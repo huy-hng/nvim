@@ -1,14 +1,11 @@
 local M = {}
 
--- DeleteAllAutocmdsWithEvents('InsertCharPre')
 
-function M.nil_is_true(input) return input == nil and true or input end
+function M.nil_and_true(input) return input == nil and true or input end
 
 ---@param winid number?
 ---@return win_type
-function M.win_type(winid)
-	return vim.fn.win_gettype(winid)
-end
+function M.win_type(winid) return vim.fn.win_gettype(winid) end
 
 ---@param winid number?
 function M.is_cmdwin(winid)

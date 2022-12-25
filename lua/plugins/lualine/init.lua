@@ -1,7 +1,7 @@
 local has_lualine, lualine = pcall(require, 'lualine')
 if not has_lualine then return end
 
-local comp = R('plugins.lualine.components')
+local comp = require('plugins.lualine.components')
 
 local has_cat, cat = pcall(require, 'lualine.themes.catppuccin')
 if not has_cat then return end
@@ -38,7 +38,7 @@ lualine.setup {
 		lualine_a = { 'mode' },
 		lualine_b = { comp.branch },
 		lualine_c = { comp.session_name, comp.filepath },
-		lualine_x = { 'searchcount', comp.metamap, comp.indentation, comp.filetype },
+		lualine_x = { 'searchcount', comp.metamap, comp.indentation, comp.filetype, comp.plugin_info },
 		lualine_y = { 'progress', 'location' },
 		lualine_z = { comp.date, comp.time },
 	},

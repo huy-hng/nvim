@@ -2,12 +2,17 @@ local M = {}
 
 M.loaded = function(name) vim.pretty_print(package.loaded[name]) end
 M.reset = function(name) package.loaded[name] = nil end
-M.reload = require('plenary.reload').reload_module
+local has_plenary, reload = pcall(require, 'plenary.reload')
+if has_plenary then
+	M.reload = reload.reload_module
+else
+	M.reload = M.reset
+end
+
 M.reload_require = function(name)
 	RELOAD(name)
 	return require(name)
 end
-
 
 M.write_file = function(path, text, append)
 	local mode = 'a' and append or 'w'
@@ -69,4 +74,22 @@ function M.require_wrapper()
 	end
 end
 
+local function handle_pcall(status, ...) --
+	return status and ... or nil
+end
+
+-- return result or nil
+---@param fn function
+---@param ... any
+---@return unknown | nil
+function M.npcall(fn, ...) --
+	return handle_pcall(pcall(fn, ...))
+end
+
+-- return required package or nil
+---@param name string
+---@return unknown | nil
+function M.nrequire(name) --
+	return handle_pcall(pcall(require, name))
+end
 return M

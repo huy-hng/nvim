@@ -8,8 +8,8 @@ local language_servers = {
 }
 
 local lsp_flags = {
-	-- This is the default in Nvim 0.7+
-	debounce_text_changes = 150,
+	debounce_text_changes = 1000,
+	allow_incremental_sync = false,
 }
 
 local opts = {
@@ -19,9 +19,9 @@ local opts = {
 }
 
 for _, server in ipairs(language_servers) do
-	local has_custom_opts, server_custom_opts = pcall(require, 'plugins.lsp.servers.' .. server)
-	if has_custom_opts then --
-		opts = vim.tbl_deep_extend('force', opts, server_custom_opts)
+	local server_opts = nrequire('plugins.lsp.servers.' .. server)
+	if server_opts then --
+		opts = vim.tbl_deep_extend('force', opts, server_opts)
 	end
 	lspconfig[server].setup(opts)
 end

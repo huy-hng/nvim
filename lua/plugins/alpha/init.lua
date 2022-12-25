@@ -27,9 +27,7 @@ math.random()
 math.random()
 math.random()
 
-local function get_random_value(values)
-	return values[math.random(#values)]
-end
+local function get_random_value(values) return values[math.random(#values)] end
 
 local headers = require('plugins.alpha.headers')
 local ascii_art = require('plugins.alpha.ascii_art')
@@ -85,6 +83,7 @@ local function create_text(text, highlight, width)
 	}
 end
 
+
 local layout = {
 	{ type = 'padding', val = 2 },
 	dashboard.section.header,
@@ -94,38 +93,13 @@ local layout = {
 	create_text('Actions', 'Type'),
 	{ type = 'padding', val = 1 },
 	dashboard.section.buttons,
+	{ type = 'padding', val = 1 },
+	create_text('Plugins installed: ' .. require('lazy').stats().count, 'Comment'),
 	{ type = 'padding', val = 2 },
 	dashboard.section.footer,
 }
+
 dashboard.config.layout = layout
 -- dashboard.config.opts.noautocmd = true
 
 alpha.setup(dashboard.config)
-
--- local function example_startify()
--- 	startify.section.header.val = header
--- 	startify.section.top_buttons.val = {
--- 		startify.button('e', '  New file', ':ene <BAR> startinsert <CR>'),
--- 	}
--- 	-- disable MRU
--- 	startify.section.mru.val = { { type = 'padding', val = 0 } }
--- 	-- disable MRU cwd
--- 	startify.section.mru_cwd.val = { { type = 'padding', val = 0 } }
--- 	-- disable nvim_web_devicons
--- 	startify.nvim_web_devicons.enabled = false
--- 	-- startify.nvim_web_devicons.highlight = false
--- 	-- startify.nvim_web_devicons.highlight = 'Keyword'
--- 	--
--- 	startify.section.bottom_buttons.val = {
--- 		startify.button('q', '  Quit NVIM', ':qa<CR>'),
--- 	}
--- 	startify.section.footer = {
--- 		{ type = 'text', val = 'footer' },
--- 	}
--- 	-- ignore filetypes in MRU
-
--- 	startify.mru_opts.ignore = function(path, ext)
--- 		return (string.find(path, 'COMMIT_EDITMSG')) or (vim.tbl_contains(default_mru_ignore, ext))
--- 	end
--- 	alpha.setup(startify.config)
--- end

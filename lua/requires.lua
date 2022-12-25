@@ -4,19 +4,18 @@ local require_dir = require('modules.require_dir')
 -----------------------------------------------Minimal----------------------------------------------
 
 function M.minimal_init()
-	require('core.profiler') -- start profiler at the beginning
-	require('ensure_packer') -- install packer if necessary
 	require('core.globals')
 
-	require_dir('lua/development')
-	require_dir('lua/core')
+	require('functions.profiler') -- start profiler at the beginning
 
-	-- require('options')
-	require('autocmd')
-	require('colorscheme') -- catpuccin needs to be installed
+	require('core.options')
+	-- require('core.colorscheme') -- catpuccin needs to be installed
+	require('core.autocmd')
 
 	require_dir('lua/functions') -- should come before keymaps
 	-- require_dir('lua/keymaps') -- is located in after folder
+	require('plugins.early_load_plugins.vimwiki')
+	require('plugin_management')
 	if vim.g.neovide then require('core.neovide') end
 end
 
@@ -26,19 +25,16 @@ end
 function M.extra_features()
 	if vim.g.minimal then return end
 
-	require('plugins.packer')
-
+	require('plugins.lsp')
 	require('plugins.ufo')
 	require('plugins.indent_blankline.new')
 	require('plugins.snippets.init')
 
 	require('plugins.cmp')
 	require('plugins.alpha')
-	require('plugins.packer_compiled')
 
 	require_dir('lua/plugins/early_load_plugins')
 	require('plugins.lualine')
-
 	-- require('plugins.noice')
 end
 
@@ -79,13 +75,13 @@ function M.lazyload()
 		require('plugins.harpoon')
 		require('plugins.leap')
 		require('plugins.ranger')
-		require('plugins.neorg')
+		-- require('plugins.neorg')
 		require('plugins.undotree')
 		-- require('plugins.snippets.init')
 	end
 
 	Augroup('LazyloadPlugins', {
-		OnceAutocmd('FileType', { 'python', 'lua', 'c', 'json' }, { require, 'plugins.lsp' }),
+		-- OnceAutocmd('FileType', { 'python', 'lua', 'c', 'json' }, { require, 'plugins.lsp' }),
 		OnceAutocmd('FileType', 'python', { require_dir, 'lua/plugins/dap' }),
 		OnceAutocmd('BufReadPre', buf_read_pre),
 		OnceAutocmd(

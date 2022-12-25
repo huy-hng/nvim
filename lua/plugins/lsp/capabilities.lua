@@ -1,11 +1,11 @@
 local capabilities = vim.lsp.protocol.make_client_capabilities()
 
-capabilities.textDocument.foldingRange = {
-	    dynamicRegistration = false,
-	    lineFoldingOnly = true
-}
+local cmp_nvim_lsp = nrequire('cmp_nvim_lsp')
+capabilities = cmp_nvim_lsp and cmp_nvim_lsp.default_capabilities(capabilities)
 
-local has_cmp_lsp, cmp_nvim_lsp = pcall(require, 'cmp_nvim_lsp')
-if has_cmp_lsp then M.capabilities = cmp_nvim_lsp.default_capabilities(capabilities) end
+capabilities.textDocument.foldingRange = {
+	dynamicRegistration = false,
+	lineFoldingOnly = true,
+}
 
 return capabilities

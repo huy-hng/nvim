@@ -191,7 +191,7 @@ Augroup('AutocmdTester', {
 }, true, false)
 
 vim.o.updatetime = 500 -- used for CursorHold
-local line_numbers = require('functions.line_numbers')
+local line_numbers = require('modules.line_numbers')
 Augroup('renu', {
 	Autocmd('CursorHold', line_numbers.renu_autocmd(true)),
 	Autocmd('CursorMoved', line_numbers.renu_autocmd(false)),
@@ -250,7 +250,8 @@ Augroup('Misc', {
 })
 
 ---@module 'column_line'
-local column_line = require('column_line')
+local has_column_line , column_line = pcall(require, 'column_line')
+if has_column_line then
 Augroup('ColumnLine', {
 	Autocmd('OptionSet', 'colorcolumn', column_line.refresh),
 	Autocmd({
@@ -267,6 +268,7 @@ Augroup('ColumnLine', {
 		column_line.refresh()
 	end),
 })
+end
 
 ---------------------------------------------Commandline--------------------------------------------
 

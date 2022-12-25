@@ -1,15 +1,4 @@
 {
     "$schema": "https://raw.githubusercontent.com/sumneko/vscode-lua/master/setting/schema.json",
-    "Lua.diagnostics.globals": [
-        "vim",
-    ],
-    "Lua.workspace.library": [
-        "/home/huy/.local/share/nvim/site/pack/packer/start/neodev.nvim/types/stable",
-        "/usr/share/nvim/runtime",
-        "/home/huy/.local/share/nvim/site/pack/packer/start/neotest",
-        "/home/huy/.local/share/nvim/site/pack/packer/start/nvim-treesitter",
-        "/home/huy/.local/share/nvim/site/pack/packer/start/plenary.nvim",
-        "/home/huy/.local/share/nvim/site/pack/packer/start/telescope.nvim",
-        "${3rd}/luassert/library"
-    ]
+    "Lua.workspace.checkThirdParty": false
 }

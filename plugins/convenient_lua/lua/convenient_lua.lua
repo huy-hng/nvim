@@ -10,7 +10,7 @@ local default_opts = {
 
 ---@param opts table
 function M.setup(opts)
-	opts = opts or default_opts
+	opts = #opts > 0 and opts or default_opts
 	if type(opts.packages) == 'string' then
 		if opts.packages == 'all' then
 			opts.packages = default_opts.packages

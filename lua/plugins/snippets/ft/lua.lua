@@ -145,6 +145,22 @@ return {
 		})
 	),
 
+	-- snippet(
+	-- 	'nreq',
+	-- 	fmt([[
+	-- 	local {} = nrequire('')
+	-- 	if not has_{} then return end
+	-- 	{}
+	-- 	]],
+	-- 		{
+	-- 			d(2, require_var, { 1 }),
+	-- 			rep(2),
+	-- 			i(1),
+	-- 			rep(2),
+	-- 			i(0),
+	-- 		}
+	-- 	)
+	-- ),
 	snippet(
 		'preq',
 		fmt(

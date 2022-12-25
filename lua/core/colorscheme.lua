@@ -1,5 +1,3 @@
-ColorTheme = ''
-
 local status, catppuccin = pcall(require, 'catppuccin')
 if status then
 	catppuccin.setup {
@@ -89,12 +87,15 @@ end
 -- ColorTheme = 'tokyonight-day'
 
 function SetColors(theme)
-	theme = theme or ColorTheme
-	if theme then ColorTheme = theme end
+	ColorTheme = theme or ColorTheme or 'default'
 
 	vim.cmd.colorscheme(ColorTheme)
+
 	vim.cmd('highlight Folded guibg=none')
 	vim.cmd('highlight ColorColumn guibg=none guifg=#45475a')
+
+	if ColorTheme == 'default' then return end
+
 	Highlight(0, 'Statusline', { fg = 'fg' })
 	Highlight(0, 'CursorColumn', { link = 'CursorLine' })
 	-- Highlight(0, 'helpCommand', { link = 'markdownCode' })
