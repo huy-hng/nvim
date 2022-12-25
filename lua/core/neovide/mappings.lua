@@ -1,5 +1,5 @@
-local functions = require('neovide.functions')
-local os_fn = require('neovide.os_functions')
+local functions = require('core.neovide.functions')
+local os_fn = require('core.neovide.os_functions')
 local g = vim.g
 
 --==============================================================================
@@ -30,8 +30,8 @@ local speed = 300
 -- nmap('<localleader>1', { os_fn.animate_transparency_change, 1, 67, 50, speed })
 -- nmap('<localleader>2', { os_fn.animate_transparency_change, g.neovide_default_transparency, 0, 0, speed })
 
-Nmap('<C-{>', { Schedule, functions.change_window_opacity, -0.1 }, 'Decrease window opacity')
-Nmap('<C-}>', { Schedule, functions.change_window_opacity, 0.1 }, 'Increase window opacity')
+Nmap('<C-{>', { nvim.schedule, functions.change_window_opacity, -0.1 }, 'Decrease window opacity')
+Nmap('<C-}>', { nvim.schedule, functions.change_window_opacity, 0.1 }, 'Increase window opacity')
 Nmap('<C-|>', os_fn.toggle_blur_on_kde, 'Increase window opacity')
 
 local function scroller()

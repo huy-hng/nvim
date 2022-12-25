@@ -1,6 +1,6 @@
 ---@diagnostic disable: param-type-mismatch
 
-local functions = require('neovide.functions')
+local functions = require('core.neovide.functions')
 local g = vim.g
 
 local function resize(scales)

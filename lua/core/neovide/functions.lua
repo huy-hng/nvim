@@ -1,4 +1,4 @@
-local os_fn = require('neovide.os_functions')
+local os_fn = require('core.neovide.os_functions')
 
 local g = vim.g
 

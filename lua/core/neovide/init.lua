@@ -1,11 +1,11 @@
-local os_fn = require('neovide.os_functions')
-local functions = R('neovide.functions')
+local os_fn = require('core.neovide.os_functions')
+local functions = require('core.neovide.functions')
 
 local g = vim.g
 g.neovide_profiler = false
 
-require('neovide.mappings')
-require('neovide.options')
+require('core.neovide.mappings')
+require('core.neovide.options')
 
 local function manjaro()
 	g.neovide_refresh_rate = 240
@@ -15,7 +15,7 @@ local function manjaro()
 
 	-- o.winblend = 0
 	-- o.pumblend = 0
-	Schedule(os_fn.toggle_blur_on_kde, true)
+	nvim.schedule(os_fn.toggle_blur_on_kde, true)
 end
 
 local function chromebook()

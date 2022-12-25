@@ -1,3 +1,4 @@
+local M = {}
 ---@param errors string
 local function error_formatter(errors)
 	errors = errors:gsub('	', '    ')
@@ -56,7 +57,7 @@ end
 ---@param ... any args for the function
 ---@overload fun(fn: function, ...: any)
 ---@overload fun(level: integer, fn: function, ...: any)
-function TryWrap(par1, ...)
+function M.try_wrap(par1, ...)
 	local level, fn, args = parse_args(par1, ...)
 
 	local fn_info = fn_info_formatter(fn, args)
@@ -75,4 +76,5 @@ end
 ---@param ... any args for the function
 ---@overload fun(fn: function, ...: any)
 ---@overload fun(level: integer, fn: function, ...: any)
-function Try(par1, ...) return TryWrap(par1, ...)() end
+function M.try(par1, ...) return M.try_wrap(par1, ...)() end
+return M

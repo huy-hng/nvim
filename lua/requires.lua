@@ -1,5 +1,5 @@
 local M = {}
-local require_dir = require('core.require_dir')
+local require_dir = require('modules.require_dir')
 
 -----------------------------------------------Minimal----------------------------------------------
 
@@ -11,13 +11,13 @@ function M.minimal_init()
 	require_dir('lua/development')
 	require_dir('lua/core')
 
-	-- Prequire('options')
-	Prequire('autocmd')
-	Prequire('colorscheme') -- catpuccin needs to be installed
+	-- require('options')
+	require('autocmd')
+	require('colorscheme') -- catpuccin needs to be installed
 
 	require_dir('lua/functions') -- should come before keymaps
 	-- require_dir('lua/keymaps') -- is located in after folder
-	if vim.g.neovide then Prequire('neovide') end
+	if vim.g.neovide then require('core.neovide') end
 end
 
 -----------------------------------------------Plugins----------------------------------------------
@@ -39,14 +39,14 @@ function M.extra_features()
 	require_dir('lua/plugins/early_load_plugins')
 	require('plugins.lualine')
 
-	-- Prequire('plugins.noice')
+	-- require('plugins.noice')
 end
 
 ---------------------------------------------Lazy Loading-------------------------------------------
 local function nmap_execute(lhs, package)
 	local fn = function()
 		pcall(require, package)
-		Schedule(Feedkeys, lhs, true)
+		nvim.schedule(nvim.feedkeys, lhs, true)
 	end
 
 	if type(lhs) == 'string' then

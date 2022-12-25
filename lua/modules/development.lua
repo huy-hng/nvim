@@ -1,30 +1,15 @@
-function Prequire(package)
-	return Try(1, require, package)
-	-- return require(package)
-end
+local M = {}
 
-I = vim.inspect
-
-P = function(...)
-	vim.pretty_print(...) -- print(vim.inspect(v))
-	return ...
-end
-
-RELOAD = function(...) require('plenary.reload').reload_module(...) end
-
-
-R = function(name)
+M.loaded = function(name) vim.pretty_print(package.loaded[name]) end
+M.reset = function(name) package.loaded[name] = nil end
+M.reload = require('plenary.reload').reload_module
+M.reload_require = function(name)
 	RELOAD(name)
 	return require(name)
 end
 
 
-
-LOADED = function(name) vim.pretty_print(package.loaded[name]) end
-
-RESET = function(name) package.loaded[name] = nil end
-
-WriteFile = function(path, text, append)
+M.write_file = function(path, text, append)
 	local mode = 'a' and append or 'w'
 	local file = io.open(path, mode)
 	---@diagnostic disable-next-line: param-type-mismatch
@@ -33,7 +18,7 @@ WriteFile = function(path, text, append)
 	io.close(file)
 end
 
-function RemoveAllAutoReloaders()
+function M.remove_all_auto_reloaders()
 	local cmds = vim.api.nvim_get_autocmds { event = 'BufWritePost' }
 	for _, cmd in ipairs(cmds) do
 		if cmd.group_name:match('Autosave') then --
@@ -41,9 +26,8 @@ function RemoveAllAutoReloaders()
 		end
 	end
 end
--- RemoveAllAutoReloaders()
 
-function AutoReloadFolder(load)
+function M.auto_reload_folder(load)
 	local path = vim.fn.expand('%:h')
 	local folder = vim.fn.expand('%:h:t')
 	local init_file = vim.fn.expand('%')
@@ -65,7 +49,7 @@ function AutoReloadFolder(load)
 	-- end
 end
 
-function RequireWrapper()
+function M.require_wrapper()
 	local init_file = vim.fn.expand('%')
 
 	---@param require_path string
@@ -84,3 +68,5 @@ function RequireWrapper()
 		return require(require_path)
 	end
 end
+
+return M

@@ -1,13 +1,22 @@
-function DeleteAllAutocmdsWithEvents(...) --
+local M = {}
+
+function M.delete_all_autocmds_with_events(...) --
 	for _, event in ipairs { ... } do
 		local cmds = vim.api.nvim_get_autocmds { event = event }
 		for _, cmd in ipairs(cmds) do
-			print(cmd.group_name, cmp.desc)
+			print(cmd.group_name, cmd.desc)
 			vim.api.nvim_clear_autocmds { event = event, group = cmd.group }
 		end
 	end
 end
 
+function M.close_hidden_buffers()
+	local buffers = vim.fn.getbufinfo { bufloaded = 1, buflisted = 1 }
+
+	for _, buffer in ipairs(buffers) do
+		if buffer.hidden == 1 then vim.cmd.bdelete(buffer.name) end
+	end
+end
 
 local function is_scratch_buffer(bufnr)
 	local is_loaded = vim.api.nvim_buf_is_loaded(bufnr)
@@ -20,25 +29,25 @@ local function is_scratch_buffer(bufnr)
 	end
 end
 
-function DeleteAllScratchBuffers()
+function M.delete_all_scratch_buffers()
 	local bufs = vim.api.nvim_list_bufs()
 	-- print(' ')
 	for _, bufnr in ipairs(bufs) do
 		if is_scratch_buffer(bufnr) then --
-			Schedule(vim.api.nvim_buf_delete, bufnr, {})
+			nvim.schedule(vim.api.nvim_buf_delete, bufnr, {})
 		end
 	end
 end
 
-function DeleteAllUnloadedBuffers()
+function M.delete_all_unloaded_buffers()
 	local bufs = vim.api.nvim_list_bufs()
 	for _, bufnr in ipairs(bufs) do
 		local is_loaded = vim.api.nvim_buf_is_loaded(bufnr)
-		if not is_loaded then Schedule(vim.api.nvim_buf_delete, bufnr, {}) end
+		if not is_loaded then nvim.schedule(vim.api.nvim_buf_delete, bufnr, {}) end
 	end
 end
 
-function CloseAllFloatingWindows()
+function M.close_all_floating_windows()
 	local wins = vim.api.nvim_list_wins()
 	for _, winid in ipairs(wins) do
 		local config = vim.api.nvim_win_get_config(winid)
@@ -49,8 +58,4 @@ function CloseAllFloatingWindows()
 	end
 end
 
-local has_notify, notify = pcall(require, 'notify')
-if has_notify then Nmap('\\1', notify.dismiss, 'Dismiss all notifications') end
-Nmap('\\2', CloseAllFloatingWindows, 'Close all floating windows')
-Nmap('\\3', DeleteAllScratchBuffers, 'Delete all scratch buffers')
--- Nmap('\\4', DeleteAllUnloadedBuffers, 'Delete all unloaded buffers')
+return M

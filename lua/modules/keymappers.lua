@@ -1,3 +1,5 @@
+local M = {}
+
 --- usage:
 --- 	`local pref_map = PrefixMap(nmap, '<leader>a')`
 --- 	`pref_map('a', ':echo "hello"', 'does stuff')`
@@ -8,7 +10,7 @@
 ---@param desc_prefix string | nil prefix for the description ([LSP])
 ---@param outer_opts table | nil opts for vim.keymap.set ({ silent = true })
 ---@param fn_opts table | nil opts for this function ({ fast = true })
-function MapCreator(mode, lhs_prefix, desc_prefix, outer_opts, fn_opts)
+function M.map_creator(mode, lhs_prefix, desc_prefix, outer_opts, fn_opts)
 	lhs_prefix = lhs_prefix or ''
 	desc_prefix = desc_prefix and desc_prefix .. ' ' or ''
 	outer_opts = outer_opts or { remap = false, silent = true }
@@ -52,26 +54,11 @@ end
 
 --- Maps so that <Space>lhs is the same as <S-Space>lhs
 --- where lhs should be come capitalized letter
-MapSpaceCapital = function(mode, lhs, rhs, desc, opts)
-	local map = MapCreator(mode)
+M.map_space_capital = function(mode, lhs, rhs, desc, opts)
+	local map = M.map_creator(mode)
 	map('<Space>' .. lhs, rhs, desc, opts)
 	map('<S-Space>' .. lhs, rhs, desc, opts)
 end
 
-Unmap = vim.keymap.del
 
-Map = MapCreator { 'n', 'v', 'o' }
-
-Nmap = MapCreator('n') -- actually nnoremap, everything below as well
-NVmap = MapCreator { 'n', 'v' }
-Vmap = MapCreator('v') -- visual and select
-Smap = MapCreator('s') -- select mode
-Xmap = MapCreator('x') -- only visual mode
-
-Omap = MapCreator('o') -- operator pending mode
-
-Imap = MapCreator('i')
-ICmap = MapCreator('!') -- insert and commandline
-Cmap = MapCreator('c') -- commandline
-
-Tmap = MapCreator('t') -- terminal
+return M
