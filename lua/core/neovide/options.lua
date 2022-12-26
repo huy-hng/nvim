@@ -28,7 +28,7 @@ g.neovide_scale_factor = 1.0
 g.gui_font_default_size = 11
 g.gui_font_size = g.gui_font_default_size
 
-g.neovide_underline_automatic_scaling = true
+g.neovide_underline_automatic_scaling = false
 
 ---------------------------------------------Behavior-----------------------------------------------
 
