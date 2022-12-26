@@ -1,10 +1,15 @@
-local has_lualine, lualine = pcall(require, 'lualine')
-if not has_lualine then return end
+local M = {
+	'nvim-lualine/lualine.nvim',
+	dependencies = { 'nvim-tree/nvim-web-devicons' },
+}
+
+function M.config()
+
+
+local lualine = require('lualine')
+local cat = require('lualine.themes.catppuccin')
 
 local comp = require('plugins.lualine.components')
-
-local has_cat, cat = pcall(require, 'lualine.themes.catppuccin')
-if not has_cat then return end
 
 cat.normal.c.bg = 'bg'
 cat.inactive.a.bg = 'bg'
@@ -38,7 +43,13 @@ lualine.setup {
 		lualine_a = { 'mode' },
 		lualine_b = { comp.branch },
 		lualine_c = { comp.session_name, comp.filepath },
-		lualine_x = { 'searchcount', comp.metamap, comp.indentation, comp.filetype, comp.plugin_info },
+		lualine_x = {
+			'searchcount',
+			comp.metamap,
+			comp.indentation,
+			comp.filetype,
+			comp.plugin_info,
+		},
 		lualine_y = { 'progress', 'location' },
 		lualine_z = { comp.date, comp.time },
 	},
@@ -83,3 +94,7 @@ function string.starts(String, Start) return string.sub(String, 1, string.len(St
 -- for _, s in ipairs(split) do
 -- 	if string.starts(s, 'LspsagaSymbol') then vim.api.nvim_del_augroup_by_name(s) end
 -- end
+
+end
+
+return M

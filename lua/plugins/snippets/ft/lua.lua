@@ -71,6 +71,19 @@ return {
 	),
 
 	--stylua: ignore
+	snippet('plugin', fmt([[
+		local M = {{
+			{}
+		}}
+
+		function M.config()
+			{}
+		end
+
+		return M
+	]], { i(1), i(2) })),
+
+	--stylua: ignore
 	snippet('local M', fmt([[
 		local M = {{}}
 		return M
@@ -161,6 +174,18 @@ return {
 	-- 		}
 	-- 	)
 	-- ),
+	snippet(
+		'nreq', fmt([[
+			local {} = nrequire('{}')
+			if not {} then return end
+			{}
+		]], {
+			d(2, require_var, { 1 }),
+			i(1),
+			rep(2),
+			i(0),
+		})
+	),
 	snippet(
 		'preq',
 		fmt(

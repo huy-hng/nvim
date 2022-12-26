@@ -1,5 +1,6 @@
 ---@diagnostic disable: lowercase-global
 local dev = require('modules.development')
+require_dir = require('modules.require_dir')
 nrequire = dev.nrequire
 npcall = dev.npcall
 I = vim.inspect

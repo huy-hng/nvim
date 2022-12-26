@@ -1,10 +1,11 @@
-local status_ok, gitsigns = pcall(require, 'gitsigns')
-if not status_ok then
-	print('gitsigns error')
-	return
-end
+local M = {
+	'lewis6991/gitsigns.nvim',
+	dependencies = { 'nvim-lua/plenary.nvim' },
+}
 
-gitsigns.setup {
+function M.config()
+
+require('gitsigns').setup {
 	signs = {
 		add =          { hl = 'GitSignsAdd',    text = '│', numhl = 'GitSignsAddNr',    linehl = 'GitSignsAddLn', },
 		change =       { hl = 'GitSignsChange', text = '│', numhl = 'GitSignsChangeNr', linehl = 'GitSignsChangeLn', },
@@ -45,3 +46,6 @@ gitsigns.setup {
 		enable = false,
 	},
 }
+
+end
+return M

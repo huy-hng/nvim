@@ -1,7 +1,10 @@
-local status, harpoon = pcall(require, 'harpoon')
-if not status then return end
+local M = {
+	'ThePrimeagen/harpoon',
+}
 
-harpoon.setup {
+function M.config()
+
+require('harpoon').setup {
 	save_on_toggle = false,
 
 	-- saves the harpoon file upon every change. disabling is unrecommended.
@@ -50,3 +53,6 @@ for i in ipairs(vim.fn.range(1, 9)) do
 	harpoonmap(keymap, { harpoon_ui.nav_file, i }, 'Go to File')
 end
 harpoonmap('<A-0>', { harpoon_term.gotoTerminal, 1 }, 'Open Terminal')
+
+end
+return M

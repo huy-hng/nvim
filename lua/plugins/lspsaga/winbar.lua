@@ -1,21 +1,14 @@
-local has_symbolwinbar, symbolwinbar = pcall(require, 'lspsaga.symbolwinbar')
-if not has_symbolwinbar then return end
+local symbolwinbar = require('lspsaga.symbolwinbar')
 
-local has_lualine, lualine = pcall(require, 'lualine')
-if not has_lualine then return end
-
+local lualine = require('lualine')
 
 local function get_file_name(include_path)
 	local file_name = symbolwinbar.get_file_name()
-	if vim.fn.bufname '%' == '' then
-		return ''
-	end
-	if include_path == false then
-		return file_name
-	end
+	if vim.fn.bufname('%') == '' then return '' end
+	if include_path == false then return file_name end
 	-- Else if include path: ./lsp/saga.lua -> lsp > saga.lua
 	local sep = vim.loop.os_uname().sysname == 'Windows' and '\\' or '/'
-	local path_list = vim.split(string.gsub(vim.fn.expand '%:~:.:h', '%%', ''), sep)
+	local path_list = vim.split(string.gsub(vim.fn.expand('%:~:.:h'), '%%', ''), sep)
 	local file_path = ''
 	for _, cur in ipairs(path_list) do
 		file_path = (cur == '.' or cur == '~') and ''
@@ -25,7 +18,6 @@ local function get_file_name(include_path)
 end
 
 local function get_symbol()
-
 	local sym = symbolwinbar.get_symbol_node() or ''
 	return sym
 end

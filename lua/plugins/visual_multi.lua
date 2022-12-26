@@ -1,3 +1,9 @@
+local M = {
+	'mg979/vim-visual-multi',
+	branch = 'master',
+	keys = { '<C-n>' },
+}
+
 local g = vim.g
 
 g.VM_default_mappings = 1 -- set to 0 to disable default mappings
@@ -27,3 +33,5 @@ g.VM_leader = { default = [[\\]], visual = [[\\]], buffer = [[\\]] }
 -- Surround                S         requires |vim-surround| plugin
 -- Move Right          <M-S-Right>   move all selections to the right
 -- Move Left           <M-S-Left>    ,,      ,,          to the left
+
+return M

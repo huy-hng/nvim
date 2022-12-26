@@ -1,10 +1,30 @@
-local detect_indent = require('plugins.detect_indentation.detect_indentation').detect
+local detect_indent = require('modules.detect_indentation.detect_indentation').detect
 Augroup('DetectIndent', {
 	-- Autocmd('OptionSet', { 'expandtab', 'tabstop', 'shiftwidth' }, detect_indent),
 	Autocmd('BufReadPost', detect_indent),
 	Autocmd('BufNew', function(data) --
 		NestedAutocmd(data, 'BufWritePost', '*', detect_indent, { once = true })
 	end),
+})
+
+local indent_line = require('modules.indent_line')
+Augroup('IndentLine', {
+	Autocmd({
+		'FileChangedShellPost',
+		'TextChanged',
+		'TextChangedI',
+		'CompleteChanged',
+		'BufWinEnter',
+		'VimEnter',
+		'SessionLoadPost',
+	}, '*', indent_line),
+	Autocmd('OptionSet', {
+		'list',
+		'listchars',
+		'shiftwidth',
+		'tabstop',
+		'expandtab',
+	}, indent_line),
 })
 
 Augroup('Cmp', {
@@ -250,24 +270,21 @@ Augroup('Misc', {
 })
 
 ---@module 'column_line'
-local has_column_line , column_line = pcall(require, 'column_line')
-if has_column_line then
-Augroup('ColumnLine', {
-	Autocmd('OptionSet', 'colorcolumn', column_line.refresh),
-	Autocmd({
-		'FileChangedShellPost',
-		'TextChanged',
-		'TextChangedI',
-		'CompleteChanged',
-		'VimEnter',
-		'SessionLoadPost',
-		'BufWinEnter',
-		'WinEnter',
-	}, function()
-		-- if require('development.helpers').is_cmdwin() then return end
-		column_line.refresh()
-	end),
-})
+local column_line = nrequire('column_line')
+if column_line then
+	Augroup('ColumnLine', {
+		Autocmd('OptionSet', 'colorcolumn', column_line.refresh),
+		Autocmd({
+			'FileChangedShellPost',
+			'TextChanged',
+			'TextChangedI',
+			'CompleteChanged',
+			'VimEnter',
+			'SessionLoadPost',
+			'BufWinEnter',
+			'WinEnter',
+		}, column_line.refresh),
+	})
 end
 
 ---------------------------------------------Commandline--------------------------------------------

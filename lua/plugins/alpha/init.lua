@@ -1,8 +1,12 @@
-local has_alpha, alpha = pcall(require, 'alpha')
-if not has_alpha then return end
+local M = {
+	'goolord/alpha-nvim',
+}
+
+function M.config()
+
+local alpha = require( 'alpha')
 
 local dashboard = require('plugins.alpha.dashboard')
--- local dashboard = require('alpha.themes.dashboard')
 local startify = require('alpha.themes.startify')
 local theta = require('alpha.themes.theta')
 local fortune = require('alpha.fortune')
@@ -103,3 +107,7 @@ dashboard.config.layout = layout
 -- dashboard.config.opts.noautocmd = true
 
 alpha.setup(dashboard.config)
+	
+end
+
+return M

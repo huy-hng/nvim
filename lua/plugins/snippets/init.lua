@@ -1,13 +1,18 @@
-local has_luasnip, ls = pcall(require, 'luasnip')
+local M = {
+	'L3MON4D3/LuaSnip',
+	dependencies = {
+		'saadparwaiz1/cmp_luasnip', -- snippet completions
+		'rafamadriz/friendly-snippets', -- a bunch of snippets to use
+	}
+}
 
-if not has_luasnip then return end
+function M.config()
+	
+local ls = require('luasnip')
 
 require('plugins.snippets.mappings')
-
 local ft_functions = require('luasnip.extras.filetype_functions')
 local loaders = require('luasnip.loaders')
-
--- ls.cleanup()
 
 -- uses vim.ui.select to select a choice
 Nmap('<leader>se', loaders.edit_snippet_files, '[Snippet] edit snippet files')
@@ -133,12 +138,7 @@ ls.config.set_config {
 
 require('luasnip.loaders.from_lua').load { paths = './lua/plugins/snippets/ft' }
 
+end
 
-
-
-
-
-
-
-
+return M
 

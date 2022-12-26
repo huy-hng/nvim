@@ -1,5 +1,12 @@
-local has_ufo, ufo = pcall(require, 'ufo')
-if not has_ufo then return end
+
+-- better folding lines and column
+local M = {
+	'kevinhwang91/nvim-ufo', dependencies = 'kevinhwang91/promise-async'
+}
+
+function M.config()
+	
+local ufo = require('ufo')
 
 local fn = require('plugins.ufo.functions')
 local fold_text = require('plugins.ufo.fold_text_handler')
@@ -95,3 +102,6 @@ hi default link UfoFoldedEllipsis Comment
 -- UfoPreviewWinBar: Virtual winBar of preview window.
 -- UfoPreviewThumb: Thumb of preview window.
 -- UfoFoldedEllipsis: Ellipsis at the end of folded line, invalid if fold_virt_text_handler is set.
+end
+
+return M

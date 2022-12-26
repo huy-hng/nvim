@@ -1,5 +1,11 @@
-local status, saga = pcall(require, 'lspsaga')
-if not status then return end
+local M = {
+	'glepnir/lspsaga.nvim',
+	event = 'BufReadPre'
+}
+
+function M.config()
+	
+local saga = require('lspsaga')
 
 saga.init_lsp_saga {
 	border_style = 'rounded', -- "single" | "double" | "rounded" | "bold" | "plus"
@@ -126,3 +132,7 @@ saga.init_lsp_saga {
 	-- like server_filetype_map = { metals = { "sbt", "scala" } }
 	server_filetype_map = {},
 }
+end
+
+return M
+

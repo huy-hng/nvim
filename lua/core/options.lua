@@ -150,6 +150,8 @@ o.lazyredraw = false
 o.splitright = true -- split vertical window to the right
 o.splitbelow = true -- split horizontal window to the bottom
 
+go.iskeyword = '@,48-57,_,192-255,-'
+o.iskeyword = '@,48-57,_,192-255,-'
 opt_g.iskeyword:append('-') -- consider string-string as whole word
 -- opt.iskeyword:remove({'-', '_'}) -- consider string-string as whole word
 opt.isfname:append('@-@') -- use @ for filename completion

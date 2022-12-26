@@ -1,5 +1,5 @@
-local status, wk = pcall(require, 'which-key')
-if not status then return end
+local wk = nrequire('which-key')
+if not wk then return end
 
 ----------------------------------------------Labels------------------------------------------------
 

@@ -8,8 +8,7 @@ local language_servers = {
 }
 
 local lsp_flags = {
-	debounce_text_changes = 1000,
-	allow_incremental_sync = false,
+	debounce_text_changes = 150,
 }
 
 local opts = {

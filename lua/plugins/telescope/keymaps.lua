@@ -69,8 +69,8 @@ tele_map('L', { run_in_dir, builtin.live_grep }, 'Live Grep in buffer dir')
 tele_map('v', { run_in_dir, builtin.find_files, NVIM_CONFIG_PATH }, 'Find Neovim Files')
 tele_map(
 	'p',
-	{ run_in_dir, builtin.find_files, '/home/huy/.local/share/nvim/site/pack/packer' },
-	'Find Neovim Files'
+	{ run_in_dir, builtin.find_files, '/home/huy/.local/share/nvim/lazy' },
+	'Find Plugin Files'
 )
 
 local maps = {

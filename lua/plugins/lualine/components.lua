@@ -1,8 +1,5 @@
 M = {}
 
-local has_lualine, lualine = pcall(require, 'lualine')
-if not has_lualine then return end
-
 M.seperator = { '%=' }
 
 ------------------------------------------Statusline Left-------------------------------------------
@@ -39,7 +36,7 @@ M.metamap = {
 	end,
 }
 
-local set_indentation = require('plugins.detect_indentation.set_indentation')
+local set_indentation = require('modules.detect_indentation.set_indentation')
 M.indentation = {
 	function()
 		local indent_type
@@ -69,7 +66,7 @@ M.indentation = {
 			)
 		end
 
-		nvim.schedule(lualine.refresh, {
+		nvim.schedule(require('lualine').refresh, {
 			scope = 'all', -- scope of refresh all/tabpage/window
 			place = { 'statusline' }, -- lualine segment to refresh { 'statusline', 'winbar', 'tabline' }
 		})

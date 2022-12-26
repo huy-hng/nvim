@@ -208,7 +208,7 @@ local ft_ignore = {
 	'alpha',
 }
 
-local function refresh(data)
+return function(data)
 	local bufnr = data.buf or 0
 	clear_lines(bufnr)
 	local is_ignored = vim.tbl_contains(ft_ignore, vim.bo[bufnr].filetype)
@@ -218,25 +218,3 @@ local function refresh(data)
 	end
 end
 
------------------------------------------------Setup------------------------------------------------
-
-local function create_autocmds(create)
-	Augroup('IndentLine', {
-		Autocmd({
-			'FileChangedShellPost',
-			'TextChanged',
-			'TextChangedI',
-			'CompleteChanged',
-			'BufWinEnter',
-			'VimEnter',
-			'SessionLoadPost',
-		}, '*', refresh),
-		Autocmd(
-			'OptionSet',
-			{ 'list', 'listchars', 'shiftwidth', 'tabstop', 'expandtab' },
-			refresh
-		),
-	}, true, create)
-end
-
-create_autocmds(true)
