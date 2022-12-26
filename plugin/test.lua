@@ -1,1 +1,0 @@
--- print('plugin/test.lua')

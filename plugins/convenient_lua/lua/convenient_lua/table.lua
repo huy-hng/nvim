@@ -75,3 +75,7 @@ function table.add(...)
 	end
 	return new
 end
+
+function table.extend(...)
+	return vim.tbl_extend('force', ...)
+end

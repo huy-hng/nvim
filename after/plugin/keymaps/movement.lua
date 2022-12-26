@@ -2,16 +2,23 @@
 Nmap('zh', '10zh')
 Nmap('zl', '10zl')
 
-
 Nmap('q', 'ge', 'Move back (opposite of e)')
 
 -- nmap('<A-h>', '10zh')
 -- nmap('<A-l>', '10zl')
 
-Nmap('<C-d>', '<C-d>zzzz')
-Nmap('<C-u>', '<C-u>zzzz')
-Nmap('<C-d>', '<C-d>zzzz')
-Nmap('<C-u>', '<C-u>zzzz')
+-- Nmap('<C-d>', '<C-d>zz')
+-- Nmap('<C-u>', '<C-u>zz')
+-- Nmap('<C-d>', '<C-d>zzzz')
+-- Nmap('<C-u>', '<C-u>zzzz')
+Nmap('<C-d>', function()
+	nvim.feedkeys('<C-d>zz')
+	nvim.schedule(nvim.feedkeys, 'zz')
+end)
+Nmap('<C-u>', function()
+	nvim.feedkeys('<C-u>zz')
+	nvim.schedule(nvim.feedkeys, 'zz')
+end)
 
 -- Cursor movement in insert and command mode
 ICmap('<A-h>', { nvim.feedkeys, '<Left>' })

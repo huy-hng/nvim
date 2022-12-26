@@ -1,5 +1,5 @@
 Augroup('Reloadtestffile', {
-	Autocmd('BufWritePost', vim.fn.expand('%'), { Feedkeys, '<Plug>PlenaryTestFile', true }),
+	Autocmd('BufWritePost', vim.fn.expand('%'), { nvim.feedkeys, '<Plug>PlenaryTestFile', true }),
 })
 
 ---@return saved_buffer_keymap

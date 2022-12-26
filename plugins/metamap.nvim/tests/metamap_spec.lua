@@ -31,7 +31,7 @@ describe('metamap', function()
 		local map = MetaMap.new('test')
 		map:nmap('asdfasdf', { print, 'hello' }, 'some desc', {})
 		map:enter('n', '<leader>r')
-		Feedkeys(' r', true)
+		nvim.feedkeys(' r', true)
 
 		local found = find_map('asdfasdf')
 		P(found)

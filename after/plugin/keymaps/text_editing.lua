@@ -44,7 +44,7 @@ Nmap('p', keep_column('p==', true), 'paste, keep column and indent')
 Nmap('P', keep_column('P==', true), 'paste, keep column and indent')
 Vmap('y', keep_column('y', false, true))
 Vmap('Y', keep_column('Y'))
-Vmap('<C-c>', keep_column('"+y'))
+Vmap('<C-c>', keep_column('"+y'), 'Yank to clipboard')
 
 Vmap('p', '"_c<C-r>"<esc>', 'keep yank register when pasting over visual selection')
 
