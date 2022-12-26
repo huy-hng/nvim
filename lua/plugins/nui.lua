@@ -1,3 +1,16 @@
+local M = {
+	'MunifTanjim/nui.nvim',
+	events = 'VeryLazy',
+}
+
+local Split
+
+function M.config()
+	Split = require('nui.split')
+
+	local event = require('nui.utils.autocmd').event
+end
+
 --- @type number[]
 PopupWindows = {}
 
@@ -24,10 +37,6 @@ local function get_buf_ft(filetype)
 	return vwbufs[1]
 end
 
-local event = require('nui.utils.autocmd').event
-
-local M = {}
-
 -- pretty interesting for neovide
 local function open_externally()
 	local win = vim.api.nvim_open_win(0, true, {
@@ -38,7 +47,6 @@ local function open_externally()
 	})
 end
 
-local Split = require('nui.split')
 local function create_split()
 	return Split {
 		relative = 'editor',

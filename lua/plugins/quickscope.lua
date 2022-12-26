@@ -1,8 +1,13 @@
 local g = vim.g
+g.qs_highlight_on_keys = { 'f', 'F', 't', 'T' }
+
+local M = {
+	'unblevable/quick-scope',
+	keys = g.qs_highlight_on_keys,
+}
 
 g.qs_enable = 1
 g.qs_ignorecase = 0
-g.qs_highlight_on_keys = { 'f', 'F', 't', 'T' }
 
 -- local copy = g.qs_accepted_chars
 -- for _, val in ipairs({ '{', '}', '[', ']', 'alskdj3joqiweds' }) do
@@ -31,3 +36,5 @@ vim.api.nvim_create_autocmd('ColorScheme ', {
 	group = vim.api.nvim_create_augroup('qs_colors', { clear = true }),
 	callback = set_colors,
 })
+
+return M

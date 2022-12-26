@@ -1,0 +1,19 @@
+local M = {
+	'mfussenegger/nvim-dap',
+	ft = { 'python' },
+	dependencies = {
+		'mfussenegger/nvim-dap-python',
+		'rcarriga/nvim-dap-ui',
+		'theHamsta/nvim-dap-virtual-text',
+
+		'nvim-neotest/neotest-python',
+		{
+			'nvim-neotest/neotest',
+			dependencies = { 'nvim-lua/plenary.nvim', 'nvim-treesitter/nvim-treesitter' },
+		},
+	},
+}
+
+function M.config() require_dir('plugins/dap') end
+
+return M

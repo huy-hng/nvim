@@ -1,20 +1,20 @@
-local requirer = R
--- AutoReloadFolder(true)
+local M = {
+	'nvim-neorg/neorg',
+	ft = 'norg',
+}
 
-
-local has_neorg, neorg = pcall(requirer, 'neorg')
-if not has_neorg then return end
+function M.config()
 
 -- local concealer = require('neorg.modules.core.norg.concealer')
 -- concealer.clear_conceal()
 
 Nmap('<leader>n', vim.cmd.Neorg)
 
-neorg.setup {
+require('neorg').setup {
 	load = {
 		['core.defaults'] = {},
 		['core.norg.concealer'] = {
-			config = requirer('plugins.neorg.modules.concealer'),
+			config = require('plugins.neorg.modules.concealer'),
 		},
 		['core.norg.completion'] = {
 			config = {
@@ -36,3 +36,8 @@ neorg.setup {
 		},
 	},
 }
+
+end
+
+
+return M

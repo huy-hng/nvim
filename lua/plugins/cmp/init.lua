@@ -1,11 +1,32 @@
-local has_cmp, cmp = pcall(require, 'cmp')
-if not has_cmp then
-	print('cmp import error')
-	return
-end
+local M = {
+	'hrsh7th/nvim-cmp',
+	-- event = 'InsertEnter',
+	dependencies = {
+		'hrsh7th/cmp-buffer', -- buffer completions
+		'hrsh7th/cmp-path', -- path completions
+		'hrsh7th/cmp-cmdline', -- cmdline completions
+
+		'hrsh7th/cmp-nvim-lsp',
+		'hrsh7th/cmp-nvim-lua',
+		'hrsh7th/cmp-nvim-lsp-signature-help',
+		'hrsh7th/cmp-nvim-lsp-document-symbol',
+
+		'hrsh7th/cmp-omni',
+
+		'ray-x/cmp-treesitter', -- source for treesitter nodes.
+		'dmitmel/cmp-cmdline-history',
+		'andersevenrud/cmp-tmux',
+	}
+}
+
+function M.config()
+	
+
+local cmp = require( 'cmp')
+
 
 local kind_icons = require('plugins.cmp.icons')
-local mappings = R('plugins.cmp.mappings')
+local mappings = require('plugins.cmp.mappings')
 
 local compare = cmp.config.compare
 local compare_fn = require('plugins.cmp.compare')
@@ -139,3 +160,6 @@ cmp.setup.cmdline(':', {
 	-- end,
 	-- },
 })
+end
+
+return M

@@ -1,3 +1,9 @@
+local M = {
+	'numToStr/Comment.nvim',
+	event = 'BufReadPre'
+}
+
+function M.config()
 local Comment = require('Comment')
 
 local has_ft, ft = pcall(require, 'Comment.ft')
@@ -105,3 +111,7 @@ commap('<A-/>', api.insert.linewise.eol, 'Comment at end of line')
 -- 	map({ 'n', 'i' }, '<A-_>O', api.insert.linewise.above, 'Comment prev line')
 -- 	vmap('<C-_>', toggle_visual, 'Toggle Comment')
 -- end
+
+end
+
+return M

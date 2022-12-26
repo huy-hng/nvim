@@ -48,6 +48,13 @@
 -- |                                   |
 -- +-----------------------------------+
 
+local M = {
+	'mbbill/undotree',
+	event = 'BufReadPre'
+}
+
+function M.config()
+	
 local g = vim.g
 
 g.undotree_WindowLayout = 3
@@ -156,3 +163,8 @@ local function current_buffer()
 end
 
 Nmap('<F5>', current_buffer)
+
+end
+
+return M
+

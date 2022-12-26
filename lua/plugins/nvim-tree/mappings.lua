@@ -1,4 +1,4 @@
-local functions = require('plugins.tree.functions')
+local functions = require('plugins.nvim-tree.functions')
 local tree = require('nvim-tree.api').tree
 -- local api = require('nvim-tree.api')
 

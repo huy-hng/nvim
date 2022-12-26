@@ -1,3 +1,10 @@
+local M = {
+	'kevinhwang91/rnvimr', -- ranger
+}
+
+function M.config()
+	
+
 local g = vim.g
 
 local float2nr = vim.fn.float2nr
@@ -57,3 +64,7 @@ let g:rnvimr_presets = [
             \ {'width': 1.0, 'height': 1.0},
             \ ]
 ]])
+
+end
+
+return M
