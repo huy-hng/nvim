@@ -10,7 +10,7 @@ require('core.globals')
 require('functions.profiler') -- start profiler at the beginning
 
 require('core.options')
--- require('core.colorscheme') -- catpuccin needs to be installed
+require('core.colorscheme')
 require('core.autocmd')
 
 require_dir('lua/functions') -- should come before keymaps
