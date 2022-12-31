@@ -24,13 +24,7 @@ end
 local indent_char = '▏'
 local Namespace = vim.api.nvim_create_namespace('IndentLine')
 
-vim.api.nvim_set_hl(0, 'IndentLine', {
-	fg = '#45475a',
-	-- sp = 'red',
-	-- link = 'Whitespace',
-	-- bg = 'black',
-	-- blend = 100,
-})
+Highlight(0, 'IndentLine', { fg = '#45475a' })
 ----------------------------------------------Copied------------------------------------------------
 
 local get_current_context = function(type_patterns, use_treesitter_scope)
@@ -133,7 +127,7 @@ local function set_mark(bufnr, row, col, hl)
 		right_gravity = true,
 		end_right_gravity = true,
 		end_col = col + 1,
-		strict=false,
+		strict = false,
 	})
 end
 
@@ -176,7 +170,7 @@ local function set_lines(bufnr)
 		for i = 0, indent_depth - 1 do
 			local line_column = i * indent_width
 			if should_set_line(line_text, line_column + 1) then
-				set_mark(bufnr, linenr - 1, line_column, 'ColorColumn')
+				set_mark(bufnr, linenr - 1, line_column, 'IndentLine')
 			end
 		end
 
@@ -217,4 +211,3 @@ return function(data)
 		set_lines(bufnr)
 	end
 end
-
