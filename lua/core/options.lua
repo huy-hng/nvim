@@ -185,6 +185,7 @@ opt_g.path:append('**')
 
 opt.switchbuf:append { 'useopen', 'usetab', 'vsplit' }
 opt.sessionoptions:remove { 'buffers', 'terminal', 'blank' }
+opt.sessionoptions:remove { 'folds' }
 
 --==============================================================================
 --                          |=> Plugin Settings <=|

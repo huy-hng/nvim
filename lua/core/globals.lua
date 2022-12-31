@@ -15,8 +15,7 @@ local tryer = require('modules.error_handling')
 Try = tryer.try
 TryWrap = tryer.try_wrap
 
-
-pcall(require, 'convenient_lua')
+nrequire( 'convenient_lua')
 
 Util = require('modules.utils')
 Types = require('modules.types')

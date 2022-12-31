@@ -7,7 +7,7 @@ Augroup('DetectIndent', {
 	end),
 })
 
-local indent_line = require('modules.indent_line')
+local indent_line = nrequire('modules.indent_line')
 Augroup('IndentLine', {
 	Autocmd({
 		'FileChangedShellPost',
@@ -268,24 +268,6 @@ Augroup('Misc', {
 		vim.cmd.checktime()
 	end),
 })
-
----@module 'column_line'
-local column_line = nrequire('column_line')
-if column_line then
-	Augroup('ColumnLine', {
-		Autocmd('OptionSet', 'colorcolumn', column_line.refresh),
-		Autocmd({
-			'FileChangedShellPost',
-			'TextChanged',
-			'TextChangedI',
-			'CompleteChanged',
-			'VimEnter',
-			'SessionLoadPost',
-			'BufWinEnter',
-			'WinEnter',
-		}, column_line.refresh),
-	})
-end
 
 ---------------------------------------------Commandline--------------------------------------------
 
