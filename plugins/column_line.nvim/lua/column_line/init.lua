@@ -1,26 +1,44 @@
--- used in autoccommands
-----------------------------------------------Config------------------------------------------------
 local M = {}
+-- used in autocommands
 
-vim.opt_global.colorcolumn:append { 100 }
+----------------------------------------------Config------------------------------------------------
 
-local column_char = '▏'
-local namespace = vim.api.nvim_create_namespace('ColumnLine')
+-- vim.g.column_lines = { 80, 100 }
+local default_opts = {
+	columns = { 80, 100 },
+	column_char = '▏',
+}
 
--- local no_column_line = vim.api.nvim_create_namespace('no_column_line')
-Highlight(namespace, 'ColumnLine', {})
+M.opts = default_opts
+function M.setup(opts)
+	M.remove_colorcolumn_values()
 
-Highlight(0, 'ColumnLine', {
-	fg = '#45475a',
-	-- link = 'ColorColumn'
-})
+	M.opts = vim.tbl_extend('force', M.opts, opts or {})
+	M.namespace = vim.api.nvim_create_namespace('ColumnLine')
+	-- Highlight(M.namespace, 'ColumnLine', {})
 
-Highlight(0, 'ColorColumn', {
-	fg = '#45475a',
-	-- link = 'ColorColumn'
-})
+	Highlight(0, 'ColorColumn', {})
+
+	Highlight(0, 'ColumnLine', {
+		fg = '#45475a',
+	})
+
+end
 
 ---------------------------------------------Functions----------------------------------------------
+
+function M.remove_colorcolumn_values()
+	for _, column in ipairs(vim.opt.colorcolumn:get()) do
+		column = tonumber(column)
+		if not vim.tbl_contains(M.opts.columns, column) then
+			table.insert(M.opts.columns, column)
+			table.insert(M.opts.columns, 'alskdj')
+		end
+	end
+
+	-- vim.go.colorcolumn = ''
+	vim.o.colorcolumn = ''
+end
 
 local function should_set(line_text, column)
 	column = column + 1
@@ -40,8 +58,8 @@ local function set_line(bufnr, column)
 			goto continue
 		end
 
-		vim.api.nvim_buf_set_extmark(bufnr, namespace, linenr - 1, 0, {
-			virt_text = { { column_char, 'ColumnLine' } },
+		vim.api.nvim_buf_set_extmark(bufnr, M.namespace, linenr - 1, 0, {
+			virt_text = { { M.opts.column_char, 'ColumnLine' } },
 			virt_text_pos = 'overlay',
 			hl_mode = 'combine',
 			virt_text_win_col = column,
@@ -84,14 +102,14 @@ function M.refresh()
 
 	local type = Util.win_type()
 	if not modifiable or vim.tbl_contains(ignore_wintypes, type) then
-		vim.api.nvim_win_set_hl_ns(0, namespace)
+		vim.api.nvim_win_set_hl_ns(0, M.namespace)
 		return
 	end
 	vim.api.nvim_win_set_hl_ns(0, 0)
 
-	if namespace then vim.api.nvim_buf_clear_namespace(bufnr, namespace, 0, -1) end
+	if M.namespace then vim.api.nvim_buf_clear_namespace(bufnr, M.namespace, 0, -1) end
 
-	for _, column in ipairs(vim.opt.colorcolumn:get()) do
+	for _, column in ipairs(M.opts.columns) do
 		set_line(bufnr, tonumber(column))
 	end
 end
