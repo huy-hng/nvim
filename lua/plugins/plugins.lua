@@ -2,7 +2,6 @@ return {
 
 	-- my plugins
 	{ 'huy-hng/metamap.nvim', dev = true },
-	{ 'huy-hng/column_line.nvim', dev = true },
 	{ 'huy-hng/convenient_lua', dev = true, config = true },
 
 	-- full on features
@@ -27,7 +26,6 @@ return {
 
 	-- Appearance
 	'folke/tokyonight.nvim',
-	{ 'catppuccin/nvim', name = 'catppuccin', config = function() require('core.colorscheme') end },
 	'lunarvim/darkplus.nvim',
 
 	-- dependencies

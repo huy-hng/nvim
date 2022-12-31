@@ -22,16 +22,17 @@ local fold_text = require('plugins.ufo.fold_text_handler')
 ---
 --- ufo.setFoldVirtTextHandler(bufnr, handler)
 
-Nmap('K', fn.peekOrHover, '[UFO] peek or hover')
 ufo.setup {
 	-- provider_selector = fn.selectProviderWithChainByDefault,
 	provider_selector = function(bufnr, filetype, buftype)
+
 		local ftMap = {
 			help = '',
 			vimwiki = 'indent',
 			Outline = '',
 			norg = '',
 		}
+		Nmap('K', fn.peekOrHover, '[UFO] peek or hover')
 		if ftMap[filetype] ~= '' then --
 			fn.set_keymaps(bufnr)
 			-- fn.customizeBufFoldText()

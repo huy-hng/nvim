@@ -42,11 +42,14 @@ local function test()
 	Nmap('K', { vim.cmd.Lspsaga, 'hover_doc' })
 
 	-- Float terminal
-	Nmap('<A-d>', { vim.cmd.Lspsaga, 'open_floaterm' })
 	-- if you want pass somc cli command into terminal you can do like this
 	-- open lazygit in lspsaga float terminal
 	Nmap('<A-d>', { vim.cmd.Lspsaga('open_floaterm'), 'lazygit' })
 	-- close floaterm
 	Tmap('<A-d>', [[<C-\><C-n><cmd>Lspsaga close_floaterm<CR>]])
 end
+
+-- Nmap('<A-d>', { vim.cmd.Lspsaga, 'open_floaterm' })
+Nmap('<A-d>', { vim.cmd.Lspsaga('open_floaterm'), 'lazygit' })
+-- Tmap('<A-d>', [[<C-\><C-n><cmd>Lspsaga close_floaterm<CR>]])
 -- test()

@@ -3,6 +3,15 @@ local M = {
 	dependencies = { 'nvim-lua/plenary.nvim' },
 }
 
+local function get_buffer_elements()
+	---@module bufferline
+	local bufferline = nrequire('bufferline')
+	if not bufferline then return end
+	P(bufferline)
+
+	local elements = bufferline.get_elements().elements
+end
+
 local function print_messages(...)
 	if PRINT_SESSION_ACTIONS then Notify(unpack { ... }) end
 end
@@ -15,7 +24,7 @@ function M.config()
 
 	SHOULD_AUTOSAVE_SESSION = true
 	PRINT_SESSION_ACTIONS = false
-	MAX_SAVE_INTERVAL = 5 -- in seconds
+	MAX_SAVE_INTERVAL = 1 -- in seconds
 	local last_save = os.time()
 
 	--- good autocommands:
@@ -145,7 +154,7 @@ function M.config()
 					floating = false,
 					-- buftype = { 'nofile' },
 					buftype = {},
-					filetype = {},
+					filetype = { 'vimwiki' },
 					custom = function(win)
 						local win_conf = vim.api.nvim_win_get_config(win)
 						-- P(win_conf)
@@ -158,9 +167,12 @@ function M.config()
 			delete_hidden_buffers = {
 				hooks = {
 					-- 'before_load',
+					-- 'before_save',
 					-- vim.o.sessionoptions:match('buffer') and 'before_save',
 				},
-				force = function() print('hiddenbuffer force:', vim.bo.buftype, vim.bo.filetype) end, -- or fun(buf): boolean
+				force = function() --
+					print('hiddenbuffer force:', vim.bo.buftype, vim.bo.filetype)
+				end, -- or fun(buf): boolean
 			},
 			nvim_tree = false,
 			-- tabby = false,

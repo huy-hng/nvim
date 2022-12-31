@@ -103,7 +103,7 @@ return {
 		enable = false,
 		update_root = false,
 		debounce_delay = 15,
-		-- ignore_list = { 'help' },
+		ignore_list = { 'help' },
 	},
 	ignore_ft_on_setup = {},
 	system_open = {

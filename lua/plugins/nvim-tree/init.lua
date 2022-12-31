@@ -7,7 +7,7 @@ local M = {
 function M.config()
 	local nvim_tree = require('nvim-tree')
 
-	local options = require('plugins.nvim-tree.options')
+	local options = R('plugins.nvim-tree.options')
 	local mappings = require('plugins.nvim-tree.mappings')
 	options.view.mappings.list = mappings
 

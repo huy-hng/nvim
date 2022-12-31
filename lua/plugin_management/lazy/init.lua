@@ -1,14 +1,10 @@
 require('plugin_management.lazy.ensure_lazy')
 
-local function requirer(name)
-	if not name then return end
-	local plugins_path = 'plugins.'
-	require(plugins_path .. name)
-end
-
 local opts = require('plugin_management.lazy.config')
 require('lazy').setup({
-	-- { 'folke/which-key.nvim', config = requirer() },
+	{ 'huy-hng/metamap.nvim', dev = true },
+	{ 'huy-hng/convenient_lua', config = true },
+
 	'folke/neodev.nvim',
 	'windwp/nvim-autopairs', -- pair brackets
 	'tpope/vim-surround',
@@ -25,7 +21,6 @@ require('lazy').setup({
 	'vimwiki/vimwiki',
 	'jceb/vim-orgmode',
 	'nvim-lua/plenary.nvim',
-	{ 'nvim-neorg/neorg', ft = 'norg', config = requirer('neorg') },
 	{ 'nvim-telescope/telescope.nvim' },
 	{ 'nvim-tree/nvim-tree.lua', dependencies = { 'nvim-tree/nvim-web-devicons' } },
 
@@ -149,8 +144,4 @@ require('lazy').setup({
 	'RRethy/nvim-treesitter-textsubjects',
 	'p00f/nvim-ts-rainbow', -- highlight parentheses in different colors
 	{ 'mfussenegger/nvim-treehopper', dependencies = 'phaazon/hop.nvim' },
-
-	{ dir = NVIM_CONFIG_PATH .. 'plugins/metamap.nvim' },
-	{ dir = NVIM_CONFIG_PATH .. 'plugins/column_line.nvim' },
-	{ dir = NVIM_CONFIG_PATH .. 'plugins/convenient_lua', config = true },
 }, opts)

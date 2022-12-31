@@ -200,7 +200,7 @@ function M.config()
 			delay = 200,
 			reveal = { 'close' },
 		},
-		-- sort_by = 'tabs', -- 'id' | 'extension' | 'relative_directory' | 'directory' | 'tabs' | function(buffer_a, buffer_b)
+		sort_by = 'directory', -- 'id' | 'extension' | 'relative_directory' | 'directory' | 'tabs' | function(buffer_a, buffer_b)
 		--	 -- add custom logic
 		--	 return buffer_a.modified > buffer_b.modified
 		-- end
