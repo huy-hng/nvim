@@ -186,7 +186,6 @@ local icons = {
 		padding_before = 0,
 		-- query = '[ (marker_prefix) (link_target_marker) @no-conceal ] @icon',
 	},
-
 	list = {
 		enabled = true,
 		level_1 = {
@@ -221,7 +220,7 @@ local icons = {
 		},
 	},
 	link = {
-		enabled = true,
+		enabled = false,
 		level_1 = {
 			enabled = true,
 			icon = ' ',
@@ -305,10 +304,10 @@ local icons = {
 }
 
 return {
-	icon_preset = 'varied', -- basic diamond varied
+	icon_preset = 'basic', -- basic diamond varied
 
 	-- Configuration for icons: their looks and behaviours are contained here
-	icons = icons,
+	-- icons = icons,
 
 	-- If you want to dim code blocks
 	dim_code_blocks = {

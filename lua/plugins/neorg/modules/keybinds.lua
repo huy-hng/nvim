@@ -1,4 +1,5 @@
 -- https://github.com/nvim-neorg/neorg/wiki/User-Keybinds
+-- /home/huy/.local/share/nvim/lazy/neorg/lua/neorg/modules/core/keybinds/keybinds.lua
 return {
 	config = {
 		default_keybinds = true,
