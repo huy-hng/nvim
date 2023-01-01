@@ -26,7 +26,8 @@ local function chromebook()
 end
 
 local function post_init()
-	local device = os_fn.get_hostname() == 'huystower' and manjaro() or chromebook()
+	local device = os_fn.get_hostname() == 'huystower' and manjaro or chromebook
+	device()
 
 	g.neovide_transparency = g.neovide_default_transparency
 	functions.reset_gui_font()

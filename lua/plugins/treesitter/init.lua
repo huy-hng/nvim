@@ -37,7 +37,7 @@ function M.config()
 			'lua',
 			'markdown',
 			'norg',
-			'norg_meta',
+			-- 'norg_meta',
 			'python',
 			'query',
 			'rust',
