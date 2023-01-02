@@ -3,13 +3,20 @@ local M = {
 	dependencies = { 'nvim-tree/nvim-web-devicons' },
 }
 
-function M.config()
+-- TODO: truncate date when window is small
+-- the stuff below can be used, or find a method in lualine,
+-- that allows me to check the length of the statusline
 
+-- local sl = vim.api.nvim_eval_statusline(vim.o.statusline, {})
+-- print(sl.str)
+-- print(sl.width)
+
+function M.config()
 
 local lualine = require('lualine')
 local cat = require('lualine.themes.catppuccin')
 
-local comp = require('plugins.lualine.components')
+local comp = R('plugins.lualine.components')
 
 cat.normal.c.bg = 'bg'
 cat.inactive.a.bg = 'bg'
@@ -51,7 +58,7 @@ lualine.setup {
 			comp.plugin_info,
 		},
 		lualine_y = { 'progress', 'location' },
-		lualine_z = { comp.date, comp.time },
+		lualine_z = { comp.date, comp.clock },
 	},
 	inactive_sections = {},
 	tabline = {
@@ -96,5 +103,7 @@ function string.starts(String, Start) return string.sub(String, 1, string.len(St
 -- end
 
 end
+-- M.config()
+
 
 return M

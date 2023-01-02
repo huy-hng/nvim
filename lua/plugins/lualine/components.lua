@@ -60,10 +60,7 @@ M.indentation = {
 		if button == 'r' then set_indentation.toggle_indent_type() end
 		if button == 'l' then --
 			---@diagnostic disable-next-line: param-type-mismatch
-			vim.ui.input(
-				'Indentation width: ',
-				function(width) set_indentation.set_width(tonumber(width)) end
-			)
+			vim.ui.input('Indentation width: ', function(width) set_indentation.set_width(tonumber(width)) end)
 		end
 
 		nvim.schedule(require('lualine').refresh, {
@@ -78,7 +75,6 @@ M.indentation = {
 local preview_filetypes = require('plugins.telescope.filetype_previewer')
 M.filetype = {
 	'filetype',
-
 	on_click = function() preview_filetypes() end,
 }
 
@@ -89,12 +85,16 @@ M.plugin_info = {
 }
 
 M.date = {
-	'os.date("%a")',
+	Util.wrap(os.date, '%a, %B %d'),
 	icons_enabled = true,
 	icon = '',
 }
 
-M.time = { 'os.date("%H:%M")' }
+M.clock = {
+	Util.wrap(os.date, '%H:%M'),
+	icons_enabled = true,
+	icon = '',
+}
 
 ----------------------------------------------Tabline-----------------------------------------------
 M.bufferline = {
