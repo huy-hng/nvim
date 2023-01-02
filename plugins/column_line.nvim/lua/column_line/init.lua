@@ -20,9 +20,9 @@ function M.setup(opts)
 	Highlight(0, 'ColorColumn', {})
 
 	Highlight(0, 'ColumnLine', {
-		fg = '#45475a',
+		link = 'Comment',
+		-- fg = '#45475a',
 	})
-
 end
 
 ---------------------------------------------Functions----------------------------------------------

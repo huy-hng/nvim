@@ -79,3 +79,11 @@ end
 function table.extend(...)
 	return vim.tbl_extend('force', ...)
 end
+
+function table.keys(t)
+	return vim.tbl_keys(t)
+end
+
+function table.values(t)
+	return vim.tbl_values(t)
+end

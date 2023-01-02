@@ -9,6 +9,13 @@ else
 	M.reload = M.reset
 end
 
+M.print_keys = function(tbl)
+	for key, val in pairs(tbl) do
+		print(key)
+	end
+	print(' ')
+end
+
 M.reload_require = function(name)
 	RELOAD(name)
 	return require(name)

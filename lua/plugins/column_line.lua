@@ -4,7 +4,7 @@ local M = {
 }
 
 function M.config()
-	local column_line = R('column_line')
+	local column_line = require('column_line')
 	column_line.setup()
 	-- TODO: move this to the plugin folder, needs augroup and autocmd functions
 	Augroup('ColumnLine', {

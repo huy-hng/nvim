@@ -67,6 +67,7 @@ o.listchars = 'tab:  ,trail:·,nbsp:+'
 -- |│¦┆┇┊┋▕▔▏
 opt.fillchars:append {
 	--     
+	diff = ' ', -- ╱
 	fold = '·', -- '-' or '-' what the fold text is  filled with
 	foldopen = '', -- '┬' or '-',
 	foldclose = '', --  '+',

@@ -33,26 +33,3 @@ local speed = 300
 Nmap('<C-{>', { nvim.schedule, functions.change_window_opacity, -0.1 }, 'Decrease window opacity')
 Nmap('<C-}>', { nvim.schedule, functions.change_window_opacity, 0.1 }, 'Increase window opacity')
 Nmap('<C-|>', os_fn.toggle_blur_on_kde, 'Increase window opacity')
-
-local function scroller()
-	local has_lualine, lualine = pcall(require, 'lualine')
-	if not has_lualine then return end
-
-	-- local winbar_before = vim.o.winbar
-	-- vim.wo.winbar = ''
-
-	-- lualine.hide { place = { 'winbar' }, unhide = false }
-
-	-- Defer(
-	-- 	(vim.g.neovide_scroll_animation_length * 1000),
-	-- 	lualine.hide,
-	-- 	{ place = { 'winbar' }, unhide = true }
-	-- )
-
-	-- vim.defer_fn(function()
-	-- 	lualine.hide { place = { 'winbar' }, unhide = true }
-	-- end, 1000)
-end
-
-Nmap('<C-d>', '<C-d>zz', 'Scroll down', { callback = scroller })
-Nmap('<C-u>', '<C-u>zz', 'Scroll up', { callback = scroller })

@@ -5,6 +5,7 @@ nrequire = dev.nrequire
 npcall = dev.npcall
 I = vim.inspect
 P = vim.pretty_print
+PrintKeys = dev.print_keys
 R = dev.reload_require
 LOADED = dev.loaded
 RESET = dev.reset

@@ -66,6 +66,7 @@ return {
 		-- n('h',             a.select_entry,        'Open diff for selected entry'),
 		n('<cr>',          a.select_entry,        'Open diff for selected entry'),
 		n('-',             a.toggle_stage_entry,  'Stage / unstage the selected entry'),
+		n('s',             a.toggle_stage_entry,  'Stage / unstage the selected entry'),
 		n('S',             a.stage_all,           'Stage all entries'),
 		n('U',             a.unstage_all,         'Unstage all entries'),
 		n('X',             a.restore_entry,       'Restore entry to the state on the left side'),

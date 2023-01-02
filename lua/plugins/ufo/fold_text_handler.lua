@@ -90,7 +90,7 @@ M.mark_copier = function(virtText, lnum, endLnum, width, truncate)
 			printer(subbed)
 			-- virtText[i][1] = subbed
 			-- virtText[i][2] = 'Whitespace'
-			table.insert(newVirtText, { subbed, 'Whitespace' })
+			table.insert(newVirtText, { subbed, 'IndentLine' })
 			goto continue
 		end
 

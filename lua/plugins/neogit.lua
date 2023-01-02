@@ -1,8 +1,8 @@
 local M = {
 	'TimUntersberger/neogit', -- magit clone
 	dependencies = { 'nvim-lua/plenary.nvim' },
-cmd = 'Neogit',
-	keys = '<C-g>',
+	cmd = 'Neogit',
+	-- keys = '<C-g>',
 }
 
 function M.config()
@@ -41,8 +41,10 @@ function M.config()
 			-- { '>', 'v' },
 		},
 		integrations = {
-			-- Neogit only provides inline diffs. If you want a more traditional way to look at diffs, you can use `sindrets/diffview.nvim`.
-			-- The diffview integration enables the diff popup, which is a wrapper around `sindrets/diffview.nvim`.
+			-- Neogit only provides inline diffs. If you want a more traditional
+			-- way to look at diffs, you can use `sindrets/diffview.nvim`.
+			-- The diffview integration enables the diff popup,
+			-- which is a wrapper around `sindrets/diffview.nvim`.
 			--
 			-- Requires you to have `sindrets/diffview.nvim` installed.
 			-- use {
@@ -53,7 +55,7 @@ function M.config()
 			--   }
 			-- }
 			--
-			diffview = false,
+			diffview = true,
 		},
 		-- Setting any section to `false` will make the section not render at all
 		sections = {
