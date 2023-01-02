@@ -260,6 +260,6 @@ function M.config()
 		keymaps = R('plugins.diffview.keymaps'),
 	}
 end
-M.config()
+-- M.config()
 
 return M

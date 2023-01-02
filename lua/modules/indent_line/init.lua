@@ -1,30 +1,10 @@
-local options = {
-	-- title = string
-	-- icon = string
-	timeout = 2000,
-	on_open = function(winid) end,
-	-- on_close = function
-	-- keep = function
-	render = 'minimal',
-	-- replace = integer|notify.Record
-	hide_from_history = true,
-	animate = false,
-}
-
-local notify = function(...)
-	local args = { ... }
-	for i, arg in ipairs(args) do
-		if type(arg) == 'table' then args[i] = vim.inspect(arg) end
-	end
-	vim.notify(args, nil, options)
-end
-
 ----------------------------------------------Config------------------------------------------------
 
 local indent_char = '▏'
 local Namespace = vim.api.nvim_create_namespace('IndentLine')
 
-Highlight(0, 'IndentLine', { fg = '#45475a' })
+Highlight(0, 'IndentLine', { link = 'Comment' })
+
 ----------------------------------------------Copied------------------------------------------------
 
 local get_current_context = function(type_patterns, use_treesitter_scope)
@@ -48,20 +28,16 @@ local get_current_context = function(type_patterns, use_treesitter_scope)
 
 	while cursor_node do
 		local node_type = cursor_node:type()
-		notify(node_type)
 		for _, rgx in ipairs(type_patterns) do
 			if node_type:find(rgx) then
 				local node_start, _, node_end, _ = cursor_node:range()
 				if node_start ~= node_end then --
-					notify('found', node_type)
 					return true, node_start + 1, node_end + 1, rgx
 				end
 			end
 		end
-		notify('going up')
 		cursor_node = cursor_node:parent()
 	end
-	notify('done')
 
 	return unpack(invalid)
 end
@@ -96,7 +72,6 @@ local function set_line(bufnr, column)
 	for linenr, line_text in ipairs(lines) do
 		local width = vim.fn.strdisplaywidth(line_text)
 		if width == 0 then
-			-- notify(linenr, 'line empty')
 			goto continue
 		end
 
@@ -107,9 +82,7 @@ end
 local function get_treesitter(bufnr)
 	local has_ts_query, ts_query = pcall(require, 'nvim-treesitter.query')
 	local has_ts_indent, ts_indent = pcall(require, 'nvim-treesitter.indent')
-	local use_ts_indent = has_ts_query
-		and has_ts_indent
-		and ts_query.has_indents(vim.bo[bufnr].filetype)
+	local use_ts_indent = has_ts_query and has_ts_indent and ts_query.has_indents(vim.bo[bufnr].filetype)
 	return use_ts_indent, ts_indent
 end
 
@@ -137,7 +110,6 @@ local function should_set_line(line_text, col)
 	line_text = line_text:gsub('\t', string.rep(' ', spaces))
 	local char = string.sub(line_text, col, col)
 	if char == ' ' or char == '' then return true end
-	-- notify(char)
 	return false
 end
 
@@ -205,9 +177,7 @@ local ft_ignore = {
 return function(data)
 	local bufnr = data.buf or 0
 	clear_lines(bufnr)
-	local is_ignored = vim.tbl_contains(ft_ignore, vim.bo[bufnr].filetype)
+	if vim.tbl_contains(ft_ignore, vim.bo[bufnr].filetype) then return end
 
-	if not is_ignored then --
-		set_lines(bufnr)
-	end
+	set_lines(bufnr)
 end
