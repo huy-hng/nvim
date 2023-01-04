@@ -1,18 +1,6 @@
 local debug = false
 
-local M = {}
-
 local function handler(name, fn, config) vim.lsp.handlers[name] = vim.lsp.with(fn, config) end
-
--- local function max_window_size()
--- 	local width = vim.api.nvim_win_get_width(0)
--- 	local height = vim.api.nvim_win_get_height(0)
--- 	local pos = vim.fn.getcurpos()
--- 	-- local pos = vim.fn.getcursorcharpos()
--- 	local max_width = width - pos[5]
--- 	local max_height = height - pos[2]
--- 	return max_width, max_height
--- end
 
 local api = vim.api
 local function window_gutter_sizes()
@@ -94,7 +82,7 @@ handler('textDocument/hover', function(_, result, ctx, lsp_config)
 	local bufnr, winnr = vim.lsp.handlers.hover(_, result, ctx, lsp_config)
 	if winnr == nil then return end
 
-	require('plugins.lsp.keymaps').close_with_esc(winnr)
+	require('plugins.lsp.functions').close_with_esc(winnr)
 
 	local win_config = vim.api.nvim_win_get_config(winnr)
 
@@ -127,7 +115,7 @@ vim.lsp.handlers['textDocument/definition'] = function(_, result)
 	end
 end
 
--- vim.lsp.handlers['window/showMessage'] = require('plugins.lsp.show_message')
+vim.lsp.handlers['window/showMessage'] = require('plugins.lsp.show_message')
 
 -- handler('textDocument/publishDiagnostics', vim.lsp.diagnostic.on_publish_diagnostics, {
 -- 	update_in_insert = true,
@@ -151,5 +139,3 @@ end
 
 -- vim.lsp.util.open_floating_preview({'asd', 'asd2' })
 -- vim.lsp.util.preview_location()
-
-return M

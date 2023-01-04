@@ -1,14 +1,11 @@
 local M = {
 	'neovim/nvim-lspconfig', -- enable LSP
 	-- ft = { 'python', 'lua', 'c', 'json' },
+	event = 'BufReadPre',
 	dependencies = {
-		'williamboman/mason.nvim', -- install servers and more
-		'folke/neodev.nvim',
-
-		'williamboman/mason-lspconfig.nvim',
+		{ 'folke/neodev.nvim', config = function() require('plugins.lsp.neodev') end },
+		'hrsh7th/cmp-nvim-lsp',
 		'jose-elias-alvarez/null-ls.nvim',
-		'jayp0521/mason-null-ls.nvim',
-
 	},
 }
 
@@ -21,11 +18,27 @@ local M = {
 -- require(require_path .. 'mason')
 
 function M.config()
-	require('plugins.lsp.mason')
+	require('plugins.lsp.setup')
 	require('plugins.lsp.handlers')
-	require('plugins.lsp.diagnostic')
-	require('plugins.lsp.server_setup')
-	require('plugins.lsp.null-ls')
+
+	local opts = R('plugins.lsp.server_opts')
+
+	local language_servers = {
+		'jsonls',
+		'sumneko_lua',
+		'pyright',
+		'clangd',
+	}
+
+	local lspconfig = require('lspconfig')
+	for _, server in ipairs(language_servers) do
+		local server_opts = nrequire('plugins.lsp.servers.' .. server)
+		if server_opts then --
+			opts = vim.tbl_deep_extend('force', opts, server_opts)
+		end
+		lspconfig[server].setup(opts)
+	end
 end
+-- M.config()
 
 return M
