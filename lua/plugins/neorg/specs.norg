@@ -114,19 +114,18 @@ version: 1.0
 
    Usually, a {*** line endings}[line ending] terminates the paragraph segment.
    This means that a paragraph segment is for the most part just a line of text:
-   |example
+   @code
    I am a paragraph segment.
    I am another paragraph segment.
    Together we form a paragraph.
-   |end
-
+   @end
    The exception to the rule is whenever a linkable or attached modifier within the paragraph
    segment spans more than a single line, in which case the paragraph segment also spans that
    distance. For example:
-   |example
+   @code
    I *am
    a long paragraph segment!*
-   |end
+   @end
 
 ** Paragraphs
    Paragraphs are then formed of consecutive {** paragraph segments}. A paragraph is terminated by:
@@ -212,7 +211,7 @@ version: 1.0
    closed when you use another structural modifier of the same or lower level.
 
 *** Headings
-    |example
+    @code
     * Heading level 1
     ** Heading level 2
     *** Heading level 3
@@ -220,7 +219,7 @@ version: 1.0
     ***** Heading level 5
     ****** Heading level 6
     ******* Heading level 7 (falls back to level 6 in the tree-sitter parser)
-    |end
+    @end
 
     Although headings are both structural /and/ nestable (see next section), the former takes
     precedence over the latter, meaning that headings only affect a single
@@ -231,7 +230,7 @@ version: 1.0
     Headings serve as a way to categorize and organize other elements into smaller chunks for better
     readability. They are currently the /only/ structural detached modifier present in the Norg
     syntax.
-
+            --
 ** Nestable Detached Modifiers
    Nestable detached modifiers are a kind which may be repeated multiple times in order to produce a
    _nested_ object of the given type. The nesting levels are capped at 6 in the [tree-sitter] parser
@@ -247,7 +246,7 @@ version: 1.0
    Below you will find some examples of nestable detached modifiers.
 
 *** Unordered Lists
-    |example
+    @code
     - Unordered list level 1
     -- Unordered list level 2
     --- Unordered list level 3
@@ -270,13 +269,13 @@ version: 1.0
            This text is still part of the level 6 list item.
     ------- Unordered list level 7 (falls back to level 6 in the tree-sitter parser)
             This text is still part of the level 7 list item.
-    |end
+    @end
 
     Unordered lists provide an easy way to enumerate items in an unordered fashion. Useful for data
     that's categorically similar but doesn't need to follow a strict order.
 
 *** Ordered Lists
-    |example
+    @code
     ~ Ordered list level 1
     ~~ Ordered list level 2
     ~~~ Ordered list level 3
@@ -299,14 +298,14 @@ version: 1.0
            This text is still part of the level 6 list item.
     ~~~~~~~ Ordered list level 7 (falls back to level 6 in the tree-sitter parser)
             This text is still part of the level 7 list item.
-    |end
+    @end
 
     This list type is only useful for data that needs to be kept in sequence. In contrast to other
     formats which may use a syntax like `1.`/`1)`, Norg counts the items automatically - this
     reduces complexity and makes reordering items simple.
 
 *** Quotes
-    |example
+    @code
     > Quote level 1
     >> Quote level 2
     >>> Quote level 3
@@ -329,19 +328,19 @@ version: 1.0
            This text is still part of the level 6 quote.
     >>>>>>> Quote level 7 (falls back to level 6 in the tree-sitter parser)
             This text is still part of the level 7 quote.
-    |end
+    @end
 
     Quotes are rather self-explanatory - they allow you to cite e.g. a passage from another source.
 
 *** Attributes
-    |example
+    @code
     % attrib1
     %% attrib2
     %%% attrib3
     %%%% attrib4
     %%%%% attrib5
     %%%%%% attrib6
-    |end
+    @end
 
     Attributes are detached modifiers that exist solely for the purpose of having altered behavior
     through {** carryover tags}. These can then be referenced within {** attached modifier extensions}
@@ -349,7 +348,7 @@ version: 1.0
 
     These modifiers can be nested to create a hierarchy of attributes. Below is an example of this
     in action:
-    |example
+    @code
     % color
     +color #FF0000
     %% red
@@ -359,7 +358,7 @@ version: 1.0
     %% blue
 
     This will be /red/(color:red), /green/(color:green) and /blue/(color:blue).
-    |end
+    @end
 
 **** Limits
      You can impose limits on where the attribute can be used through the `attribute-limits` tag,
@@ -376,7 +375,7 @@ version: 1.0
      These limits can be chained, i.e. `#attribute-limits links non-verbatim`.
 
 *** Invalid Nestable Detached Modifier Examples
-    |example
+    @code
     >I am not a quote
 
     some preceding text > I am also not a quote
@@ -387,7 +386,7 @@ version: 1.0
 
     *
         I am not a valid heading title.
-    |end
+    @end
 
 ** Range-able Detached Modifiers
    Range-able detached modifiers can occur in two forms:
@@ -406,56 +405,56 @@ version: 1.0
     Definitions are primarily of use to people who write technical documents.
     They consist of a term, and then are followed by a definition of that term.
 
-    |example
+    @code
     $ Term
     Definition content.
-    |end
+    @end
 
     To create longer definitions, use the ranged definition syntax instead:
-    |example
+    @code
     $$ Term
     Content of the definition.
 
     Which scans up to the closing modifier.
     $$
-    |end
+    @end
 
 *** Footnotes
     Footnotes allow the user to give supplementary information related to some text without
     polluting the paragraph itself. Footnotes can be linked to using {* linkables}.
 
-    |example
+    @code
     ^ Single Footnote
     Optional footnote content.
-    |end
+    @end
 
     To create longer footnotes, use the ranged footnote syntax instead:
-    |example
+    @code
     ^^ Ranged Footnote
     Content of the footnote.
 
     Which scans up to the closing modifier.
     ^^
-    |end
+    @end
 
 *** Table Cells
     Table cells are used to, well, build up a table. Here are a few examples of table cells:
-    |example
+    @code
     : A1
       Content of table cell at `A1`.
     :: A2
     > Content of table cell at `A2` (in a quote).
     ::
-    |end
+    @end
     Their semantics are described in more detail in the {:1.0-semantics:* Tables}[semantics] document,
     which we recommend reading if you are interested in the behavior of objects as opposed to how
     they are defined.
 
     *NOTE*: In order to make tables more aesthetically pleasing, they're commonly mixed with the
     {* intersecting modifiers}[intersecting modifier] syntax to produce the following:
-    |example
+    @code
     : A1 : Content of table cell at `A1`.
-    |end
+    @end
 
 ** Grouping
    Both nestable and range-able detached modifiers have a unique quality - when several consecutive
@@ -464,26 +463,26 @@ version: 1.0
    it is required for the many types of {** carryover tags} to function.
 
 *** Examples
-    |example
+    @code
     The following items naturally group because they are range-able, for example forming a
     definition list:
     $ Term 1
       Definition 1!
     $ Term 2
       Definition 2!
-    |end
+    @end
 
-    |example
+    @code
     Together, these form one whole unordered list:
     - List item 1
     - List item 2
-    |end
+    @end
 
-    |example
+    @code
     - List item in one list
 
     - This item is in another list, because we used a {# paragraph break} to split these items
-    |end
+    @end
 
 ** Delimiting Modifiers
    In Norg, {** structural detached modifiers} and {*** indent segment}s may be terminated by a
@@ -500,7 +499,7 @@ version: 1.0
 *** Weak Delimiting Modifier
     This modifier uses the `-` character and immediately closes the /current/ nesting level
     (decreases the current nesting level by one).
-    |example
+    @code
     * Heading level 1
       Text under first level heading.
 
@@ -509,11 +508,11 @@ version: 1.0
        ---
 
       Text under first level heading again.
-    |end
+    @end
 
 *** Strong Delimiting Modifier
     This modifier uses the `=` character and immediately closes all nesting levels.
-    |example
+    @code
     * Heading level 1
       Text under first level heading.
 
@@ -522,18 +521,18 @@ version: 1.0
        ===
 
     Text belonging to no heading level (i.e. belonging to the document's root).
-    |end
+    @end
 
 *** Horizontal Rule
     This modifier uses the `_` character and simply renders a horizontal line. It does _NOT_
     affect the heading level but immediately terminates any {** paragraphs}[paragraph].
-    |example
+    @code
     * Heading level 1
       Text under first level heading.
       ___
       This is a new paragraph separated from the previous one by a horizontal line.
       This text still belongs to the first level heading.
-    |end
+    @end
 
 ** Detached Modifier Extensions
    {* Detached modifiers} support extensions which must immediately follow the detached modifier
@@ -573,14 +572,14 @@ version: 1.0
    -- `_`: put down/cancelled
 
     Some examples include:
-    |example
+    @code
     - ( ) Undone
     - (x) Done
 
     - (# B| ) Undone with a priority of B
     - (+) Recurring
     - (+ 5th Jan) Recurring every 5th of January
-    |end
+    @end
 
 *** Advanced Detached Modifier Extensions
     Apart from just being able to assign a TODO state it is also possible to apply more complex
@@ -619,14 +618,14 @@ version: 1.0
 
      Apart from just being able to supply a timestamp, you are also permitted to provide a <range>.
      The syntax is simple, and is contained within the extension:
-     |example
+     @code
      {@ 5th Aug 2022 - 20th August 2022}
      {@ 5th Aug 2022-20th August 2022} <- Also valid
-     |end
+     @end
      You can even omit some fields from either one of the sides like so:
-     |example
+     @code
      {@ 5th - 20th August 2022}
-     |end
+     @end
      The matching fields will be automatically completed based on the information of the other half.
 
      ^ Note to Parser Developers
@@ -639,9 +638,9 @@ version: 1.0
      This extension allows you to specify a priority of your detached modifier extension.
 
      Syntax:
-     |example
+     @code
      * (# A) This heading has priority A (highest priority)
-     |end
+     @end
      Note that Norg does not specify strict semantics for this detached modifier extension, and as
      such there is no set-in-stone way to specify priorities. The most common (and recommended) way
      to specify priorities is to go from `A-Z`, but many also prefer `0-9` or even named priorities
@@ -655,18 +654,18 @@ version: 1.0
      {**** timestamp extension}[timestamp]. Especially useful in [GTD] and other forms of note-taking and time management applications.
 
      Syntax:
-     |example
+     @code
      - (< Tue 5th Feb) Do this before the 5th of February.
-     |end
+     @end
 
 **** Start Date Extension
      A counterpart to the {**** due date extension} - defines when a task *begins*, also useful in
      [GTD].
 
      Syntax:
-     |example
+     @code
      - (> Tue 5th Feb) This task starts after the 5th of February.
-     |end
+     @end
 
 ** Detached Modifier Suffix
    Since {# nestable detached modifiers} can only contain a {# paragraphs}[paragraph] this can
@@ -680,11 +679,11 @@ version: 1.0
 
 *** Slide
     The slide, denoted with a single `:`, allows for a *single* /complex item/ below:
-    |example
+    @code
     - :
       $ Term
         This is the term's definition.
-    |end
+    @end
 
     This <complex item> may be any *non-{** structural detached modifiers}[structural]* detached
     modifier, {* tags}[tag] or paragraph.
@@ -695,20 +694,20 @@ version: 1.0
      instead.
 
      Disallowed:
-     |example
+     @code
      - :
        #example-tag
        $ Term
          Definition
-     |end
+     @end
 
      Preferred alternative:
-     |example
+     @code
      +example-tag
      - :
        $ Term
          Definition
-     |end
+     @end
 
 *** Indent Segment
     The indent segment, denoted with two colons (`::`), creates a ranged version of the slide.
@@ -720,7 +719,7 @@ version: 1.0
     The indent segment may contain an arbitrary amount of {# complex item}[complex items].
 
     Examples:
-    |example
+    @code
     - ::
       This is some content.
 
@@ -734,7 +733,7 @@ version: 1.0
 
       |details
       *hello* world!
-      |end
+      @end
 
       -- This is a nested item in the indent segment
       -- And so is this.
@@ -744,7 +743,7 @@ version: 1.0
 
     Since there was no other item of the same type after the indent segment
     it must be closed with `---` or `===`.
-    |end
+    @end
 
 * Tags
   The main differentiator from simple markup formats and more complex ones is the ability to define
@@ -765,14 +764,14 @@ version: 1.0
     `document.meta`.
   - ::
     After a {*** whitespace} character any number of parameters on the same line may follow:
-    |example
+    @code
     #tag-name.subtag parameter1 parameter2
-    |end
+    @end
     By default parameters are space-separated. In order to create multi-word parameters, you may
     escape the space character with a backslash (`\`).
-    |example
+    @code
     #tag-name.subtag parameter1\ with\ spaces parameter2
-    |end
+    @end
     Parameters may consist of any character (apart from a {*** line endings}[line ending], of course).
     ---
 
@@ -809,31 +808,31 @@ version: 1.0
     and contents.
 
     The following is an example of a macro:
-    |example
+    @code
     =see url
     (see {&url&})
     =end
-    |end
+    @end
 
     It can then be invoked using any of the other tag types, for example the {** infirm tag}:
-    |example
+    @code
     This is a recipe for a cake
     .see https://wikipedia.com/some-cool-cake-recipe
     \- let's begin cooking!
-    |end
+    @end
 
     After macro expansion, this is what the document would look like:
-    |example
+    @code
     This is a recipe for a cake
     (see {https://wikipedia.com/some-cool-cake-recipe})
     \- let's begin cooking!
-    |end
+    @end
 
     Which, when reformatted, would look (and render) like so:
-    |example
+    @code
     This is a recipe for a cake (see {https://wikipedia.com/some-cool-cake-recipe}) - let's begin
     cooking!
-    |end
+    @end
 
 *** Standard Ranged Tags
     There are times when you may want to create an isolated block of Norg markup.
@@ -851,34 +850,34 @@ version: 1.0
         carryover tags}[strong carryover tag] to each one of them.
 
 **** Examples
-     `|example`:
-     |example
-     |example
+     `@code`:
+     @code
+     @code
      * This is an example heading.
-     |end
-     |end
+     @end
+     @end
 
      `|comment`:
-     |example
+     @code
      |comment
      This is a very long comment with some content
      and with some markup!
 
      * Heading
        /italic/ and *bold*.
-     |end
-     |end
+     @end
+     @end
 
      `|details`:
-     |example
+     @code
      |details
      * Here is some hidden markup!
        Wowzers.
-     |end
-     |end
+     @end
+     @end
 
      `|group`:
-     |example
+     @code
      #color red
      |group
      This will be red.
@@ -887,8 +886,8 @@ version: 1.0
 
      * So will this
        And this.
-     |end
-     |end
+     @end
+     @end
 
 **** Edge Cases and Semantic Interpretation
      A commonly arising question is "how are these interpreted at parse time?" - can you link to
@@ -899,16 +898,16 @@ version: 1.0
      macro invocation under the hood. Below are the implementations for `|comment` and `|group`,
      respectively:
      - :
-       |example
+       @code
        =comment ...
        =end
-       |end
+       @end
      - :
-       |example
+       @code
        =group ...
        &...&
        =end
-       |end
+       @end
 
      The `|comment` tag evaluates to /no value/. Anything that is placed within a comment during
      invocation (the `...` parameter) is simply dropped. Because of this it is *not* possible to
@@ -958,24 +957,24 @@ version: 1.0
 
 **** Examples
      Only the second item is affected:
-     |example
+     @code
      - List item 1
      +color red
      - List item 2 (which is red)
      - List item 3 (which is normal-colored)
-     |end
+     @end
 
      Only the `Heading 1` and `This is some content` text is highlighted:
-     |example
+     @code
      +color red
      * Heading 1 (which is red)
        This is some content. (which is still red)
      ** Heading 2 (which is normal-colored)
         This is also some content. (which is normal-colored)
-     |end
+     @end
 
      Special behavior for indent segments:
-     |example
+     @code
      - List item 1
      +color red
      - List item 2 (which is red)
@@ -988,7 +987,7 @@ version: 1.0
        -- This is also green
        -- And so is this.
        ---
-     |end
+     @end
 
 *** Strong Carryover Tags
     Contrary to its {*** weak carryover tags}[weak variant], the strong carryover tag exists to
@@ -1001,23 +1000,23 @@ version: 1.0
 **** Examples
      A nice use case is the `#choice` carryover tag, which converts all items in a list into a
      single-choice question with right/wrong answers:
-     |example
+     @code
      What is your favorite activity? Hint: there's only one correct answer :)
      #choice
      - ( ) Sleeping
      - ( ) Learning
      - (x) Writing `.norg` documents
-     |end
+     @end
 
      Here, both the level 1 heading and the level 2 heading along with their contents will be
      colored red:
-     |example
+     @code
      #color red
      * Heading 1
        This is some content.
      ** Heading 2
         This is also some content.
-     |end
+     @end
 
 *** Carryover Tags and Paragraphs
     A feature of {** carryover tags} which we have not discussed yet is how they interact with
@@ -1026,7 +1025,7 @@ version: 1.0
     - {*** weak carryover tags} affect the next {** paragraph segments}[paragraph segment]
 
     For example:
-    |example
+    @code
     #color blue
     This entire paragraph
     will now appear in blue
@@ -1042,14 +1041,14 @@ version: 1.0
     +color red
     but the latter carryover tag takes precedence, making this part red,
     and this part blue again, since the weak carryover tag does not affect this segment.
-    |end
+    @end
 
 ** Infirm Tag
    The infirm tag is the simplest form of executing a macro. It is a single-line, embeddable macro
    invocation with the ability to supply parameters. It is denoted with the `.` character.
 
    Below is an example:
-   |example
+   @code
    =LoremIpsum
    Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut
    labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris
@@ -1062,7 +1061,7 @@ version: 1.0
    .LoremIpsum
    This is still the same paragraph (assuming the macro invocation only inserted text; which it did
    in this specific example).
-   |end
+   @end
 
 * Attached Modifiers
   This section discusses attached modifiers (which originally gave rise to the name of {* detached
@@ -1081,17 +1080,17 @@ version: 1.0
     terminated as soon as they encounter a {# paragraph break}.
 
     This means that this:
-    |example
+    @code
     *this
 
     text*
-    |end
+    @end
     will *not* result in any bold text, as it's divided by a {# paragraph break}.
     However, this:
-    |example
+    @code
     *this
     text*
-    |end
+    @end
     is fine, and will result in *`this text`* being bold.
   - Nested {* attached modifiers} should be closed in the opposite order they were opened.
   - Two or more consecutive attached modifiers of the same type (i.e. `**`, `//` etc.) should be
@@ -1115,7 +1114,7 @@ version: 1.0
   - \&variable\&: &variable& (verbatim)
 
 ** Valid Examples
-   |example
+   @code
    *Bold text*
 
    *Bold text*,
@@ -1128,10 +1127,10 @@ version: 1.0
    */Bold and italic/ and only bold*
 
    Text */with/ _different_ ^markup^ !types!*
-   |end
+   @end
 
 ** Invalid Examples
-   |example
+   @code
    * Bold text *
 
    *Bold text *
@@ -1156,7 +1155,7 @@ version: 1.0
 
    Also closed in the wrong order:
    */Bold and italic* and only italic/
-   |end
+   @end
 
 ** Null Modifier
    This section expands a bit on the concept of the `%null modifier%` in order to understand
@@ -1164,17 +1163,17 @@ version: 1.0
 
    When used in a standalone fashion, the null modifier nullifies (removes) all of the text inside.
    This means that on its own it behaves like a comment, which is never rendered:
-   |example
+   @code
    Cats %TODO: create section about cats% are very cute animals.
-   |end
+   @end
 
    In higher {* layers}, this modifier can have its behaviour extended with the {** attached modifier
    extensions}[attached modifier extension] syntax, which essentially makes it a configurable
    modifier suit for many occasions. For example, if you wanted to make an arbitrary part of your
    text red, you may do:
-   |example
+   @code
    This part of the text is %colored red%(color:red)!
-   |end
+   @end
 
 ** Variables
    Variables are a {** layer 5} attached modifier that allow a user to invoke a macro without any
@@ -1192,12 +1191,12 @@ version: 1.0
 
    Free-form modifiers fix this with a special syntax to specify the beginning and end of a ranged
    block. For example:
-   |example
+   %@code%
    Here, I can write `| leading and trailing whitespace (with a ` char)  |` within a verbatim block
    without accidentally terminating it.
 
    Here, I can use a literal `$` inside inline math: $| 10$ + 10$ = 20$ |$.
-   |end
+   %@end%
 
    The use of pipes is special because the position of the pipe (i.e. whether it's before or after the
    attached modifier) can unambiguously tell us whether that symbol is an opening attached modifier
@@ -1215,20 +1214,20 @@ version: 1.0
 
    As described in the {* attached modifiers} section, attached modifier types may not exist
    in between words like so:
-   |example
+   @code
    abso/freaking/lutely!
-   |end
+   @end
 
    It's entirely plausible to want to do this however, which is why the {** link modifier}[link
    modifier] was devised. With it, you can bridge attached modifiers and regular text together:
-   |example
+   @code
    abso:/freaking/:lutely!
-   |end
+   @end
 
    It is important to note that link modifiers do not need to occur in pairs. This:
-   |example
+   @code
    Ex:*ample* text
-   |end
+   @end
    Will also result in `ample` becoming *bold*. In fact, using a link modifier at the end will not
    give the desired result (it will be rendered as a regular `:` char). To understand why keep
    reading.
@@ -1263,13 +1262,13 @@ version: 1.0
    (a comprehensive list can be found in the [semantics document]).
 
 *** Examples
-    |example
+    @code
     `print("This is some python")`(lang:python) <- The lang:python attribute highlights the text as python
     *some green and bold text!*(color:green)    <- some green and bold text
 
     {* Link location}[this is an important link](important|color:red) <- Highlights the link as big,
                                                                          bold (important) and red.
-    |end
+    @end
 
 * Contextual `|` Delimiter
   The pipe (`|`) character is a really nice character - it can be applied to many problems
@@ -1293,29 +1292,29 @@ version: 1.0
   - The token ends with another {*** whitespace} character.
 
   The use case for the intersecting modifier is best illustrated by example:
-  |example
+  @code
   $ Term
     This is a definition of that term.
-  |end
+  @end
   This is perfectly normal syntax that you would write day to day in Norg. But what if you're more
   of a fan of one-liners? The `| : |` intersecting modifier (currently the only modifier of this
   type) can be used to do just this:
-  |example
+  @code
   $ Term : This is a definition of that term.
-  |end
+  @end
   This syntax is especially favored for {*** table cells}:
-  |example
+  @code
   : A1 : Content of the cell at A1
   : A2 : Content of the cell at A2
-  |end
+  @end
 
   The `| : |` syntax expands to a newline, which means that after expansion you get:
-  |example
+  @code
   : A1
   Content of the cell at A1
   : A2
   Content of the cell at A2
-  |end
+  @end
 
 * Linkables
   Finally, there is one more kind of inline syntax which is the {# linkables} kind.
@@ -1328,14 +1327,13 @@ version: 1.0
   Linkables are comprised of many segments, and can change meaning depending on the order those
   segments were defined in.
 
-  Linkables are essentially a more lenient version of the {* attached
-  modifiers}[attached modifier] syntax. Below are the rules for linkables:
-  - An opening modifier may be instantly succeeded with anything /but/ a {#
-    line endings}[line ending].
+  Linkables are essentially a more lenient version of the {* attached modifiers}[attached modifier] syntax.
+  Below are the rules for linkables:
+  - An opening modifier may be instantly succeeded with anything /but/ a {# line endings}[line ending].
   - A closing modifier may *not* be preceded by a {# line endings}[line ending].
 
   Below are a few examples of invalid linkables:
-  |example
+  @code
   this is not a {
   * linkable}
 
@@ -1345,7 +1343,7 @@ version: 1.0
   <
   this certainly isn't a linkable
   >
-  |end
+  @end
 
   *An unclosed linkable may be treated as an error in the resulting syntax tree*.
 
@@ -1370,9 +1368,9 @@ version: 1.0
     When standalone, the link syntax will simply point to another `.norg` file relative to the
     current file the link is contained in:
 
-    |example
+    @code
     {:path/to/other-file:}
-    |end
+    @end
 
     Note that you do *not* provide the `.norg` extension within the path.
     +name path modifiers
@@ -1388,40 +1386,40 @@ version: 1.0
     A file location may /only/ be accompanied by a {# detached modifier}, {# line number} or {# the
     magic char (`#`)}[the magic char], in which case the links look like so:
 
-    |example
+    @code
     {:path/to/file:123}
     {:path/to/file:# Location within that file}
     {:path/to/file:** Level 2 heading}
-    |end
+    @end
 
     `/`, `@` and URLs are not allowed in combination with file locations:
 
-    |example
+    @code
     {:path:/ file} <- invalid
     {:path:@ timestamp} <- invalid
     {:path:https://my-url} <- also invalid
-    |end
+    @end
 
 *** Line Number
     You can also link to a set line number within the current (or other Norg) file.
 
     The syntax is as follows:
-    |example
+    @code
     Line 1
     Line 2
 
     This is a reference to line {2}.
     This is a reference to line {:file:4} in a different file.
-    |end
+    @end
 
     Disambiguating line numbers and URIs is quite simple - URIs do not begin with digits.
 
 *** URL
     You can define a link to an external resource by simply putting in the URL:
 
-    |example
+    @code
     {https://github.com/nvim-neorg/neorg}
-    |end
+    @end
 
     Actions related to schemas like `https://`, `ftp://` etc. (when attempting to open the link) are
     handled by a lower level component running Norg, e.g. [Neorg] or the underlying Operating
@@ -1431,12 +1429,12 @@ version: 1.0
     Norg allows you to link to any {# Structural Detached Modifiers}[structural] or
     {# Range-able Detached Modifiers}[range-able] detached modifier:
 
-    |example
+    @code
     * I am a level 1 heading
 
     Strict link to a level 1 heading:
     {* I am a level 1 heading}
-    |end
+    @end
 
     The inside of the link location looks just like a detached modifier definition, and that is
     because it pretty much is. You can substitute the `*` char for any other
@@ -1466,9 +1464,9 @@ version: 1.0
 
      In addition to just providing a path, you may also specify a line number at the end via a colon `:`.
      Example:
-     |example
+     @code
      {/ my-file.txt:123} <- This is a link to `my-file.txt` at line 123
-     |end
+     @end
 
      As with the {*** file location : # path modifiers}[path modifier] syntax, the file linkable
      also supports special characters like `~` for the user's home directory and the special `$`
@@ -1479,9 +1477,9 @@ version: 1.0
      {**** timestamp extension}.
 
      Example:
-     |example
+     @code
      Frank's birthday is on {@ 5th May}.
-     |end
+     @end
 
 **** Wiki Links (`?`)
      When building large knowledge bases it's sensible to want to quickly create links between files
@@ -1490,9 +1488,9 @@ version: 1.0
      just the title of the heading you want to search for.
 
      Syntax:
-     |example
+     @code
      Cats are {? mammals}, they make for great {? house pets} too!
-     |end
+     @end
 
      For developers implementing this behavior: there are no restrictions in which order you parse
      your files to hop between wiki links, as long as the following conditions are met:
@@ -1511,12 +1509,12 @@ version: 1.0
      supplied to the link and by the software running the Norg format (e.g. [Neorg]).
 
      Syntax:
-     |example
+     @code
      +bibliography ./myreferences.bib
      % my_bibliography
 
      This is a reference to a bibliography: {= Neorg2022}(my_bibliography).
-     |end
+     @end
 
      For a more detailed explanation of the behavior of this link consult the [semantics document].
 
@@ -1551,9 +1549,9 @@ version: 1.0
     modifiers}[intersecting modifier].
 
     Below is an example of the scoping modifier in use:
-    |example
+    @code
     {* Heading Name : *** Level 3 heading}
-    |end
+    @end
 
     The search narrows the search to a `Level 3 heading` /within/ a level 1 heading called `Heading
     Name`. This search is descending in terms of nesting, in other words, you /cannot/ do
@@ -1574,16 +1572,16 @@ version: 1.0
    Links in Norg can exist as a standalone {# link location} in which case their text is used as
    the link title (often makes sense for headings):
 
-   |example
+   @code
    {* I am a standalone link}
-   |end
+   @end
 
    When a custom description is required, it must be placed *_after_* the link location. This makes
    sense in terms of writing as you first define where you link to, and then annotate it afterwards:
 
-   |example
+   @code
    Click {* I am a link}[here] to find out more.
-   |end
+   @end
 
 ** Anchors
    Norg also has a concept called *anchors*. These allow you to place a standalone
@@ -1594,11 +1592,11 @@ version: 1.0
    often, like for example a specific website.
 
    Below are a few usage examples:
-   |example
+   @code
    [Neorg] is a fancy organizational tool for everyone.
 
    I like shilling [Neorg]{https://github.com/nvim-neorg/neorg} sorry :(
-   |end
+   @end
    Here, we /declare/ the anchor once at the top, then /define/ the anchor at the very bottom. The
    `[Neorg]` declaration points directly to the website, just like the definition does. It's like a
    copy + paste of the link location without needing to type it out.
@@ -1616,14 +1614,14 @@ version: 1.0
    your document. We call these {# inline link targets} which are formatted inside angled brackets:
    `<>`.
 
-   |example
+   @code
    One thing to mention is <inline link targets> - they allow you to link to any location in a
    document.
 
    ...
 
    Refer to {# inline link targets} if you are interested in learning more.
-   |end
+   @end
 
    An important thing to note is that since inline link targets are - well - inline, they cannot be
    directly linked to with a dedicated char in the link syntax. To link to these syntax elements you
@@ -1633,7 +1631,7 @@ version: 1.0
 
 ** Valid/Invalid Examples
 *** Valid Examples
-    |example
+    @code
     {link}
 
     {* 
@@ -1664,10 +1662,10 @@ version: 1.0
     xt]{# linkable}
 
     {* Link to {# headings}[heading]}[*markup*]
-    |end
+    @end
 
 *** Invalid Examples
-    |example
+    @code
     {*text}
 
     {:file:https://github.com}
@@ -1695,7 +1693,7 @@ version: 1.0
 
     {* text}[
     text]
-    |end
+    @end
 
 * Standard Library
   Norg comes loaded with a predetermined set of {*** attributes} and {** macro tags} for
@@ -1728,14 +1726,14 @@ version: 1.0
   linkable will have higher precedence.
 
   For example, this is valid:
-  |example
+  @code
   *{# i am a bold link!}*
-  |end
+  @end
 
   However, in this case:
-  |example
+  @code
   *am I {* bold?} - no!
-  |end
+  @end
   The link takes precedence, and no bold is rendered.
 
 * Layers

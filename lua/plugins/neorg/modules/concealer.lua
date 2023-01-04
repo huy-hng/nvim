@@ -1,4 +1,4 @@
-local icons = {
+local all_icons = {
 	todo = {
 		enabled = true,
 		done = {
@@ -86,7 +86,7 @@ local icons = {
 		padding_before = 0,
 	},
 	heading = {
-		enabled = true,
+		enabled = false,
 
 		level_1 = {
 			enabled = true,
@@ -298,7 +298,98 @@ local icons = {
 			icon = '•',
 			highlight = '@neorg.markup.spoiler',
 			query = '(spoiler ("_open") _ @icon ("_close"))',
-			render = function(self, text) return { { string.rep(self.icon, text:len()), self.highlight } } end,
+			render = function(self, text)
+				return { { string.rep(self.icon, text:len()), self.highlight } }
+			end,
+		},
+	},
+}
+
+-- - (x) Done
+-- ^(%s*%-%s+%[%s*)x%s*%]%s+
+
+-- - ( ) Undone
+-- ^(%s*%-%s+%[)%s+]%s+
+-- %s* -> zero or more spaces
+-- %- -> one dash
+-- %s+ -> one or more spaces
+
+-- - (-) pending
+-- ^(%s*%-%s+%[%s*)%*%s*%]%s+
+-- ^ (%s* %- %s+ %[%s*) %* %s* %]%s+
+
+-- pending %s* %- %s+ %[ %s*) %* %s* %] %s+
+-- done    %s* %- %s+ %[ %s*) x  %s* %] %s+
+-- undone  %s* %- %s+ %[    )    %s+  ] %s+
+
+local icons = {
+	heading = {
+		level_2 = {
+			enabled = true,
+			icon = '○',
+			pattern = '^(%s*)%*%*%s+',
+			whitespace_index = 1,
+			highlight = 'NeorgHeading2',
+			padding_before = 1,
+		},
+		-- level_3 = {
+		-- 	enabled = true,
+		-- 	icon = '◦',
+		-- 	pattern = '^(%s*)%*%*%*%s+',
+		-- 	whitespace_index = 0,
+		-- 	highlight = 'TSBoolean',
+		-- 	padding_before = 2,
+		-- },
+		-- level_5 = {
+		-- 	enabled = true,
+		-- 	icon = '◦',
+		-- 	pattern = '^(%s*)%*%*%*%*%*%s+',
+		-- 	whitespace_index = 0,
+		-- 	highlight = 'TSBoolean',
+		-- 	padding_before = 4,
+		-- },
+	},
+
+	quote = {
+		enabled = true,
+		icon = '∣',
+		pattern = '^(%s+)>%s+',
+		whitespace_index = 2,
+		highlight = 'NeorgQuote',
+		padding_before = 1,
+	},
+
+	list = {
+		enabled = true,
+		level_1 = {
+			enabled = true,
+			icon = '•',
+			query = '(unordered_list1_prefix) @icon',
+		},
+		level_2 = {
+			enabled = true,
+			icon = ' •',
+			query = '(unordered_list2_prefix) @icon',
+		},
+		level_3 = {
+			enabled = true,
+			icon = '  •',
+			query = '(unordered_list3_prefix) @icon',
+		},
+		level_4 = {
+			enabled = true,
+			icon = '   •',
+			query = '(unordered_list4_prefix) @icon',
+		},
+		level_5 = {
+			enabled = true,
+			icon = '    •',
+			query = '(unordered_list5_prefix) @icon',
+		},
+		level_6 = {
+			enabled = true,
+			icon = '     •',
+			query = '(unordered_list6_prefix) @icon',
 		},
 	},
 }
@@ -347,7 +438,7 @@ return {
 	folds = true,
 
 	completion_level = {
-		-- enabled = true,
+		enabled = true,
 
 		-- queries = vim.tbl_deep_extend(
 		-- 	'keep',
