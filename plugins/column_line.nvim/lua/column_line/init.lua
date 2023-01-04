@@ -5,7 +5,7 @@ local M = {}
 
 -- vim.g.column_lines = { 80, 100 }
 local default_opts = {
-	columns = { 80, 100 },
+	columns = { 100 },
 	column_char = '▏',
 }
 
@@ -23,7 +23,26 @@ function M.setup(opts)
 		link = 'Comment',
 		-- fg = '#45475a',
 	})
+	M.start()
 end
+
+function M.start()
+	Augroup('ColumnLine', {
+		Autocmd('OptionSet', 'colorcolumn', M.refresh),
+		Autocmd({
+			'FileChangedShellPost',
+			'TextChanged',
+			'TextChangedI',
+			'CompleteChanged',
+			'VimEnter',
+			'SessionLoadPost',
+			'BufWinEnter',
+			'WinEnter',
+		}, M.refresh),
+	})
+end
+
+function M.stop() DeleteAugroup('ColumnLine') end
 
 ---------------------------------------------Functions----------------------------------------------
 
@@ -95,11 +114,18 @@ function M.refresh()
 		'unknown',
 	}
 
+	local ignore_ft = {
+		'buffer_manager',
+		'harpoon',
+		'TelescopePrompt',
+	}
+
 	local bufnr = vim.api.nvim_get_current_buf()
 	if not vim.api.nvim_buf_is_loaded(bufnr) then return end
 
 	local modifiable = vim.api.nvim_buf_get_option(bufnr, 'modifiable')
 
+	if vim.tbl_contains(ignore_ft, vim.bo.filetype) then return end
 	local type = Util.win_type()
 	if not modifiable or vim.tbl_contains(ignore_wintypes, type) then
 		vim.api.nvim_win_set_hl_ns(0, M.namespace)

@@ -1,13 +1,50 @@
+local M = {}
+
 ----------------------------------------------Config------------------------------------------------
+local opts = {
+	indent_char = '▏',
+	ft_ignore = {
+		'NvimTree',
+		'TelescopePrompt',
+		'alpha',
+	},
+	highlight = 'Comment',
+}
 
-local indent_char = '▏'
-local Namespace = vim.api.nvim_create_namespace('IndentLine')
+local namespace = vim.api.nvim_create_namespace('IndentLine')
 
-Highlight(0, 'IndentLine', { link = 'Comment' })
+function M.setup(user_opts)
+	opts = vim.tbl_extend('force', opts, user_opts or {})
+	Highlight(0, 'IndentLine', { link = opts.highlight })
+	M.start()
+end
+
+function M.start()
+	Augroup('IndentLine', {
+		Autocmd({
+			'FileChangedShellPost',
+			'TextChanged',
+			'TextChangedI',
+			'CompleteChanged',
+			'BufWinEnter',
+			'VimEnter',
+			'SessionLoadPost',
+		}, '*', M.refresh),
+		Autocmd('OptionSet', {
+			'list',
+			'listchars',
+			'shiftwidth',
+			'tabstop',
+			'expandtab',
+		}, M.refresh),
+	})
+end
+
+function M.stop() DeleteAugroup('IndentLine') end
 
 ----------------------------------------------Copied------------------------------------------------
 
-local get_current_context = function(type_patterns, use_treesitter_scope)
+local function get_current_context(type_patterns, use_treesitter_scope)
 	local invalid = { false, 0, 0, nil }
 	local has_ts, ts_utils = pcall(require, 'nvim-treesitter.ts_utils')
 	if not has_ts then return unpack(invalid) end
@@ -42,7 +79,7 @@ local get_current_context = function(type_patterns, use_treesitter_scope)
 	return unpack(invalid)
 end
 
-local context_patterns = {
+local patterns = {
 	'class',
 	'^func',
 	'method',
@@ -62,9 +99,25 @@ local context_patterns = {
 	'do_block',
 }
 
-local use_treesitter_scope = false
+local use_ts_scope = false
 
----------------------------------------------Functions----------------------------------------------
+local current_context
+
+local function should_update_context()
+	local cursor_pos = vim.api.nvim_win_get_cursor(0) -- TODO use winnr?
+	local pos = cursor_pos[1]
+	if pos > current_context[1] and pos < current_context[2] then return true end
+end
+
+local function get_context()
+	if current_context == nil or should_update_context() then
+		local status, start, stop, pattern = get_current_context(patterns, use_ts_scope)
+		current_context = { start, stop }
+	end
+	return current_context
+end
+
+----------------------------------------------Deprecated--------------------------------------------
 
 local function set_line(bufnr, column)
 	local lines = vim.api.nvim_buf_get_lines(bufnr, 0, -1, false)
@@ -79,20 +132,24 @@ local function set_line(bufnr, column)
 	end
 end
 
+---------------------------------------------Functions----------------------------------------------
+
 local function get_treesitter(bufnr)
 	local has_ts_query, ts_query = pcall(require, 'nvim-treesitter.query')
 	local has_ts_indent, ts_indent = pcall(require, 'nvim-treesitter.indent')
-	local use_ts_indent = has_ts_query and has_ts_indent and ts_query.has_indents(vim.bo[bufnr].filetype)
+	local use_ts_indent = has_ts_query
+		and has_ts_indent
+		and ts_query.has_indents(vim.bo[bufnr].filetype)
 	return use_ts_indent, ts_indent
 end
 
 local function set_mark(bufnr, row, col, hl)
 	-- local spaces = Repeat(' ', col)
 	local spaces = ''
-	vim.api.nvim_buf_set_extmark(bufnr, Namespace, row, 0, {
+	vim.api.nvim_buf_set_extmark(bufnr, namespace, row, 0, {
 		virt_text_hide = false,
 		virt_text_win_col = col,
-		virt_text = { { spaces .. indent_char, hl } },
+		virt_text = { { spaces .. opts.indent_char, hl } },
 		virt_text_pos = 'overlay',
 		hl_mode = 'combine',
 		-- hl_eol = true,
@@ -114,8 +171,7 @@ local function should_set_line(line_text, col)
 end
 
 local function set_lines(bufnr)
-	local lines = vim.api.nvim_buf_get_lines(bufnr, 0, -1, false)
-	local use_ts, ts_indent = get_treesitter(bufnr)
+	local _, ts_indent = get_treesitter(bufnr)
 
 	local shiftwidth = vim.bo[bufnr].shiftwidth
 	local tabstop = vim.bo[bufnr].tabstop
@@ -123,6 +179,8 @@ local function set_lines(bufnr)
 
 	local tabs = shiftwidth == 0 or not expandtab
 	local indent_width = tabs and tabstop or shiftwidth
+
+	local lines = vim.api.nvim_buf_get_lines(bufnr, 0, -1, false)
 
 	for linenr, line_text in ipairs(lines) do
 		local whitespace = string.match(line_text, '^%s+') or ''
@@ -155,29 +213,26 @@ local function set_lines(bufnr)
 	end
 end
 
-local function get_context()
-	local context_status, context_start, context_end, context_pattern = false, 0, 0, nil
-	context_status, context_start, context_end, context_pattern =
-		get_current_context(context_patterns, use_treesitter_scope)
+local function set_context(bufnr)
+	local context = get_context()
 
-	-- P(context_status, context_start, context_end, context_pattern)
-	local cursor_pos = vim.api.nvim_win_get_cursor(0) -- TODO use winnr?
+	local color = 'IndentLine'
+	-- if i == indent_depth -1 then
+
+	-- end
 end
 
 local function clear_lines(bufnr) --
-	vim.api.nvim_buf_clear_namespace(bufnr, Namespace, 0, -1)
+	vim.api.nvim_buf_clear_namespace(bufnr, namespace, 0, -1)
 end
 
-local ft_ignore = {
-	'NvimTree',
-	'TelescopePrompt',
-	'alpha',
-}
-
-return function(data)
+function M.refresh(data)
 	local bufnr = data.buf or 0
 	clear_lines(bufnr)
-	if vim.tbl_contains(ft_ignore, vim.bo[bufnr].filetype) then return end
+	if vim.tbl_contains(opts.ft_ignore, vim.bo[bufnr].filetype) then return end
 
 	set_lines(bufnr)
 end
+M.start()
+
+return M
