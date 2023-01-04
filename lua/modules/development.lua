@@ -1,12 +1,33 @@
 local M = {}
 
+local function handle_pcall(status, ...) --
+	return status and ... or nil
+end
+
+-- return result or nil
+---@param fn function
+---@param ... any
+---@return unknown | nil
+function M.npcall(fn, ...) --
+	return handle_pcall(pcall(fn, ...))
+end
+
+-- return required package or nil
+---@param name string
+---@return unknown | nil
+function M.nrequire(name) --
+	return handle_pcall(pcall(require, name))
+end
+
 M.loaded = function(name) vim.pretty_print(package.loaded[name]) end
-M.reset = function(name) package.loaded[name] = nil end
-local has_plenary, reload = pcall(require, 'plenary.reload')
-if has_plenary then
+
+---@module 'plenary.reload'
+local reload = M.nrequire('plenary.reload')
+
+if reload then
 	M.reload = reload.reload_module
 else
-	M.reload = M.reset
+	M.reload = function(name, ...) package.loaded[name] = nil end
 end
 
 M.print_keys = function(tbl)
@@ -16,8 +37,8 @@ M.print_keys = function(tbl)
 	print(' ')
 end
 
-M.reload_require = function(name)
-	RELOAD(name)
+M.reload_require = function(name, starts_with_only)
+	M.reload(name, starts_with_only)
 	return require(name)
 end
 
@@ -37,6 +58,29 @@ function M.remove_all_auto_reloaders()
 			vim.api.nvim_del_augroup_by_id(cmd.group)
 		end
 	end
+end
+
+function M.auto_reload_file(init_file, load)
+	if not init_file then return end
+
+	local current_file = vim.fn.expand('%')
+	if current_file == '' then return end
+
+	P(init_file, load, current_file)
+	local group_name = 'Autoreload_' .. current_file
+
+	local saved_group = F.npcall(vim.api.nvim_get_autocmds, { group = group_name })
+	if saved_group and load then return end
+
+	vim.notify('Auto Reloading ' .. init_file)
+	Augroup(group_name, {
+		Autocmd('BufWritePost', current_file, function() --
+			-- vim.cmd.luafile(init_file)
+			vim.notify('autoreload ' ..  init_file)
+			-- R(init_file).config()
+			R(init_file)
+		end),
+	}, true, load)
 end
 
 function M.auto_reload_folder(load)
@@ -81,22 +125,4 @@ function M.require_wrapper()
 	end
 end
 
-local function handle_pcall(status, ...) --
-	return status and ... or nil
-end
-
--- return result or nil
----@param fn function
----@param ... any
----@return unknown | nil
-function M.npcall(fn, ...) --
-	return handle_pcall(pcall(fn, ...))
-end
-
--- return required package or nil
----@param name string
----@return unknown | nil
-function M.nrequire(name) --
-	return handle_pcall(pcall(require, name))
-end
 return M
