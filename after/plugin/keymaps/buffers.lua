@@ -1,6 +1,6 @@
 -- nmap('<leader>bb', ':buffers<cr>:buffer<space>', 'Select')
-Nmap('<leader>ba', { Exec, '%bd | e# | bd#' }, 'Close all, except current')
-Nmap('<leader>bf', { Exec, 'Telescope buffers' }, 'Fuzzy find')
+Nmap('<leader>ba', { nvim.exec, '%bd | e# | bd#' }, 'Close all, except current')
+Nmap('<leader>bf', { nvim.exec, 'Telescope buffers' }, 'Fuzzy find')
 
 ----------------------------------------
 --          -> BufferLine <-

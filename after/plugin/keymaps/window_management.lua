@@ -61,7 +61,7 @@ local function center_two_windows()
 	if #wins == 2 then
 		-- local ui = vim.api.nvim_list_uis()[1]
 		-- local width = ui.width -- can also be queried with :echo &columns
-		local columns = Exec('echo &columns')
+		local columns = nvim.exec('echo &columns')
 
 		local winid = vim.api.nvim_get_current_win()
 		local windows = vim.fn.getwininfo(winid)

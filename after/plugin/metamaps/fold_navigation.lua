@@ -42,18 +42,18 @@ local function goPreviousStartFold()
 	print('count', cnt)
 	local curLnum = getCurLnum()
 	print('40: curLnum', getCurLnum())
-	Exec('norm! m`')
+	nvim.exec('norm! m`')
 	local previousLnum
 	local previousLnumList = {}
 	while cnt > 0 do
-		Exec('keepj norm! zk')
+		nvim.exec('keepj norm! zk')
 		local tLnum = getCurLnum()
 		print('zk', tLnum)
-		Exec('keepj norm! [z')
+		nvim.exec('keepj norm! [z')
 		print('[z', getCurLnum())
 		if tLnum == getCurLnum() then
 			local foldStartLnum = vim.fn.foldclosed(tLnum)
-			if foldStartLnum > 0 then Exec(('keepj norm! %dgg'):format(foldStartLnum)) end
+			if foldStartLnum > 0 then nvim.exec(('keepj norm! %dgg'):format(foldStartLnum)) end
 			print('to line', foldStartLnum)
 		end
 		local nextLnum = getCurLnum()
@@ -62,7 +62,7 @@ local function goPreviousStartFold()
 			tLnum = nextLnum
 			table.insert(previousLnumList, nextLnum)
 			print('inserting', nextLnum)
-			Exec('keepj norm! zj')
+			nvim.exec('keepj norm! zj')
 			nextLnum = getCurLnum()
 			print('zj', nextLnum)
 			if nextLnum == tLnum then break end
@@ -74,7 +74,7 @@ local function goPreviousStartFold()
 			cnt = cnt - #previousLnumList
 			curLnum = previousLnumList[1]
 			previousLnum = curLnum
-			Exec(('keepj norm! %dgg'):format(curLnum))
+			nvim.exec(('keepj norm! %dgg'):format(curLnum))
 			print('to line', curLnum)
 			previousLnumList = {}
 		else

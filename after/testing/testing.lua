@@ -8,7 +8,7 @@ function GetCommandCompletion()
 		" let cmds = GetCommandCompletion('setfiletype ')
 		" echo cmds
 	]])
-	local res = Exec('echo GetCommandCompletion("setfiletype ")')
+	local res = nvim.exec('echo GetCommandCompletion("setfiletype ")')
 	local filetypes = vim.fn.split(res, ' ')
 
 	-- far easier solution

@@ -12,7 +12,7 @@ Nmap('<leader>W', Util.save_and_source, 'Save and reload File')
 Nmap('<S-Space>W', Util.save_and_source, 'Save and reload File')
 -- nmap('<leader><leader>w', FN(vim.cmd.call, 'fn#save_and_load()'))
 
-Nmap('<A-m>', { Exec, 'w | ! %:p' }, 'Save and execute file')
+Nmap('<A-m>', { nvim.exec, 'w | ! %:p' }, 'Save and execute file')
 
 -- add shebang
 -- nmap('<leader>x', [[<cmd>w<bar>0r !echo '\#\!/usr/bin/bash'<CR>]])
@@ -20,4 +20,4 @@ Nmap('<A-m>', { Exec, 'w | ! %:p' }, 'Save and execute file')
 -- nnoremap <leader>x <cmd>w<bar> :!chmod u+x %<CR>:0r !echo '\#\!/usr/bin/bash'<CR>
 
 -- Nmap('<leader>x', '<cmd>!chmod u+x %<CR>', 'Make current file executable')
-Nmap('<leader>x', { Exec, '!chmod u+x %' }, 'Make current file executable')
+Nmap('<leader>x', { nvim.exec, '!chmod u+x %' }, 'Make current file executable')
