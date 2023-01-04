@@ -25,8 +25,10 @@ Nmap('\\4', cleanup.delete_all_unloaded_buffers, 'Delete all unloaded buffers')
 
 local surrounder = require('functions.surrounder')
 Vmap("'", surrounder("'"))
-Vmap('"', surrounder('"'))
+-- Vmap('"', surrounder('"'))
+Vmap("<A-'>", surrounder('"'))
 Vmap('<A-*>', surrounder('*'))
+Vmap('<A-8>', surrounder('*'))
 Vmap('`', surrounder('`'))
 -- vmap('=', surrounder('='))
 
