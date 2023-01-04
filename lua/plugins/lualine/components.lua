@@ -1,4 +1,23 @@
-M = {}
+local M = {}
+
+local available_components = {
+	'branch', -- git branch
+	'buffers', -- shows currently available buffers
+	'diagnostics', -- diagnostics count from your preferred source
+	'diff', -- git diff status
+	'encoding', -- file encoding
+	'fileformat', -- file format
+	'filename',
+	'filesize',
+	'filetype',
+	'hostname',
+	'location', -- location in file in line:column format
+	'mode', -- vim mode
+	'progress', -- %progress in file
+	'searchcount', -- number of search matches when hlsearch is active
+	'tabs', -- shows currently available tabs
+	'windows', -- shows currently available windows
+}
 
 M.seperator = { '%=' }
 
@@ -29,14 +48,11 @@ end
 
 -----------------------------------------Statusline Right-------------------------------------------
 
-M.metamap = {
-	function()
-		local bufnr = vim.api.nvim_get_current_buf()
-		return vim.b[bufnr].MetaMap or ''
-	end,
-}
+M.metamap = function()
+	local bufnr = vim.api.nvim_get_current_buf()
+	return vim.b[bufnr].MetaMap or ''
+end
 
-local set_indentation = require('modules.detect_indentation.set_indentation')
 M.indentation = {
 	function()
 		local indent_type
@@ -52,18 +68,18 @@ M.indentation = {
 		return indent_type .. width
 	end,
 
-	--- @param clicks number, are the amount of clicks in a certain period of time (max seems to be 4)
-	--- @param button string,  can be one of { "l", "m", "r" }
-	--- @param modifiers string, can be shift, ctrl or alt
+	---@param clicks number, are the amount of clicks in a certain period of time (max seems to be 4)
+	---@param button string,  can be one of { "l", "m", "r" }
+	---@param modifiers string, can be shift, ctrl or alt
 	-- the value might look like this "sca " (notice the space for some reason)
 	on_click = function(clicks, button, modifiers)
-		if button == 'r' then set_indentation.toggle_indent_type() end
+		local set_indent = require('modules.detect_indentation.set_indentation')
+		if button == 'r' then set_indent.toggle_indent_type() end
 		if button == 'l' then --
 			---@diagnostic disable-next-line: param-type-mismatch
-			vim.ui.input(
-				'Indentation width: ',
-				function(width) set_indentation.set_width(tonumber(width)) end
-			)
+			vim.ui.input('Indentation width: ', function(width) --
+				set_indent.set_width(tonumber(width))
+			end)
 		end
 
 		nvim.schedule(require('lualine').refresh, {
@@ -73,12 +89,9 @@ M.indentation = {
 	end,
 }
 
--- preview_filetypes(layouts.find_files)
-
 local preview_filetypes = require('plugins.telescope.filetype_previewer')
 M.filetype = {
 	'filetype',
-
 	on_click = function() preview_filetypes() end,
 }
 
@@ -89,12 +102,43 @@ M.plugin_info = {
 }
 
 M.date = {
-	'os.date("%a")',
+	Util.wrap(os.date, '%a, %b %d'), -- %B for full month
 	icons_enabled = true,
 	icon = '',
 }
 
-M.time = { 'os.date("%H:%M")' }
+M.clock = {
+	Util.wrap(os.date, '%H:%M'),
+	icons_enabled = true,
+	icon = '',
+}
+
+-----------------------------------------------Noice------------------------------------------------
+
+M.command = {
+	require('noice').api.status.command.get,
+	cond = require('noice').api.status.command.has,
+}
+
+M.ruler = {
+	require('noice').api.status.ruler.get,
+	cond = require('noice').api.status.ruler.has,
+}
+
+M.message = {
+	require('noice').api.status.message.get_hl,
+	cond = require('noice').api.status.message.has,
+}
+
+M.search = {
+	require('noice').api.status.search.get_hl,
+	cond = require('noice').api.status.search.has,
+}
+
+M.mode = {
+	require('noice').api.status.mode.get,
+	cond = require('noice').api.status.mode.has,
+}
 
 ----------------------------------------------Tabline-----------------------------------------------
 M.bufferline = {
@@ -120,7 +164,7 @@ M.tabs = {
 
 ----------------------------------------------Winbar------------------------------------------------
 
-local filename = function()
+M.filename = function()
 	local file_name = string.gsub(vim.fn.expand('%:t'), '%%', '')
 
 	local f_icon, f_hl
@@ -135,15 +179,13 @@ local filename = function()
 	return '%#' .. f_hl .. '#' .. f_icon .. '%*' .. ns_prefix .. 'File#' .. file_name .. '%*'
 end
 
-M.filename = filename
-
 M.filepath = {
 	-- color = { bg = 'red' },
 	function()
 		---@diagnostic disable-next-line: param-type-mismatch
 		if vim.fn.bufname('%') == '' then return '' end
 
-		local file_name = filename()
+		local file_name = M.filename()
 
 		local sep = vim.loop.os_uname().sysname == 'Windows' and '\\' or '/'
 		-- local path_list = vim.split(string.gsub(vim.fn.expand '%:~:.:h', '%%', ''), sep, {})
