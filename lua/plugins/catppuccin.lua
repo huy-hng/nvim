@@ -6,7 +6,49 @@ local M = {
 
 -- vim.g.catppuccin_flavour = 'latte' -- latte, frappe, macchiato, mocha
 function M.config()
-	require('catppuccin').setup {
+	local integrations = {
+		bufferline = true,
+		cmp = true,
+		dap = {
+			enabled = true,
+			enable_ui = true,
+		},
+		gitsigns = true,
+		harpoon = true,
+		mason = true,
+		neogit = true,
+		neotest = true,
+		noice = true,
+		notify = true,
+		nvimtree = true,
+		symbols_outline = true,
+		telescope = true,
+		treesitter = true,
+		treesitter_context = true,
+		ts_rainbow = true,
+		vimwiki = true,
+		which_key = true,
+		native_lsp = {
+			enabled = true,
+			virtual_text = {
+				errors = { 'italic' },
+				hints = { 'italic' },
+				warnings = { 'italic' },
+				information = { 'italic' },
+			},
+			underlines = {
+				errors = { 'underline' },
+				hints = { 'underline' },
+				warnings = { 'underline' },
+				information = { 'underline' },
+			},
+		},
+		-- https://github.com/catppuccin/nvim#integrations
+	}
+	local catppuccin = require('catppuccin')
+
+	-- if vim.g.neovide then catppuccin.setup { term_colors = true } end
+	catppuccin.setup {
 		flavour = 'mocha', -- latte, frappe, macchiato, mocha
 		background = { -- :h background
 			light = 'latte',
@@ -39,54 +81,16 @@ function M.config()
 		-- :h catppuccin-overwriting-colors
 		custom_highlights = function(colors)
 			return {
-				Statusline = { fg = colors.text, bg = colors.none },
-				-- Normal = { fg = colors.text, bg = colors.base }, -- default
-				-- ['@constant.builtin'] = { fg = colors.peach, style = {} },
-				-- ['@comment'] = { fg = colors.surface2, style = { 'italic' } },
+				Statusline = { fg = colors.text, bg = nil },
+				['@comment'] = { fg = colors.overlay1, style = { 'italic' } },
+				-- ['@comment'] = { fg = colors.sky, style = { 'italic' } },
 			}
 		end,
-		integrations = {
-			bufferline = true,
-			cmp = true,
-			dap = {
-				enabled = true,
-				enable_ui = true,
-			},
-			gitsigns = true,
-			harpoon = true,
-			mason = true,
-			neogit = true,
-			neotest = true,
-			noice = true,
-			notify = true,
-			nvimtree = true,
-			symbols_outline = true,
-			telescope = true,
-			treesitter = true,
-			treesitter_context = true,
-			ts_rainbow = true,
-			vimwiki = true,
-			which_key = true,
-			native_lsp = {
-				enabled = true,
-				virtual_text = {
-					errors = { 'italic' },
-					hints = { 'italic' },
-					warnings = { 'italic' },
-					information = { 'italic' },
-				},
-				underlines = {
-					errors = { 'underline' },
-					hints = { 'underline' },
-					warnings = { 'underline' },
-					information = { 'underline' },
-				},
-			},
-			-- https://github.com/catppuccin/nvim#integrations
-		},
+		integrations = integrations,
 	}
 
 	SetColors('catppuccin-mocha')
 end
+-- M.config()
 
 return M
