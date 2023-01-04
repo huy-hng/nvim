@@ -7,26 +7,6 @@ Augroup('DetectIndent', {
 	end),
 })
 
-local indent_line = nrequire('modules.indent_line')
-Augroup('IndentLine', {
-	Autocmd({
-		'FileChangedShellPost',
-		'TextChanged',
-		'TextChangedI',
-		'CompleteChanged',
-		'BufWinEnter',
-		'VimEnter',
-		'SessionLoadPost',
-	}, '*', indent_line),
-	Autocmd('OptionSet', {
-		'list',
-		'listchars',
-		'shiftwidth',
-		'tabstop',
-		'expandtab',
-	}, indent_line),
-})
-
 Augroup('Cmp', {
 	-- Autocmd('CmdlineEnter', function(data) --
 	-- 	P(data)
@@ -113,7 +93,7 @@ Augroup('Treesitter', {
 Augroup('AfterYank', { -- highlight yanked text
 	Autocmd('TextYankPost', {
 		vim.highlight.on_yank,
-		{ higroup = 'Visual', on_macro = true, on_visual = false, timeout = 150 },
+		{ higroup = 'Visual', on_macro = true, on_visual = true, timeout = 150 },
 	}),
 })
 
@@ -254,6 +234,9 @@ Augroup('Misc', {
 		-- autocmd BufReadPost * if line("'\"") > 1 && line("'\"") <= line("$") | exe "normal! g'\"" | endif
 	end),
 
+	-- flash cursor when nvim window gains focus
+	Autocmd('FocusGained', { require('functions.flash_cursor'), 1, 600 }),
+
 	-- Reload file when it has been changed from outside
 	Autocmd({
 		'InsertEnter',
@@ -272,8 +255,16 @@ Augroup('Misc', {
 ---------------------------------------------Commandline--------------------------------------------
 
 Augroup('CommandlineWindow', {
-	Autocmd('CmdlineEnter', function() vim.o.cmdheight = 1 end),
-	Autocmd('CmdlineLeave', function() vim.o.cmdheight = 0 end),
+	Autocmd('CmdlineEnter', function()
+		-- vim.cmd.NoiceDisable()
+		vim.o.cmdheight = 1
+		-- require('plugins.noice').pause(true)
+	end),
+	Autocmd('CmdlineLeave', function()
+		vim.o.cmdheight = 0
+		-- nvim.schedule(vim.cmd.NoiceEnable)
+		-- require('plugins.noice').pause(false)
+	end),
 
 	Autocmd('CmdwinLeave', function()
 		vim.cmd.TSContextEnable()

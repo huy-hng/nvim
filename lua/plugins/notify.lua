@@ -49,7 +49,7 @@ function M.config()
 	notify.setup {
 		level = 2,
 		timeout = 4000,
-		-- max_width = 80,
+		max_width = 80,
 		-- max_height = 20,
 		minimum_width = 20,
 		stages = 'fade_in_slide_out',
@@ -71,7 +71,7 @@ function M.config()
 	}
 	-- notify = require('notify')
 
-	vim.notify = notify
+	-- vim.notify = notify
 
 	local function inspector(arg)
 		if type(arg) == 'string' then

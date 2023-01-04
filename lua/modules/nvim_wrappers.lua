@@ -6,7 +6,7 @@ local M = {}
 ---@param command string command to execute
 ---@param output? boolean whether to return output from command, defaults to true
 ---@return string | nil
-function Exec(command, output) --
+function M.exec(command, output) --
 	return vim.api.nvim_exec(command, Util.nil_and_true(output))
 end
 

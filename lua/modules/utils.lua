@@ -1,6 +1,5 @@
 local M = {}
 
-
 function M.nil_and_true(input) return input == nil and true or input end
 
 ---@param winid number?
@@ -79,7 +78,7 @@ function M.save_and_source()
 	-- endif
 	-- ]])
 
-	vim.cmd.wa()
+	pcall(vim.cmd.wa)
 	if vim.bo.filetype == 'vim' then
 		vim.cmd.source('%')
 	elseif vim.bo.filetype == 'lua' then

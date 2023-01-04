@@ -41,8 +41,8 @@ function M.config()
 			-- ['Tab'] = 'ATAB',
 		},
 		icons = {
-			breadcrumb = '»', -- symbol used in the command line area that shows your active key combo
-			separator = '➜', -- symbol used between a key and it's label
+			breadcrumb = '➜', -- symbol used in the command line area that shows your active key combo
+			separator = '»', -- symbol used between a key and it's label
 			group = '+', -- symbol prepended to a group
 		},
 		popup_mappings = {
@@ -64,8 +64,8 @@ function M.config()
 		},
 		ignore_missing = false, -- enable this to hide mappings for which you didn't specify a label
 		hidden = { '<silent>', '<cmd>', '<Cmd>', '<CR>', 'call', 'lua', '^:', '^ ' }, -- hide mapping boilerplate
-		show_help = true, -- show help message on the command line when the popup is visible
-		show_keys = true, -- show the currently pressed key and its label as a message in the command line
+		show_help = false, -- show help message on the command line when the popup is visible
+		show_keys = false, -- show the currently pressed key and its label as a message in the command line
 		triggers = 'auto', -- automatically setup triggers
 		-- triggers = { 'auto', '<leader>', '<C-w>', '<C-x>', 'g', 'z', '"', "'", '<C-r>' },
 		triggers_blacklist = {

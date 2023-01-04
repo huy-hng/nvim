@@ -1,5 +1,6 @@
 ---@diagnostic disable: lowercase-global
 local dev = require('modules.development')
+Dev = dev
 require_dir = require('modules.require_dir')
 nrequire = dev.nrequire
 npcall = dev.npcall
@@ -8,22 +9,19 @@ P = vim.pretty_print
 PrintKeys = dev.print_keys
 R = dev.reload_require
 LOADED = dev.loaded
-RESET = dev.reset
 RELOAD = dev.reload
-
 
 local tryer = require('modules.error_handling')
 Try = tryer.try
 TryWrap = tryer.try_wrap
 
-nrequire( 'convenient_lua')
+nrequire('convenient_lua')
+require('modules.lua_extension')
 
 Util = require('modules.utils')
-Types = require('modules.types')
 
 nvim = require('modules.nvim_wrappers')
 F = vim.F
-
 
 local keymappers = require('modules.keymappers')
 MapCreator = keymappers.map_creator
@@ -47,8 +45,6 @@ Autocmd = au.autocmd
 CreateAutocmd = au.createAutocmd
 NestedAutocmd = au.nestedAutocmd
 Augroup = au.augroup
-CreateaAugroup = au.CreateaAugroup
+CreateAugroup = au.createAugroup
 RestoreAugroup = au.restoreAugroup
 DeleteAugroup = au.deleteAugroup
-
--- nvim = vim.api

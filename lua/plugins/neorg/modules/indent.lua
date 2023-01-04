@@ -5,7 +5,7 @@ return {
 	modifiers = {
 		['under-headings'] = function(_, node)
 			local treesitter = indent.required['core.integrations.treesitter']
-			print('under-headings')
+			-- print('under-headings')
 			local heading = treesitter.find_parent(node:parent(), 'heading%d')
 
 			if not heading or not heading:named_child(1) then return 0 end
@@ -14,7 +14,7 @@ return {
 		end,
 
 		['under-nestable-detached-modifiers'] = function(_, node)
-			print('under-nestable-detached-modifiers')
+			-- print('under-nestable-detached-modifiers')
 			local treesitter = indent.required['core.integrations.treesitter']
 			local list = treesitter.find_parent(node, {
 				'unordered_list1',

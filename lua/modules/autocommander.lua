@@ -55,6 +55,10 @@ function M.nestedAutocmd(data, events, pattern, command, opts)
 	M.createAutocmd(events, pattern, command, opts)
 end
 
+---@param name string
+---@param autocmds table
+---@param clear boolean?
+---@param active boolean?
 function M.augroup(name, autocmds, clear, active)
 	-- print(name, clear, active)
 	local group = vim.api.nvim_create_augroup(name, { clear = clear or true })

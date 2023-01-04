@@ -5,20 +5,16 @@ package.path = NVIM_CONFIG_PATH .. '?.lua;' .. package.path
 
 local require_dir = require('modules.require_dir')
 
-require('core.globals')
-
 require('functions.profiler') -- start profiler at the beginning
-
+require('core.globals')
 require('core.options')
 require('core.colorscheme')
 require('core.autocmd')
 
-require_dir('lua/functions') -- should come before keymaps
--- require_dir('lua/keymaps') -- is located in after folder
--- require('plugins.early_load_plugins.vimwiki')
+require_dir('lua/functions')
 
-require('plugin_management')
 if vim.g.neovide then require('core.neovide') end
+require('plugin_management')
 
 -- to start neovim in minimal
 -- $nvim --cmd "let g:minimal=1"

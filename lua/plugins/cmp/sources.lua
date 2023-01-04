@@ -26,7 +26,7 @@ M.sources = cmp.config.sources({
 	-- { name = 'nvim_lua' },
 	-- { name = 'cmdline_history' },
 }, {
-	{ name = 'treesitter' },
+	-- { name = 'treesitter' },
 	{ name = 'tmux' },
 	{
 		name = 'buffer',

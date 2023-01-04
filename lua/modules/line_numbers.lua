@@ -16,6 +16,11 @@ function M.set_number(on, relative)
 	vim.fn.cursor { select(2, unpack(cursor)) }
 end
 
+local ft_ignore = {
+	'buffer_manager',
+	'harpoon',
+}
+
 function M.renu_autocmd(on)
 	return function()
 		if not vim.o.number then
@@ -24,6 +29,7 @@ function M.renu_autocmd(on)
 		end
 
 		if on and not vim.o.relativenumber then
+			if vim.tbl_contains(ft_ignore, vim.bo.filetype) then return end
 			M.set_number(true, true)
 		elseif vim.o.relativenumber then
 			M.set_number(false, true)

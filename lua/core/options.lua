@@ -11,8 +11,8 @@ g.maplocalleader = '\\'
 
 ----------------------------------------------Appearance--------------------------------------------
 -- window transparency
-o.winblend = 10
-o.pumblend = 10
+o.winblend = 0
+o.pumblend = 0
 
 o.conceallevel = 2
 o.concealcursor = 'c'
@@ -32,7 +32,7 @@ o.cursorlineopt = 'number'
 o.termguicolors = true -- true color
 
 ----------------------------------------------Gutter------------------------------------------------
-opt_g.colorcolumn:append { 80 }
+-- opt_g.colorcolumn:append { 80 }
 o.signcolumn = 'yes' -- show sign column so that text doesn't shift
 o.numberwidth = 1 -- set to something smaller to reduce gutter size
 

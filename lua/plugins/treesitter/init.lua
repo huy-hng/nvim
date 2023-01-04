@@ -36,6 +36,7 @@ function M.config()
 			'json',
 			'lua',
 			'markdown',
+			'markdown_inline',
 			'norg',
 			-- 'norg_meta',
 			'python',
@@ -50,7 +51,7 @@ function M.config()
 
 		-- Automatically install missing parsers when entering buffer
 		-- Recommendation: set to false if you don't have `tree-sitter` CLI installed locally
-		auto_install = false,
+		auto_install = true,
 	}
 
 	-- local parsers = require('nvim-treesitter.parsers')
