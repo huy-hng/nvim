@@ -17,26 +17,64 @@ local function keep_column(action, change_line, alt_method)
 	end
 end
 
-local function is_in_area()
-	local yanked_pos = vim.fn.getpos("'[")
-	local behind_line = PrevPos[2] < yanked_pos[2]
-	local behind_column = PrevPos[3] < yanked_pos[3]
+local function is_in_area(prev_pos, yank_pos)
+	local behind_line = prev_pos[2] < yank_pos[2]
+	local behind_column = prev_pos[3] < yank_pos[3]
 
-	if behind_line then return false end
-	return true
+	-- if behind_line then return false end
+	-- return true
+	return behind_line
+end
+
+local prev_pos
+local function yank_operator()
+	local old_func = vim.go.operatorfunc
+	prev_pos = vim.fn.getcurpos()
+	_G.op_func_yank = function(type)
+		P(type)
+		P(prev_pos)
+
+		-- vim.api.nvim_command('normal! `[v`]y')
+		nvim.normal('`[v`]y')
+
+		-- vim.highlight.on_yank { higroup = 'Visual', on_macro = true, on_visual = true, timeout = 150 }
+
+		-- nvim.schedule(
+		-- 	vim.highlight.on_yank,
+		-- 	{ higroup = 'Visual', on_macro = true, on_visual = false, timeout = 150 }
+		-- )
+
+		local start = vim.api.nvim_buf_get_mark(0, '[')
+		local finish = vim.api.nvim_buf_get_mark(0, ']')
+		P(start, finish)
+
+		local yanked_pos = vim.fn.getpos("'[")
+		if is_in_area(prev_pos, yanked_pos) then vim.fn.cursor { prev_pos[2], prev_pos[3] } end
+
+		vim.go.operatorfunc = old_func
+		prev_pos = nil
+		_G.op_func_yank = nil
+		-- return 'g@'
+	end
+
+	vim.go.operatorfunc = 'v:lua.op_func_yank'
+	-- return 'g@'
+	vim.api.nvim_feedkeys('g@', 'n', false)
 end
 
 function YankOperator(type)
 	if not type then
-		PrevPos = vim.fn.getcurpos()
+		prev_pos = vim.fn.getcurpos()
 		vim.go.operatorfunc = 'v:lua.YankOperator'
 		return 'g@'
 	end
 
 	vim.api.nvim_command('normal! `[v`]y')
-	if is_in_area() then vim.fn.cursor { PrevPos[2], PrevPos[3] } end
+	local yanked_pos = vim.fn.getpos("'[")
+	-- if is_in_area(prev_pos, yanked_pos) then vim.fn.cursor { prev_pos[2], prev_pos[3] } end
+	if is_in_area(prev_pos, yanked_pos) then vim.fn.cursor({unpack(prev_pos, 2)})  end
 
-	PrevPos = nil
+	prev_pos = nil
 	vim.go.operatorfunc = ''
 end
 
@@ -48,13 +86,14 @@ Vmap('<C-c>', keep_column('"+y'), 'Yank to clipboard')
 
 Vmap('p', '"_c<C-r>"<esc>', 'keep yank register when pasting over visual selection')
 
-Nmap('y', YankOperator, '', { expr = true })
-Nmap('yy', 'yy')
+-- Nmap('y', yank_operator, '', { expr = true })
+-- Nmap('y', YankOperator, '', { expr = true })
+-- Nmap('yy', 'yy')
 
-Nmap('yh', keep_column('yh'))
-Nmap('yj', keep_column('yj'))
-Nmap('yk', keep_column('yk'))
-Nmap('yl', 'yl')
+-- Nmap('yh', keep_column('yh'))
+-- Nmap('yj', keep_column('yj'))
+-- Nmap('yk', keep_column('yk'))
+-- Nmap('yl', 'yl')
 
 Nmap('J', keep_column('J'), 'keep column when joining lines')
 
