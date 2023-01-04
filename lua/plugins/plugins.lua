@@ -1,8 +1,16 @@
 return {
 
 	-- my plugins
-	{ 'huy-hng/metamap.nvim', dev = true },
-	{ 'huy-hng/convenient_lua', dev = true, config = true },
+	{ 'huy-hng/convenience.nvim', dev = true, config = true },
+	{ 'huy-hng/metamap.nvim', dev = true, dependencies = 'convenience.nvim' },
+	{ 'huy-hng/indent_line.nvim', dev = true, dependencies = 'convenience.nvim', config = true },
+	{ 'huy-hng/column_line.nvim', dev = true, dependencies = 'convenience.nvim', config = true },
+	-- {
+	-- 	'huy-hng/indent_line.nvim',
+	-- 	dev = true,
+	-- 	dependencies = 'convenience.nvim',
+	-- 	config = function() require('indent_line').setup() end,
+	-- },
 
 	-- full on features
 	'jceb/vim-orgmode',
@@ -34,8 +42,10 @@ return {
 
 	-- etrxa ui
 	'akinsho/toggleterm.nvim',
-	{ 'folke/noice.nvim', -- dependencies = { 'MunifTanjim/nui.nvim', 'rcarriga/nvim-notify' }, 
-		enable = false, }, 
+	{
+		'folke/noice.nvim', -- dependencies = { 'MunifTanjim/nui.nvim', 'rcarriga/nvim-notify' },
+		enable = false,
+	},
 	{
 		'ziontee113/icon-picker.nvim',
 		config = function()
