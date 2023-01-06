@@ -3,7 +3,8 @@ local M = {
 	dependencies = {
 		'MunifTanjim/nui.nvim',
 	},
-	event = 'VimEnter'
+	ft = 'vimwiki',
+	-- event = 'VimEnter'
 }
 
 -----------------------------------------------Popup------------------------------------------------
@@ -143,8 +144,6 @@ function M.config()
 
 	-- vw('t', wrapper(vim.cmd.VimwikiTabMakeDiaryNote), 'Daily Log Tab')
 end
-
-
 
 local g = vim.g
 

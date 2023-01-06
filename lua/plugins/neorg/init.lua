@@ -1,7 +1,7 @@
 local M = {
 	'nvim-neorg/neorg',
 	ft = 'norg',
-	-- cmd = 'Neorg',
+	cmd = 'Neorg',
 	dependencies = {
 		'nvim-neorg/neorg-telescope',
 		'nvim-lua/plenary.nvim',
@@ -25,8 +25,6 @@ function M.config()
 		load = {
 			['core.defaults'] = {},
 			['core.norg.concealer'] = { config = requirer('plugins.neorg.modules.concealer') },
-			-- ['core.norg.concealer'] = { config = {} },
-			['core.integrations.telescope'] = {},
 			['core.norg.esupports.indent'] = { config = requirer('plugins.neorg.modules.indent') },
 			['core.norg.completion'] = { config = { engine = 'nvim-cmp' } },
 			['core.norg.dirman'] = {
@@ -35,10 +33,19 @@ function M.config()
 					workspaces = {
 						home = '~/.dotfiles/personal/personal/neorg',
 						nvim = '~/.dotfiles/vim/.config/nvim',
+						example_gtd = '~/repositories/example_workspaces',
 					},
 					open_last_workspace = true, -- bool or 'default' for default_workspace
 				},
 			},
+
+			['core.integrations.telescope'] = {},
+
+			-- gtd
+			['core.gtd.base'] = { config = {
+				workspace = 'example_gtd',
+			} },
+			['core.gtd.ui'] = { config = {} },
 		},
 	}
 end

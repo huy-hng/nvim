@@ -1,8 +1,8 @@
 @document.meta
 title: The 1.0 Norg Specification
 authors: [
-    vhyrro
     mrossinek
+    vhyrro
 ]
 categories: specifications
 version: 1.0
