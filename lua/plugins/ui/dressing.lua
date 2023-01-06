@@ -165,7 +165,6 @@ local select = {
 }
 
 function M.config()
-	print('dressing startup', os.clock() - START_TIME) 
 	local dressing = require('dressing')
 
 	dressing.setup {

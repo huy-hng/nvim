@@ -27,15 +27,15 @@ function M.config()
 	---@module cmp
 	local cmp = require('cmp')
 
-	local kind_icons = require('plugins.cmp.icons')
-	local mappings = require('plugins.cmp.mappings')
+	local kind_icons = require('plugins.coding.cmp.icons')
+	local mappings = require('plugins.coding.cmp.mappings')
 
 	local compare = cmp.config.compare
-	local compare_fn = require('plugins.cmp.compare')
+	local compare_fn = require('plugins.coding.cmp.compare')
 
-	require('plugins.snippets.init')
+	require('plugins.coding.snippets.init')
 
-	local sources = require('plugins.cmp.sources')
+	local sources = require('plugins.coding.cmp.sources')
 
 	cmp.setup {
 		mapping = mappings, -- cmp.mapping.preset.insert(mappings),

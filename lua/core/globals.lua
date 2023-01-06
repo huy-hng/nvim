@@ -15,9 +15,6 @@ local tryer = require('modules.error_handling')
 Try = tryer.try
 TryWrap = tryer.try_wrap
 
-nrequire('convenient_lua')
-require('modules.lua_extension')
-
 Util = require('modules.utils')
 
 nvim = require('modules.nvim_wrappers')

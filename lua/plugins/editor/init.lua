@@ -4,6 +4,7 @@ local plugins = {
 	'telescope',
 	'undotree',
 	'possession',
+	'harpoon',
 }
 
 local required = {}

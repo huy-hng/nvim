@@ -12,7 +12,7 @@ local M = {
 function M.config()
 	local ls = require('luasnip')
 
-	require('plugins.snippets.mappings')
+	-- require('plugins.coding.snippets.mappings')
 	local ft_functions = require('luasnip.extras.filetype_functions')
 	local loaders = require('luasnip.loaders')
 
@@ -58,7 +58,7 @@ function M.config()
 
 		-- Additional options passed to extmarks.
 		-- Can be used to add passive/active highlight on a per-node-basis (more info in DOC.md)
-		ext_opts = require('plugins.snippets.highlights'),
+		ext_opts = require('plugins.coding.snippets.highlights'),
 		ext_base_prio = 200,
 		ext_prio_increase = 9,
 
@@ -138,7 +138,7 @@ function M.config()
 		},
 	}
 
-	require('luasnip.loaders.from_lua').load { paths = './lua/plugins/snippets/ft' }
+	require('luasnip.loaders.from_lua').load { paths = './lua/plugins/coding/snippets/ft' }
 end
 
 return M

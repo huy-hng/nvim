@@ -7,42 +7,6 @@ Augroup('DetectIndent', {
 	end),
 })
 
-Augroup('Cmp', {
-	-- Autocmd('CmdlineEnter', function(data) --
-	-- 	P(data)
-	-- 	NestedAutocmd(data, 'CmdlineChanged', '*', function(innerdata) --
-	-- 		P(innerdata)
-	-- 		local has_cmp, cmp = pcall(require, 'cmp')
-	-- 		if not has_cmp then return end
-	-- 		cmp.complete()
-	-- 	end, { once = true })
-	-- end),
-
-	Autocmd('CmdlineChanged', function(data) --
-		P(data)
-	end),
-
-	-- Autocmd({ 'TextChangedI', 'TextChangedP' }, function()
-	-- 	local line = vim.api.nvim_get_current_line()
-	-- 	local column = vim.api.nvim_win_get_cursor(0)[2]
-
-	-- 	local current = string.sub(line, column, column + 1)
-	-- 	if current == '.' or current == ',' or current == ' ' then require('cmp').close() end
-
-	-- 	local before_line = string.sub(line, 1, column + 1)
-	-- 	local after_line = string.sub(line, column + 1, -1)
-	-- 	if not string.match(before_line, '^%s+$') then
-	-- 		if
-	-- 			after_line == ''
-	-- 			or string.match(before_line, ' $')
-	-- 			or string.match(before_line, '%.$')
-	-- 		then
-	-- 			require('cmp').complete()
-	-- 		end
-	-- 	end
-	-- end),
-}, true, false)
-
 Augroup('FileTypes', {
 	Autocmd({ 'BufNewFile', 'BufRead' }, '*.tmux', 'set filetype=tmux'),
 	Autocmd({ 'BufNewFile', 'BufRead' }, '*.vim', 'set filetype=vim'),
@@ -63,20 +27,6 @@ Augroup('FileTypes', {
 	-- end),
 	-- Autocmd('BufEnter','*', if &ft ==# 'help' | wincmd H | endif
 })
-
-Augroup('Testing', {
-	Autocmd('BufAdd', { print, 'add' }),
-	Autocmd('BufReadPre', { print, 'readpre' }),
-	Autocmd('BufRead', { print, 'read' }),
-	Autocmd('BufReadPost', { print, 'readpost' }),
-	Autocmd('BufWinEnter', { print, 'winenter' }),
-	Autocmd('BufEnter', { print, 'enter' }),
-	Autocmd({ 'WinEnter', 'WinNew' }, function()
-		-- P(data)
-		local wins = vim.api.nvim_list_wins()
-		-- P(wins)
-	end),
-}, true, false)
 
 Augroup('Treesitter', {
 	Autocmd({ 'WinEnter', 'InsertEnter', 'InsertLeave' }, function()
@@ -137,58 +87,11 @@ Augroup('Vimwiki', {
 	-- -- end),
 })
 
-Augroup('AutoSource', {
-	-- Autocmd('BufWritePost', '*.lua', 'so %'),
-	-- Autocmd('BufWritePost', '*.lua', 'so $HOME/.config/nvim/init.lua'),
-}, true, false)
-
 Augroup('NoComment', {
 	Autocmd({ 'BufEnter', 'InsertEnter', 'InsertLeave' }, function() --
 		vim.opt.formatoptions:remove { 'c', 'r', 'o' }
 	end),
 })
-
-local function printer(data)
-	WriteToSplit(data.event)
-	WriteToSplit(data.match)
-	WriteToSplit(data.buf)
-	WriteToSplit('')
-end
-
-Augroup('AutocmdTester', {
-	Autocmd({
-		'BufWinLeave',
-		'BufWinEnter',
-
-		'BufAdd',
-		'BufDelete',
-		'BufEnter',
-		'BufLeave',
-		'BufHidden',
-		'BufNew',
-		'BufRead',
-
-		'WinNew',
-		'WinEnter',
-		'WinLeave',
-		'WinClosed',
-	}, printer),
-	-- Autocmd('BufWinLeave', '*', printer),
-	-- Autocmd('BufWinEnter', '*', printer),
-
-	-- Autocmd('BufAdd', '*', printer),
-	-- Autocmd('BufDelete', '*', printer),
-	-- Autocmd('BufEnter', '*', printer),
-	-- Autocmd('BufLeave', '*', printer),
-	-- Autocmd('BufHidden', '*', printer),
-	-- Autocmd('BufNew', '*', printer),
-	-- Autocmd('BufRead', '*', printer),
-
-	-- Autocmd('WinNew', '*', printer),
-	-- Autocmd('WinEnter', '*', printer),
-	-- Autocmd('WinLeave', '*', printer),
-	-- Autocmd('WinClosed', '*', printer),
-}, true, false)
 
 vim.o.updatetime = 500 -- used for CursorHold
 local line_numbers = require('modules.line_numbers')
@@ -235,7 +138,7 @@ Augroup('Misc', {
 	end),
 
 	-- flash cursor when nvim window gains focus
-	Autocmd('FocusGained', { require('functions.flash_cursor'), 1, 600 }),
+	-- Autocmd('FocusGained', { require('functions.flash_cursor'), 1, 600 }),
 
 	-- Reload file when it has been changed from outside
 	Autocmd({
@@ -301,3 +204,102 @@ Augroup('CommandlineWindow', {
 		end)
 	end),
 })
+
+Augroup('Cmp', {
+	-- Autocmd('CmdlineEnter', function(data) --
+	-- 	P(data)
+	-- 	NestedAutocmd(data, 'CmdlineChanged', '*', function(innerdata) --
+	-- 		P(innerdata)
+	-- 		local has_cmp, cmp = pcall(require, 'cmp')
+	-- 		if not has_cmp then return end
+	-- 		cmp.complete()
+	-- 	end, { once = true })
+	-- end),
+
+	Autocmd('CmdlineChanged', function(data) --
+		P(data)
+	end),
+
+	-- Autocmd({ 'TextChangedI', 'TextChangedP' }, function()
+	-- 	local line = vim.api.nvim_get_current_line()
+	-- 	local column = vim.api.nvim_win_get_cursor(0)[2]
+
+	-- 	local current = string.sub(line, column, column + 1)
+	-- 	if current == '.' or current == ',' or current == ' ' then require('cmp').close() end
+
+	-- 	local before_line = string.sub(line, 1, column + 1)
+	-- 	local after_line = string.sub(line, column + 1, -1)
+	-- 	if not string.match(before_line, '^%s+$') then
+	-- 		if
+	-- 			after_line == ''
+	-- 			or string.match(before_line, ' $')
+	-- 			or string.match(before_line, '%.$')
+	-- 		then
+	-- 			require('cmp').complete()
+	-- 		end
+	-- 	end
+	-- end),
+}, true, false)
+
+local function printer(data)
+	WriteToSplit(data.event)
+	WriteToSplit(data.match)
+	WriteToSplit(data.buf)
+	WriteToSplit('')
+end
+
+Augroup('AutocmdTester', {
+	Autocmd({
+		'BufWinLeave',
+		'BufWinEnter',
+
+		'BufAdd',
+		'BufDelete',
+		'BufEnter',
+		'BufLeave',
+		'BufHidden',
+		'BufNew',
+		'BufRead',
+
+		'WinNew',
+		'WinEnter',
+		'WinLeave',
+		'WinClosed',
+	}, printer),
+	-- Autocmd('BufWinLeave', '*', printer),
+	-- Autocmd('BufWinEnter', '*', printer),
+
+	-- Autocmd('BufAdd', '*', printer),
+	-- Autocmd('BufDelete', '*', printer),
+	-- Autocmd('BufEnter', '*', printer),
+	-- Autocmd('BufLeave', '*', printer),
+	-- Autocmd('BufHidden', '*', printer),
+	-- Autocmd('BufNew', '*', printer),
+	-- Autocmd('BufRead', '*', printer),
+
+	-- Autocmd('WinNew', '*', printer),
+	-- Autocmd('WinEnter', '*', printer),
+	-- Autocmd('WinLeave', '*', printer),
+	-- Autocmd('WinClosed', '*', printer),
+}, true, false)
+
+Augroup('AutoSource', {
+	-- Autocmd('BufWritePost', '*.lua', 'so %'),
+	-- Autocmd('BufWritePost', '*.lua', 'so $HOME/.config/nvim/init.lua'),
+}, true, false)
+
+
+Augroup('Testing', {
+	Autocmd('BufAdd', { print, 'add' }),
+	Autocmd('BufReadPre', { print, 'readpre' }),
+	Autocmd('BufRead', { print, 'read' }),
+	Autocmd('BufReadPost', { print, 'readpost' }),
+	Autocmd('BufWinEnter', { print, 'winenter' }),
+	Autocmd('BufEnter', { print, 'enter' }),
+	Autocmd({ 'WinEnter', 'WinNew' }, function()
+		-- P(data)
+		local wins = vim.api.nvim_list_wins()
+		-- P(wins)
+	end),
+}, true, false)
+

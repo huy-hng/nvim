@@ -4,7 +4,7 @@ local has_metamap, MetaMap = pcall(require, 'metamap')
 if not has_metamap then return end
 
 local has_ufo, ufo = pcall(require, 'ufo')
-local functions = require('plugins.ufo.functions')
+local functions = require('plugins.ui.ufo.functions')
 
 local function temp_change_cursor_color()
 	local group_id = vim.fn.hlID('Cursor')

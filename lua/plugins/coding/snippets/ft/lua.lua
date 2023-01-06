@@ -1,5 +1,5 @@
 ---@diagnostic disable: undefined-global
-local utils = require('plugins.snippets.utils')
+local utils = require('plugins.coding.snippets.utils')
 
 local require_var = function(args, _)
 	local text = args[1][1] or ''

@@ -9,7 +9,7 @@ capabilities.textDocument.foldingRange = {
 	lineFoldingOnly = true,
 }
 
-local layout = require('plugins.telescope.layouts').vert_list_normal
+local layout = require('plugins.editor.telescope.layouts').vert_list_normal
 local references = require('telescope.builtin').lsp_references
 local fns = require('plugins.lsp.lsp_config.functions')
 

@@ -1,8 +1,6 @@
-local status, cmp = pcall(require, 'cmp')
-if not status then return end
+local cmp = require('cmp')
 
-local has_luasnip, ls = pcall(require, 'luasnip')
-if not has_luasnip then return end
+local ls = require('luasnip')
 
 local function jump_or_select_item(fn, jumpdir)
 	return function(_)

@@ -4,6 +4,7 @@ function SetColors(theme)
 	vim.cmd.colorscheme(ColorTheme)
 
 	vim.cmd('highlight Folded guibg=none')
+	vim.cmd('highlight Statusline guibg=none')
 	-- Highlight(0, 'IndentLine', { fg = '#45475a' })
 	-- Highlight(0, 'ColumnLine', { fg = '#45475a' })
 	Highlight(0, 'IndentLine', { link = 'Comment' })
