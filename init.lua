@@ -13,9 +13,13 @@ require('core.globals')
 require('core.options')
 require('core.colorscheme')
 
+require_dir('lua/functions')
+
 require('plugin_management')
 require('core.autocmd')
 
-require_dir('lua/functions')
-
 if vim.g.has_neovide then require('core.neovide') end
+
+Augroup('LazyLoad', {
+	Autocmd('User', 'VeryLazy', { require_dir, 'lua/lazy' }),
+})
