@@ -20,6 +20,11 @@ Util = require('modules.utils')
 nvim = require('modules.nvim_wrappers')
 F = vim.F
 
+DEBUG = vim.log.levels.DEBUG
+INFO = vim.log.levels.INFO
+WARN = vim.log.levels.WARN
+ERROR = vim.log.levels.ERROR
+
 local keymappers = require('modules.keymappers')
 MapCreator = keymappers.map_creator
 MapSpaceCapital = keymappers.map_space_capital

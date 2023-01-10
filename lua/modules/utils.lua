@@ -86,4 +86,40 @@ function M.save_and_source()
 	end
 end
 
+---@param silent boolean?
+---@param values? {[1]:any, [2]:any}
+function M.toggle(option, silent, values)
+	if values then
+		if vim.opt_local[option]:get() == values[1] then
+			vim.opt_local[option] = values[2]
+		else
+			vim.opt_local[option] = values[1]
+		end
+		return vim.notify(
+			'Set ' .. option .. ' to ' .. vim.opt_local[option]:get(),
+			INFO,
+			{ title = 'Option' }
+		)
+	end
+	vim.opt_local[option] = not vim.opt_local[option]:get()
+	if not silent then
+		if vim.opt_local[option]:get() then
+			vim.notify('Enabled ' .. option, INFO, { title = 'Option' })
+		else
+			vim.notify('Disabled ' .. option, WARN, { title = 'Option' })
+		end
+	end
+end
+
+-- FIXME: create a togglable termiminal
+-- Opens a floating terminal (interactive by default)
+---@param cmd? string[]|string
+---@param opts? LazyCmdOptions|{interactive?:boolean}
+function M.float_term(cmd, opts)
+	opts = vim.tbl_deep_extend('force', {
+		size = { width = 0.67, height = 0.8 },
+	}, opts or {})
+	require('lazy.util').float_term(cmd, opts)
+end
+
 return M

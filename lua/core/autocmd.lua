@@ -7,6 +7,24 @@ Augroup('DetectIndent', {
 	end),
 })
 
+Augroup('WindowManagement', {
+	Autocmd('FileType', {
+		'qf',
+		'help',
+		'man',
+		'notify',
+		'lspinfo',
+		'spectre_panel',
+		'startuptime',
+		'tsplayground',
+		'PlenaryTestPopup',
+	}, function(data)
+		vim.bo[data.buf].buflisted = false
+		Nmap('q', vim.cmd.q, 'Close Window', { buffer = data.buf })
+		-- vim.keymap.set('n', 'q', '<cmd>close<cr>', { buffer = data.buf, silent = true })
+	end),
+})
+
 Augroup('FileTypes', {
 	Autocmd({ 'BufNewFile', 'BufRead' }, '*.tmux', 'set filetype=tmux'),
 	Autocmd({ 'BufNewFile', 'BufRead' }, '*.vim', 'set filetype=vim'),
@@ -14,10 +32,8 @@ Augroup('FileTypes', {
 	Autocmd(
 		{ 'BufNewFile', 'BufRead' },
 		{ '*.env', '*.profile', '*.rc', '*.login', '*.logout' },
-		function() vim.bo.filetype = 'zsh' end
+		function(data) vim.bo[data.buf].filetype = 'zsh' end
 	),
-
-	Autocmd('FileType', 'qf', function(data) vim.bo[data.buf].buflisted = false end),
 
 	-- Autocmd('BufEnter', '*', function(data)
 	-- 	if vim.bo[data.buf].filetype == 'help' then
@@ -30,9 +46,8 @@ Augroup('FileTypes', {
 
 Augroup('Treesitter', {
 	Autocmd({ 'WinEnter', 'InsertEnter', 'InsertLeave' }, function()
-		vim.cmd.TSBufDisable('rainbow')
-		-- vim.cmd.TSBufEnable('rainbow')
-		nvim.schedule(vim.cmd.TSBufEnable, 'rainbow')
+		-- vim.cmd.TSBufDisable('rainbow')
+		-- nvim.schedule(vim.cmd.TSBufEnable, 'rainbow')
 	end),
 
 	Autocmd({ 'BufEnter', 'BufAdd', 'BufNew', 'BufNewFile', 'BufWinEnter' }, function()
@@ -59,8 +74,10 @@ Augroup('Vimwiki', {
 	end),
 
 	Autocmd('BufWinEnter', '*.md', function(data)
-		local ft = vim.api.nvim_buf_get_option(data.buf, 'filetype')
-		if ft ~= 'vimwiki' then return end
+		local bufnr = data.buf
+		if vim.bo[bufnr].filetype ~= 'vimwiki' then return end
+
+		vim.bo[bufnr].buflisted = false
 
 		-- needs to be here because gitsigns gets lazyloaded
 		require('gitsigns').detach(data.buf)
@@ -69,7 +86,7 @@ Augroup('Vimwiki', {
 
 	Autocmd('BufWinEnter', '*/daily_log/[0-9]*.md', function() vim.wo.winbar = false end),
 
-	-- add date in vimwikiw
+	-- add date in vimwiki
 	Autocmd(
 		'BufNewFile',
 		'*/daily_log/[0-9]*.md',
@@ -85,7 +102,7 @@ Augroup('Vimwiki', {
 	-- -- 		-- Schedule(Exec, 'TSBufDisable highlight')
 	-- -- 	end
 	-- -- end),
-})
+}, true, false)
 
 Augroup('NoComment', {
 	Autocmd({ 'BufEnter', 'InsertEnter', 'InsertLeave' }, function() --
@@ -130,11 +147,11 @@ Augroup('renu', {
 
 Augroup('Misc', {
 	Autocmd('BufReadPost', function()
-		local line = vim.fn.line('\'"')
-		-- if line > 1 and line <= vim.fn.line('$') then Normal('g\'"') end
-
-		-- Return to last edit position when opening files
-		-- autocmd BufReadPost * if line("'\"") > 1 && line("'\"") <= line("$") | exe "normal! g'\"" | endif
+		local mark = vim.api.nvim_buf_get_mark(0, '"')
+		local lcount = vim.api.nvim_buf_line_count(0)
+		if mark[1] > 0 and mark[1] <= lcount then --
+			pcall(vim.api.nvim_win_set_cursor, 0, mark)
+		end
 	end),
 
 	-- flash cursor when nvim window gains focus
@@ -288,7 +305,6 @@ Augroup('AutoSource', {
 	-- Autocmd('BufWritePost', '*.lua', 'so $HOME/.config/nvim/init.lua'),
 }, true, false)
 
-
 Augroup('Testing', {
 	Autocmd('BufAdd', { print, 'add' }),
 	Autocmd('BufReadPre', { print, 'readpre' }),
@@ -302,4 +318,3 @@ Augroup('Testing', {
 		-- P(wins)
 	end),
 }, true, false)
-
