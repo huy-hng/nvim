@@ -1,5 +1,4 @@
 local M = {}
--- used in autocommands
 
 ----------------------------------------------Config------------------------------------------------
 
@@ -7,6 +6,13 @@ local M = {}
 local default_opts = {
 	columns = { 100 },
 	column_char = '▏',
+	wintype_whitelist = { '' },
+	buftype_whitelist = { '' },
+	filetype_blacklist = {
+		'buffer_manager',
+		'harpoon',
+		'TelescopePrompt',
+	},
 }
 
 M.opts = default_opts
@@ -18,7 +24,6 @@ function M.setup(opts)
 	-- Highlight(M.namespace, 'ColumnLine', {})
 
 	Highlight(0, 'ColorColumn', {})
-
 	Highlight(0, 'ColumnLine', {
 		link = 'Comment',
 		-- fg = '#45475a',
@@ -97,40 +102,20 @@ local function set_line(bufnr, column)
 	end
 end
 
-function M.refresh()
-	-- if force then
-	-- 	local win = vim.api.nvim_get_current_win()
-	-- 	-- vim.cmd([[noautocmd windo lua refrfeshcolumnline()]])
-	-- 	if vim.api.nvim_win_is_valid(win) then vim.api.nvim_set_current_win(win) end
-	-- end
-
-	local ignore_wintypes = {
-		'autocmd',
-		'command',
-		'loclist',
-		-- 'popup',
-		-- 'preview',
-		'quickfix',
-		'unknown',
-	}
-
-	local ignore_ft = {
-		'buffer_manager',
-		'harpoon',
-		'TelescopePrompt',
-	}
-
+function M.refresh(data)
 	local bufnr = vim.api.nvim_get_current_buf()
 	if not vim.api.nvim_buf_is_loaded(bufnr) then return end
 
 	local modifiable = vim.api.nvim_buf_get_option(bufnr, 'modifiable')
+	local wrong_filetype = vim.tbl_contains(M.opts.filetype_blacklist, vim.bo[bufnr].filetype)
+	local right_buftype = vim.tbl_contains(M.opts.buftype_whitelist, vim.bo[bufnr].buftype)
+	local right_wintype = vim.tbl_contains(M.opts.wintype_whitelist, Util.win_type())
 
-	if vim.tbl_contains(ignore_ft, vim.bo.filetype) then return end
-	local type = Util.win_type()
-	if not modifiable or vim.tbl_contains(ignore_wintypes, type) then
+	if wrong_filetype or not right_buftype or not right_wintype or not modifiable then
 		vim.api.nvim_win_set_hl_ns(0, M.namespace)
 		return
 	end
+
 	vim.api.nvim_win_set_hl_ns(0, 0)
 
 	if M.namespace then vim.api.nvim_buf_clear_namespace(bufnr, M.namespace, 0, -1) end

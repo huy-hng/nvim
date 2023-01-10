@@ -28,14 +28,6 @@ local M = {}
 ---| 'terminal'
 ---| 'prompt'
 
-
-  
-
-
-
-
-
-
 M.win_types = {
 	-- ['(empty)'] = '(empty)', -- normal window
 	autocmd = 'autocmd',
