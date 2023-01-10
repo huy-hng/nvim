@@ -18,7 +18,7 @@ return {
 	},
 	dev = {
 		-- directory where you store your local plugin projects
-		path = '~/.dotfiles/nvim/.config/nvim/plugins/',
+		path = '~/.dotfiles/nvim/.config/nvim/my_plugins/',
 		---@type string[] plugins that match these patterns will use your local versions instead of being fetched from GitHub
 		patterns = {}, -- For example {"folke"}
 	},
