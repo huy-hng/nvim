@@ -1,10 +1,10 @@
-local has_query, query = pcall(require, 'possession.query')
-if not has_query then return end
-
-local config = require('possession.config')
+local query = require('possession.query')
 local commands = require('possession.commands')
+local posession_utils = require('possession.utils')
 
-local utils = require('possession.utils')
+local utils = require('plugins.ui.alpha.utils')
+local components = require('plugins.ui.alpha.components')
+
 local workspaces = {
 	-- {
 	-- 	'Neovim', -- title
@@ -19,34 +19,73 @@ local workspaces = {
 	-- },
 }
 
-local function get_padded_name(name, width)
-	width = width or 50
-	local needed_spaces = width - string.len(name)
-	local padded_name = name .. vim.fn['repeat'](' ', needed_spaces)
-	return padded_name
-end
+-- Do-all helper for generating session data suitable for usage in a startup screen.
+--
+-- This will group sessions by workspace, where each workspace is defined by
+-- a list of root directories. Shortcuts in the form {prefix}{number} will be
+-- generated for sessions in each workspace. The returned data can be used
+-- to generate startup screen buttons.
+--
+--@param workspace_specs table: list of lists {ws_name, ws_prefix, ws_root_dirs}
+--@param sessions table?
+--@param others_prefix string?: prefix for sessions without a workspace, defaults to 's'
+--@param sort_by nil|string|function?: what key to use when sorting sessions within a workspace;
+-- string value is used as session key (defaults to 'name', which sorts by session.name);
+-- if function then it should have a signature fn(session) -> sort_key
+--@param map_session nil|function?: if specified, then will be used to convert all sessions
+-- in the retuned data to different values (normally returns session_data tables);
+-- useful to just get session names in the output instead of tables
+--@return table table: returns 2 values, first is list of lists
+--   {ws_name, sessions_with_shortcuts}
+-- where sessions_with_shortcuts is a list of pairs
+--   {shortcut, session_data}
+-- the second returned value is sessions_with_shortcuts that did not match any workspace
+local function workspaces_with_shortcuts(workspace_specs, opts)
+	opts = vim.tbl_extend('force', {
+		sessions = nil,
+		others_prefix = '',
+		sort_by = 'name',
+		map_session = nil,
+	}, opts or {})
 
-local button = function(sc, txt, cmd)
-	local opts = {
-		position = 'center',
-		shortcut = sc,
-		cursor = 0,
-		width = 50,
-		align_shortcut = 'right',
-		hl_shortcut = 'Keyword',
-	}
-	if cmd then
-		-- local keybind_opts = vim.F.if_nil(keybind_opts, { noremap = true, silent = true, nowait = true })
-		local keybind_opts = {}
-		opts.keymap = { 'n', sc, cmd, keybind_opts }
+	local workspaces = {} -- {name: root_dir} for by_workspace
+	local prefixes = {} -- {name: prefix} for generating shortcuts
+	local workspace_order = {} -- {name} to return data in order
+	for _, specs in ipairs(workspace_specs) do
+		local name, prefix, root_dirs = unpack(specs)
+		assert(
+			prefix ~= opts.others_prefix,
+			string.format('Duplicate prefix "%s", specify different opts.other_prefix', prefix)
+		)
+		workspaces[name] = root_dirs
+		prefixes[name] = prefix
+		table.insert(workspace_order, name)
 	end
 
-	return {
-		type = 'button',
-		val = txt,
-		on_press = cmd,
-		opts = opts,
-	}
+	local groups, others = query.group_by(query.by_workspace(workspaces), opts.sessions)
+
+	local with_shortcuts = function(prefix, sessions)
+		table.sort(sessions, function(a, b)
+			-- print(a.user_data.timestamp, b.user_data.timestamp)
+			return a.user_data.timestamp > b.user_data.timestamp
+		end)
+
+		local i = 0
+		return vim.tbl_map(function(s)
+			i = i + 1
+			local shortcut = string.format('%s%d', prefix, i)
+			if opts.map_session then s = opts.map_session(s) end
+			return { shortcut, s }
+		end, sessions)
+	end
+
+	groups = vim.tbl_map(
+		function(name) return { name, with_shortcuts(prefixes[name], groups[name] or {}) } end,
+		workspace_order
+	)
+	others = with_shortcuts(opts.others_prefix, others)
+
+	return groups, others
 end
 
 -- Example session layout generator for alpha.nvim.
@@ -57,74 +96,41 @@ end
 -- https://github.com/goolord/alpha-nvim/blob/8a1477d8b99a931530f3cfb70f6805b759bebbf7/lua/alpha/themes/startify.lua#L28
 --@param title_highlight string?: highlight group for section titles
 --@param others_name string?: name used for section with sessions not matching any workspace
-local function alpha_workspace_layout(workspace_specs, create_button, opts)
-	opts = vim.tbl_extend('force', {
+local function layout()
+	local workspace_specs = workspaces
+	local create_button = components.button
+	local opts = {
 		title_highlight = 'Type',
 		others_name = 'Sessions',
-	}, opts or {})
-
-	vim.validate {
-		create_button = { create_button, 'function' },
-		title_highlight = { opts.title_highlight, 'string' },
-		others_name = { opts.others_name, 'string' },
 	}
 
-	-- Get lists of session names with shortcuts assigned
-	local workspaces, others = query.workspaces_with_shortcuts(workspace_specs, {
-		map_session = function(s)
-			return s.name
-		end,
-	})
-
 	-- Transform a sessions+shortcuts into alpha.nvim buttons
-	local function to_buttons (sessions_with_shortcuts)
+	local function to_buttons(sessions_with_shortcuts)
 		return vim.tbl_map(function(sws)
 			local shortcut, session_name = unpack(sws)
-			-- local cmd = string.format('<cmd>%s %s<cr>', config.commands.load, session_name)
-			local cmd = function()
-				-- print('loading from custom')
-				-- if vim.bo.filetype == 'alpha' then Exec('Bdelete') end
-				-- print(vim.bo.filetype)
-				-- Defer(1000, commands.load, session_name)
-				nvim.schedule(commands.load, session_name)
-				-- commands.load(session_name)
-			end
+			local cmd = vim.schedule_wrap(Util.wrap(commands.load, session_name))
 			return create_button(shortcut, session_name, cmd)
 		end, sessions_with_shortcuts)
 	end
-	-- local to_buttons = function(sessions_with_shortcuts)
-	-- 	local buttons = {}
-	-- 	for _, sws in ipairs(sessions_with_shortcuts) do
-	-- 		local shortcut, session_name = unpack(sws)
-	-- 		local cmd = string.format('<cmd>%s %s<cr>', config.commands.load, session_name)
-	-- 		local b = create_button(shortcut, session_name, cmd)
-	-- 		table.insert(buttons, b)
-	-- 		table.insert(buttons, { type = 'padding', val = 1 })
-	-- 	end
-	-- 	return buttons
-	-- end
 
 	-- Generate a workspace section
 	local section = function(name, sessions_with_shortcuts)
-		return {
-			type = 'group',
-			val = {
-				{ type = 'padding', val = 1 },
-				{
-					type = 'text',
-					-- val = get_padded_name(name),
-					val = name,
-					opts = { position = 'center', hl = opts.title_highlight },
-				},
-				{ type = 'padding', val = 1 },
-				{
-					type = 'group',
-					val = to_buttons(sessions_with_shortcuts),
-					opts = { spacing = 1 },
-				},
-			},
-		}
+		return components.group({
+			components.text(name, opts.title_highlight),
+			components.group(to_buttons(sessions_with_shortcuts), 1),
+		}, 1)
 	end
+
+	-- Get lists of session names with shortcuts assigned
+	local workspaces, others = workspaces_with_shortcuts(workspace_specs, {
+		map_session = function(s) return s.name end,
+		others_prefix = '',
+		sort_by = function(session)
+			print(session.user_data.timestamp, session.name)
+			return session.user_data.timestamp
+		end,
+	})
+	-- P(workspaces, others)
 
 	-- Create sections layout group
 	local layout = {}
@@ -138,25 +144,4 @@ local function alpha_workspace_layout(workspace_specs, create_button, opts)
 	return layout
 end
 
-local get_layout = function()
-	-- local layout = query.alpha_workspace_layout(workspaces, button)
-	local layout = alpha_workspace_layout(workspaces, button)
-
-	for _, section in ipairs(layout) do
-		for _, elem in ipairs(section.val) do
-			if elem.type == 'text' then
-				elem.val = get_padded_name(elem.val, 50)
-				-- elem.val = elem.val
-				elem.opts.position = 'center'
-			end
-			if elem.type == 'group' then elem.opts = { spacing = 1 } end
-		end
-	end
-
-	return layout
-end
-
-return {
-	type = 'group',
-	val = utils.throttle(get_layout, 5000),
-}
+return components.group(posession_utils.throttle(layout, 5000))
