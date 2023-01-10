@@ -305,6 +305,8 @@ Augroup('AutoSource', {
 	-- Autocmd('BufWritePost', '*.lua', 'so $HOME/.config/nvim/init.lua'),
 }, true, false)
 
+local start = vim.loop.now()
+local res = { { vim.loop.now() - start, 'imports done' } }
 Augroup('Testing', {
 	Autocmd('BufAdd', { print, 'add' }),
 	Autocmd('BufReadPre', { print, 'readpre' }),
@@ -316,5 +318,11 @@ Augroup('Testing', {
 		-- P(data)
 		local wins = vim.api.nvim_list_wins()
 		-- P(wins)
+	end),
+	Autocmd({ 'UiEnter', 'VimEnter' }, function(data) --
+		table.insert(res, { vim.loop.now() - start, data.event })
+	end),
+	Autocmd('User', 'VeryLazy', function(data) --
+		table.insert(res, { vim.loop.now() - start, data.match })
 	end),
 }, true, false)
