@@ -1,7 +1,8 @@
 local M = {
 	'sindrets/diffview.nvim', -- side by side diff view
-	-- keys = '<C-g>',
-	lazy = false,
+	keys = '<C-g>',
+	event = 'VeryLazy'
+	-- lazy = false,
 }
 
 Nmap('<C-g>', vim.cmd.DiffviewOpen, '[Diffview] Open')

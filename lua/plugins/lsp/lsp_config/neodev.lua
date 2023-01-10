@@ -12,6 +12,8 @@ require('neodev').setup {
 		plugins = {
 			'bufferline.nvim',
 			'noice',
+			'possession',
+			'alpha',
 			-- 'nvim-treesitter',
 			-- 'plenary.nvim',
 			-- 'telescope.nvim',

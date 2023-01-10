@@ -1,8 +1,8 @@
 local M = {
 	'neovim/nvim-lspconfig', -- enable LSP
 	-- ft = { 'python', 'lua', 'c', 'json' },
-	event = 'BufReadPre',
-	-- event = 'VeryLazy',
+	-- event = 'BufReadPre',
+	event = 'VeryLazy',
 	dependencies = {
 		{ 'folke/neodev.nvim', config = function() require('plugins.lsp.lsp_config.neodev') end },
 		'hrsh7th/cmp-nvim-lsp',

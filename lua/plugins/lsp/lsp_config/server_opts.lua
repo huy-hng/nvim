@@ -58,25 +58,9 @@ local function lsp_keymaps(bufnr)
 end
 
 local function on_attach(client, bufnr)
-	-- pcall(function()
-	-- if client.server_capabilities.semanticTokensProvider then
-	client.server_capabilities.semanticTokensProvider = nil
-	-- end
-	-- end)
-
-	local bufnr = vim.api.nvim_get_current_buf()
-
-	local clients = vim.lsp.get_active_clients()
-	for _, client in ipairs(clients) do
-		if client.name == 'sumneko_lua' then -- 
-			vim.lsp.semantic_tokens.stop(bufnr, client.id)
-		end
-	end
-	-- vim.lsp.semantic_tokens.start()
-	-- vim.treesitter.stop()
-
+	-- client.server_capabilities.semanticTokensProvider = {}
+	vim.lsp.semantic_tokens.stop(bufnr, client.id)
 	lsp_keymaps(bufnr)
-	-- lsp_highlight_document(client)
 end
 
 return {

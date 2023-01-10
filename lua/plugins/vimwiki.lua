@@ -3,8 +3,11 @@ local M = {
 	dependencies = {
 		'MunifTanjim/nui.nvim',
 	},
-	ft = 'vimwiki',
-	-- event = 'VimEnter'
+	-- ft = 'vimwiki',
+	-- event = 'VimEnter',
+	event = 'VeryLazy',
+	-- event = 'BufReadPost',
+	-- lazy = false,
 }
 
 -----------------------------------------------Popup------------------------------------------------
@@ -141,6 +144,7 @@ function M.config()
 	vw('m', wrapper(cmd.VimwikiMakeTomorrowDiaryNote), 'Tomorrow Log Note')
 
 	Nmap('<leader>ww', '<nop>')
+	Nmap('<leader>wm', '<nop>')
 
 	-- vw('t', wrapper(vim.cmd.VimwikiTabMakeDiaryNote), 'Daily Log Tab')
 end
@@ -160,7 +164,7 @@ g.vimwiki_diary_rel_path = 'daily_log/'
 g.vimwiki_dir_link = 'main'
 -- g.vimwiki_filetypes = {'markdown'}
 -- g.vimwiki_folding = 'list:quick'
-g.vimwiki_folding = 'custom'
+-- g.vimwiki_folding = 'custom'
 g.vimwiki_hl_cb_checked = 1
 g.vimwiki_hl_headers = 0
 g.vimwiki_table_auto_fmt = 0

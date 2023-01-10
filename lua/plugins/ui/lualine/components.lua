@@ -149,13 +149,14 @@ M.bufferline = {
 M.tabs = {
 	'tabs',
 
-	icons_enabled = true,
-	icon = '',
-
 	max_length = vim.o.columns / 3, -- Maximum width of tabs component.
-	mode = 2, -- 0-2: tab_nr, tab_name, both
+	mode = 1, -- 0-2: tab_nr, tab_name, both
 	-- color = { fg = '#ff0000', bg = 'grey', gui = 'italic,bold' },
 
+	-- separator = { left = 'a', right = 'b' },
+	-- separator = 'a',
+	fmt = function(name) return name end,
+	cond = function() return vim.bo.filetype ~= 'alpha' end,
 	tabs_color = {
 		active = 'lualine_c_normal',
 		inactive = 'lualine_c_inactive',
@@ -224,8 +225,7 @@ M.diff = {
 }
 
 M.symbols = function()
-	local has_symbolwinbar, symbolwinbar = pcall(require, 'lspsaga.symbolwinbar')
-	if not has_symbolwinbar then return end
+	local symbolwinbar = require('lspsaga.symbolwinbar')
 	local symbol = symbolwinbar.get_symbol_node() or ''
 	return symbol
 end

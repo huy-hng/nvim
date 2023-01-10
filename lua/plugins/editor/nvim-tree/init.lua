@@ -42,5 +42,6 @@ function M.config()
 	-- print(options.update_focused_file.enable)
 	-- nmap('<leader>e', functions.focus_tree, 'Toggle Nvim Tree')
 end
+-- M.config()
 
 return M

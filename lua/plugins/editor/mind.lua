@@ -11,7 +11,7 @@ Augroup('AutoreloadNoice', {
 		vim.notify('autoreload')
 		M.config()
 	end),
-}, true, true)
+}, true, false)
 
 function M.config()
 	local cmds = require('mind.commands')

@@ -6,7 +6,8 @@ local M = {
 		'nvim-treesitter/nvim-treesitter-context',
 		'nvim-treesitter/nvim-treesitter-textobjects',
 		'RRethy/nvim-treesitter-textsubjects',
-		'p00f/nvim-ts-rainbow', -- highlight parentheses in different colors
+		-- 'p00f/nvim-ts-rainbow', -- highlight parentheses in different colors
+		'mrjones2014/nvim-ts-rainbow',
 		{ 'mfussenegger/nvim-treehopper', dependencies = 'phaazon/hop.nvim' },
 	},
 	build = function()
@@ -14,7 +15,6 @@ local M = {
 		ts_update()
 	end,
 }
-
 function M.config()
 	require('plugins.treesitter.completion')
 	require('plugins.treesitter.context')

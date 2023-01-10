@@ -1,7 +1,7 @@
 local M = {
 	'catppuccin/nvim',
 	name = 'catppuccin',
-	event = 'VeryLazy',
+	event = 'VimEnter',
 }
 
 -- vim.g.catppuccin_flavour = 'latte' -- latte, frappe, macchiato, mocha
@@ -47,7 +47,7 @@ function M.config()
 	}
 	local catppuccin = require('catppuccin')
 
-	if vim.g.neovide then catppuccin.setup { term_colors = true } end
+	if vim.g.has_neovide then catppuccin.setup { term_colors = true } end
 	catppuccin.setup {
 		flavour = 'mocha', -- latte, frappe, macchiato, mocha
 		background = { -- :h background

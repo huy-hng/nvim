@@ -73,7 +73,8 @@ return {
 	--stylua: ignore
 	snippet('plugin', fmt([[
 		local M = {{
-			{}
+			'{}',
+			event = 'VeryLazy',
 		}}
 
 		function M.config()

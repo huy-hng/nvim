@@ -2,7 +2,7 @@ local M = {
 	'tpope/vim-dadbod',
 	dependencies = {
 		'kristijanhusak/vim-dadbod-ui',
-		{ 'nvim-cmp', lazy = true },
+		{ 'hrsh7th/nvim-cmp', lazy = true },
 		'nvim-lua/plenary.nvim',
 	},
 	event = 'VeryLazy',

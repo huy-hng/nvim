@@ -19,7 +19,7 @@ end
 
 ---@param fn function function to be wrapped
 ---@param ... any args for the function
-function ScheduleWrap(fn, ...) --
+function M.schedule_wrap(fn, ...) --
 	local args = { ... }
 	return vim.schedule_wrap(function() fn(unpack(args)) end)
 end
