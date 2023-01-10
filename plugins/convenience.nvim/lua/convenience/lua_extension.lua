@@ -13,6 +13,9 @@ function math.round(x) --
 	return math.floor(x + 0.5)
 end
 
+--- Check if a string starts with a substring
+function string.starts(String, Start) return string.sub(String, 1, string.len(Start)) == Start end
+
 --- Checks if a list-like (vector) table contains `value`.
 ---
 ---@param t table Table to check
