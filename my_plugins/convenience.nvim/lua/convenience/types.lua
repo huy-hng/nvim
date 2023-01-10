@@ -18,6 +18,24 @@ local M = {}
 ---| 'quickfix' quickfix list
 ---| 'unknown' winid not found
 
+---@alias buftype
+---| '' normal buffer
+---| 'acwrite'
+---| 'help'	
+---| 'nofile'
+---| 'nowrite'
+---| 'quickfix'
+---| 'terminal'
+---| 'prompt'
+
+
+  
+
+
+
+
+
+
 M.win_types = {
 	-- ['(empty)'] = '(empty)', -- normal window
 	autocmd = 'autocmd',
