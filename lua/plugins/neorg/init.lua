@@ -38,14 +38,7 @@ function M.config()
 					open_last_workspace = true, -- bool or 'default' for default_workspace
 				},
 			},
-
 			['core.integrations.telescope'] = {},
-
-			-- gtd
-			['core.gtd.base'] = { config = {
-				workspace = 'example_gtd',
-			} },
-			['core.gtd.ui'] = { config = {} },
 		},
 	}
 end
