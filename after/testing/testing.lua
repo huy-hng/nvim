@@ -105,6 +105,7 @@ local function vim_api()
 end
 
 local function vim_functions()
+	vim.loop.now() -- to measure time
 	vim.fn.winlayout(1) -- get layout of tab
 
 	vim.fn.winline() -- where the cursor is relative to the window (not buffer)

@@ -24,6 +24,10 @@ M.loaded = function(name) vim.pretty_print(package.loaded[name]) end
 ---@module 'plenary.reload'
 local reload = M.nrequire('plenary.reload')
 
+function M.relative_require()
+
+end
+
 if reload then
 	M.reload = reload.reload_module
 else
