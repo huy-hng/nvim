@@ -6,20 +6,21 @@ package.path = NVIM_CONFIG_PATH .. '?.lua;' .. package.path
 vim.g.has_neovide = vim.g.neovide
 vim.g.neovide = nil
 
-local require_dir = require('modules.require_dir')
 
-require('functions.profiler') -- start profiler at the beginning
-require('core.globals')
 require('core.options')
+require('core.globals')
 require('core.colorscheme')
 
-require_dir('lua/functions')
-
 require('plugin_management')
-require('core.autocmd')
-
-if vim.g.has_neovide then require('core.neovide') end
+require('core.neovide')
 
 Augroup('LazyLoad', {
-	Autocmd('User', 'VeryLazy', { require_dir, 'lua/lazy' }),
+	Autocmd('User', 'VeryLazy', function()
+		local require_dir = require('modules.require_dir')
+
+		require('core.autocmd')
+		require_dir('lua/functions')
+		require_dir('lua/keymaps')
+		return true
+	end),
 })
