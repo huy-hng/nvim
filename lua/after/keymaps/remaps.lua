@@ -32,15 +32,20 @@ Nmap('V', 'vg_')
 Vmap('V', 'V')
 
 -- break undo sequence before pasting from register
+Imap(',', ',<c-g>u')
+Imap('.', '.<c-g>u')
+Imap(';', ';<c-g>u')
 Imap('<C-r>', '<C-g>u<C-r>')
 Imap('<C-v>', '<C-g>u<C-r>+')
+
 Cmap('<C-v>', '<C-r>+', 'Paste from clipboard', { silent = false })
 
 -- keep cursor centered when searching
 Nmap('n', 'nzzzv')
 Nmap('N', 'Nzzzv')
 
-Nmap('#', '*NN')
+Map('n', "'Nn'[v:searchforward]", 'Next search result', { expr = true })
+Map('N', "'nN'[v:searchforward]", 'Next search result', { expr = true })
 
 Nmap('zj', 'zj^', 'Move to the start of the next fold')
 Nmap('zk', 'zk^', 'Move to the end of the previous fold')

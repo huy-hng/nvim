@@ -149,7 +149,7 @@ local locked = false
 local function ScheduleWrapAsync(fn, ...)
 	local args = { ... }
 	local async_fn = a.void(function() fn(unpack(args)) end)
-	return ScheduleWrap(a.run, async_fn, nil)
+	return nvim.schedule_wrap(a.run, async_fn, nil)
 end
 
 local function ScheduleAsync(fn, ...)
