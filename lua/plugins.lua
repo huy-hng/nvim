@@ -2,7 +2,7 @@
 -- https://github.com/folke/LazyVim/blob/main/lua/lazyvim/plugins/coding.lua
 return {
 	-- my plugins
-	{ 'huy-hng/convenience.nvim', lazy = false, dev = true, config = true },
+	{ 'huy-hng/convenience.nvim', lazy = false, dev = true, config = true, priority = 100 },
 	{ 'huy-hng/metamap.nvim', lazy = false, dev = true, dependencies = 'convenience.nvim' },
 	{
 		'huy-hng/column_line.nvim',
@@ -21,6 +21,7 @@ return {
 
 	-- full on features
 	'jceb/vim-orgmode',
+
 
 	-- extra features
 	'tpope/vim-obsession',
