@@ -1,6 +1,7 @@
 local M = {
 	'jedrzejboczar/possession.nvim',
 	dependencies = { 'nvim-lua/plenary.nvim' },
+	event = 'VeryLazy',
 }
 
 local function get_buffer_elements()
@@ -124,7 +125,7 @@ function M.config()
 			before_save = function(name)
 				print_messages('Saving Session ' .. name)
 				-- AutosaveSession(false)
-				return {}
+				return { timestamp = os.time() }
 				-- return false
 			end,
 
@@ -147,31 +148,37 @@ function M.config()
 		},
 		plugins = {
 			close_windows = {
-				hooks = { 'before_load' },
-				-- hooks = {},
+				hooks = { 'before_load', 'after_load' },
 				preserve_layout = false, -- or fun(win): boolean
 				match = {
-					floating = false,
+					floating = true,
 					-- buftype = { 'nofile' },
 					buftype = {},
 					filetype = { 'vimwiki' },
-					custom = function(win)
-						local win_conf = vim.api.nvim_win_get_config(win)
-						-- P(win_conf)
-						-- if vim.bo.filetype == 'alpha' then Exec('Bdelete') end
-						-- print('close window:', vim.bo.buftype, vim.bo.filetype)
-					end, -- or fun(win): boolean
+					-- custom = function(win)
+					-- 	local win_conf = vim.api.nvim_win_get_config(win)
+					-- 	P(win_conf)
+					-- 	-- if vim.bo.filetype == 'alpha' then Exec('Bdelete') end
+					-- 	-- print('close window:', vim.bo.buftype, vim.bo.filetype)
+					-- end, -- or fun(win): boolean
 					-- i could make a custom function to not close vimwiki buffers
 				},
 			},
 			delete_hidden_buffers = {
 				hooks = {
-					-- 'before_load',
+					'before_load',
 					-- 'before_save',
 					-- vim.o.sessionoptions:match('buffer') and 'before_save',
 				},
-				force = function() --
-					print('hiddenbuffer force:', vim.bo.buftype, vim.bo.filetype)
+				force = function(bufnr) --
+					-- print(
+					-- 	'hiddenbuffer force:',
+					-- 	vim.fn.bufname(bufnr),
+					-- 	vim.bo[bufnr].buftype,
+					-- 	vim.bo[bufnr].filetype
+					-- )
+
+					return true
 				end, -- or fun(buf): boolean
 			},
 			nvim_tree = false,
