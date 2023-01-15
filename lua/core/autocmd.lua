@@ -35,11 +35,9 @@ Augroup('FileTypes', {
 		function(data) vim.bo[data.buf].filetype = 'zsh' end
 	),
 
-	-- Autocmd('FileType', 'alpha', function(data) 
+	-- Autocmd('FileType', 'alpha', function(data)
 	-- 	vim.wo.statuscolumn = ''
 	-- end),
-
-
 
 	-- Autocmd('BufEnter', '*', function(data)
 	-- 	if vim.bo[data.buf].filetype == 'help' then
@@ -118,17 +116,17 @@ Augroup('Vimwiki', {
 }, true, true)
 
 Augroup('NoComment', {
-	Autocmd({ 'BufEnter', 'InsertEnter', 'InsertLeave' }, function() --
-		vim.opt.formatoptions:remove { 'c', 'r', 'o' }
+	Autocmd('BufWinEnter', function() --
+		vim.opt_local.formatoptions:remove { 'c', 'r', 'o' }
 	end),
-}, true, false)
+}, true, true)
 
 vim.o.updatetime = 500 -- used for CursorHold
 local line_numbers = require('modules.line_numbers')
 Augroup('renu', {
 	Autocmd('CursorHold', line_numbers.renu_autocmd(true)),
 	Autocmd('CursorMoved', line_numbers.renu_autocmd(false)),
-}, true, true)
+}, true, false)
 
 Augroup('Misc', {
 	Autocmd('BufReadPost', function()
