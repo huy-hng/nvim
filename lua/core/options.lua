@@ -53,9 +53,10 @@ go.cmdheight = 0
 go.ruler = true
 -- go.winbar = '%#bold# %{expand("%:.")}'
 go.laststatus = 3 -- global statusline
+go.statusline = ' '
 go.cmdwinheight = 20
 -- go.showcmd = true
--- go.showmode = false
+go.showmode = false
 -- go.ruler = false
 -- opt_g.shortmess:append('')
 
@@ -65,10 +66,11 @@ o.list = true
 o.listchars = 'tab:  ,trail:·,nbsp:+'
 
 -- |│¦┆┇┊┋▕▔▏
+-- opt.fillchars.
 opt.fillchars:append {
 	--     
 	diff = ' ', -- ╱
-	fold = '·', -- '-' or '-' what the fold text is  filled with
+	fold = ' ', -- '·' '-' or '-' what the fold text is  filled with
 	foldopen = '', -- '┬' or '-',
 	foldclose = '', --  '+',
 	foldsep = ' ', --  '│' or '|',
@@ -214,4 +216,6 @@ function FoldText()
 	-- local sub = vim.fn.substitute(line, [[/*|*/|{{{\d\=]], '', 'g')
 	return indent .. line .. ' ---- ' .. line_num .. ' lines folded '
 end
+
 vim.o.foldtext = 'v:lua.FoldText()'
+-- vim.wo.foldtext = 'v:lua.require("ufo.main").foldtext()'
