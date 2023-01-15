@@ -33,6 +33,7 @@ o.termguicolors = true -- true color
 
 ----------------------------------------------Gutter------------------------------------------------
 -- opt_g.colorcolumn:append { 80 }
+-- o.signcolumn = 'auto:1-2' -- show sign column so that text doesn't shift
 o.signcolumn = 'yes' -- show sign column so that text doesn't shift
 o.numberwidth = 1 -- set to something smaller to reduce gutter size
 
