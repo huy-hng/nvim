@@ -68,7 +68,7 @@ function M.config()
 			-- 	if popup._.win_options.winblend then popup._.win_options.winblend = vim.o.winblend end
 			-- end),
 
-			Autocmd('BufWinEnter', '*.md', function(data)
+			Autocmd('BufWinEnter', '*.wiki', function(data)
 				local bufnr = data.buf
 				log('Changing buffer', bufnr)
 
@@ -113,7 +113,7 @@ function M.config()
 				return true
 			end),
 
-			Autocmd({ 'BufDelete' }, '*.md', function(data)
+			Autocmd({ 'BufDelete' }, '*.wiki', function(data)
 				log('BufDelete', data.buf)
 				local ft = vim.bo[data.buf].filetype
 				if ft == 'vimwiki' then
@@ -148,6 +148,7 @@ function M.config()
 
 	-- vw('t', wrapper(vim.cmd.VimwikiTabMakeDiaryNote), 'Daily Log Tab')
 end
+
 
 local g = vim.g
 
@@ -195,7 +196,7 @@ function Create_wiki(name)
 	local wiki = {}
 	wiki.auto_diary_index = 1
 	wiki.auto_toc = 0
-	wiki.ext = '.md'
+	-- wiki.ext = '.md'
 	-- wiki.syntax = 'markdown'
 	wiki.maxhi = 0 -- highlight empty pages
 	wiki.name = name
@@ -218,4 +219,5 @@ local misc = Create_wiki('Misc')
 
 g.vimwiki_list = { main, todo, projects, cheatsheets, misc }
 
+-- M.config()
 return M
