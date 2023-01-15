@@ -30,12 +30,26 @@ local function toggle_wrap()
 	end
 end
 
-Nmap('<F4>', { Util.toggle, 'concealcursor', false, { 'c', 'nc' } }, '[Toggle] Conceal')
--- Nmap('<F4>', toggle_conceal, '[Toggle] Conceal')
-Nmap('<F8>', toggle_wrap, '[Toggle] Wrap')
+local function toggle_commenting()
+	P(vim.opt_local.formatoptions:get())
 
--- toggle options
+	if vim.opt_local.formatoptions:get()['c'] then
+		vim.opt_local.formatoptions:remove { 'c', 'r', 'o' }
+		vim.notify('No Auto Comment')
+		return
+	end
+	vim.opt_local.formatoptions:append('cro')
+	vim.notify('Auto Comment')
+end
+
+
+Nmap('<F4>', { Util.toggle, 'concealcursor', false, { 'c', 'nc' } }, '[Toggle] Conceal')
+
+Nmap('<F8>', toggle_wrap, '[Toggle] Wrap')
+Nmap('<F7>', toggle_commenting, '[Toggle] Auto Comment')
+
 -- Nmap('<leader>tf', require('lazyvim.plugins.lsp.format').toggle, 'Toggle format on Save')
+
 Nmap('<F6>', function() Util.toggle('spell') end, 'Toggle Spelling')
 -- Nmap('', function() Util.toggle('wrap') end, 'Toggle Word Wrap')
 -- Nmap("<leader>td", Util.toggle_diagnostics, { desc = "Toggle Diagnostics" })
