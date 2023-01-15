@@ -4,13 +4,10 @@ local M = {
 }
 
 function M.config()
-	local wk = require('which-key')
-	if not wk then return end
-
 	require('plugins.ui.whichkey.ignores')
 	require('plugins.ui.whichkey.whichkey')
 
-	wk.setup {
+	require('which-key').setup {
 		plugins = {
 			marks = true, -- shows a list of your marks on ' and `
 			registers = true, -- shows your registers on " in NORMAL or <C-r> in INSERT mode
@@ -67,8 +64,8 @@ function M.config()
 		hidden = { '<silent>', '<cmd>', '<Cmd>', '<CR>', 'call', 'lua', '^:', '^ ' }, -- hide mapping boilerplate
 		show_help = false, -- show help message on the command line when the popup is visible
 		show_keys = false, -- show the currently pressed key and its label as a message in the command line
-		triggers = 'auto', -- automatically setup triggers
-		-- triggers = { 'auto', '<leader>', '<C-w>', '<C-x>', 'g', 'z', '"', "'", '<C-r>' },
+		-- triggers = 'auto', -- automatically setup triggers
+		triggers = { '<leader>' },
 		triggers_blacklist = {
 			-- list of mode / prefixes that should never be hooked by WhichKey
 			-- this is mostly relevant for key maps that start with a native binding
@@ -84,4 +81,5 @@ function M.config()
 		},
 	}
 end
+
 return M
