@@ -9,7 +9,14 @@ end
 
 --- round to nearest integer
 ---@param x number
-function math.round(x) --
+---@param digits integer
+---@overload fun(x: number)
+function math.round(x, digits)
+	if digits then
+		local format = string.format('%%.%sf', digits)
+		return tonumber(string.format(format, x))
+	end
+
 	return math.floor(x + 0.5)
 end
 
@@ -94,14 +101,8 @@ function table.add(...)
 	return new
 end
 
-function table.extend(...)
-	return vim.tbl_extend('force', ...)
-end
+function table.extend(...) return vim.tbl_extend('force', ...) end
 
-function table.keys(t)
-	return vim.tbl_keys(t)
-end
+function table.keys(t) return vim.tbl_keys(t) end
 
-function table.values(t)
-	return vim.tbl_values(t)
-end
+function table.values(t) return vim.tbl_values(t) end
