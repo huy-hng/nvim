@@ -35,6 +35,12 @@ Augroup('FileTypes', {
 		function(data) vim.bo[data.buf].filetype = 'zsh' end
 	),
 
+	-- Autocmd('FileType', 'alpha', function(data) 
+	-- 	vim.wo.statuscolumn = ''
+	-- end),
+
+
+
 	-- Autocmd('BufEnter', '*', function(data)
 	-- 	if vim.bo[data.buf].filetype == 'help' then
 	-- 		vim.cmd.wincmd('H')
@@ -63,37 +69,44 @@ Augroup('AfterYank', { -- highlight yanked text
 })
 
 Augroup('Vimwiki', {
-	Autocmd('FileType', 'vimwiki', function()
+	-- add date in vimwiki
+	Autocmd(
+		'BufNewFile',
+		'*/daily_log/[0-9]*.wiki',
+		[[0r !echo "= $(date -d '%:t:r' +'\%A, \%b \%d') =\n"]]
+	),
+
+	Autocmd('BufWinEnter', '*.wiki', function(data)
+		local bufnr = data.buf
+		-- print('entering', vim.bo[bufnr].filetype)
+
+		-- if vim.bo[bufnr].filetype ~= 'vimwiki' then
+		-- 	vim.cmd.TSBufEnable('highlight')
+		-- 	return
+		-- end
+
+		NestedAutocmd(data, 'BufWinLeave', '*.wiki', function() --
+			vim.wo.winbar = true
+			vim.o.number = true
+			vim.o.relativenumber = true
+			vim.o.wrap = false
+			-- vim.o.concealcursor = 'nc'
+			vim.bo[bufnr].buflisted = false
+			return true
+		end)
+
+		vim.wo.winbar = false
 		vim.o.number = false
 		vim.o.relativenumber = false
 		vim.o.wrap = true
 		vim.o.concealcursor = 'nc'
-		vim.bo.buflisted = false
-		-- vim.wo.foldexpr = 'nvim_treesitter#foldexpr()'
-		-- Schedule(Exec, 'TSBufDisable highlight')
-	end),
-
-	Autocmd('BufWinEnter', '*.md', function(data)
-		local bufnr = data.buf
-		if vim.bo[bufnr].filetype ~= 'vimwiki' then return end
-
-		vim.bo[bufnr].buflisted = false
 
 		-- needs to be here because gitsigns gets lazyloaded
 		require('gitsigns').detach(data.buf)
 		require('cmp').setup.buffer { enabled = false }
 	end),
 
-	Autocmd('BufWinEnter', '*/daily_log/[0-9]*.md', function() vim.wo.winbar = false end),
-
-	-- add date in vimwiki
-	Autocmd(
-		'BufNewFile',
-		'*/daily_log/[0-9]*.md',
-		[[0r !echo "= $(date -d '%:t:r' +'\%A, \%b \%d') =\n"]]
-	),
-
-	-- -- autocmd({ 'BufNewFile', 'BufEnter' }, '*.md', function(data)
+	-- -- autocmd({ 'BufNewFile', 'BufEnter' }, '*.wiki', function(data)
 	-- -- 	local ft = vim.api.nvim_buf_get_option(data.buf, 'ft')
 	-- -- 	-- local foldexpr = vim.api.nvim_buf_get_option(data.buf, 'foldexpr')
 	-- -- 	if ft == 'vimwiki' then
@@ -102,48 +115,20 @@ Augroup('Vimwiki', {
 	-- -- 		-- Schedule(Exec, 'TSBufDisable highlight')
 	-- -- 	end
 	-- -- end),
-}, true, false)
+}, true, true)
 
 Augroup('NoComment', {
 	Autocmd({ 'BufEnter', 'InsertEnter', 'InsertLeave' }, function() --
 		vim.opt.formatoptions:remove { 'c', 'r', 'o' }
 	end),
-})
+}, true, false)
 
 vim.o.updatetime = 500 -- used for CursorHold
 local line_numbers = require('modules.line_numbers')
 Augroup('renu', {
 	Autocmd('CursorHold', line_numbers.renu_autocmd(true)),
 	Autocmd('CursorMoved', line_numbers.renu_autocmd(false)),
-
-	Autocmd('CursorMoved', function()
-		-- local start = vim.fn.line('w0')
-		-- local is_fold_before = vim.fn.foldclosed(start - 1)
-		-- local is_fold_after = vim.fn.foldclosed(start)
-		-- if is_fold_before > 0 or is_fold_after > 0 then
-		-- 	-- print('is fold', start)
-		-- 	vim.g.neovide_scroll_animation_length = 0
-		-- else
-		-- 	vim.g.neovide_scroll_animation_length = 0.5
-		-- end
-
-		-- local line = vim.fn.line('w0')
-		-- local line = vim.fn.col('w0')
-		-- local col = vim.api.nvim_win_get_width(0)
-		-- local pos = vim.api.nvim_win_get_position(0)
-		-- -- P(config)
-		-- -- P(pos)
-
-		-- local winid = vim.api.nvim_get_current_win()
-		-- local info = vim.fn.getwininfo(winid)[1]
-		-- local editor_size = info.width - info.textoff
-		-- -- print(editor_size)
-		-- P(info)
-
-		-- local end_ = vim.fn.line('w$')
-		-- print(start, end_)
-	end),
-})
+}, true, true)
 
 Augroup('Misc', {
 	Autocmd('BufReadPost', function()
