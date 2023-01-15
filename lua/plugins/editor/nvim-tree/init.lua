@@ -1,7 +1,7 @@
 local M = {
 	'nvim-tree/nvim-tree.lua',
 	dependencies = { 'nvim-tree/nvim-web-devicons' },
-	keys = { '<C-e>' },
+	keys = { '<C-S-e>' },
 }
 
 function M.config()
@@ -37,8 +37,8 @@ function M.config()
 	end
 
 	local functions = require('plugins.editor.nvim-tree.functions')
-	Nmap('<C-e>', functions.focus_tree, 'Toggle Nvim Tree')
-	Nmap('<A-E>', NvimTreeFloat, 'Toggle Nvim Tree')
+	Nmap('<C-S-e>', functions.focus_tree, 'Toggle Nvim Tree')
+	-- Nmap('<A-E>', NvimTreeFloat, 'Toggle Nvim Tree')
 	-- print(options.update_focused_file.enable)
 	-- nmap('<leader>e', functions.focus_tree, 'Toggle Nvim Tree')
 end
