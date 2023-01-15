@@ -6,7 +6,7 @@ local M = {
 }
 
 function M.config()
-	local ufo = R('ufo')
+	local ufo = require('ufo')
 
 	local fn = require('plugins.ui.ufo.functions')
 	local fold_text = require('plugins.ui.ufo.fold_text_handler')
@@ -84,17 +84,16 @@ function M.config()
 	-- UfoDisableFold	Disable to get folds for current buffer
 
 	vim.cmd([[
-" hi default UfoFoldedFg guifg=Normal.foreground
-hi default UfoFoldedFg guifg=Visual
-" hi default UfoFoldedBg guibg=Folded.background
-" hi default UfoFoldedBg guibg=Visual
-hi default link UfoPreviewSbar PmenuSbar
-hi default link UfoPreviewThumb PmenuThumb
-hi default link UfoPreviewWinBar UfoFoldedBg
-hi default link UfoPreviewCursorLine Visual
-hi default link UfoFoldedEllipsis Comment
-]])
-
+	" hi default UfoFoldedFg guifg=Normal.foreground
+	hi default UfoFoldedFg guifg=Visual
+	" hi default UfoFoldedBg guibg=Folded.background
+	" hi default UfoFoldedBg guibg=Visual
+	hi default link UfoPreviewSbar PmenuSbar
+	hi default link UfoPreviewThumb PmenuThumb
+	hi default link UfoPreviewWinBar UfoFoldedBg
+	hi default link UfoPreviewCursorLine Visual
+	hi default link UfoFoldedEllipsis Comment
+	]])
 	-- UfoFoldedFg: Foreground for raw text of folded line.
 	-- UfoFoldedBg: Background of folded line.
 	-- UfoPreviewSbar: Scroll bar of preview window, only take effect if the border is missing right horizontal line, like border = 'none'.
@@ -103,5 +102,28 @@ hi default link UfoFoldedEllipsis Comment
 	-- UfoPreviewThumb: Thumb of preview window.
 	-- UfoFoldedEllipsis: Ellipsis at the end of folded line, invalid if fold_virt_text_handler is set.
 end
+
+-- CreateAutocmd(
+-- 	'TextChanged',
+-- 	'*',
+-- 	function() require('ufo.lib.event'):emit('TextChanged', vim.api.nvim_get_current_buf()) end,
+-- 	{ group = 'Ufo' }
+-- )
+
+-- vim.cmd([[
+-- 	aug Ufo
+-- 	au!
+-- 	au BufEnter * lua require('ufo.lib.event'):emit('BufEnter', vim.api.nvim_get_current_buf())
+-- 	au InsertLeave * lua require('ufo.lib.event'):emit('InsertLeave', vim.api.nvim_get_current_buf())
+-- 	au TextChanged * lua require('ufo.lib.event'):emit('TextChanged', vim.api.nvim_get_current_buf())
+-- 	au BufWritePost * lua require('ufo.lib.event'):emit('BufWritePost', vim.api.nvim_get_current_buf())
+-- 	au WinClosed * lua require('ufo.lib.event'):emit('WinClosed', tonumber(vim.fn.expand('<afile>')))
+-- 	au CmdlineLeave * lua require('ufo.lib.event'):emit('CmdlineLeave')
+-- 	au ColorScheme * lua require('ufo.lib.event'):emit('ColorScheme')
+-- 	au OptionSet buftype silent! lua require('ufo.lib.event'):emit('BufTypeChanged', vim.api.nvim_get_current_buf(), vim.v.option_new, vim.v.option_old)
+-- 	au OptionSet filetype silent! lua require('ufo.lib.event'):emit('FileTypeChanged', vim.api.nvim_get_current_buf(), vim.v.option_new, vim.v.option_old)
+-- 	au OptionSet diff silent! lua require('ufo.lib.event'):emit('DiffModeChanged', vim.api.nvim_get_current_win(), tonumber(vim.v.option_new), tonumber(vim.v.option_old))
+-- 	aug END
+-- ]])
 
 return M
