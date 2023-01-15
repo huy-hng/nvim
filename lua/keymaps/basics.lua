@@ -13,7 +13,7 @@ end
 Nmap('<leader>gt', Util.float_term, 'Terminal (cwd)')
 Nmap(
 	'<leader>gg',
-	{ Util.float_term, 'lazygit', { size = { width = 0.8, height = 0.9 } } },
+	{ Util.float_term, 'lazygit', { size = { width = 0.6, height = 0.9 } } },
 	'Lazygit (cwd)'
 )
 -- Nmap('<leader>gG', function() Util.float_term({ 'lazygit' }, { cwd = Util.get_root() }) end, 'Lazygit (root dir)')
