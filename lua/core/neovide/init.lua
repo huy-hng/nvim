@@ -1,3 +1,5 @@
+if not vim.g.has_neovide then return end
+
 local os_fn = require('core.neovide.os_functions')
 local functions = require('core.neovide.functions')
 
