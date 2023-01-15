@@ -1,4 +1,7 @@
 local utils = require('metamap.utils')
+-- TODO: have a look at /home/huy/.local/share/nvim/lazy/nvim-ufo/lua/ufo/lib/debounce.lua
+-- there a nice version of metatable is implemented
+
 -- local MapCreator = require('metamap.prefix_mapper')
 
 ---@alias mapper fun(mode:mode, lhs: lhs, rhs: rhs, desc: desc?, opts: opts?)
