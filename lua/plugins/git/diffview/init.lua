@@ -1,15 +1,15 @@
 local M = {
 	'sindrets/diffview.nvim', -- side by side diff view
 	keys = '<C-g>',
-	event = 'VeryLazy'
-	-- lazy = false,
+	event = 'VeryLazy',
 }
 
-Nmap('<C-g>', vim.cmd.DiffviewOpen, '[Diffview] Open')
-Vmap('<leader>gf', ":'<,'>DiffviewFileHistory<CR>", '[Diffview] File History Visual Selection')
-
 function M.config()
-	local diffview = R('diffview')
+	local diffview = require('diffview')
+
+	Nmap('<C-g>', vim.cmd.DiffviewOpen, '[Diffview] Open')
+	Vmap('<leader>gf', ":'<,'>DiffviewFileHistory<CR>", '[Diffview] File History Visual Selection')
+
 	local map = MapCreator('n', '<leader>g', '[Diffview]')
 	map('f', { vim.cmd.DiffviewFileHistory, '%' }, 'Open')
 
