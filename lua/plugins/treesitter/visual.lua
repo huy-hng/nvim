@@ -1,4 +1,4 @@
-Filetype_hl = {
+local ft = {
 	'vimwiki',
 }
 
@@ -13,7 +13,7 @@ require('nvim-treesitter.configs').setup {
 		additional_vim_regex_highlighting = false,
 
 		disable = function(lang, buf)
-			if vim.tbl_contains(Filetype_hl, lang) then return true end
+			if vim.tbl_contains(ft, lang) then return true end
 
 			local max_filesize = 100 * 1024 -- 100 KB
 			local ok, stats = pcall(vim.loop.fs_stat, vim.api.nvim_buf_get_name(buf))

@@ -25,6 +25,13 @@ function M.config()
 	require('plugins.treesitter.treehopper')
 	require('plugins.treesitter.visual')
 
+	-- needed because of vimwiki for some reason, requiring it at start, causes
+	-- vimwiki syntax to not load
+	-- CreateAutocmd('User', 'VeryLazy', function()
+	-- 	require('plugins.treesitter.visual')
+	-- 	return true
+	-- end)
+
 	local configs = require('nvim-treesitter.configs')
 
 	configs.setup {
