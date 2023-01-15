@@ -1,5 +1,3 @@
-Nmap('<A-p>', require('lazy').home)
-
 return {
 	root = vim.fn.stdpath('data') .. '/lazy', -- directory where plugins will be installed
 	defaults = {

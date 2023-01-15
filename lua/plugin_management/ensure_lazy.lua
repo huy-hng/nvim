@@ -6,7 +6,8 @@ if not vim.loop.fs_stat(lazypath) then
 		'--filter=blob:none',
 		'--single-branch',
 		'https://github.com/folke/lazy.nvim.git',
+		'--branch=stable',
 		lazypath,
 	}
 end
-vim.opt.runtimepath:prepend(lazypath)
+vim.opt.rtp:prepend(vim.env.LAZY or lazypath)
