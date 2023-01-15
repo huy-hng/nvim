@@ -1,7 +1,7 @@
 Nmap('<F1>', '<nop>')
 
-Nmap('<space>', '<nop>')
-Nmap('<space><space>', '<nop>')
+-- Nmap('<space>', '<nop>')
+-- Nmap('<space><space>', '<nop>')
 
 Nmap('<S-SPACE>', '<nop>')
 Nmap('<C-SPACE>', '<nop>')
@@ -44,8 +44,16 @@ Cmap('<C-v>', '<C-r>+', 'Paste from clipboard', { silent = false })
 Nmap('n', 'nzzzv')
 Nmap('N', 'Nzzzv')
 
-Map('n', "'Nn'[v:searchforward]", 'Next search result', { expr = true })
-Map('N', "'nN'[v:searchforward]", 'Next search result', { expr = true })
+local function direction(next)
+	return function()
+		local forward = vim.v.searchforward == 1
+		local direction = forward and next or next == 'n' and 'N' or 'n'
+		return direction .. 'zzzv'
+	end
+end
+
+Map('n', direction('n'), 'Next search result', { expr = true })
+Map('N', direction('N'), 'Next search result', { expr = true })
 
 Nmap('zj', 'zj^', 'Move to the start of the next fold')
 Nmap('zk', 'zk^', 'Move to the end of the previous fold')
