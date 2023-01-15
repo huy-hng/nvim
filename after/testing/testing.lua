@@ -107,6 +107,8 @@ end
 local function vim_functions()
 	vim.loop.now() -- to measure time
 	vim.fn.winlayout(1) -- get layout of tab
+	local cols = vim.o.columns -- to get the total columns of the editor
+	local lines = vim.o.lines -- to get the total lines of the editor
 
 	vim.fn.winline() -- where the cursor is relative to the window (not buffer)
 	vim.fn.wincol() -- get cursor column relative to window
