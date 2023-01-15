@@ -1,6 +1,7 @@
 local M = {
 	'nvim-lualine/lualine.nvim',
 	dependencies = { 'nvim-tree/nvim-web-devicons' },
+	-- lazy = false,
 	event = 'VeryLazy',
 	-- ft = 'alpha',
 }
@@ -31,6 +32,15 @@ function M.config()
 	cat.inactive.a.bg = 'bg'
 	cat.inactive.b.bg = 'bg'
 	cat.inactive.c.bg = 'bg'
+
+	local ranger = {
+		sections = {
+			lualine_a = { { 'mode', fmt = function(str) return 'Ranger' end } },
+			lualine_y = { comp.command, 'progress', 'location' },
+			lualine_z = { comp.date, comp.clock },
+		},
+		filetypes = { 'rnvimr' },
+	}
 
 	lualine.setup {
 		options = {
@@ -85,7 +95,23 @@ function M.config()
 			lualine_c = { comp.diff, 'diagnostics', comp.filename },
 			lualine_x = {},
 		},
-		extensions = { 'nvim-dap-ui', 'quickfix' },
+		extensions = {
+			ranger,
+			-- 'aerial',
+			-- 'chadtree',
+			-- 'fern',
+			-- 'fugitive',
+			-- 'fzf',
+			-- 'man',
+			-- 'mundo',
+			-- 'neo-tree',
+			-- 'nerdtree',
+			'nvim-dap-ui',
+			-- 'nvim-tree',
+			'quickfix',
+			-- 'symbols-outline',
+			-- 'toggleterm',
+		},
 	}
 
 	-- vim.api.nvim_del_augroup_by_name()
