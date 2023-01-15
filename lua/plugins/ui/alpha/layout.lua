@@ -1,12 +1,8 @@
 local utils = require('plugins.ui.alpha.utils')
-local components = require('plugins.ui.alpha.components')
-local headers = require('plugins.ui.alpha.customization.headers')
+local comp = require('plugins.ui.alpha.components')
 
-local fortune = require('alpha.fortune')
-local ascii_art = require('plugins.ui.alpha.customization.ascii_art')
 local quotes = require('plugins.ui.alpha.customization.quotes')
 local sessions = require('plugins.ui.alpha.possession')
-local num_plugins = require('lazy').stats().count
 
 local terminal = {
 	type = 'terminal',
@@ -19,66 +15,81 @@ local terminal = {
 	},
 }
 
-local header = {
-	type = 'text',
-	val = utils.get_random_element(headers),
-	opts = {
-		position = 'center',
-		hl = 'Type',
-		-- wrap = "overflow";
-	},
-}
+-- button('SPC f f', '  Find file'),
+-- button('SPC f h', '  Recently opened files'),
+-- button('SPC f r', '  Frecency/MRU'),
+-- button('SPC f g', '  Find word'),
+-- button('SPC f m', '  Jump to bookmarks'),
+-- button('SPC s l', '  Open last session'),
 
-local footer_text = utils.get_random_element(ascii_art)
-for _, v in ipairs(fortune()) do
-	table.insert(footer_text, v)
+local startify = require('alpha.themes.startify')
+
+require('plugins.ui.alpha.recent_files')
+
+-- TODO: show startup time
+
+local function lazy_stats(prefix, stat)
+	local stats = require('lazy').stats()
+
+	local example_result = {
+		-- startuptime in milliseconds till UIEnter
+		startuptime = 0,
+		real_cputime = false,
+		count = 0, -- total number of plugins
+		loaded = 0, -- number of loaded plugins
+		---@type table<string, number>
+		times = {},
+	}
+	-- P(stats)
+
+	return {
+		comp.text('Startup Time: ' .. math.round(stats.startuptime, 1) .. 'ms', 'Comment'),
+		comp.padding(1),
+		comp.text('Plugins installed: ' .. stats.count, 'Comment'),
+		comp.text('Plugins loaded: ' .. stats.loaded, 'Comment'),
+	}
 end
-
-local footer = {
-	type = 'text',
-	val = footer_text,
-	opts = {
-		position = 'center',
-		hl = 'Comment',
-	},
-}
-
-
-local buttons = {
-	type = 'group',
-	val = {
-		components.button('e', '  New file', '<cmd>enew<cr>'),
-		components.button('q', '  Quit NVIM', Util.quit_last_buffer),
-
-		-- button('SPC f f', '  Find file'),
-		-- button('SPC f h', '  Recently opened files'),
-		-- button('SPC f r', '  Frecency/MRU'),
-		-- button('SPC f g', '  Find word'),
-		-- button('SPC f m', '  Jump to bookmarks'),
-		-- button('SPC s l', '  Open last session'),
-	},
-	opts = {
-		spacing = 1,
-	},
-}
 
 return {
 	layout = {
 		-- terminal,
-		{ type = 'padding', val = 2 },
-		header,
-		{ type = 'padding', val = 2 },
-		sessions,
-		{ type = 'padding', val = 1 },
-		components.text('Actions', 'Type'),
-		{ type = 'padding', val = 1 },
-		buttons,
-		{ type = 'padding', val = 1 },
-		components.text('Plugins installed: ' .. num_plugins, 'Comment'),
-		{ type = 'padding', val = 2 },
-		footer,
+		comp.group {
+			comp.padding(1),
+
+			comp.header(),
+			comp.padding(2),
+
+			comp.divider(' Session Management '),
+			comp.padding(1),
+
+			require('plugins.ui.alpha.session_manager'),
+			comp.padding(1),
+
+			comp.divider('Actions'),
+			comp.padding(1),
+			-- comp.group_name('Actions'),
+			comp.group({
+				comp.button('  New file', 'e', vim.cmd.enew, nil, { cursor = 5 }),
+				comp.button('  Quit', 'q', Util.quit_last_buffer, nil, { cursor = 5 }),
+			}, 1),
+
+			comp.padding(1),
+
+			-- comp.text('Plugins installed: ' .. lazy_stats.count, 'Comment'),
+			comp.divider(' Stats ', nil, 'Comment'),
+			comp.padding(1),
+
+			comp.group(lazy_stats),
+
+			-- require('plugins.ui.alpha.recent_files'),
+			comp.padding(2),
+			comp.footer(),
+		},
 	},
 	opts = {
-		margin = 5,
+		margin = 0,
+		-- setup = function()
+		-- end,
+		noautocmd = false,
 	},
 }

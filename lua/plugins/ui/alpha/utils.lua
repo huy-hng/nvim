@@ -1,10 +1,21 @@
 local M = {}
 
-function M.pad_text(name, width)
-	width = width or 50
-	local needed_spaces = width - string.len(name)
-	local padded_name = name .. Repeat(' ', needed_spaces)
+local options = require('plugins.ui.alpha.options')
+
+function M.pad(text, width)
+	width = width or options.width
+	local needed_spaces = width - string.len(text)
+	local padded_name = text .. Repeat(' ', needed_spaces)
 	return padded_name
+end
+
+function M.pad_text(val, width)
+	if type(val) == 'function' then --
+		return function() M.pad(val(), width) end
+	elseif type(val) == 'string' then
+		return M.pad(val, width)
+	end
+	return val
 end
 
 local seed = math.floor(os.time() + os.clock() * 10 ^ 6)
@@ -15,7 +26,6 @@ math.random()
 math.random()
 
 function M.get_random_element(elements) return elements[math.random(#elements)] end
-
 
 function M.colorizer(header, text_arr)
 	for i, value in ipairs(text_arr) do
