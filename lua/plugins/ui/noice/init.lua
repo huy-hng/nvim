@@ -52,6 +52,7 @@ local function get_config()
 			-- NOTE: If you enable messages, then the cmdline is enabled automatically.
 			-- This is a current Neovim limitation.
 			enabled = not vim.g.has_neovide, -- enables the Noice messages UI
+			-- enabled = true, -- enables the Noice messages UI
 			view = 'mini_middle', -- default view for messages
 			view_error = 'notify', -- view for errors
 			view_warn = 'notify', -- view for warnings
