@@ -110,8 +110,8 @@ _G.StatusColumn = {
 	end,
 }
 
-vim.wo.numberwidth = 1
-vim.wo.signcolumn = 'yes:2'
+-- vim.wo.numberwidth = 1
+-- vim.wo.signcolumn = 'yes'
 
 local close_to_default = StatusColumn.build {
 	StatusColumn.sections.folds,
