@@ -6,13 +6,14 @@ package.path = NVIM_CONFIG_PATH .. '?.lua;' .. package.path
 vim.g.has_neovide = vim.g.neovide
 vim.g.neovide = nil
 
-
 require('core.options')
 require('core.globals')
 require('core.colorscheme')
 
 require('plugin_management')
 require('core.neovide')
+
+if vim.fn.has('nvim-0.9.0') == 1 then require('core.statuscolumn') end
 
 Augroup('LazyLoad', {
 	Autocmd('User', 'VeryLazy', function()
