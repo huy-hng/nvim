@@ -51,6 +51,8 @@ function M.lnumfunc(number, relativenumber, thousands, relculright)
 	return lnum .. ''
 end
 
+
+
 _G.StatusColumn = {
 	handler = {
 		fold = function()
@@ -116,8 +118,8 @@ _G.StatusColumn = {
 		},
 		border = {
 			'%#StatusColumnBorder#', -- HL
-			-- '│',
-			'▏',
+			'│',
+			-- '▏',
 			-- [[▐]],
 			-- '▕',
 		},
@@ -180,53 +182,57 @@ end
 
 local column = StatusColumn.build {
 
-	-- StatusColumn.sections.border,
 	-- StatusColumn.sections.padding,
 
 	StatusColumn.sections.line_number,
-	StatusColumn.sections.sign_column,
 	StatusColumn.sections.folds,
 	-- StatusColumn.sections.spacing,
+	StatusColumn.sections.sign_column,
+	-- StatusColumn.sections.spacing,
+	-- StatusColumn.sections.border,
 }
+
 local on = true
 local function toggler()
 	if on then
+		vim.wo.foldcolumn = '1'
 		on = false
-		-- Right aligned relative cursor line number:
-		-- vim.opt.statuscolumn = '%=%{v:relnum?v:relnum:v:lnum} '
-
 		vim.wo.statuscolumn = ''
-		-- vim.wo.foldcolumn = '1'
-		-- vim.wo.numberwidth = 1
-		-- vim.wo.signcolumn = 'yes'
-		-- vim.wo.number = true
-
-		-- -- Line numbers in hexadecimal for non wrapped part of lines:
-		-- vim.opt.statuscolumn = [[%=%{v:wrap?"":printf("%x",v:lnum)} ]]
-
-		-- -- Human readable line numbers with thousands separator:
-		-- vim.opt.statuscolumn = [[%{substitute(v:lnum,"\d\zs\ze\%(\d\d\d\)\+$",",","g")}]]
-
-		-- -- Both relative and absolute line numbers with different
-		-- -- highlighting for odd and even relative numbers:
-		-- vim.opt.statuscolumn =
-		-- 	[[%#NonText#%{&nu?v:lnum:""} %=%{&rnu&&(v:lnum%2)?"\ ".v:relnum:""} %#LineNr#%{&rnu&&!(v:lnum%2)?"\ ".v:relnum:""}]]
-
-		-- -- Relative number with bar separator and click handlers:
-		-- vim.opt.statuscolumn = '%@SignCb@%s%=%T%@NumCb@%r│%T'
+		vim.notify('statuscolumn off')
 
 		return
 	end
+	vim.wo.foldcolumn = '0'
 	P(vim.fn.sign_getplaced())
+	vim.notify('statuscolumn on')
 	on = true
-	-- StatusColumn.set_window(close_to_default)
 	StatusColumn.set_window(column)
 end
 
+-- StatusColumn.set_window(column)
 Nmap("<c-'>", toggler)
-vim.wo.foldcolumn = '0'
 vim.wo.numberwidth = 1
-vim.wo.signcolumn = 'no'
+vim.wo.signcolumn = 'yes'
 vim.wo.number = true
 
+-- vim.wo.statuscolumn = column
 -- vim.opt.statuscolumn = '%{v:wrap ? repeat(" ", float2nr(ceil(log10(v:lnum))))."↳":v:lnum}%=%s%C'
+
+local function extra_examples()
+	-- Line numbers in hexadecimal for non wrapped part of lines:
+	vim.opt.statuscolumn = [[%=%{v:wrap?"":printf("%x",v:lnum)} ]]
+
+	-- Human readable line numbers with thousands separator:
+	vim.opt.statuscolumn = [[%{substitute(v:lnum,"\d\zs\ze\%(\d\d\d\)\+$",",","g")}]]
+
+	-- Both relative and absolute line numbers with different
+	-- highlighting for odd and even relative numbers:
+	vim.opt.statuscolumn =
+		[[%#NonText#%{&nu?v:lnum:""} %=%{&rnu&&(v:lnum%2)?"\ ".v:relnum:""} %#LineNr#%{&rnu&&!(v:lnum%2)?"\ ".v:relnum:""}]]
+
+	-- Relative number with bar separator and click handlers:
+	vim.opt.statuscolumn = '%@SignCb@%s%=%T%@NumCb@%r│%T'
+
+	-- Right aligned relative cursor line number:
+	vim.opt.statuscolumn = '%=%{v:relnum?v:relnum:v:lnum} '
+end

@@ -17,11 +17,6 @@ o.pumblend = 0
 o.conceallevel = 2
 o.concealcursor = 'c'
 
--- line numbers
-go.relativenumber = true -- show relative line numbers
-go.number = true -- shows absolute line number on cursor line
-o.number = true
-
 -- cursor line
 o.cursorline = true -- highlight the current cursor line
 o.cursorlineopt = 'number'
@@ -31,19 +26,27 @@ o.cursorlineopt = 'number'
 -- o.background = "dark" -- colorschemes that can be light or dark will be made dark
 o.termguicolors = true -- true color
 
+---------------------------------------------Statuscolumn-------------------------------------------
+
+go.relativenumber = false -- show relative line numbers
+go.number = true -- shows absolute line number on cursor line
+o.number = true
+
+
 ----------------------------------------------Gutter------------------------------------------------
 -- opt_g.colorcolumn:append { 80 }
 -- o.signcolumn = 'auto:1-2' -- show sign column so that text doesn't shift
-o.signcolumn = 'yes' -- show sign column so that text doesn't shift
+-- o.signcolumn = 'yes' -- show sign column so that text doesn't shift
+o.signcolumn = 'no' -- show sign column so that text doesn't shift
 o.numberwidth = 1 -- set to something smaller to reduce gutter size
+-- go.foldcolumn = 'auto:1'
+o.foldcolumn = '0'
 
--- folding
+-----------------------------------------------Folding----------------------------------------------
 go.foldenable = true
 o.foldlevelstart = 99 -- find a way to get the highest possible folds in a file and set it to it
 -- or just zR at on bufenter
 -- find a way to get the highest possible folds in a file and set it to it
-go.foldcolumn = 'auto:1'
--- go.foldcolumn = '1'
 o.foldclose = '' -- set to 'all' to close folds after cursor leaves
 o.foldminlines = 1
 o.foldmethod = 'expr'
