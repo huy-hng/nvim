@@ -1,6 +1,6 @@
 -- if _G.StatusColumn then return end
 
-_G.StatusColumn = {
+_G.Statuscolumn = {
 	handler = {
 		fold = function()
 			local lnum = vim.fn.getmousepos().line
@@ -93,7 +93,7 @@ _G.StatusColumn = {
 			if type(value) == 'string' then
 				table.insert(statuscolumn, value)
 			elseif type(value) == 'table' then
-				table.insert(statuscolumn, StatusColumn.build(value))
+				table.insert(statuscolumn, Statuscolumn.build(value))
 			end
 		end
 
@@ -113,21 +113,21 @@ _G.StatusColumn = {
 -- vim.wo.numberwidth = 1
 -- vim.wo.signcolumn = 'yes'
 
-local close_to_default = StatusColumn.build {
-	StatusColumn.sections.folds,
-	StatusColumn.sections.sign_column,
-	StatusColumn.sections.line_number,
+local close_to_default = Statuscolumn.build {
+	Statuscolumn.sections.folds,
+	Statuscolumn.sections.sign_column,
+	Statuscolumn.sections.line_number,
 	-- StatusColumn.sections.spacing,
 	-- StatusColumn.sections.border,
-	StatusColumn.sections.spacing,
+	Statuscolumn.sections.spacing,
 	-- StatusColumn.sections.padding,
 }
 
-local column = StatusColumn.build {
-	StatusColumn.sections.sign_column,
+local column = Statuscolumn.build {
+	Statuscolumn.sections.sign_column,
 	-- StatusColumn.sections.folds,
-	StatusColumn.sections.line_number,
-	StatusColumn.sections.spacing,
+	Statuscolumn.sections.line_number,
+	Statuscolumn.sections.spacing,
 	-- StatusColumn.sections.border,
 	-- StatusColumn.sections.spacing,
 }
@@ -153,12 +153,12 @@ local function toggler()
 		-- -- Relative number with bar separator and click handlers:
 		-- vim.opt.statuscolumn = '%@SignCb@%s%=%T%@NumCb@%r│%T'
 
-		StatusColumn.set_window('')
+		Statuscolumn.set_window('')
 		return
 	end
 	on = true
 	-- StatusColumn.set_window(close_to_default)
-	StatusColumn.set_window(column)
+	Statuscolumn.set_window(column)
 end
 Nmap("<c-'>", toggler)
 
