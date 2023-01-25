@@ -71,7 +71,7 @@ function M.config()
 				comp.filetype,
 				comp.plugin_info,
 			},
-			lualine_y = { comp.command, 'progress', 'location' },
+			lualine_y = { comp.command, 'progress', 'location', '%B' },
 			lualine_z = { comp.date, comp.clock },
 		},
 		inactive_sections = {},
