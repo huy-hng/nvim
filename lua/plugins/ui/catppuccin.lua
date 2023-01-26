@@ -47,7 +47,7 @@ function M.config()
 	}
 	local catppuccin = require('catppuccin')
 
-	-- if vim.g.has_neovide then catppuccin.setup { term_colors = true } end
+	if vim.g.has_neovide then catppuccin.setup { term_colors = true } end
 	catppuccin.setup {
 		flavour = 'mocha', -- latte, frappe, macchiato, mocha
 		background = { -- :h background
@@ -82,8 +82,10 @@ function M.config()
 		custom_highlights = function(colors)
 			return {
 				Statusline = { fg = colors.text, bg = nil },
-				['@comment'] = { fg = colors.overlay1, style = { 'italic' } },
-				-- ['@comment'] = { fg = colors.sky, style = { 'italic' } },
+				LineNr = { fg = colors.surface2 },
+				CursorLineNr = { fg = colors.lavender },
+				FoldColumn = { fg = colors.overlay1 },
+				['@comment'] = { fg = colors.overlay0, style = { 'italic' } },
 			}
 		end,
 		integrations = integrations,
