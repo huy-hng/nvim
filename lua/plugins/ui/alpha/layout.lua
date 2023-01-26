@@ -59,8 +59,6 @@ return {
 			comp.header(),
 			comp.padding(2),
 
-			comp.divider(' Session Management '),
-			comp.padding(1),
 
 			require('plugins.ui.alpha.session_manager'),
 			comp.padding(1),

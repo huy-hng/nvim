@@ -20,7 +20,10 @@ local function format_date(session, format)
 end
 
 local function sort_sessions_by_time(sessions)
-	table.sort(sessions, function(a, b) return a.user_data.timestamp > b.user_data.timestamp end)
+	table.sort(sessions, function(a, b) 
+		if not a then return false end
+		if not b then return true end
+		return a.user_data.timestamp > b.user_data.timestamp end)
 end
 
 local function get_sessions() return query.as_list() end
@@ -51,7 +54,6 @@ local function last_session_group(last_session, groups)
 	for _, group in ipairs(groups) do
 		local group_name, sessions = unpack(group)
 		for _, session in ipairs(sessions or {}) do
-			-- P(group_name, session.name)
 			if session.name == last_session.name then return group_name end
 		end
 	end
@@ -64,7 +66,7 @@ local function group_buttons(groups, prefixes)
 		local group_name = group[1]
 		local sessions = group[2]
 
-		if #sessions == 0 then return end
+	if not sessions or #sessions == 0 then return end
 
 		local i = 0
 		local buttons = vim.tbl_map(function(session)
@@ -87,13 +89,16 @@ local function layout()
 	sort_sessions_by_time(sessions)
 
 	local groups, prefixes = group_by_workspaces(workspace_specs, sessions)
+	if #sessions == 0 then return end
 
 	local last_session = sessions[1]
 	local last_session_group_name = last_session_group(last_session, groups)
 	return {
-		comp.group_name('Last Session: ' .. last_session_group_name),
+		comp.divider(' Session Management '),
 		comp.padding(1),
-		comp.button(last_session.name, '0', load_session(last_session.name)),
+		last_session_group_name and comp.group_name('Last Session: ' .. last_session_group_name),
+		comp.padding(1),
+		last_session and comp.button(last_session.name, '0', load_session(last_session.name)),
 		comp.padding(1),
 		comp.group(group_buttons(groups, prefixes)),
 	}
