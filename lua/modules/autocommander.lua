@@ -46,7 +46,7 @@ end
 
 ---@param data table
 ---@param events autocmd_events
----@param pattern string
+---@param pattern string | nil
 ---@param command any
 ---@param opts any
 function M.nestedAutocmd(data, events, pattern, command, opts)
