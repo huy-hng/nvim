@@ -1,17 +1,17 @@
 local M = {}
-local v = vim.v
 
 M.indexed = {}
 M.defined_signs = {}
 
-function M.cache_defined_signs()
-	local defined = vim.fn.sign_getdefined()
-	for _, def in ipairs(defined) do
-		if def.text then def.text = string.gsub(def.text, ' ', '') end
-		M.defined_signs[def.name] = def
+--- Store defined signs without whitespace.
+function M.update_sign_defined()
+	for _, sign in ipairs(vim.fn.sign_getdefined()) do
+		if sign.text then --
+			sign.text = sign.text:gsub('%s', '')
+		end
+		M.defined_signs[sign.name] = sign
 	end
 end
-M.cache_defined_signs()
 
 function M.update_signs()
 	local bufnr = vim.api.nvim_get_current_buf()
@@ -36,10 +36,16 @@ function M.get_gitsigns(bufnr, lnum)
 	return sign
 end
 
+function M.is_collapsed(lnum) return vim.fn.foldclosed(lnum) ~= -1 end
+
+function M.is_foldline(lnum) --
+	return vim.fn.foldlevel(lnum) > vim.fn.foldlevel(lnum - 1)
+end
+
 function M.wrap_hl(text, hl) --
-	if type(text) == 'table' then
-		text = table.concat(text)
-	end
+	if type(text) == 'table' then text = table.concat(text) end
+	text = text or ''
+	if not hl then return text end
 	return '%#' .. hl .. '#' .. text .. '%##'
 end
 
