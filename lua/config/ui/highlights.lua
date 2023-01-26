@@ -1,4 +1,9 @@
 local c = require('config.ui.colors')
+
+local hl = {
+	ColumnLine = { link = 'Comment' },
+}
+
 --stylua: ignore
 return {
 	["@number"]                  = { fg = c.red, bg = c.none },

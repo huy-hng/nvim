@@ -27,7 +27,7 @@ function M.config()
 	---@module cmp
 	local cmp = require('cmp')
 
-	local kind_icons = require('plugins.coding.cmp.icons')
+	local kind_icons = require('config.ui.icons').lsp_kinds
 	local mappings = require('plugins.coding.cmp.mappings')
 
 	local compare = cmp.config.compare
@@ -52,16 +52,16 @@ function M.config()
 			-- 	col_offset = -3,
 			-- 	side_padding = 0,
 			-- },
-			documentation = cmp.config.window.bordered(
-				'╭',
-				'─',
-				'╮',
-				'│',
-				'╯',
-				'─',
-				'╰',
-				'│'
-			),
+			-- documentation = cmp.config.window.bordered(
+			-- 	'╭',
+			-- 	'─',
+			-- 	'╮',
+			-- 	'│',
+			-- 	'╯',
+			-- 	'─',
+			-- 	'╰',
+			-- 	'│'
+			-- ),
 		},
 		formatting = {
 			fields = { 'kind', 'abbr', 'menu' },

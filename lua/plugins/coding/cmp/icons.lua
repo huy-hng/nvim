@@ -1,139 +1,28 @@
----@class LazyVimSettings
-local settings = {
-	icons = {
-		diagnostics = {
-			Error = ' ',
-			Warn = ' ',
-			Hint = ' ',
-			Info = ' ',
-		},
-		git = {
-			added = ' ',
-			modified = ' ',
-			removed = ' ',
-		},
-		kinds = {
-			Array = ' ',
-			Boolean = ' ',
-			Class = ' ',
-			Color = ' ',
-			Constant = ' ',
-			Constructor = ' ',
-			Enum = ' ',
-			EnumMember = ' ',
-			Event = ' ',
-			Field = ' ',
-			File = ' ',
-			Folder = ' ',
-			Function = ' ',
-			Interface = ' ',
-			Key = ' ',
-			Keyword = ' ',
-			Method = ' ',
-			Module = ' ',
-			Namespace = ' ',
-			Null = 'ﳠ ',
-			Number = ' ',
-			Object = ' ',
-			Operator = ' ',
-			Package = ' ',
-			Property = ' ',
-			Reference = ' ',
-			Snippet = ' ',
-			String = ' ',
-			Struct = ' ',
-			Text = ' ',
-			TypeParameter = ' ',
-			Unit = ' ',
-			Value = ' ',
-			Variable = ' ',
-		},
-	},
-}
-
+--stylua: ignore
 local CompletionItemKind = {
-	Text = 1,
-	Method = 2,
-	Function = 3,
-	Constructor = 4,
-	Field = 5,
-	Variable = 6,
-	Class = 7,
-	Interface = 8,
-	Module = 9,
-	Property = 10,
-	Unit = 11,
-	Value = 12,
-	Enum = 13,
-	Keyword = 14,
-	Snippet = 15,
-	Color = 16,
-	File = 17,
-	Reference = 18,
-	Folder = 19,
-	EnumMember = 20,
-	Constant = 21,
-	Struct = 22,
-	Event = 23,
-	Operator = 24,
+	Text          =  1,
+	Method        =  2,
+	Function      =  3,
+	Constructor   =  4,
+	Field         =  5,
+	Variable      =  6,
+	Class         =  7,
+	Interface     =  8,
+	Module        =  9,
+	Property      = 10,
+	Unit          = 11,
+	Value         = 12,
+	Enum          = 13,
+	Keyword       = 14,
+	Snippet       = 15,
+	Color         = 16,
+	File          = 17,
+	Reference     = 18,
+	Folder        = 19,
+	EnumMember    = 20,
+	Constant      = 21,
+	Struct        = 22,
+	Event         = 23,
+	Operator      = 24,
 	TypeParameter = 25,
-}
-local reverse = vim.tbl_add_reverse_lookup(CompletionItemKind)
-
-local cmp_kinds = {
-	Text = '  ',
-	Method = '  ',
-	Function = '  ',
-	Constructor = '  ',
-	Field = '  ',
-	Variable = '  ',
-	Class = '  ',
-	Interface = '  ',
-	Module = '  ',
-	Property = '  ',
-	Unit = '  ',
-	Value = '  ',
-	Enum = '  ',
-	Keyword = '  ',
-	Snippet = '  ',
-	Color = '  ',
-	File = '  ',
-	Reference = '  ',
-	Folder = '  ',
-	EnumMember = '  ',
-	Constant = '  ',
-	Struct = '  ',
-	Event = '  ',
-	Operator = '  ',
-	TypeParameter = '  ',
-}
-
-
-return {
-	Text = '', --𝓐
-	Method = '',
-	Function = '',
-	Constructor = '', --  
-	Field = '', -- ﰠ 
-	Variable = '', -- 
-	Class = 'ﴯ', --  𝓒
-	Interface = '', -- 
-	Module = '',
-	Property = 'ﰠ', --  
-	Unit = '',
-	Value = '',
-	Enum = '', -- ℰ
-	Keyword = '',
-	Snippet = '',
-	Color = '',
-	File = '', -- 
-	Reference = '', -- 
-	Folder = '',
-	EnumMember = '',
-	Constant = '', --  
-	Struct = 'פּ', --  𝓢
-	Event = '', -- 🗲
-	Operator = '', -- 
-	TypeParameter = '', --   𝙏
-	-- cmdline_history = '',
 }

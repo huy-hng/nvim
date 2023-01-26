@@ -1,9 +1,11 @@
 ---------------------------------------------Diagnostics--------------------------------------------
+
+local icons = require('config.ui.icons').diagnostics_sign
 local signs = {
-	{ name = 'DiagnosticSignError', text = '' }, --   
-	{ name = 'DiagnosticSignWarn', text = '◉' }, -- 
-	{ name = 'DiagnosticSignInfo', text = '' }, -- 
-	{ name = 'DiagnosticSignHint', text = '·' }, -- 
+	{ name = 'DiagnosticSignError', text = icons.error },
+	{ name = 'DiagnosticSignWarn',  text = icons.warning },
+	{ name = 'DiagnosticSignInfo',  text = icons.info },
+	{ name = 'DiagnosticSignHint',  text = icons.hint },
 }
 
 for _, sign in ipairs(signs) do
