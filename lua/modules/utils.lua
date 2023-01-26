@@ -4,11 +4,13 @@ function M.nil_and_true(input) return input == nil and true or input end
 
 ---@param winid number?
 ---@return win_type
-function M.win_type(winid) return vim.fn.win_gettype(winid) end
+function M.win_type(winid)
+	winid = winid or vim.api.nvim_get_current_win()
+	return vim.fn.win_gettype(winid)
+end
 
 ---@param winid number?
 function M.is_cmdwin(winid)
-	winid = winid or vim.api.nvim_get_current_win()
 	local type = M.win_type(winid)
 
 	local mode = vim.fn.mode()

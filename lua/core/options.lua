@@ -32,7 +32,6 @@ go.relativenumber = false -- show relative line numbers
 go.number = true -- shows absolute line number on cursor line
 o.number = true
 
-
 ----------------------------------------------Gutter------------------------------------------------
 -- opt_g.colorcolumn:append { 80 }
 -- o.signcolumn = 'auto:1-2' -- show sign column so that text doesn't shift
@@ -65,22 +64,10 @@ go.showmode = false
 -- opt_g.shortmess:append('')
 
 -- display indentations
+local icons = require('config.ui.icons')
 o.list = true
--- o.listchars = 'tab:▏ ,trail:·,nbsp:+'
-o.listchars = 'tab:  ,trail:·,nbsp:+'
-
--- |│¦┆┇┊┋▕▔▏
--- opt.fillchars.
-opt.fillchars:append {
-	--     
-	diff = ' ', -- ╱
-	fold = ' ', -- '·' '-' or '-' what the fold text is  filled with
-	foldopen = '', -- '┬' or '-',
-	foldclose = '', --  '+',
-	foldsep = ' ', --  '│' or '|',
-	eob = ' ', -- End of buffer, to remove ~ from the side
-	-- horiz = '─' or '-',
-}
+opt.listchars = icons.listchars
+opt.fillchars = icons.fillchars
 
 --==============================================================================
 --                       |=> Editor User Interface <=|
