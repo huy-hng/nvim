@@ -35,10 +35,6 @@ Augroup('FileTypes', {
 		function(data) vim.bo[data.buf].filetype = 'zsh' end
 	),
 
-	-- Autocmd('FileType', 'alpha', function(data)
-	-- 	vim.wo.statuscolumn = ''
-	-- end),
-
 	-- Autocmd('BufEnter', '*', function(data)
 	-- 	if vim.bo[data.buf].filetype == 'help' then
 	-- 		vim.cmd.wincmd('H')
@@ -121,12 +117,15 @@ Augroup('NoComment', {
 	end),
 }, true, true)
 
-vim.o.updatetime = 500 -- used for CursorHold
+vim.o.updatetime = 400 -- used for CursorHold
 local line_numbers = require('modules.line_numbers')
 Augroup('renu', {
 	Autocmd('CursorHold', line_numbers.renu_autocmd(true)),
 	Autocmd('CursorMoved', line_numbers.renu_autocmd(false)),
-}, true, false)
+	Autocmd('InsertEnter', line_numbers.renu_autocmd(false)),
+	Autocmd('InsertLeave', line_numbers.renu_autocmd(true)),
+	Autocmd('WinLeave', line_numbers.renu_autocmd(false)),
+}, true, true)
 
 Augroup('Misc', {
 	Autocmd('BufReadPost', function()
@@ -183,6 +182,7 @@ Augroup('CommandlineWindow', {
 		nvim.schedule(function()
 			-- P(data)
 			vim.o.cmdheight = 0
+			local scroll_length_before = vim.g.neovide_scroll_animation_length
 			vim.g.neovide_scroll_animation_length = 0
 
 			local opts = { buffer = true, silent = false }
@@ -200,7 +200,9 @@ Augroup('CommandlineWindow', {
 			vim.cmd.TSContextDisable()
 			vim.cmd.TSBufDisable('highlight')
 
-			nvim.defer(200, function() vim.g.neovide_scroll_animation_length = 0.5 end)
+			nvim.defer(200, function() --
+				vim.g.neovide_scroll_animation_length = scroll_length_before
+			end)
 		end)
 	end),
 })

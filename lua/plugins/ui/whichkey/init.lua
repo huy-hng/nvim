@@ -65,7 +65,7 @@ function M.config()
 		show_help = false, -- show help message on the command line when the popup is visible
 		show_keys = false, -- show the currently pressed key and its label as a message in the command line
 		-- triggers = 'auto', -- automatically setup triggers
-		triggers = { '<leader>' },
+		triggers = { '<leader>', 'g' },
 		triggers_blacklist = {
 			-- list of mode / prefixes that should never be hooked by WhichKey
 			-- this is mostly relevant for key maps that start with a native binding
@@ -81,5 +81,6 @@ function M.config()
 		},
 	}
 end
+-- M.config()
 
 return M
