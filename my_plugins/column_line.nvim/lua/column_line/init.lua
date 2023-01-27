@@ -43,13 +43,27 @@ function M.start()
 			'SessionLoadPost',
 			'BufWinEnter',
 			'WinEnter',
+			'WinScrolled'
 		}, M.refresh),
+		Autocmd('WinScrolled', function() 
+			-- M.get_scroll_offset()
+		end),
 	})
 end
 
 function M.stop() DeleteAugroup('ColumnLine') end
 
 ---------------------------------------------Functions----------------------------------------------
+
+function M.get_scroll_offset()
+	local win = vim.fn.winsaveview()
+	local leftcol = win.leftcol
+
+	local topline = win.topline
+	local col = win.col
+	local lnum = win.lnum
+	return leftcol
+end
 
 function M.remove_colorcolumn_values()
 	for _, column in ipairs(vim.opt.colorcolumn:get()) do
@@ -60,7 +74,6 @@ function M.remove_colorcolumn_values()
 		end
 	end
 
-	-- vim.go.colorcolumn = ''
 	vim.o.colorcolumn = ''
 end
 
@@ -82,11 +95,12 @@ local function set_line(bufnr, column)
 			goto continue
 		end
 
+		local offset = M.get_scroll_offset()
 		vim.api.nvim_buf_set_extmark(bufnr, M.namespace, linenr - 1, 0, {
 			virt_text = { { M.opts.column_char, 'ColumnLine' } },
 			virt_text_pos = 'overlay',
 			hl_mode = 'combine',
-			virt_text_win_col = column,
+			virt_text_win_col = column - offset,
 			priority = 1,
 			-- hl_group = 'NormalFloat',
 			-- end_col = 100,
@@ -107,7 +121,7 @@ function M.refresh(data)
 	if not vim.api.nvim_buf_is_loaded(bufnr) then return end
 
 	local modifiable = vim.api.nvim_buf_get_option(bufnr, 'modifiable')
-	local wrong_filetype = vim.tbl_contains(M.opts.filetype_blacklist, vim.bo[bufnr].filetype)
+	local wrong_filetype = vim.tbl_contains(M.opts.filetype_blacklist, vim.bo[bufnr].filetype) -- local wrong_filetype = vim.tbl_contains(M.opts.filetype_blacklist, vim.bo[bufnr].filetype)
 	local right_buftype = vim.tbl_contains(M.opts.buftype_whitelist, vim.bo[bufnr].buftype)
 	local right_wintype = vim.tbl_contains(M.opts.wintype_whitelist, Util.win_type())
 
@@ -124,5 +138,7 @@ function M.refresh(data)
 		set_line(bufnr, tonumber(column))
 	end
 end
+
+M.setup()
 
 return M
