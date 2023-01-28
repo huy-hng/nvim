@@ -18,6 +18,10 @@ require('neodev').setup {
 			'possession.nvim',
 			'alpha-nvim',
 			'gitsigns',
+			'indent_line',
+			'column_line',
+			'metamap',
+			'convenience',
 		},
 	},
 	setup_jsonls = true, -- configures jsonls to provide completion for project specific .luarc.json files
