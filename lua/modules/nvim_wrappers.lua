@@ -14,7 +14,7 @@ function M.normal(str) vim.api.nvim_command('normal! ' .. str) end
 
 function M.defer(timeout, fn, ...) --
 	local args = { ... }
-	vim.defer_fn(function() fn(unpack(args)) end, timeout)
+	return vim.defer_fn(function() fn(unpack(args)) end, timeout)
 end
 
 ---@param fn function function to be wrapped

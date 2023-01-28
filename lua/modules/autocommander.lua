@@ -82,7 +82,7 @@ function M.deleteAugroup(group)
 
 	print(group)
 	local saved_group = vim.api.nvim_get_autocmds { group = group }
-	P(saved_group)
+	-- P(saved_group)
 	if not saved_group then return end
 
 	saved_groups[group] = saved_group
