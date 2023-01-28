@@ -47,6 +47,7 @@ function M.config()
 			end,
 		},
 		window = {
+			documentation = cmp.config.disable
 			-- completion = {
 			-- 	-- winhighlight = 'Normal:Pmenu,FloatBorder:Pmenu,Search:None',
 			-- 	col_offset = -3,
