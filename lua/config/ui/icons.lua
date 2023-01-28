@@ -115,7 +115,7 @@ return {
 		tab      = '  ', --  ▏
 		trail    = '·', -- •
 		extends  = '❯', -- Character to show in the last column, when 'wrap'  is off
-		precedes = '❮',
+		-- precedes = '❮',
 		nbsp     = '␣',
 	},
 
