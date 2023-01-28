@@ -1,8 +1,8 @@
 asd = 'a'
 
-local click = R('core.statuscolumn.click_handlers')
-local comp = R('core.statuscolumn.components')
-local utils = R('core.statuscolumn.utils')
+local click = require('core.statuscolumn.click_handlers')
+local comp = require('core.statuscolumn.components')
+local utils = require('core.statuscolumn.utils')
 
 local function display(text)
 	local prefix = '%{%v:lua.Statuscolumn.display.'

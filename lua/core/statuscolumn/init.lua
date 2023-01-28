@@ -1,7 +1,7 @@
 local M = {}
 
-R('core.statuscolumn.statuscolumn')
-local utils = R('core.statuscolumn.utils')
+require('core.statuscolumn.statuscolumn')
+local utils = require('core.statuscolumn.utils')
 
 local column = Statuscolumn.build {
 	Statuscolumn.sections.sign_column,

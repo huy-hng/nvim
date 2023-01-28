@@ -1,6 +1,6 @@
 local M = {}
 
-local icons = R('config.ui.icons').statuscolumn
+local icons = require('config.ui.icons').statuscolumn
 local utils = require('core.statuscolumn.utils')
 
 function M.lnumfunc()
