@@ -59,7 +59,7 @@ end
 
 local function on_attach(client, bufnr)
 	-- client.server_capabilities.semanticTokensProvider = {}
-	-- vim.lsp.semantic_tokens.stop(bufnr, client.id)
+	vim.lsp.semantic_tokens.stop(bufnr, client.id)
 	lsp_keymaps(bufnr)
 end
 
