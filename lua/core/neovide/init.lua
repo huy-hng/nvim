@@ -23,8 +23,8 @@ end
 local function chromebook()
 	g.neovide_refresh_rate = 60
 	g.neovide_default_transparency = 1
-	g.neovide_default_transparency = 0.7
-	g.gui_font_default_size = 11
+	g.neovide_default_transparency = 0.85
+	g.gui_font_default_size = 11.5
 end
 
 local function post_init()
