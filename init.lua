@@ -8,6 +8,7 @@ vim.g.neovide = nil
 
 require('core.options')
 require('core.globals')
+require('core.types')
 require('core.colorscheme')
 
 require('plugin_management')
