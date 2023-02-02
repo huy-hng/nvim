@@ -80,8 +80,7 @@ function M.deleteAugroup(group)
 	assert(type(group) == 'number' or type(group) == 'string')
 
 	print(group)
-	local saved_group = vim.api.nvim_get_autocmds { group = group }
-	P(saved_group)
+	local saved_group = npcall(vim.api.nvim_get_autocmds, { group = group })
 	if not saved_group then return end
 
 	saved_groups[group] = saved_group
