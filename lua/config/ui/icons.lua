@@ -214,7 +214,29 @@ return {
 		fold_collapsed = '',
 		fold_empty     = ' ',
 		border         = '│', -- '│' '▎''▕''▐''▏'
+		thick_border   = '┃',
+		full_block     = '█',
+		double_border  = '║',
 		spacing        = ' ',
+	},
+
+	blocks = {
+		half_block_left  = '▌',
+		full_block       = '█',
+		half_block_right = '▐',
+		thin_left        = '▏',
+		thin_right       = '▕'
+	},
+
+	box_drawing = {
+		thin_vert        = '│',
+		thin_hori        = '─',
+
+		thick_vert       = '┃',
+		thick_hori       = '━',
+
+		double_vert      = '║',
+		double_hori      = '═',
 	},
 
 	gitsigns = {
