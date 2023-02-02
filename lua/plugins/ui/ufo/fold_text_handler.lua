@@ -128,47 +128,41 @@ M.mark_copier = function(virtText, lnum, endLnum, width, truncate)
 
 	local suffix = ('  %d '):format(endLnum - lnum)
 
-	table.insert(newVirtText, { suffix, 'FoldColumn' })
+	table.insert(newVirtText, { suffix, 'UfoFoldedEllipsis' })
 
 	return newVirtText
 end
 
-M.fold_text_handler = function(virtText, lnum, endLnum, width, truncate)
+M.fold_text_handler = function(virt_text, lnum, end_lnum, width, truncate)
 	local newVirtText = {}
-	local suffix = ('  %d '):format(endLnum - lnum)
-	local sufWidth = vim.fn.strdisplaywidth(suffix)
-	local targetWidth = width - sufWidth
-	local curWidth = 0
-	print('target', targetWidth, width, sufWidth)
-	for _, chunk in ipairs(virtText) do
-		local chunkText = chunk[1]
+	local suffix = ('  %d '):format(end_lnum - lnum)
+	local suffix_width = vim.fn.strdisplaywidth(suffix)
+	local target = width - suffix_width
+	local cur_width = 0
 
-		chunk[1] = vim.fn.substitute(chunkText, '\t', '▏   ', 'g')
-		if string.find(chunkText, '\t') then chunk[2] = 'Whitespace' end
+	for _, chunk in ipairs(virt_text) do
+		local chunk_text = chunk[1]
 
-		local chunkWidth = vim.fn.strdisplaywidth(chunkText)
-		if targetWidth > curWidth + chunkWidth then
+		-- P(chunk)
+
+		local chunk_width = vim.fn.strdisplaywidth(chunk_text)
+		if target > cur_width + chunk_width then
 			table.insert(newVirtText, chunk)
 		else
-			print('smaller', curWidth)
-			chunkText = truncate(chunkText, targetWidth - curWidth)
-			local hlGroup = chunk[2]
-			table.insert(newVirtText, { chunkText, hlGroup })
-			chunkWidth = vim.fn.strdisplaywidth(chunkText)
+			chunk_text = truncate(chunk_text, target - cur_width)
+			local hl = chunk[2]
+			table.insert(newVirtText, { chunk_text, hl })
+			chunk_width = vim.fn.strdisplaywidth(chunk_text)
 			-- str width returned from truncate() may less than 2nd argument, need padding
-			if curWidth + chunkWidth < targetWidth then
-				suffix = suffix .. (' '):rep(targetWidth - curWidth - chunkWidth)
+			if cur_width + chunk_width < target then
+				suffix = suffix .. (' '):rep(target - cur_width - chunk_width)
 			end
 			break
 		end
-		curWidth = curWidth + chunkWidth
-		print(curWidth)
+		cur_width = cur_width + chunk_width
 	end
 
-	print('done', curWidth)
-
-	table.insert(newVirtText, { suffix, 'FoldColumn' })
-	-- table.insert(newVirtText, { suffix, 'Comment' })
+	table.insert(newVirtText, { suffix, 'UfoFoldedEllipsis' })
 	return newVirtText
 end
 
