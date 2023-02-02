@@ -121,6 +121,13 @@ local function vim_functions()
 	P(info)
 end
 
+local line = vim.fn.winline() -- where the cursor is relative to the window (not buffer)
+local col = vim.fn.wincol() -- get cursor column relative to window
+print(line, col)
+
+local win = vim.fn.winsaveview()
+P(win)
+
 
 local function recurse_layout(parent, nodes)
 	for _, node in ipairs(nodes) do
