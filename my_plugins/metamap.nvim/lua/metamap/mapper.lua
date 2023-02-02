@@ -1,4 +1,6 @@
 local utils = require('metamap.utils')
+require('metamap.types')
+
 -- TODO: have a look at /home/huy/.local/share/nvim/lazy/nvim-ufo/lua/ufo/lib/debounce.lua
 -- there a nice version of metatable is implemented
 

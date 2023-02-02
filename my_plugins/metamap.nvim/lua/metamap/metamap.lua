@@ -1,4 +1,5 @@
 local utils = require('metamap.utils')
+require('metamap.types')
 
 ---@class MetaMap
 ---@field registered_maps { mode: mode, lhs: string|table, rhs: string|function, opts: table? }
