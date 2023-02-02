@@ -9,7 +9,16 @@ function M.lnumfunc()
 	local is_current_line = vim.v.relnum == 0
 	if is_current_line then return vim.v.lnum end
 
-	local lnum = vim.o.relativenumber and vim.v.relnum or vim.v.lnum
+	-- local lnum = vim.o.relativenumber and vim.v.relnum or vim.v.lnum
+	local lnum = vim.v.lnum
+
+	if vim.o.relativenumber then
+		lnum = vim.v.relnum
+		if vim.v.relnum % 10 == 0 then
+			lnum = vim.v.lnum
+			lnum = utils.wrap_hl(lnum, 'CursorLineNr')
+		end
+	end
 
 	if utils.is_foldline(vim.v.lnum) and utils.is_collapsed(vim.v.lnum) then
 		lnum = utils.wrap_hl(lnum, 'FoldColumn')
@@ -20,32 +29,49 @@ end
 
 function M.signs()
 	local lnum = vim.v.lnum
+	local sign_text
+	local sign_hl
 
 	local signs = utils.get_sign(nil, '*', lnum)
-	if not signs or #signs == 0 then return ' ' end
+	if not signs or #signs == 0 then
+		goto skip
+	end
 
-	local sign
-	for _, s in ipairs(signs) do
-		if s.group ~= 'gitsigns_vimfn_signs_' then
-			sign = s
+	-- get sign if available
+	for _, sign in ipairs(signs) do
+		if sign.group ~= 'gitsigns_vimfn_signs_' then
+			local defined = utils.defined_signs[sign.name]
+
+			sign_text = defined.text
+			sign_hl = defined.texthl
 			break
 		end
 	end
-	if not sign then return ' ' end
 
-	local defined = utils.defined_signs[sign.name]
-	if not defined then return ' ' end
+	::skip::
 
-	return utils.wrap_hl(defined.text, defined.texthl)
+	-- sign_text = (sign_text or ' ') .. ' '
+	sign_text = sign_text or ' '
+	sign_hl = sign_hl or ''
+
+	-- if lnum < 99 then sign_text = sign_text .. ' ' end
+
+	return utils.wrap_hl(sign_text, sign_hl)
 end
 
 function M.gitsign_border()
 	local border = icons.border
+	local hl = 'Comment'
 	local lnum = vim.v.lnum
 
 	local sign = utils.get_gitsigns(nil, lnum)
 
-	local hl = 'Comment'
+	-- fold indicator when no sign
+	if utils.is_foldline(lnum) and utils.is_collapsed(lnum) then
+		border = icons.thick_border
+		hl = 'FoldColumn'
+	end
+
 	if sign and sign.group == 'gitsigns_vimfn_signs_' then --
 		hl = sign.name
 	end

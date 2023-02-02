@@ -1,29 +1,16 @@
 local M = {}
 
-require('core.statuscolumn.statuscolumn')
+R('core.statuscolumn.statuscolumn')
 local utils = require('core.statuscolumn.utils')
 
 local column = Statuscolumn.build {
 	Statuscolumn.sections.sign_column,
 	Statuscolumn.sections.right_align,
 	Statuscolumn.sections.line_number,
-	Statuscolumn.sections.border,
 	-- Statuscolumn.sections.folds,
+	Statuscolumn.sections.border,
 	Statuscolumn.sections.spacing,
 }
-
-function M.remove_statuscolumn()
-	vim.o.number = false
-	vim.o.signcolumn = 'no'
-	vim.o.foldcolumn = '0'
-end
-
-function M.default_statuscolumn()
-	vim.o.foldcolumn = '1'
-	vim.o.statuscolumn = ''
-	vim.o.signcolumn = 'yes'
-	vim.o.number = true
-end
 
 function M.custom_statuscolumn()
 	-- utils.update_signs()
@@ -63,5 +50,18 @@ Augroup('Statuscolumn', {
 })
 
 Nmap("<c-'>", M.toggler)
+
+function M.remove_statuscolumn()
+	vim.o.number = false
+	vim.o.signcolumn = 'no'
+	vim.o.foldcolumn = '0'
+end
+
+function M.default_statuscolumn()
+	vim.o.foldcolumn = '1'
+	vim.o.statuscolumn = ''
+	vim.o.signcolumn = 'yes'
+	vim.o.number = true
+end
 
 return M
