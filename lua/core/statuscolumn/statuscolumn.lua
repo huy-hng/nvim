@@ -1,5 +1,5 @@
 local click = require('core.statuscolumn.click_handlers')
-local comp = R('core.statuscolumn.components')
+local comp = require('core.statuscolumn.components')
 local utils = require('core.statuscolumn.utils')
 
 local function display(text)

@@ -1,6 +1,5 @@
 local M = {}
 
-
 -- autocmd(event, pattern, {cmd: string}|{fn: fn|table}, {*opts})
 -- autocmd(event, nil, cmd|fn, {*opts})
 -- autocmd(event, nil, cmd|fn)
@@ -13,13 +12,13 @@ local M = {}
 ---param events autocmd-events | autocmd-events[]
 --@param events autocmd_events | autocmd_events[]
 function M.autocmd(events, pattern, command, opts)
-	-- group: string | integer
-	-- callback: fn | command: string
-	-- pattern: string | array
-	-- buffer: int
-	-- desc: string
-	-- once: bool
-	-- nested: bool
+	-- group:    string | integer
+	-- callback: fn     | command: string
+	-- pattern:  string | array
+	-- buffer:   int
+	-- desc:     string
+	-- once:     bool
+	-- nested:   bool
 	opts = opts or {}
 
 	if command == nil then
@@ -30,7 +29,11 @@ function M.autocmd(events, pattern, command, opts)
 	if type(command) == 'string' then
 		opts.command = command
 	elseif type(command) == 'table' then
-		opts.callback = Util.extract_fn_from_table(command, 3)
+		if not command.__call then
+			opts.callback = Util.extract_fn_from_table(command, 3)
+		else
+			opts.callback = function(data) command(data) end
+		end
 	else
 		opts.callback = command
 	end

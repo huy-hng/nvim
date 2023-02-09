@@ -17,6 +17,16 @@ function M.defer(timeout, fn, ...) --
 	return vim.defer_fn(function() fn(unpack(args)) end, timeout)
 end
 
+function M.sleep(timeout, fn, ...) --
+	local args = { ... }
+	local res
+	vim.defer_fn(function() fn(unpack(args)) end, timeout)
+	vim.wait(timeout, function()
+		if res then return true end
+	end)
+	return res
+end
+
 ---@param fn function function to be wrapped
 ---@param ... any args for the function
 function M.schedule_wrap(fn, ...) --
@@ -31,6 +41,20 @@ function M.schedule(fn, ...)
 	vim.schedule(function() fn(unpack(args)) end)
 end
 
+---@param fn function function to be scheduled
+---@param ... any args for the function
+---@return any
+--- inherently slower than normal schedule due to synchronous nature of return
+function M.schedule_return(fn, ...)
+	local args = { ... }
+	local res
+	vim.schedule(function() res = fn(unpack(args)) end)
+	vim.wait(0, function()
+		if res then return true end
+	end)
+	return res
+end
+
 function Repeat(expr, count)
 	assert(type(count) == 'number')
 	count = math.round(count)
@@ -38,7 +62,12 @@ function Repeat(expr, count)
 end
 
 function M.termcode(key, from_part, do_lt, special)
-	return vim.api.nvim_replace_termcodes(key, Util.nil_and_true(from_part), Util.nil_and_true(do_lt), Util.nil_and_true(special))
+	return vim.api.nvim_replace_termcodes(
+		key,
+		Util.nil_and_true(from_part),
+		Util.nil_and_true(do_lt),
+		Util.nil_and_true(special)
+	)
 end
 
 function M.feedkeys(key, remap)

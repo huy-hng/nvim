@@ -1,13 +1,13 @@
 if not vim.g.has_neovide then return end
 
+require('core.neovide.options')
+require('core.neovide.mappings')
+
 local os_fn = require('core.neovide.os_functions')
 local functions = require('core.neovide.functions')
 
 local g = vim.g
 g.neovide_profiler = false
-
-require('core.neovide.mappings')
-require('core.neovide.options')
 
 local function manjaro()
 	g.neovide_refresh_rate = 240
@@ -26,6 +26,17 @@ local function chromebook()
 	g.neovide_default_transparency = 0.85
 	g.gui_font_default_size = 11.5
 end
+local function override_list_ui_function()
+	local list_uis = vim.api.nvim_list_uis
+	---@diagnostic disable-next-line: duplicate-set-field
+	vim.api.nvim_list_uis = function()
+		local uis = list_uis()
+		for _, ui in ipairs(uis) do
+			ui.ext_multigrid = false
+		end
+		return uis
+	end
+end
 
 local function post_init()
 	local device = os_fn.get_hostname() == 'huystower' and manjaro or chromebook
@@ -37,6 +48,7 @@ local function post_init()
 end
 
 post_init()
+override_list_ui_function()
 
 -- turn off when multigrid is enabled since it causes lag for some reason
 -- Exec('TSContextDisable')

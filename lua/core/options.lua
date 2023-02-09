@@ -174,7 +174,7 @@ go.compatible = false
 -- stop auto comment for new lines
 opt.formatoptions:remove { 'c', 'r', 'o' }
 
-opt_g.path:append(NVIM_CONFIG_PATH)
+-- opt_g.path:append(NVIM_CONFIG_PATH)
 opt_g.path:append('**')
 
 opt.switchbuf:append { 'useopen', 'vsplit' }

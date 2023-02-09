@@ -1,7 +1,8 @@
-local M = {}
+if not vim.fn.has('nvim-0.9.0') == 1 then return end
 
-R('core.statuscolumn.statuscolumn')
+local M = {}
 local utils = require('core.statuscolumn.utils')
+require('core.statuscolumn.statuscolumn')
 
 local column = Statuscolumn.build {
 	Statuscolumn.sections.sign_column,
@@ -12,8 +13,30 @@ local column = Statuscolumn.build {
 	Statuscolumn.sections.spacing,
 }
 
+local function init()
+	M.active = true
+	M.custom_statuscolumn()
+	Nmap("<c-'>", M.toggler)
+end
+
+Augroup('Statuscolumn', {
+	Autocmd('CmdwinEnter', function() utils.default_statuscolumn() end),
+
+	Autocmd('WinEnter', function()
+		local winid = vim.api.nvim_get_current_win()
+		local type = Util.win_type(winid)
+		if type ~= '' then vim.wo[winid].statuscolumn = '' end
+	end),
+
+	Autocmd('User', 'AlphaReady', function(data)
+		vim.wo.statuscolumn = ''
+		NestedAutocmd(data, 'BufUnload', nil, function() --
+			M.custom_statuscolumn()
+		end, { buffer = 0 })
+	end),
+})
+
 function M.custom_statuscolumn()
-	-- utils.update_signs()
 	utils.update_sign_defined()
 
 	vim.o.number = true
@@ -22,46 +45,20 @@ function M.custom_statuscolumn()
 	vim.o.statuscolumn = column
 end
 
-M.custom_statuscolumn()
-
-M.active = true
 function M.toggler()
-	if M.active then
-		M.default_statuscolumn()
+	if not M.active then
+		M.custom_statuscolumn()
 
-		vim.notify('statuscolumn off')
-		M.active = false
-		return
+		M.active = true
+		vim.notify('statuscolumn on')
 	end
-	M.custom_statuscolumn()
+	utils.default_statuscolumn()
 
-	M.active = true
-	vim.notify('statuscolumn on')
+	vim.notify('statuscolumn off')
+	M.active = false
+	return
 end
 
-Augroup('Statuscolumn', {
-	Autocmd('CmdwinEnter', function() M.default_statuscolumn() end),
-
-	Autocmd('WinEnter', function()
-		local winid = vim.api.nvim_get_current_win()
-		local type = Util.win_type(winid)
-		if type ~= '' then vim.wo[winid].statuscolumn = '' end
-	end),
-})
-
-Nmap("<c-'>", M.toggler)
-
-function M.remove_statuscolumn()
-	vim.o.number = false
-	vim.o.signcolumn = 'no'
-	vim.o.foldcolumn = '0'
-end
-
-function M.default_statuscolumn()
-	vim.o.foldcolumn = '1'
-	vim.o.statuscolumn = ''
-	vim.o.signcolumn = 'yes'
-	vim.o.number = true
-end
+init()
 
 return M

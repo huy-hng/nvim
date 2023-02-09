@@ -117,7 +117,7 @@ Augroup('NoComment', {
 	end),
 }, true, true)
 
-vim.o.updatetime = 400 -- used for CursorHold
+vim.o.updatetime = 200 -- used for CursorHold
 local line_numbers = require('modules.line_numbers')
 Augroup('renu', {
 	Autocmd('CursorHold', line_numbers.renu_autocmd(true)),

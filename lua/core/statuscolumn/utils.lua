@@ -49,4 +49,17 @@ function M.wrap_hl(text, hl) --
 	return '%#' .. hl .. '#' .. text .. '%##'
 end
 
+function M.remove_statuscolumn()
+	vim.o.number = false
+	vim.o.signcolumn = 'no'
+	vim.o.foldcolumn = '0'
+end
+
+function M.default_statuscolumn()
+	vim.o.foldcolumn = '1'
+	vim.o.statuscolumn = ''
+	vim.o.signcolumn = 'yes'
+	vim.o.number = true
+end
+
 return M

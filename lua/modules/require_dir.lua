@@ -57,12 +57,7 @@ end
 vim.cmd('command! UpdateAllRequireFiles lua UpdateAllRequireFiles()')
 
 return function(dir)
-	-- print(' ')
-	-- print(dir)
 	for _, require_file in ipairs(get_all_requires(dir)) do
-		-- print(require_file)
-		-- require('plenary.reload').reload_module(require_file)
-		-- print(require_file)
 		require(require_file)
 		-- local stack_trace = debug.traceback('require_dir: Error importing: ' .. require_file, 2)
 		--local status, errors = pcall(require, require_file)
