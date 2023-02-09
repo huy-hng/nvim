@@ -1,5 +1,4 @@
 -- IMPORTANT: make sure to setup neodev BEFORE lspconfig
--- require('neodev').setup {}
 
 require('neodev').setup {
 	library = {
@@ -10,28 +9,32 @@ require('neodev').setup {
 		-- plugins = true, -- installed opt or start plugins in packpath
 		-- you can also specify the list of plugins to make available as a workspace library
 		plugins = {
-			'bufferline.nvim',
-			'noice',
-			'possession',
-			'alpha',
-			'ufo',
-			'possession.nvim',
-			'alpha-nvim',
-			'gitsigns',
-			'indent_line',
-			'column_line',
-			'metamap',
-			'convenience',
+			-- 'indent_line',
+			-- 'column_line',
+			-- 'metamap',
+			-- 'convenience',
+			-- 'bufferline.nvim',
+			-- 'noice',
+			-- 'possession',
+			-- 'alpha',
+			-- 'ufo',
+			-- 'possession.nvim',
+			-- 'alpha-nvim',
+			-- 'gitsigns',
 		},
 	},
 	setup_jsonls = true, -- configures jsonls to provide completion for project specific .luarc.json files
 	-- for your Neovim config directory, the config.library settings will be used as is
 	-- for plugin directories (root_dirs having a /lua directory), config.library.plugins will be disabled
 	-- for any other directory, config.library.enabled will be set to false
-	override = function(root_dir, options) end,
+	-- override = function(root_dir, options)
+	-- 	P(root_dir, options)
+	-- end,
 
 	-- With lspconfig, Neodev will automatically setup your lua-language-server
 	-- If you disable this, then you have to set {before_init=require("neodev.lsp").before_init}
 	-- in your lsp start options
-	lspconfig = true,
+	lspconfig = false,
+
+	pathStrict = true,
 }

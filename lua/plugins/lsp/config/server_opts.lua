@@ -11,7 +11,7 @@ capabilities.textDocument.foldingRange = {
 
 local layout = require('plugins.editor.telescope.layouts').vert_list_normal
 local references = require('telescope.builtin').lsp_references
-local fns = require('plugins.lsp.lsp_config.functions')
+local fns = require('plugins.lsp.config.functions')
 
 -- Use an on_attach function to only map the following keys
 -- after the language server attaches to the current buffer
@@ -59,7 +59,9 @@ end
 
 local function on_attach(client, bufnr)
 	-- client.server_capabilities.semanticTokensProvider = {}
-	vim.lsp.semantic_tokens.stop(bufnr, client.id)
+	if vim.lsp.semantic_tokens then
+		vim.lsp.semantic_tokens.stop(bufnr, client.id)
+	end
 	lsp_keymaps(bufnr)
 end
 

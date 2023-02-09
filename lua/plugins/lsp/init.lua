@@ -4,7 +4,8 @@ local M = {
 	-- event = 'BufReadPre',
 	event = 'VeryLazy',
 	dependencies = {
-		{ 'folke/neodev.nvim', config = function() require('plugins.lsp.lsp_config.neodev') end },
+		{ 'folke/neodev.nvim', config = function() require('plugins.lsp.config.neodev') end },
+		'folke/neodev.nvim',
 		'hrsh7th/cmp-nvim-lsp',
 		'jose-elias-alvarez/null-ls.nvim',
 	},
@@ -19,10 +20,11 @@ local M = {
 -- require(require_path .. 'mason')
 
 function M.config()
-	require('plugins.lsp.lsp_config.setup')
-	require('plugins.lsp.lsp_config.handlers')
+	-- require('plugins.lsp.config.neodev')
+	require('plugins.lsp.config.setup')
+	require('plugins.lsp.config.handlers')
 
-	local opts = require('plugins.lsp.lsp_config.server_opts')
+	local opts = require('plugins.lsp.config.server_opts')
 
 	local language_servers = {
 		'jsonls',
@@ -33,7 +35,7 @@ function M.config()
 
 	local lspconfig = require('lspconfig')
 	for _, server in ipairs(language_servers) do
-		local server_opts = nrequire('plugins.lsp.lsp_config.servers.' .. server)
+		local server_opts = nrequire('plugins.lsp.servers.' .. server)
 		if server_opts then --
 			opts = vim.tbl_deep_extend('force', opts, server_opts)
 		end
