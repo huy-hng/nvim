@@ -14,11 +14,27 @@ Augroup('AutoreloadNoice', {
 	end),
 }, true, false)
 
+-- for _, ui in ipairs(uis) do
+-- 	local ok = true
+-- 	for _, ext in ipairs {
+-- 		"ext_multigrid",
+-- 	} do
+-- 		if ui[ext] then ok = false end
+-- 	end
+-- end
+
 local function get_config()
 	---@diagnostic disable: undefined-doc-name
+	-- local uis = vim.api.nvim_list_uis()[1]
+	-- local cmdline = true
+	-- if uis['ext_multigrid'] then
+	-- 	cmdline = false
+	-- end
+
 	return {
 		cmdline = {
 			enabled = not vim.g.has_neovide, -- enables the Noice cmdline UI
+			-- enabled = cmdline, -- enables the Noice cmdline UI
 			view = 'cmdline_popup', -- view for rendering the cmdline. Change to `cmdline` to get a classic cmdline at the bottom
 			opts = {}, -- global options for the cmdline. See section on views
 			---@type table<string, CmdlineFormat>

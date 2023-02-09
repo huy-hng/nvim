@@ -93,15 +93,14 @@ function M.config()
 
 	possession.setup {
 		session_dir = vim.fn.stdpath('data') .. '/possession',
-		-- session_dir = '$HOME/.local/share/nvim/session/',
 		silent = true,
 		load_silent = true,
 		debug = false,
-		prompt_no_cr = true, -- pression y/n suffices
+		prompt_no_cr = true, -- pressing y/n suffices
 		autosave = {
 			current = true, -- or fun(name): boolean, save current session if it exists
 			tmp = true, -- or fun(): boolean, save a tmp session if no session has been loaded yet
-			tmp_name = 'tmp',
+			tmp_name = 'No Name',
 			on_load = true, -- when loading another session
 			on_quit = true,
 		},
@@ -151,35 +150,28 @@ function M.config()
 				hooks = { 'before_load', 'after_load' },
 				preserve_layout = false, -- or fun(win): boolean
 				match = {
-					floating = true,
-					-- buftype = { 'nofile' },
-					buftype = {},
+					-- buftype = { 'nofile', 'help' },
+					buftype = { 'nofile' },
 					filetype = { 'vimwiki' },
-					-- custom = function(win)
-					-- 	local win_conf = vim.api.nvim_win_get_config(win)
-					-- 	P(win_conf)
-					-- 	-- if vim.bo.filetype == 'alpha' then Exec('Bdelete') end
-					-- 	-- print('close window:', vim.bo.buftype, vim.bo.filetype)
-					-- end, -- or fun(win): boolean
-					-- i could make a custom function to not close vimwiki buffers
+					custom = function(win)
+						local win_conf = vim.api.nvim_win_get_config(win)
+						local buf = vim.api.nvim_win_get_buf(win)
+						-- print(vim.bo.filetype, buf)
+						-- print(vim.bo.buftype, buf)
+						-- print('buftype', vim.bo[buf].buftype)
+						-- print('filetype', vim.bo[buf].filetype)
+					end,
 				},
 			},
 			delete_hidden_buffers = {
-				hooks = {
-					'before_load',
-					-- 'before_save',
-					-- vim.o.sessionoptions:match('buffer') and 'before_save',
-				},
+				hooks = { 'before_load' },
 				force = function(bufnr) --
-					-- print(
-					-- 	'hiddenbuffer force:',
-					-- 	vim.fn.bufname(bufnr),
-					-- 	vim.bo[bufnr].buftype,
-					-- 	vim.bo[bufnr].filetype
-					-- )
+					local name = vim.api.nvim_buf_get_name(bufnr)
+					print(name)
 
+					-- if name:match('wiki') then return true end
 					return true
-				end, -- or fun(buf): boolean
+				end,
 			},
 			nvim_tree = false,
 			-- tabby = false,

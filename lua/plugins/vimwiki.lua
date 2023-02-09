@@ -23,7 +23,7 @@ function M.config()
 
 	local function create_popup()
 		popup = Popup {
-			position = '50%',
+			position = '75%',
 			size = {
 				width = 100,
 				height = '80%',
