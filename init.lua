@@ -14,15 +14,6 @@ require('core.statuscolumn')
 require('plugin_management.lazy')
 require('core.neovide')
 
--- local files = vim.api.nvim_get_runtime_file(vim.fn.stdpath('config'), true)
--- local file_paths = vim.api.nvim_get_runtime_file(dir .. '/**/*.lua', true)
--- local files = vim.api.nvim_get_runtime_file('lua/**/*.lua', true)
--- print('============')
--- for _, item in ipairs(files) do
--- 	local relative = string.match(item, 'nvim/lua/(.*).lua$')
--- 	if relative then print(item) end
--- end
-
 Augroup('LazyLoad', {
 	Autocmd('User', 'VeryLazy', function()
 		local require_dir = require('modules.require_dir')
