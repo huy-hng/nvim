@@ -20,7 +20,7 @@ local M = {
 -- require(require_path .. 'mason')
 
 function M.config()
-	-- require('plugins.lsp.config.neodev')
+	require('plugins.lsp.config.neodev')
 	require('plugins.lsp.config.setup')
 	require('plugins.lsp.config.handlers')
 

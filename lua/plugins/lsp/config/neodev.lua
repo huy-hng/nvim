@@ -1,5 +1,4 @@
 -- IMPORTANT: make sure to setup neodev BEFORE lspconfig
-
 require('neodev').setup {
 	library = {
 		enabled = true, -- when not enabled, neodev will not change any settings to the LSP server
@@ -8,7 +7,8 @@ require('neodev').setup {
 		types = true, -- full signature, docs and completion of vim.api, vim.treesitter, vim.lsp and others
 		-- plugins = true, -- installed opt or start plugins in packpath
 		-- you can also specify the list of plugins to make available as a workspace library
-		plugins = {
+		plugins = false
+		-- plugins = {
 			-- 'indent_line',
 			-- 'column_line',
 			-- 'metamap',
@@ -21,7 +21,7 @@ require('neodev').setup {
 			-- 'possession.nvim',
 			-- 'alpha-nvim',
 			-- 'gitsigns',
-		},
+		-- },
 	},
 	setup_jsonls = true, -- configures jsonls to provide completion for project specific .luarc.json files
 	-- for your Neovim config directory, the config.library settings will be used as is
@@ -36,5 +36,5 @@ require('neodev').setup {
 	-- in your lsp start options
 	lspconfig = false,
 
-	pathStrict = true,
+	pathStrict = false,
 }
