@@ -22,10 +22,14 @@ end
 Augroup('Statuscolumn', {
 	Autocmd('CmdwinEnter', function() utils.default_statuscolumn() end),
 
-	Autocmd('WinEnter', function()
+	Autocmd('WinEnter', function(data)
 		local winid = vim.api.nvim_get_current_win()
 		local type = Util.win_type(winid)
-		if type ~= '' then vim.wo[winid].statuscolumn = '' end
+		local buftype = vim.bo.buftype
+		-- TODO:
+		local buftypes = { 'diff' }
+
+		if type ~= '' or buftype == 'diff' then vim.wo[winid].statuscolumn = '' end
 	end),
 
 	Autocmd('User', 'AlphaReady', function(data)
