@@ -71,13 +71,13 @@ function table.slice(list, i, j)
 	assert(type(list) == 'table')
 
 	if not j then
-		local val = select(i, unpack(list))
+		local val = select(i, table.unpack(list))
 		return val
 	end
 
 	i = adjust_and_assert(i, #list)
 	j = adjust_and_assert(j, #list)
-	return { unpack(list, i, j) }
+	return { table.unpack(list, i, j) }
 end
 
 --- combines two or more lists into one
