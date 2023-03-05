@@ -1,0 +1,3 @@
+[submodule "anyline"]
+	path = lua/plugins/local_plugins/anyline.nvim
+	url = git@github.com:huy-hng/anyline.nvim.git
