@@ -12,7 +12,6 @@ local M = {
 
 -----------------------------------------------Popup------------------------------------------------
 function M.config()
-	print(math.floor(vim.o.columns / 2) - 50)
 	local log = function(...)
 		-- local msg = Formatter(...)
 		-- print(msg)
