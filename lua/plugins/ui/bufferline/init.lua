@@ -63,12 +63,10 @@ function M.config()
 			----------------------------------------
 			--            -> Filter <-
 			----------------------------------------
-			custom_filter = function(buf_number)
+			custom_filter = function(bufnr)
 				--	 -- filter out filetypes you don't want to see
 				local filetypes = { 'sql', 'vimwiki' }
-
-				local ft = vim.bo[buf_number].filetype
-
+				local ft = vim.bo[bufnr].filetype
 				if not vim.tbl_contains(filetypes, ft) then return true end
 
 				-- filter out by buffer name

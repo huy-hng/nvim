@@ -49,7 +49,9 @@ function M.change_native_keymap_fn()
 end
 
 function M.should_show()
-	if #vim.v.argv > 1 then return false end
+	local not_embedded = vim.v.argv[2] ~= '--embed'
+	local no_args = #vim.v.argv > 1
+	if no_args and not_embedded then return false end
 
 	-- taken from mini.starter
 	local lines = vim.api.nvim_buf_get_lines(0, 0, -1, true)

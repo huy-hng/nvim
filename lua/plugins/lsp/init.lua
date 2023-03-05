@@ -28,7 +28,7 @@ function M.config()
 
 	local language_servers = {
 		'jsonls',
-		'sumneko_lua',
+		'lua_ls',
 		'pyright',
 		'clangd',
 	}

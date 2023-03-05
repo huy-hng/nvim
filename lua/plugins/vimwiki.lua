@@ -7,7 +7,7 @@ local M = {
 	-- event = 'VimEnter',
 	event = 'VeryLazy',
 	-- event = 'BufReadPost',
-	-- lazy = false,
+	-- lazy = true,
 }
 
 -----------------------------------------------Popup------------------------------------------------
@@ -149,7 +149,6 @@ function M.config()
 	-- vw('t', wrapper(vim.cmd.VimwikiTabMakeDiaryNote), 'Daily Log Tab')
 end
 
-
 local g = vim.g
 
 -- g.vimwiki_ext2syntax = {'.md': 'markdown'}
@@ -196,7 +195,7 @@ function Create_wiki(name)
 	local wiki = {}
 	wiki.auto_diary_index = 1
 	wiki.auto_toc = 0
-	-- wiki.ext = '.md'
+	wiki.ext = '.wiki'
 	-- wiki.syntax = 'markdown'
 	wiki.maxhi = 0 -- highlight empty pages
 	wiki.name = name

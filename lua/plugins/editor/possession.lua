@@ -148,19 +148,15 @@ function M.config()
 		plugins = {
 			close_windows = {
 				hooks = { 'before_load', 'after_load' },
-				preserve_layout = false, -- or fun(win): boolean
+				preserve_layout = true, -- or fun(win): boolean
 				match = {
 					-- buftype = { 'nofile', 'help' },
-					buftype = { 'nofile' },
-					filetype = { 'vimwiki' },
-					custom = function(win)
-						local win_conf = vim.api.nvim_win_get_config(win)
-						local buf = vim.api.nvim_win_get_buf(win)
-						-- print(vim.bo.filetype, buf)
-						-- print(vim.bo.buftype, buf)
-						-- print('buftype', vim.bo[buf].buftype)
-						-- print('filetype', vim.bo[buf].filetype)
-					end,
+					-- buftype = { 'nofile' },
+					-- filetype = { 'vimwiki' },
+					-- custom = function(win)
+					-- 	local win_conf = vim.api.nvim_win_get_config(win)
+					-- 	local buf = vim.api.nvim_win_get_buf(win)
+					-- end,
 				},
 			},
 			delete_hidden_buffers = {

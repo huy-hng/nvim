@@ -111,7 +111,7 @@ return {
 		args = {},
 	},
 	diagnostics = {
-		enable = false,
+		enable = true,
 		show_on_dirs = false,
 		show_on_open_dirs = false,
 		debounce_delay = 10,
