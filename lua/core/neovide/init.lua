@@ -24,7 +24,7 @@ local function chromebook()
 	g.neovide_refresh_rate = 60
 	g.neovide_default_transparency = 1
 	g.neovide_default_transparency = 0.85
-	g.gui_font_default_size = 11.5
+	g.gui_font_default_size = 11
 end
 local function override_list_ui_function()
 	local list_uis = vim.api.nvim_list_uis
