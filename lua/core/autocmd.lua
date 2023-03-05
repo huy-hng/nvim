@@ -70,6 +70,10 @@ Augroup('Vimwiki', {
 		[[0r !echo "= $(date -d '%:t:r' +'\%A, \%b \%d') =\n"]]
 	),
 
+	Autocmd('BufWinEnter', '*.md', function(data)
+		vim.bo[data.buf].filetype = 'markdown'
+	end),
+
 	Autocmd('BufWinEnter', '*.wiki', function(data)
 		local bufnr = data.buf
 		-- print('entering', vim.bo[bufnr].filetype)
