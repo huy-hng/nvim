@@ -1,4 +1,4 @@
-if not vim.fn.has('nvim-0.9.0') == 1 then return end
+if vim.fn.has('nvim-0.9.0') == 0 then return end
 
 local M = {}
 local utils = require('core.statuscolumn.utils')
@@ -55,12 +55,12 @@ function M.toggler()
 
 		M.active = true
 		vim.notify('statuscolumn on')
+		return
 	end
 	utils.default_statuscolumn()
 
 	vim.notify('statuscolumn off')
 	M.active = false
-	return
 end
 
 init()
