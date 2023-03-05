@@ -12,6 +12,7 @@ local M = {
 
 -----------------------------------------------Popup------------------------------------------------
 function M.config()
+	print(math.floor(vim.o.columns / 2) - 50)
 	local log = function(...)
 		-- local msg = Formatter(...)
 		-- print(msg)
@@ -23,7 +24,10 @@ function M.config()
 
 	local function create_popup()
 		popup = Popup {
-			position = '75%',
+			position = {
+				  row = "50%",
+				  col = math.floor(vim.o.columns / 2) - 40,
+			},
 			size = {
 				width = 100,
 				height = '80%',
@@ -218,5 +222,4 @@ local misc = Create_wiki('Misc')
 
 g.vimwiki_list = { main, todo, projects, cheatsheets, misc }
 
--- M.config()
 return M
