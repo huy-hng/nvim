@@ -11,22 +11,6 @@ return {
 		config = true,
 		event = 'VeryLazy',
 	},
-	{
-		'huy-hng/anyline.nvim',
-		dev = true,
-		dependencies = { 'nvim-treesitter/nvim-treesitter' },
-		config = function()
-			require('anyline').setup {
-				-- highlight = 'Error',
-				animation = 'from_cursor',
-				-- animation = 'top_down',
-				lines_per_second = 50,
-				trail_length = 20,
-				fps = 30,
-			}
-		end,
-		event = 'VeryLazy',
-	},
 
 	-- full on features
 	'jceb/vim-orgmode',
