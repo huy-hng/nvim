@@ -3,9 +3,6 @@
 local has_metamap, MetaMap = pcall(require, 'metamap')
 if not has_metamap then return end
 
-local has_ufo, ufo = pcall(require, 'ufo')
-local functions = require('plugins.ui.ufo.functions')
-
 local function temp_change_cursor_color()
 	local group_id = vim.fn.hlID('Cursor')
 	local fg = vim.fn.synIDattr(group_id, 'fg')
@@ -126,7 +123,10 @@ map:nmap('k', 'zk^', 'Move to the end of the previous fold')
 map:nmap('<C-j>', ']z', 'Move to the end of the current open fold')
 map:nmap('<C-k>', '[z', 'Move to the start of the current open fold')
 
-if has_ufo then
+local ufo = npcall(require, 'ufo')
+
+if ufo then
+	local functions = require('plugins.ui.ufo.functions')
 	map:nmap('M', ufo.closeAllFolds, 'close all folds')
 	map:nmap('R', ufo.openAllFolds, 'open all folds')
 
