@@ -4,13 +4,6 @@ return {
 	-- my plugins
 	{ 'huy-hng/convenience.nvim', lazy = false, dev = true, config = true, priority = 100 },
 	{ 'huy-hng/metamap.nvim', lazy = false, dev = true, dependencies = 'convenience.nvim' },
-	{
-		'huy-hng/column_line.nvim',
-		dev = true,
-		dependencies = 'convenience.nvim',
-		config = true,
-		event = 'VeryLazy',
-	},
 
 	-- full on features
 	'jceb/vim-orgmode',

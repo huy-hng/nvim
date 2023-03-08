@@ -14,6 +14,7 @@ function M.config()
 		trail_length = 15,
 		fps = 60,
 	}
+	require('anyline.column_line').setup()
 end
 
 return M
