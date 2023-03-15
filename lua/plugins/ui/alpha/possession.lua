@@ -95,7 +95,7 @@ end
 -- https://github.com/goolord/alpha-nvim/blob/8a1477d8b99a931530f3cfb70f6805b759bebbf7/lua/alpha/themes/startify.lua#L28
 --@param title_highlight string?: highlight group for section titles
 --@param others_name string?: name used for section with sessions not matching any workspace
-local function layout()
+local function get_layout()
 	local workspace_specs = workspaces
 	local opts = {
 		title_highlight = 'Type',
@@ -151,4 +151,4 @@ local function layout()
 	return layout
 end
 
-return comp.group(posession_utils.throttle(layout, 5000))
+return comp.group(posession_utils.throttle(get_layout, 5000))

@@ -4,7 +4,6 @@ local M = {
 }
 
 function M.config()
-
 	local utils = require('plugins.ui.alpha.utils')
 	if not utils.should_show() and not vim.g.has_neovide then return end
 

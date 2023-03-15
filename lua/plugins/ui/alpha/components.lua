@@ -38,9 +38,7 @@ function M.footer()
 	return M.text(footer_text, 'Comment')
 end
 
-
-function M.button2(txt, lhs, rhs, keybind_opts, button_opts)
-end
+function M.button2(txt, lhs, rhs, keybind_opts, button_opts) end
 
 --- @param txt string
 --- @param lhs string

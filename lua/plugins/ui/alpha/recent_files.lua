@@ -146,4 +146,5 @@ local short = comp.group {
 		comp.group(function() return { mru(10) } end, { shrink_margin = false }),
 	},
 }
+
 return short

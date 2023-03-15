@@ -1,8 +1,4 @@
-local utils = require('plugins.ui.alpha.utils')
 local comp = require('plugins.ui.alpha.components')
-
-local quotes = require('plugins.ui.alpha.customization.quotes')
-local sessions = require('plugins.ui.alpha.possession')
 
 local terminal = {
 	type = 'terminal',
@@ -14,19 +10,6 @@ local terminal = {
 		window_config = {},
 	},
 }
-
--- button('SPC f f', '  Find file'),
--- button('SPC f h', '  Recently opened files'),
--- button('SPC f r', '  Frecency/MRU'),
--- button('SPC f g', '  Find word'),
--- button('SPC f m', '  Jump to bookmarks'),
--- button('SPC s l', '  Open last session'),
-
-local startify = require('alpha.themes.startify')
-
-require('plugins.ui.alpha.recent_files')
-
--- TODO: show startup time
 
 local function lazy_stats(prefix, stat)
 	local stats = require('lazy').stats()
@@ -40,7 +23,6 @@ local function lazy_stats(prefix, stat)
 		---@type table<string, number>
 		times = {},
 	}
-	-- P(stats)
 
 	return {
 		comp.text('Startup Time: ' .. math.round(stats.startuptime, 1) .. 'ms', 'Comment'),
@@ -59,11 +41,12 @@ return {
 			comp.header(),
 			comp.padding(2),
 
+			comp.padding(1),
 
 			require('plugins.ui.alpha.session_manager'),
 			comp.padding(1),
 
-			comp.divider('Actions'),
+			comp.divider(' Actions '),
 			comp.padding(1),
 			-- comp.group_name('Actions'),
 			comp.group({
@@ -73,11 +56,10 @@ return {
 
 			comp.padding(1),
 
-			-- comp.text('Plugins installed: ' .. lazy_stats.count, 'Comment'),
 			comp.divider(' Stats ', nil, 'Comment'),
 			comp.padding(1),
 
-			comp.group(lazy_stats),
+			comp.group(lazy_stats()),
 
 			-- require('plugins.ui.alpha.recent_files'),
 			comp.padding(2),
@@ -88,6 +70,6 @@ return {
 		margin = 0,
 		-- setup = function()
 		-- end,
-		noautocmd = false,
+		noautocmd = true,
 	},
 }
