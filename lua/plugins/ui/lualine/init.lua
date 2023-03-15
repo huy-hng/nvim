@@ -79,6 +79,7 @@ function M.config()
 			lualine_a = {},
 			lualine_b = {},
 			lualine_c = { comp.bufferline },
+			-- lualine_c = {},
 			lualine_x = {},
 			lualine_y = {},
 			lualine_z = { comp.tabs },

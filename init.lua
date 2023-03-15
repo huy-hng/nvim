@@ -1,3 +1,5 @@
+-- if true then require('clean') return end
+
 NVIM_CONFIG_PATH = vim.fn.stdpath('config')
 package.path = NVIM_CONFIG_PATH .. '?.lua;' .. package.path
 

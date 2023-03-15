@@ -6,8 +6,7 @@ local M = {
 		'nvim-treesitter/nvim-treesitter-context',
 		'nvim-treesitter/nvim-treesitter-textobjects',
 		'RRethy/nvim-treesitter-textsubjects',
-		-- 'p00f/nvim-ts-rainbow', -- highlight parentheses in different colors
-		'mrjones2014/nvim-ts-rainbow',
+		'HiPhish/nvim-ts-rainbow2', -- highlight parentheses in different colors
 		{ 'mfussenegger/nvim-treehopper', dependencies = 'phaazon/hop.nvim' },
 	},
 	build = function()
