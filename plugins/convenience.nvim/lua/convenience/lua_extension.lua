@@ -20,6 +20,18 @@ function math.round(x, digits)
 	return math.floor(x + 0.5)
 end
 
+--- split string by separator (space by default)
+---@param input string string to separate
+---@param sep string? separator to separate with
+function string.split(input, sep)
+	sep = sep or '%s'
+	local t = {}
+	for str in string.gmatch(input, '([^' .. sep .. ']+)') do
+		table.insert(t, str)
+	end
+	return t
+end
+
 --- Check if a string starts with a substring
 function string.starts(String, Start) return string.sub(String, 1, string.len(Start)) == Start end
 
