@@ -75,15 +75,15 @@ function M.config()
 			lualine_z = { comp.date, comp.clock },
 		},
 		inactive_sections = {},
-		tabline = {
-			lualine_a = {},
-			lualine_b = {},
-			lualine_c = { comp.bufferline },
-			-- lualine_c = {},
-			lualine_x = {},
-			lualine_y = {},
-			lualine_z = { comp.tabs },
-		},
+		-- tabline = {
+		-- 	lualine_a = {},
+		-- 	lualine_b = {},
+		-- 	lualine_c = { comp.bufferline },
+		-- 	-- lualine_c = {},
+		-- 	lualine_x = {},
+		-- 	lualine_y = {},
+		-- 	lualine_z = { comp.tabs },
+		-- },
 		winbar = {
 			lualine_a = {},
 			lualine_b = {},
@@ -129,6 +129,5 @@ function M.config()
 	-- 	if string.starts(s, 'LspsagaSymbol') then vim.api.nvim_del_augroup_by_name(s) end
 	-- end
 end
--- M.config()
 
 return M

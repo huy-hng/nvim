@@ -5,6 +5,8 @@ local M = {
 }
 
 function M.config()
+	if true then return end
+
 	local bufferline = require('bufferline')
 	local groups = require('bufferline.groups')
 
