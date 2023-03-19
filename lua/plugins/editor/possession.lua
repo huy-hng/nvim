@@ -25,7 +25,7 @@ function M.config()
 
 	SHOULD_AUTOSAVE_SESSION = true
 	PRINT_SESSION_ACTIONS = false
-	MAX_SAVE_INTERVAL = 1 -- in seconds
+	MAX_SAVE_INTERVAL = 5 -- in seconds
 	local last_save = os.time()
 
 	--- good autocommands:
@@ -143,6 +143,24 @@ function M.config()
 			after_load = function(name, user_data)
 				print_messages('Session ' .. name .. ' loaded')
 				AutosaveSession()
+
+				local buffers = vim.tbl_filter(
+					function(bufnr) return vim.api.nvim_buf_get_option(bufnr, 'buflisted') end,
+					vim.api.nvim_list_bufs()
+				)
+
+				for _, buf in ipairs(buffers) do
+					local filename = vim.api.nvim_buf_get_name(buf)
+					local ft = vim.bo[buf].ft
+
+					local extension = vim.fn.fnamemodify(filename, ':t:e')
+
+					if extension == 'wiki' then
+						-- vim.api.nvim_buf_set_option(buf, 'buflisted', false)
+						-- vim.bo[buf].buflisted = false
+						vim.api.nvim_buf_delete(buf, {})
+					end
+				end
 			end,
 		},
 		plugins = {
@@ -156,6 +174,19 @@ function M.config()
 					-- custom = function(win)
 					-- 	local win_conf = vim.api.nvim_win_get_config(win)
 					-- 	local buf = vim.api.nvim_win_get_buf(win)
+
+					-- 	local filename = vim.api.nvim_buf_get_name(buf)
+					-- 	local extension = vim.fn.fnamemodify(filename, ':t:e')
+					-- 	print(extension, filename)
+					-- 	if extension == 'wiki' then
+					-- 		print('removed!!')
+					-- 		vim.api.nvim_buf_set_option(buf, 'buflisted', false)
+					-- 		-- vim.bo[buf].buflisted = false
+					-- 		-- vim.api.nvim_buf_delete(buf, {})
+					-- 		return true
+					-- 	end
+
+					-- 	return false
 					-- end,
 				},
 			},
@@ -163,14 +194,13 @@ function M.config()
 				hooks = { 'before_load' },
 				force = function(bufnr) --
 					local name = vim.api.nvim_buf_get_name(bufnr)
-					print(name)
+					-- print(name)
 
 					-- if name:match('wiki') then return true end
 					return true
 				end,
 			},
 			nvim_tree = false,
-			-- tabby = false,
 		},
 	}
 end
