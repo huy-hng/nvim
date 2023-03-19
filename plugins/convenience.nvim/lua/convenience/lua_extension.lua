@@ -42,6 +42,19 @@ function string.starts(String, Start) return string.sub(String, 1, string.len(St
 ---@return boolean `true` if `t` contains `value`
 function table.contains(t, value) return vim.tbl_contains(t, value) end
 
+
+--- returns the index of the value in list and nil if not found
+---@param list table
+---@param val any
+---@return number | nil
+function table.index(list, val)
+	for i, elem in ipairs(list) do
+		if elem == val then return i end
+	end
+end
+
+
+
 --- Filter a table using a predicate function
 ---
 ---@param func function|table Function or callable table
