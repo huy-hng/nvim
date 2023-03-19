@@ -40,6 +40,7 @@ o.signcolumn = 'no' -- show sign column so that text doesn't shift
 o.numberwidth = 1 -- set to something smaller to reduce gutter size
 -- go.foldcolumn = 'auto:1'
 o.foldcolumn = '0'
+o.showtabline = 2
 
 -----------------------------------------------Folding----------------------------------------------
 go.foldenable = true
@@ -178,8 +179,8 @@ opt.formatoptions:remove { 'c', 'r', 'o' }
 opt_g.path:append('**')
 
 opt.switchbuf:append { 'useopen', 'vsplit' }
-opt.sessionoptions:remove { 'buffers', 'terminal', 'blank' }
-opt.sessionoptions:remove { 'folds' }
+-- opt.sessionoptions:remove { 'buffers', 'terminal', 'blank', 'folds' }
+opt.sessionoptions:remove { 'terminal', 'blank', 'folds' }
 
 --==============================================================================
 --                          |=> Plugin Settings <=|
