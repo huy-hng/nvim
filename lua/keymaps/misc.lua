@@ -5,6 +5,7 @@ local cnoreabbrev = vim.cmd.cnoreabbrev
 
 local cmd_abbrevs = {
 	telp = 'tab help',
+	qq = 'qa',
 	hvw = 'tab help vimwiki',
 	sovim = 'so $HOME/.config/nvim/init.vim',
 	solua = 'so $HOME/.config/nvim/init.lua',
