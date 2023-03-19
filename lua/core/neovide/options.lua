@@ -35,7 +35,8 @@ g.neovide_underline_automatic_scaling = false
 g.neovide_no_idle = false -- not sure if this helps with anything
 g.neovide_confirm_quit = true
 g.neovide_remember_window_size = true
-g.neovide_scroll_animation_length = 0.5 -- has been 0.4 most of the time
+-- g.neovide_scroll_animation_length = 0.5 -- has been 0.4 most of the time
+g.neovide_scroll_animation_length = 0.1
 g.neovide_hide_mouse_when_typing = true
 
 g.neovide_touch_deadzone = 100
