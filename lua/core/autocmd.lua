@@ -100,7 +100,7 @@ Augroup('Vimwiki', {
 		vim.o.concealcursor = 'nc'
 
 		-- needs to be here because gitsigns gets lazyloaded
-		require('gitsigns').detach(data.buf)
+		require('gitsigns').detach(bufnr)
 		require('cmp').setup.buffer { enabled = false }
 	end),
 
