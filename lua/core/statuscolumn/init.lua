@@ -32,12 +32,6 @@ Augroup('Statuscolumn', {
 		if type ~= '' or buftype == 'diff' then vim.wo[winid].statuscolumn = '' end
 	end),
 
-	Autocmd('User', 'AlphaReady', function(data)
-		vim.wo.statuscolumn = ''
-		NestedAutocmd(data, 'BufUnload', nil, function() --
-			M.custom_statuscolumn()
-		end, { buffer = 0 })
-	end),
 })
 
 function M.custom_statuscolumn()

@@ -59,7 +59,7 @@ return {
 			comp.divider(' Stats ', nil, 'Comment'),
 			comp.padding(1),
 
-			comp.group(lazy_stats()),
+			comp.group(lazy_stats),
 
 			-- require('plugins.ui.alpha.recent_files'),
 			comp.padding(2),

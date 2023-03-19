@@ -3,6 +3,17 @@ local M = {
 	lazy = false,
 }
 
+Augroup('Alpha', {
+	Autocmd('User', 'AlphaReady', function(data)
+		vim.o.showtabline = 0
+		vim.wo.statuscolumn = ''
+		NestedAutocmd(data, 'BufUnload', nil, function()
+			vim.o.showtabline = 2
+			require('core.statuscolumn').custom_statuscolumn()
+		end, { buffer = 0 })
+	end),
+})
+
 function M.config()
 	local utils = require('plugins.ui.alpha.utils')
 	if not utils.should_show() and not vim.g.has_neovide then return end
