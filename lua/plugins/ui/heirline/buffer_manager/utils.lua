@@ -2,6 +2,9 @@ local Path = require('plenary.path')
 
 local M = {}
 
+
+function M.string_starts(string, start) return string.sub(string, 1, string.len(start)) == start end
+
 function M.project_key() return vim.loop.cwd() end
 
 function M.normalize_path(item)

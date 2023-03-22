@@ -2,36 +2,39 @@ local utils = require('plugins.ui.heirline.buffer_manager.utils')
 
 local M = {}
 
-BufferManagerConfig = BufferManagerConfig or {}
+local config = {}
 
-function M.setup(config)
-	if not config then config = {} end
-
-	local default_config = {
-		line_keys = '1234567890',
-		select_menu_item_commands = {
-			edit = {
-				key = '<CR>',
-				command = 'edit',
-			},
+local default_config = {
+	line_keys = '1234567890',
+	select_menu_item_commands = {
+		edit = {
+			key = '<CR>',
+			command = 'edit',
 		},
-		focus_alternate_buffer = false,
-		short_file_names = true,
-		short_term_names = false,
-		highlight = 'Float',
-	}
+	},
+	focus_alternate_buffer = false,
+	short_file_names = false,
+	short_term_names = false,
+	-- highlight = 'Float',
+	highlight = 'Normal',
+	-- width = 0.5,
+	-- height = 0.5
+}
 
-	BufferManagerConfig = utils.merge_tables(default_config, config)
-	require('plugins.ui.heirline.buffer_manager.ui').initialize_marks()
+function M.setup(user_config)
+	config = utils.merge_tables(default_config, user_config or {})
 
-	Augroup('BufferMangaer', {
+	local list_manger = require('plugins.ui.heirline.buffer_manager.list_manager')
+	list_manger.initialize_marks()
+
+	Augroup('BufferManager', {
 		Autocmd('SessionLoadPost', function()
-			require('plugins.ui.heirline.buffer_manager.ui').marks = {}
-			require('plugins.ui.heirline.buffer_manager.ui').initialize_marks()
+			list_manger.marks = {}
+			list_manger.initialize_marks()
 		end),
 	})
 end
 
-function M.get_config() return BufferManagerConfig or {} end
+function M.get_config() return config or {} end
 
 return M
