@@ -32,7 +32,7 @@ local function reload_config(data)
 end
 
 -- reload plugin config on save
-Augroup('Alpha', {
+Augroup('LazyReload', {
 	Autocmd('User', 'VeryLazy', function(data)
 		NestedAutocmd(data, 'User', 'LazyReload', reload_config)
 		return true

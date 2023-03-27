@@ -43,8 +43,9 @@ end
 
 -- local type_fmt = fmt("type({}) {}= '{}'", { i(1), c(2, { t('='), t('~') }), i(3) })
 
-local type_fmt =
-	function() return fmt("type({}) {}= '{}'", { i(1), c(2, { t('='), t('~') }), i(3) }) end
+local type_fmt = function()
+	return fmt("type({}) {}= '{}'", { i(1), c(2, { t('='), t('~') }), i(3) })
+end
 
 return {
 	--------------------------------------------Shortcuts-------------------------------------------
@@ -176,16 +177,20 @@ return {
 	-- 	)
 	-- ),
 	snippet(
-		'nreq', fmt([[
+		'nreq',
+		fmt(
+			[[
 			local {} = nrequire('{}')
 			if not {} then return end
 			{}
-		]], {
-			d(2, require_var, { 1 }),
-			i(1),
-			rep(2),
-			i(0),
-		})
+		]],
+			{
+				d(2, require_var, { 1 }),
+				i(1),
+				rep(2),
+				i(0),
+			}
+		)
 	),
 	snippet(
 		'preq',

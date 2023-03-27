@@ -21,10 +21,7 @@ M.sources = cmp.config.sources({
 	{ name = 'luasnip' },
 	{ name = 'nvim_lsp' },
 	{ name = 'nvim_lsp_signature_help' },
-	{ name = 'orgmode' },
-
-	-- { name = 'omni' },
-	-- { name = 'nvim_lua' },
+	{ name = 'neorg' },
 	-- { name = 'cmdline_history' },
 }, {
 	-- { name = 'treesitter' },
