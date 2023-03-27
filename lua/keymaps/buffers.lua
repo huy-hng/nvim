@@ -1,7 +1,3 @@
--- nmap('<leader>bb', ':buffers<cr>:buffer<space>', 'Select')
-Nmap('<leader>ba', { nvim.exec, '%bd | e# | bd#' }, 'Close all, except current')
-Nmap('<leader>bf', { nvim.exec, 'Telescope buffers' }, 'Fuzzy find')
-
 function Group_bufferline_tabs()
 	local windows = vim.fn.getwininfo()
 	for _, win in ipairs(windows) do
@@ -45,7 +41,7 @@ end
 -- Nmap('H', { buffer_cycle, -1 }, 'Prev Buffer')
 -- Nmap('L', { buffer_cycle, 1 }, 'Next Buffer')
 
-local buf_manager = require('plugins.ui.heirline.buffer_manager.ui')
+local buf_manager = require('plugins.ui.heirline.buffer_manager.navigation')
 
 Nmap('H', buf_manager.nav_prev, 'Prev Buffer')
 Nmap('L', buf_manager.nav_next, 'Next Buffer')
