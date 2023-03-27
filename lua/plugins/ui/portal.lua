@@ -4,8 +4,8 @@ local M = {
 }
 
 function M.config()
-	vim.keymap.set('n', '<leader>o', '<cmd>Portal jumplist backward<cr>')
-	vim.keymap.set('n', '<leader>i', '<cmd>Portal jumplist forward<cr>')
+	-- vim.keymap.set('n', '<leader>o', '<cmd>Portal jumplist backward<cr>')
+	-- vim.keymap.set('n', '<leader>i', '<cmd>Portal jumplist forward<cr>')
 	require('portal').setup {
 		---@type "debug" | "info" | "warn" | "error"
 		log_level = 'warn',
