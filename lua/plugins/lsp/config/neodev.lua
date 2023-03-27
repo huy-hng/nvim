@@ -6,22 +6,22 @@ require('neodev').setup {
 		runtime = true, -- runtime path
 		types = true, -- full signature, docs and completion of vim.api, vim.treesitter, vim.lsp and others
 		-- plugins = true, -- installed opt or start plugins in packpath
-		-- you can also specify the list of plugins to make available as a workspace library
-		plugins = false
-		-- plugins = {
-			-- 'indent_line',
-			-- 'column_line',
-			-- 'metamap',
-			-- 'convenience',
-			-- 'bufferline.nvim',
-			-- 'noice',
-			-- 'possession',
-			-- 'alpha',
-			-- 'ufo',
-			-- 'possession.nvim',
-			-- 'alpha-nvim',
-			-- 'gitsigns',
-		-- },
+		plugins = {
+			'indent_line',
+			'column_line',
+			'metamap',
+			'convenience',
+			'bufferline.nvim',
+			'noice',
+			'possession',
+			'alpha',
+			'ufo',
+			'possession.nvim',
+			'alpha-nvim',
+			'gitsigns',
+			'buffer_manager.nvim',
+			'heirline',
+		},
 	},
 	setup_jsonls = true, -- configures jsonls to provide completion for project specific .luarc.json files
 	-- for your Neovim config directory, the config.library settings will be used as is
@@ -34,7 +34,7 @@ require('neodev').setup {
 	-- With lspconfig, Neodev will automatically setup your lua-language-server
 	-- If you disable this, then you have to set {before_init=require("neodev.lsp").before_init}
 	-- in your lsp start options
-	lspconfig = false,
+	lspconfig = true,
 
-	pathStrict = false,
+	pathStrict = true,
 }

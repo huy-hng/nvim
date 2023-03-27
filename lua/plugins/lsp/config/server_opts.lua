@@ -28,7 +28,7 @@ local function lsp_keymaps(bufnr)
 	diag_map('<leader>e', fns.diagnostic_float, 'open Float')
 	diag_map('[d', vim.diagnostic.goto_prev, 'Go to prev')
 	diag_map(']d', vim.diagnostic.goto_next, 'Go to next')
-	lsp_map('<leader>r', vim.diagnostic.setloclist)
+	-- lsp_map('<leader>r', vim.diagnostic.setloclist)
 
 	-- See `:help vim.lsp.*` for documentation on any of the below functions
 	-- lsp_map('K', vim.lsp.buf.hover, 'Hover')
@@ -48,7 +48,8 @@ local function lsp_keymaps(bufnr)
 	)
 
 	lsp_map('gr', { references, layout }, '[Telescope] LSP References')
-	lsp_map('<F2>', vim.lsp.buf.rename, 'Rename')
+	-- lsp_map('<F2>', vim.lsp.buf.rename, 'Rename')
+	lsp_map('<leader>r', vim.lsp.buf.rename, 'Rename')
 	-- telescope references defined in telescope keymaps
 	-- lsp_map('<F12>', vim.lsp.buf.references, 'References')
 	lsp_map('<leader>ca', vim.lsp.buf.code_action, 'Code Actions')
