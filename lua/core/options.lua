@@ -119,7 +119,7 @@ go.smarttab = true
 ---------------------------------------------Wrapping-----------------------------------------------
 o.wrap = false -- disable line wrapping
 go.wrap = false -- disable line wrapping
-o.showbreak = '  > ' -- prefix for soft-wrapped lines
+o.showbreak = icons.misc.showbreak -- prefix for soft-wrapped lines
 o.linebreak = true -- soft-wrap lines only at certain characters (see :help breakat)
 o.breakindent = true -- indent wraps
 opt.cpoptions:append('n')
@@ -147,7 +147,7 @@ o.splitbelow = true -- split horizontal window to the bottom
 
 go.iskeyword = '@,48-57,_,192-255,-'
 o.iskeyword = '@,48-57,_,192-255,-'
-opt_g.iskeyword:append('-') -- consider string-string as whole word
+-- opt_g.iskeyword:append('-') -- consider string-string as whole word
 -- opt.iskeyword:remove({'-', '_'}) -- consider string-string as whole word
 opt.isfname:append('@-@') -- use @ for filename completion
 

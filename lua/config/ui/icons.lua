@@ -119,6 +119,8 @@ return {
 		nbsp     = '␣',
 	},
 
+
+
 	lsp_kinds = {
 		Text          = '', --𝓐
 		Method        = '',
@@ -195,6 +197,7 @@ return {
 	},
 
 	misc = {
+		showbreak  = '  ❯ ', -- Character when indicating line wrap
 		collapsed     = ' ',
 		expanded      = ' ',
 		current       = ' ',
