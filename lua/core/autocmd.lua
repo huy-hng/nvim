@@ -26,6 +26,7 @@ Augroup('WindowManagement', {
 })
 
 Augroup('FileTypes', {
+	Autocmd({ 'BufNewFile', 'BufRead' }, '*.keymap', 'set filetype=dts'),
 	Autocmd({ 'BufNewFile', 'BufRead' }, '*.tmux', 'set filetype=tmux'),
 	Autocmd({ 'BufNewFile', 'BufRead' }, '*.vim', 'set filetype=vim'),
 	Autocmd({ 'BufNewFile', 'BufRead' }, '*.ron', 'set filetype=rust'),
@@ -60,6 +61,14 @@ Augroup('AfterYank', { -- highlight yanked text
 		vim.highlight.on_yank,
 		{ higroup = 'Visual', on_macro = true, on_visual = true, timeout = 150 },
 	}),
+})
+
+Augroup('Neorg', {
+	Autocmd(
+		'BufNewFile',
+		'*/journal/[0-9]*.norg',
+		[[0r !echo "_*$(date -d '%:t:r' +'\%A, \%b \%d')*_\n"]]
+	)
 })
 
 Augroup('Vimwiki', {
