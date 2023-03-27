@@ -5,11 +5,9 @@ local M = {
 
 require('plugins.ui.heirline.buffer_manager').setup()
 function M.config()
-
-	local ui = require('plugins.ui.heirline.buffer_manager.ui')
+	local window = require('plugins.ui.heirline.buffer_manager.window')
 	local nmap = MapCreator('n', '', '[Buffer Manager]')
-	nmap('<C-b>', ui.toggle_quick_menu, 'Toggle quick menu')
-
+	nmap('<leader>b', window.toggle_quick_menu, 'Toggle quick menu')
 
 	local tabline = R('plugins.ui.heirline.tabline')
 	vim.o.showtabline = 2

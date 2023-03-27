@@ -1,5 +1,7 @@
 local M = {}
 
+local devicons = nrequire('nvim-web-devicons')
+
 local utils = require('heirline.utils')
 local C = require('catppuccin.palettes').get_palette()
 
@@ -7,19 +9,21 @@ local FileIcon = {
 	init = function(self)
 		local filename = self.filename
 		local extension = vim.fn.fnamemodify(filename, ':e')
-		self.icon, self.icon_color =
-			require('nvim-web-devicons').get_icon_color(filename, extension, { default = true })
+
+		if devicons then
+			self.icon, self.icon_color =
+				devicons.get_icon_color(filename, extension, { default = true })
+		end
 	end,
 	provider = function(self) return self.icon and (self.icon .. ' ') end,
-	hl = function(self) return { fg = self.icon_color } end,
+	hl = function(self)
+		if self.is_active then return { fg = self.icon_color } end
+		return 'Comment'
+	end,
 }
 
 local BufferBufnr = {
-	provider = function(self)
-		-- print(self.order)
-		-- return tostring(self.bufnr) .. '. '
-		return tostring(self.order) .. '. '
-	end,
+	provider = function(self) return tostring(self.order) .. '. ' end,
 	hl = 'Comment',
 }
 
@@ -71,8 +75,8 @@ local BufferFileNameBlock = {
 		if self.is_active then
 			return 'TabLineSel'
 			-- why not?
-		elseif not vim.api.nvim_buf_is_loaded(self.bufnr) then
-			return { fg = 'gray' }
+			-- elseif not vim.api.nvim_buf_is_loaded(self.bufnr) then
+			-- 	return { fg = 'gray' }
 		else
 			return 'TabLine'
 		end
@@ -125,14 +129,15 @@ end, { BufferFileNameBlock, BufferCloseButton })
 M.BufferLine = utils.make_buflist(
 	BufferBlock,
 	-- truncation indicator
-	{ provider = '', hl = { fg = 'gray' } },
-	{ provider = '', hl = { fg = 'gray' } },
+	{ provider = ' ', hl = { fg = 'gray' } },
+	{ provider = ' ', hl = { fg = 'gray' } },
 	function()
-		local bufs = require('plugins.ui.heirline.buffer_manager.ui').get_ordered_bufids()
+		local list_manager = require('plugins.ui.heirline.buffer_manager.list_manager')
+		local bufs = list_manager.get_ordered_bufids()
 		return bufs
-	end, false
+	end,
+	false
 )
--- M.BufferLine.update = { 'WinLeave' }
 
 local Tabpage = {
 	provider = function(self) return '%' .. self.tabnr .. 'T ' .. self.tabpage .. ' %T' end,

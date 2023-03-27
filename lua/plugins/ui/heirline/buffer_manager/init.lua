@@ -28,10 +28,8 @@ function M.setup(user_config)
 	list_manger.initialize_marks()
 
 	Augroup('BufferManager', {
-		Autocmd('SessionLoadPost', function()
-			list_manger.marks = {}
-			list_manger.initialize_marks()
-		end),
+		Autocmd('SessionLoadPost', function() list_manger.initialize_marks() end),
+		Autocmd({ 'BufLeave' }, function() vim.schedule(list_manger.initialize_marks) end),
 	})
 end
 
