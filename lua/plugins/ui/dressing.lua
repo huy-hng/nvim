@@ -7,7 +7,7 @@ local input = {
 	enabled = true,
 
 	-- Default prompt string
-	default_prompt = 'Input:',
+	default_prompt = 'Input',
 
 	-- Can be 'left', 'right', or 'center'
 	prompt_align = 'left',
@@ -67,6 +67,12 @@ local input = {
 	get_config = nil,
 }
 
+local layout = require('plugins.editor.telescope.layouts').vert_list_normal
+-- layout.layout_config.width = 30
+-- layout.layout_config.anchor = nil
+-- layout.layout_config.height = 0.3
+
+
 local select = {
 	enabled = true,
 
@@ -77,26 +83,7 @@ local select = {
 	trim_prompt = true,
 
 	-- Options for telescope selector
-	-- These are passed into the telescope picker directly. Can be used like:
-	-- telescope = require('telescope.themes').get_ivy({...})
-	-- telescope = require('plugins.telescope.layouts'),
-	-- telescope = { initial_mode = 'normal' },
-
-	-- Options for fzf selector
-	fzf = {
-		window = {
-			width = 0.5,
-			height = 0.4,
-		},
-	},
-
-	-- Options for fzf_lua selector
-	fzf_lua = {
-		winopts = {
-			width = 0.5,
-			height = 0.4,
-		},
-	},
+	telescope = layout,
 
 	-- Options for nui Menu
 	nui = {

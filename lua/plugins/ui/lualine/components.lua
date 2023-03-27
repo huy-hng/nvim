@@ -169,9 +169,11 @@ M.filename = function()
 	local file_name = string.gsub(vim.fn.expand('%:t'), '%%', '')
 
 	local f_icon, f_hl
-	local ok, devicons = pcall(require, 'nvim-web-devicons')
-	if ok then
-		f_icon, f_hl = devicons.get_icon_by_filetype(vim.bo.filetype)
+	local devicons = nrequire('nvim-web-devicons')
+
+	if devicons then
+		local extension = vim.fn.fnamemodify(file_name, ':e')
+		f_icon, f_hl = devicons.get_icon(file_name, extension, { default = true })
 	end
 	-- if filetype doesn't match devicon will set f_icon to nil so add a patch
 	f_icon = not f_icon and '' or (f_icon .. ' ')
