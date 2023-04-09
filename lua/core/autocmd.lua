@@ -18,18 +18,28 @@ Augroup('WindowManagement', {
 		'startuptime',
 		'tsplayground',
 		'PlenaryTestPopup',
-	}, function(data)
-		vim.bo[data.buf].buflisted = false
-		Nmap('q', vim.cmd.q, 'Close Window', { buffer = data.buf })
-		-- vim.keymap.set('n', 'q', '<cmd>close<cr>', { buffer = data.buf, silent = true })
+		}, function(data)
+			vim.bo[data.buf].buflisted = false
+			Nmap('q', vim.cmd.q, 'Close Window', { buffer = data.buf })
+			-- vim.keymap.set('n', 'q', '<cmd>close<cr>', { buffer = data.buf, silent = true })
 	end),
 })
 
 Augroup('FileTypes', {
-	Autocmd({ 'BufNewFile', 'BufRead' }, '*.keymap', 'set filetype=dts'),
+	Autocmd({ 'BufNewFile', 'BufRead' }, '*.conf', 'set filetype=config'),
 	Autocmd({ 'BufNewFile', 'BufRead' }, '*.tmux', 'set filetype=tmux'),
 	Autocmd({ 'BufNewFile', 'BufRead' }, '*.vim', 'set filetype=vim'),
 	Autocmd({ 'BufNewFile', 'BufRead' }, '*.ron', 'set filetype=rust'),
+	Autocmd({ 'BufNewFile', 'BufRead' }, { '*.overlay', '*.keymap' }, function(data)
+		vim.bo[data.buf].filetype = 'dts'
+		vim.bo[data.buf].commentstring = '// %s'
+		-- vim.keymap.set('n', '<leader>ff', 'QMKFormat', { buffer = data.buf })
+		-- vim.keymap.set('n', '<leader>ff', vim.cmd.QMKFormat, { buffer = true })
+
+		vim.keymap.set('n', '<leader>ff', function() --
+			require('qmk').format()
+			end, { buffer = true })
+	end),
 	Autocmd(
 		{ 'BufNewFile', 'BufRead' },
 		{ '*.env', '*.profile', '*.rc', '*.login', '*.logout' },
@@ -68,7 +78,7 @@ Augroup('Neorg', {
 		'BufNewFile',
 		'*/journal/[0-9]*.norg',
 		[[0r !echo "_*$(date -d '%:t:r' +'\%A, \%b \%d')*_\n"]]
-	)
+	),
 })
 
 Augroup('Vimwiki', {
@@ -79,9 +89,7 @@ Augroup('Vimwiki', {
 		[[0r !echo "= $(date -d '%:t:r' +'\%A, \%b \%d') =\n"]]
 	),
 
-	Autocmd('BufWinEnter', '*.md', function(data)
-		vim.bo[data.buf].filetype = 'markdown'
-	end),
+	Autocmd('BufWinEnter', '*.md', function(data) vim.bo[data.buf].filetype = 'markdown' end),
 
 	Autocmd('BufWinEnter', '*.wiki', function(data)
 		local bufnr = data.buf
@@ -161,9 +169,9 @@ Augroup('Misc', {
 		'WinEnter',
 		'CursorHold',
 		'CursorHoldI',
-	}, function()
-		if Util.is_cmdwin() then return end
-		vim.cmd.checktime()
+		}, function()
+			if Util.is_cmdwin() then return end
+			vim.cmd.checktime()
 	end),
 })
 
@@ -208,7 +216,7 @@ Augroup('CommandlineWindow', {
 			Imap('<C-;>', function()
 				nvim.feedkeys('<Esc>')
 				vim.cmd.quit()
-			end, '', opts)
+				end, '', opts)
 
 			vim.cmd.TSContextDisable()
 			vim.cmd.TSBufDisable('highlight')
@@ -280,7 +288,7 @@ Augroup('AutocmdTester', {
 		'WinEnter',
 		'WinLeave',
 		'WinClosed',
-	}, printer),
+		}, printer),
 	-- Autocmd('BufWinLeave', '*', printer),
 	-- Autocmd('BufWinEnter', '*', printer),
 
