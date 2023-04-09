@@ -41,6 +41,7 @@ function M.signs()
 	for _, sign in ipairs(signs) do
 		if sign.group ~= 'gitsigns_vimfn_signs_' then
 			local defined = utils.defined_signs[sign.name]
+			if not defined then break end
 
 			sign_text = defined.text
 			sign_hl = defined.texthl
