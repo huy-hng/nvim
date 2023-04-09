@@ -16,7 +16,7 @@ Map('Q', 'q')
 
 Map('<C-;>', 'q:')
 -- Map(';', ':', '', { callback = function() vim.o.cmdheight = 1 end })
-Map(':', ';', '', { silent = false })
+-- Map(':', ';', '', { silent = false })
 Map(';', ':', '', { silent = false })
 Nmap('<leader>;', 'q:')
 Nmap('<leader>/', 'q/')
@@ -40,14 +40,12 @@ Imap('<C-v>', '<C-g>u<C-r>+')
 
 Cmap('<C-v>', '<C-r>+', 'Paste from clipboard', { silent = false })
 
--- keep cursor centered when searching
-Nmap('n', 'nzzzv')
-Nmap('N', 'Nzzzv')
 
 local function direction(next)
 	return function()
 		local forward = vim.v.searchforward == 1
 		local direction = forward and next or next == 'n' and 'N' or 'n'
+		-- keep cursor centered when searching
 		return direction .. 'zzzv'
 	end
 end

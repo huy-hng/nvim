@@ -39,12 +39,21 @@ function M.map_creator(mode, lhs_prefix, desc_prefix, outer_opts, fn_opts)
 
 			local fn = opts.callback
 			opts.callback = function()
-				-- Try(3, fn)
 				local res = fn()
 				if res then return res end
 				return rhs
 			end
 		end
+
+		local letters = lhs:gmatch('<%a+>')
+
+		-- print(' ')
+		-- P(lhs, letters())
+
+		-- local letters = lhs:gmatch('%<%a+%>')
+		-- for _, val in letters do
+		-- 	P(val)
+		-- end
 
 		Try(1, vim.keymap.set, mode, lhs, rhs, opts)
 	end

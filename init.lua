@@ -22,6 +22,7 @@ Augroup('LazyLoad', {
 		require('core.autocmd')
 		require_dir('lua/functions')
 		require_dir('lua/keymaps')
+		require('keymaps.colemak')
 		return true
 	end),
 })
