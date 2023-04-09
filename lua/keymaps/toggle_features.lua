@@ -42,11 +42,12 @@ local function toggle_commenting()
 	vim.notify('Auto Comment')
 end
 
-
 Nmap('<F4>', { Util.toggle, 'concealcursor', false, { 'c', 'nc' } }, '[Toggle] Conceal')
 
 Nmap('<F8>', toggle_wrap, '[Toggle] Wrap')
 Nmap('<F7>', toggle_commenting, '[Toggle] Auto Comment')
+Nmap('<F10>', 'gg=G<C-o>zz')
+-- Nmap('<F10>', 'gg=G')
 
 -- Nmap('<leader>tf', require('lazyvim.plugins.lsp.format').toggle, 'Toggle format on Save')
 
