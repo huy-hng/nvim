@@ -55,3 +55,8 @@ Nmap('A', 'A', 'Move to correct indentation, or normal A', {
 Nmap('a', 'a', 'Move to correct indentation, or normal A', {
 	callback = move_to_indent,
 })
+
+-----------------------------------------Fold Navigation Mode---------------------------------------
+-- folding shortcuts
+Nmap('<A-h>', Util.wrap(pcall, vim.cmd.foldclose))
+Nmap('<A-l>', Util.wrap(pcall, vim.cmd.foldopen))

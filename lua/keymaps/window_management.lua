@@ -1,3 +1,27 @@
+-- Move between windows
+Nmap('<C-h>', Util.wrap(vim.cmd.wincmd, 'h'))
+Nmap('<C-j>', Util.wrap(vim.cmd.wincmd, 'j'))
+Nmap('<C-k>', Util.wrap(vim.cmd.wincmd, 'k'))
+Nmap('<C-l>', Util.wrap(vim.cmd.wincmd, 'l'))
+
+-- resize windows with arrow keys
+Nmap('<C-Up>',    { nvim.schedule, Util.wrap(vim.cmd.resize, '-4') })
+Nmap('<C-Down>',  { nvim.schedule, Util.wrap(vim.cmd.resize, '+4') })
+Nmap('<C-Left>',  { nvim.schedule, Util.wrap(vim.cmd.wincmd, '4>') })
+Nmap('<C-Right>', { nvim.schedule, Util.wrap(vim.cmd.wincmd, '4<') })
+
+Nmap('<up>',   '4<C-y>', 'Scroll up')
+Nmap('<down>', '4<C-e>', 'Scroll down')
+Nmap('<left>',  '4zh', 'Scroll left')
+Nmap('<right>', '4zl', 'Scroll right')
+
+Nmap('<S-up>',    'k', 'Move cursor up')
+Nmap('<S-down>',  'j', 'Move cursor down')
+Nmap('<S-left>',  'h', 'Move cursor left')
+Nmap('<S-right>', 'l', 'Move cursor right')
+
+
+
 local win_prefix = MapCreator('n', '<C-w>', '[Window]')
 
 win_prefix('<C-h>', '<C-w>R', 'Move current window to the left')
@@ -77,3 +101,16 @@ win_prefix('<C-c>', center_two_windows, 'In two win setup, center right win')
 Augroup('WindowCenterer', {
 	-- Autocmd('WinEnter', function(data) vim.notify(tostring(vim.api.nvim_get_current_win())) end),
 })
+
+-----------------------------------------------Tabs-------------------------------------------------
+
+Nmap('<leader>tn', vim.cmd.tabnew, 'Open new Tab')
+Nmap('<leader>tc', vim.cmd.tabclose, 'Close Tab')
+
+Nmap('<leader>to', vim.cmd.tabonly, 'Close all Tabs except current')
+Nmap('<leader>th', Util.wrap(vim.cmd.tabmove, '-'), 'Move Tab left')
+Nmap('<leader>tl', Util.wrap(vim.cmd.tabmove, '+'), 'Move Tab right')
+
+Nmap('<leader>h', vim.cmd.tabprevious, 'Previous Tab')
+Nmap('<leader>l', vim.cmd.tabnext, 'Next Tab')
+
