@@ -16,7 +16,8 @@ local column = Statuscolumn.build {
 local function init()
 	M.active = true
 	M.custom_statuscolumn()
-	Nmap("<c-'>", M.toggler)
+	-- Nmap("<c-'>", M.toggler)
+	vim.keymap.set('n', "<c-'>", M.toggler)
 end
 
 Augroup('Statuscolumn', {
