@@ -128,8 +128,8 @@ local function go_to_sibling(direction)
 	-- vim.api.nvim_win_set_cursor(0, { row + 1, col })
 end
 
-Nmap('\\4', go_to_parent)
-Nmap('\\5', get_parent)
-Nmap('\\6', get_current_context)
-Nmap('\\-', { go_to_sibling, -1 })
-Nmap('\\=', { go_to_sibling, 1 })
+-- Nmap('\\4', go_to_parent)
+-- Nmap('\\5', get_parent)
+-- Nmap('\\6', get_current_context)
+-- Nmap('\\-', { go_to_sibling, -1 })
+-- Nmap('\\=', { go_to_sibling, 1 })

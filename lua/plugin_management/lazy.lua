@@ -1,7 +1,5 @@
 require('plugin_management.ensure_lazy')
 
-Nmap('<C-S-P>', require('lazy').home)
-
 require('lazy').setup({
 	{ import = 'plugins' },
 	{ import = 'plugins.coding' },

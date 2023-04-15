@@ -1,5 +1,5 @@
 ICmap('<C-BS>', { nvim.feedkeys, '<C-w>' }, 'Delete Word')
-ICmap('<C-h>', '<C-w>', 'Delete Word')
+-- ICmap('<C-h>', '<C-w>', 'Delete Word')
 
 Nmap('<esc>', function()
 	nvim.feedkeys('<esc>')
@@ -24,5 +24,5 @@ Nmap(
 -- 	function() Util.float_term(nil, { cwd = Util.get_root() }) end,
 -- 	'Terminal (root dir)'
 -- )
--- Tmap('<esc><esc>', '<c-\\><c-n>', 'Enter Normal Mode')
+
 Tmap('<C-c>', '<c-\\><c-n>', 'Enter Normal Mode')

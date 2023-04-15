@@ -1,12 +1,14 @@
 local M = {
 	'folke/which-key.nvim',
-	event = 'VeryLazy',
+	-- event = 'VeryLazy',
+	lazy = false
 }
 
 function M.config()
 	require('plugins.ui.whichkey.ignores')
 	require('plugins.ui.whichkey.whichkey')
 
+	local native = require('config.native_keymaps')
 	require('which-key').setup {
 		plugins = {
 			marks = true, -- shows a list of your marks on ' and `
@@ -44,8 +46,8 @@ function M.config()
 			group = '+', -- symbol prepended to a group
 		},
 		popup_mappings = {
-			scroll_down = '<c-d>', -- binding to scroll down inside the popup
-			scroll_up = '<c-u>', -- binding to scroll up inside the popup
+			scroll_down = native['<C-d>'], -- binding to scroll down inside the popup
+			scroll_up = native['<C-u>'], -- binding to scroll up inside the popup
 		},
 		window = {
 			border = 'none', -- none, single, double, shadow

@@ -13,16 +13,23 @@ require('core.types')
 require('core.colorscheme')
 require('core.statuscolumn')
 
+local colemak = require('keymaps.layout_changer.colemak')
+colemak.set_langmap()
+
 require('plugin_management.lazy')
 require('core.neovide')
 
 Augroup('LazyLoad', {
 	Autocmd('User', 'VeryLazy', function()
+		Nmap('<C-S-P>', require('lazy').home)
 		local require_dir = require('modules.require_dir')
 		require('core.autocmd')
 		require_dir('lua/functions')
+
 		require_dir('lua/keymaps')
-		require('keymaps.colemak')
+		colemak.set_keymap()
+
+		Nmap('QQ', { vim.cmd, 'qa' })
 		return true
 	end),
 })

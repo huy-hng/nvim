@@ -1,17 +1,19 @@
 local M = {
 	'mg979/vim-visual-multi',
 	branch = 'master',
-	keys = { '<C-n>' },
+	-- keys = { '<C-l>' },
+	lazy = false,
 }
 
 local g = vim.g
 
 g.VM_default_mappings = 1 -- set to 0 to disable default mappings
 g.VM_mouse_mappings = 0 -- set to 1 to enable mouse mappings
--- g.VM_maps = {
--- 	['Goto Next'] = '<C-n>',
--- 	['Goto Prev'] = '<C-p>',
--- }
+g.VM_maps = {
+	['Find Word'] = '<C-l>',
+	['Goto Next'] = '<C-n>',
+	['Goto Prev'] = '<C-p>',
+}
 
 g.VM_leader = { default = [[\\]], visual = [[\\]], buffer = [[\\]] }
 

@@ -7,7 +7,7 @@ local M = {}
 ---@param output? boolean whether to return output from command, defaults to true
 ---@return string | nil
 function M.exec(command, output) --
-	return vim.api.nvim_exec(command, Util.nil_and_true(output))
+	return vim.api.nvim_exec(command, Util.nil_or_true(output))
 end
 
 function M.normal(str) vim.api.nvim_command('normal! ' .. str) end
@@ -64,9 +64,9 @@ end
 function M.termcode(key, from_part, do_lt, special)
 	return vim.api.nvim_replace_termcodes(
 		key,
-		Util.nil_and_true(from_part),
-		Util.nil_and_true(do_lt),
-		Util.nil_and_true(special)
+		Util.nil_or_true(from_part),
+		Util.nil_or_true(do_lt),
+		Util.nil_or_true(special)
 	)
 end
 

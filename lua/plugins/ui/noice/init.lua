@@ -34,6 +34,7 @@ local function get_config()
 	return {
 		cmdline = {
 			enabled = not vim.g.has_neovide, -- enables the Noice cmdline UI
+			-- enabled = not vim.g.has_neovide, -- enables the Noice cmdline UI
 			-- enabled = cmdline, -- enables the Noice cmdline UI
 			view = 'cmdline_popup', -- view for rendering the cmdline. Change to `cmdline` to get a classic cmdline at the bottom
 			opts = {}, -- global options for the cmdline. See section on views
@@ -67,9 +68,10 @@ local function get_config()
 		messages = {
 			-- NOTE: If you enable messages, then the cmdline is enabled automatically.
 			-- This is a current Neovim limitation.
-			enabled = not vim.g.has_neovide, -- enables the Noice messages UI
-			-- enabled = true, -- enables the Noice messages UI
-			view = 'mini_middle', -- default view for messages
+			-- enabled = not vim.g.has_neovide, -- enables the Noice messages UI
+			enabled = false, -- enables the Noice messages UI
+			-- view = 'mini_middle', -- default view for messages
+			view = 'notify', -- default view for messages
 			view_error = 'notify', -- view for errors
 			view_warn = 'notify', -- view for warnings
 			-- view_info = 'mini',

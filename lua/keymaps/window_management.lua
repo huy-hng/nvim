@@ -1,7 +1,7 @@
 -- Move between windows
 Nmap('<C-h>', Util.wrap(vim.cmd.wincmd, 'h'))
-Nmap('<C-j>', Util.wrap(vim.cmd.wincmd, 'j'))
-Nmap('<C-k>', Util.wrap(vim.cmd.wincmd, 'k'))
+-- Nmap('<C-j>', Util.wrap(vim.cmd.wincmd, 'j'))
+-- Nmap('<C-k>', Util.wrap(vim.cmd.wincmd, 'k'))
 Nmap('<C-l>', Util.wrap(vim.cmd.wincmd, 'l'))
 
 -- resize windows with arrow keys

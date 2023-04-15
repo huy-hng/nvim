@@ -1,5 +1,7 @@
+local M = {}
+local native = require('config.native_keymaps')
+
 local function keep_column(action, change_line, alt_method)
-	count = 0
 	return function()
 		if alt_method then
 			-- this entire thing can be simplified with just marks
@@ -72,19 +74,19 @@ function YankOperator(type)
 	vim.api.nvim_command('normal! `[v`]y')
 	local yanked_pos = vim.fn.getpos("'[")
 	-- if is_in_area(prev_pos, yanked_pos) then vim.fn.cursor { prev_pos[2], prev_pos[3] } end
-	if is_in_area(prev_pos, yanked_pos) then vim.fn.cursor({unpack(prev_pos, 2)})  end
+	if is_in_area(prev_pos, yanked_pos) then vim.fn.cursor { unpack(prev_pos, 2) } end
 
 	prev_pos = nil
 	vim.go.operatorfunc = ''
 end
 
-Nmap('p', keep_column('p==', true), 'paste, keep column and indent')
-Nmap('P', keep_column('P==', true), 'paste, keep column and indent')
-Vmap('y', keep_column('y', false, true))
-Vmap('Y', keep_column('Y'))
+Nmap(native.p, keep_column('p==', true), 'paste, keep column and indent')
+Nmap(native.P, keep_column('P==', true), 'paste, keep column and indent')
+Vmap(native.y, keep_column('y', false, true))
+Vmap(native.Y, keep_column('Y'))
 Vmap('<C-c>', keep_column('"+y'), 'Yank to clipboard')
 
-Vmap('p', '"_c<C-r>"<esc>', 'keep yank register when pasting over visual selection')
+Vmap(native.p, '"_c<C-r>"<esc>', 'keep yank register when pasting over visual selection')
 
 -- Nmap('y', yank_operator, '', { expr = true })
 -- Nmap('y', YankOperator, '', { expr = true })
@@ -95,18 +97,18 @@ Vmap('p', '"_c<C-r>"<esc>', 'keep yank register when pasting over visual selecti
 -- Nmap('yk', keep_column('yk'))
 -- Nmap('yl', 'yl')
 
-Nmap('J', keep_column('J'), 'keep column when joining lines')
+Nmap(native.J, keep_column('J'), 'keep column when joining lines')
 
 ----------------------------------copy current line above / below-----------------------------------
 
-Imap('<A-K>', keep_column('yyPi', true))
-Imap('<A-J>', keep_column('yypi', true))
+Imap('<A-K>', keep_column('yyPi', true), '', { langmap = false })
+Imap('<A-J>', keep_column('yypi', true), '', { langmap = false })
 
-Nmap('<A-J>', keep_column('yyp', true))
-Nmap('<A-K>', keep_column('yyP', true))
+Nmap('<A-J>', keep_column('yyp', true), '', { langmap = false })
+Nmap('<A-K>', keep_column('yyP', true), '', { langmap = false })
 
-Vmap('<A-J>', keep_column("Y'>p"))
-Vmap('<A-K>', keep_column("Y'<P"))
+Vmap('<A-J>', keep_column("Y'>p"), '', { langmap = false })
+Vmap('<A-K>', keep_column("Y'<P"), '', { langmap = false })
 
 ------------------------------------move line(s) above / below--------------------------------------
 
@@ -143,7 +145,6 @@ local function move_visual_line(direction)
 	end
 end
 
-local count = 0
 local locked = false
 
 local function ScheduleWrapAsync(fn, ...)
@@ -207,11 +208,11 @@ local function fn1(direction)
 end
 -- Defer(2000, Util.print_out)
 
-Nmap('<A-j>', move_line('+'))
-Nmap('<A-k>', move_line('-2'))
+Nmap('<A-j>', move_line('+'), '', { langmap = false })
+Nmap('<A-k>', move_line('-2'), '', { langmap = false })
 
-Nmap('<A-j>', fn1(1))
-Nmap('<A-k>', fn1(-1))
+Nmap('<A-j>', fn1(1), '', { langmap = false })
+Nmap('<A-k>', fn1(-1), '', { langmap = false })
 -- this is a comment
 
 -- Nmap('<A-j>', counter(1))
@@ -220,8 +221,8 @@ Nmap('<A-k>', fn1(-1))
 -- nmap('<A-j>', '<cmd>m+<cr>==')
 -- nmap('<A-k>', '<cmd>m-2<cr>==')
 
-Vmap('<A-j>', ":m'>+<cr>`<my`>mzgv`yo`z=gv")
-Vmap('<A-k>', ":m'<-2<cr>`>my`<mzgv`yo`z=gv")
+Vmap('<A-j>', ":m'>+<cr>`<my`>mzgv`yo`z=gv", '', { langmap = false })
+Vmap('<A-k>', ":m'<-2<cr>`>my`<mzgv`yo`z=gv", '', { langmap = false })
 
 -- nmap('<A-j>', 'mz<cmd>m+<cr>`z')
 -- nmap('<A-k>', 'mz<cmd>m-2<cr>`z')
@@ -252,3 +253,7 @@ Vmap('<S-Tab>', '<gv')
 -- Nmap('x', '"_x')
 -- Nmap <leader>d "_d
 -- Nmap <leader>c "_c
+
+M.keep_column = keep_column
+
+return M

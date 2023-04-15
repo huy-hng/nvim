@@ -1,6 +1,6 @@
 local M = {}
 
-function M.nil_and_true(input) return input == nil and true or input end
+function M.nil_or_true(input) return input == nil and true or input end
 
 ---@param winid number?
 ---@return win_type
@@ -51,7 +51,7 @@ function M.extract_fn_from_table(rhs, traceback_level)
 
 	local fn = table.remove(rhs, 1)
 	local args = rhs
-	if traceback_level then --
+	if type(traceback_level) == 'number' then --
 		return TryWrap(traceback_level, fn, unpack(args))
 	end
 

@@ -149,9 +149,10 @@ end
 
 function M.config()
 	config()
+	local native = require('config.native_keymaps')
 
 	-- Nmap('<A-e>', vim.cmd.RnvimrToggle, 'Open Ranger')
-	Nmap('<C-e>', vim.cmd.RnvimrToggle, 'Open Ranger')
+	-- Nmap(native.file_explorer, vim.cmd.RnvimrToggle, 'Open Ranger')
 	-- Nmap('<A-E>', open_docked_sidebar, 'Docked Ranger')
 
 	g.rnvimr_presets = {

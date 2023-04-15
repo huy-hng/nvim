@@ -1,0 +1,56 @@
+local M = {
+	'Wansmer/langmapper.nvim',
+	lazy = false,
+	priority = 1, -- High priority is needed if you will use `autoremap()`
+}
+
+function M.config()
+	if true then return end
+	require('langmapper').setup {
+		---@type boolean Add mapping for every CTRL+ binding or not.
+		map_all_ctrl = true,
+		---@type string[] Modes to `map_all_ctrl`
+		---Here and below each mode must be specified, even if some of them extend others.
+		---E.g., 'v' includes 'x' and 's', but must be listed separate.
+		ctrl_map_modes = { 'n', 'o', 'i', 'c', 't', 'v' },
+		---@type boolean Wrap all keymap's functions (nvim_set_keymap etc)
+		hack_keymap = false,
+		---@type string[] Usually you don't want insert mode commands to be translated when hacking.
+		---This does not affect normal wrapper functions, such as `langmapper.map`
+		disable_hack_modes = { 'i' },
+		---@type table Modes whose mappings will be checked during automapping.
+		automapping_modes = { 'n', 'v', 'x', 's' },
+		---@type string Standart English layout (on Mac, It may be different in your case.)
+		default_layout = [[QWERTYUIOPASDFGHJKL:ZXCVBNM<>?qwertyuiopasdfghjkl;zxcvbnm,./]],
+		---@type string[] Names of layouts. If empty, will handle all configured layouts.
+		use_layouts = {},
+		---@type table Fallback layouts
+		layouts = {
+			---@type table Fallback layout item. Name of key is a name of language
+			ru = {
+				---@type string Fallback layout to translate. Should be same length as default layout
+				layout = [[QWFP?;HUYJARSTGMNEIOZXCD<>LKBVqwfp/:huyjarstgmneiozxcd,.lkbv]],
+				---@type string if you need to specify default layout for this fallback layout
+				default_layout = nil,
+				-- default_layout = [[qwfp/:huyjarstgmneiozxcd,.lkbvQWFP?;HUYJARSTGMNEIOZXCD<>LKBV]],
+			},
+		},
+		os = {
+			-- Darwin - Mac OS, the result of `vim.loop.os_uname().sysname`
+			Darwin = {
+				---Function for getting current keyboard layout on your OS
+				---Should return string with id of layout
+				---@return string
+				get_current_layout_id = function()
+					local cmd = 'im-select'
+					if vim.fn.executable(cmd) then
+						local output = vim.split(vim.trim(vim.fn.system(cmd)), '\n')
+						return output[#output]
+					end
+				end,
+			},
+		},
+	}
+end
+
+return M

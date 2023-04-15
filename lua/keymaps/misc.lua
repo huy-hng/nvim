@@ -29,7 +29,7 @@ for abbrev, long_form in pairs(cmd_abbrevs) do
 	cnoreabbrev(abbrev, long_form)
 end
 
-nvim.command('ListAbbrevs', { P, cmd_abbrevs })
+-- nvim.command('ListAbbrevs', { P, cmd_abbrevs })
 nvim.command('HighlightFile', 'so $VIMRUNTIME/syntax/hitest.vim')
 nvim.command('H', function(data) -- 
 	nvim.exec('enew | set buftype=help | h ' .. data.args)

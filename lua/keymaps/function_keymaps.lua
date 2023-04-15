@@ -1,8 +1,8 @@
-Nmap('%', MatchCharacter, 'Jump to matching quote or whatever')
-Nmap('<leader>m', '<cmd>50message<cr>', 'Show Messages')
+-- Nmap('%', MatchCharacter, 'Jump to matching quote or whatever')
+-- Nmap('<leader>m', '<cmd>50message<cr>', 'Show Messages')
 
 MapSpaceCapital('n', 'M', '<cmd>message<cr>', 'Show Messages')
-Nmap('<leader><leader>M', { vim.cmd.messages, 'clear' }, 'Clear Messages')
+-- Nmap('<leader><leader>M', { vim.cmd.messages, 'clear' }, 'Clear Messages')
 
 -- Nmap('\\9', ReloadAll)
 

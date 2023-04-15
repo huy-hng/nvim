@@ -2,13 +2,13 @@ local wk = require('which-key')
 
 ----------------------------------------------Labels------------------------------------------------
 
-wk.register { ['<leader>w'] = { name = 'Vimwiki' } }
+-- wk.register { ['<leader>w'] = { name = 'Vimwiki' } }
 -- wk.register { ['<leader>b'] = { name = 'Buffers' } }
-wk.register { ['<leader>f'] = { name = 'Telescope' } }
-wk.register { ['<leader>D'] = { name = 'Database' } }
-wk.register { ['<leader>d'] = { name = 'NeoTest' } }
-wk.register { ['<leader>a'] = { name = 'Harpon' } }
-wk.register { ['<leader>t'] = { name = 'Tabs' } }
+-- wk.register { ['<leader>f'] = { name = 'Telescope' } }
+-- wk.register { ['<leader>D'] = { name = 'Database' } }
+-- wk.register { ['<leader>d'] = { name = 'NeoTest' } }
+-- wk.register { ['<leader>a'] = { name = 'Harpon' } }
+-- wk.register { ['<leader>t'] = { name = 'Tabs' } }
 
 ------------------------------------------Window Commands-------------------------------------------
 

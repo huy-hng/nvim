@@ -1,9 +1,11 @@
--- better folding lines and column
 local M = {
 	'kevinhwang91/nvim-ufo',
 	dependencies = 'kevinhwang91/promise-async',
-	event = 'BufReadPre',
+	-- event = 'BufReadPre',
+	event = 'VeryLazy',
 }
+
+local native_keymaps = require('config.native_keymaps')
 
 -- hi default UfoFoldedFg guifg=Normal.foreground
 -- hi default UfoFoldedBg guibg=Folded.background
@@ -29,8 +31,9 @@ function M.config()
 				vimwiki = 'indent',
 				Outline = '',
 				norg = '',
+				c = 'treesitter',
 			}
-			Nmap('K', fn.peekOrHover, '[UFO] peek or hover')
+			Nmap(native_keymaps.K, fn.peekOrHover, '[UFO] peek or hover')
 			if ftMap[filetype] ~= '' then --
 				fn.set_keymaps(bufnr)
 				-- fn.customizeBufFoldText()

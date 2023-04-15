@@ -14,6 +14,7 @@ local M = {
 		ts_update()
 	end,
 }
+
 function M.config()
 	require('plugins.treesitter.completion')
 	require('plugins.treesitter.context')
