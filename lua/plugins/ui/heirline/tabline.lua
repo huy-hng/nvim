@@ -23,7 +23,7 @@ local FileIcon = {
 }
 
 local BufferBufnr = {
-	provider = function(self) return tostring(self.order) .. '. ' end,
+	provider = function(self) return tostring(vim.inspect(self.id[2])) .. '. ' end,
 	hl = 'Comment',
 }
 
@@ -116,7 +116,6 @@ local BufferCloseButton = {
 	},
 }
 
--- The final touch!
 local BufferBlock = utils.surround({ '', '' }, function(self)
 	if self.is_active then
 		return utils.get_highlight('TabLineSel').bg

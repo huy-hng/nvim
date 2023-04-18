@@ -9,7 +9,7 @@ function M.config()
 	local nmap = MapCreator('n', '', '[Buffer Manager]')
 	nmap('<leader>b', window.toggle_quick_menu, 'Toggle quick menu')
 
-	local tabline = R('plugins.ui.heirline.tabline')
+	local tabline = require('plugins.ui.heirline.tabline')
 	vim.o.showtabline = 2
 
 	require('heirline').setup {
