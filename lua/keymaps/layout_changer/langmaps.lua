@@ -2,10 +2,9 @@ local M = {}
 
 --stylua: ignore
 local qwerty = {
-	-- qwerty
 	'q', 'w', 'e', 'r', 't',    'y', 'u', 'i', 'o', 'p',
 	'a', 's', 'd', 'f', 'g',    'h', 'j', 'k', 'l', ';',
-	'z', 'x', 'c', 'v', 'b',    'n', 'm', ',', ',', '/',
+	'z', 'x', 'c', 'v', 'b',    'n', 'm', ',', '.', '/',
 
 	'Q', 'W', 'E', 'R', 'T',    'Y', 'U', 'I', 'O', 'P',
 	'A', 'S', 'D', 'F', 'G',    'H', 'J', 'K', 'L', ':',
@@ -25,18 +24,6 @@ local colemak = {
 }
 
 --stylua: ignore
-local custom_mappings_old = {
-	'q', 'o', 'v', 'p', '/',   'n', 'u', 'f', 't', ';',
-	'a', 'i', 'c', 'y', 'g',   'h', 'j', 'k', 'l', ':',
-	's', 'x',
-	'r', 'd', ',',   '.', 'b', 'w', 'e', '/',
-
-	'Q', 'O', 'V', 'P', '?',   'N', 'U', 'F', 'T', ';',
-	'A', 'I', 'C', 'Y', 'G',   'H', 'J', 'K', 'L', '~',
-	'S', 'X', 'R', 'D', '<',   '>', 'B', 'W', 'E', '?'
-}
-
---stylua: ignore
 local custom_mappings = {
 	'q', 'o', 'v', 'p', 'n',   '~', 'b', 'w', 'e', 'z',
 	'a', 'i', 'c', 'y', 'g',   'h', 'j', 'k', 'l', ':',
@@ -47,9 +34,33 @@ local custom_mappings = {
 	'S', 'X', 'R', 'D', '<',   '>', 'U', 'F', 'T', '?'
 }
 
+--stylua: ignore
+local minimal_changes = {
+	'q', 'b', 'w', 'e', 'r',    'y', 'u', 'i', 'o', 'p',
+	'a', 's', 'y', 'd', 'g',    'h', 'j', 'k', 'l', ':',
+	'z', 'x', 'c', 'v', 'f',    't', 'n', ',', '.', '/',
+
+	'Q', 'B', 'W', 'E', 'R',    'Y', 'U', 'I', 'O', 'P',
+	'A', 'S', 'Y', 'D', 'G',    'H', 'J', 'K', 'L', ';',
+	'Z', 'X', 'C', 'V', 'F',    'T', 'N', '<', '>', '?',
+}
+
+--stylua: ignore
+local append_test = {
+	'q', 'b', 'w', 'e', 'p',    'y', 'u', 'i', 'o', 'a',
+	's', 'r', 'y', 'd', 'g',    'h', 'j', 'k', 'l', ':',
+	'z', 'x', 'c', 'v', 'f',    't', 'n', ',', '.', '/',
+
+	'Q', 'B', 'W', 'E', 'R',    'Y', 'U', 'I', 'O', 'P',
+	'A', 'S', 'Y', 'D', 'G',    'H', 'J', 'K', 'L', ';',
+	'Z', 'X', 'C', 'V', 'F',    'T', 'N', '<', '>', '?',
+}
+
 M.colemak = table.concat(colemak)
 M.custom_mappings = table.concat(custom_mappings)
 M.qwerty = table.concat(qwerty)
+M.minimal_changes = table.concat(minimal_changes)
+M.append_test = table.concat(append_test)
 
 local function escape(str)
 	-- You need to escape these characters to work correctly

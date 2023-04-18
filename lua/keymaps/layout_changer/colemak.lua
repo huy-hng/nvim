@@ -6,10 +6,10 @@ function M.set_langmap()
 	local langmaps = require('keymaps.layout_changer.langmaps')
 	local translator = require('keymaps.layout_changer.key_translator').translate_keycode
 
-	langmaps.langmap(langmaps.colemak, langmaps.custom_mappings)
+	langmaps.langmap(langmaps.colemak, langmaps.minimal_changes)
 	-- native.K = '<C-,>' -- same comma location as qwerty, basically right below qwerty K
 	-- native.J = '<C-m>' -- keep column when joining lines
-	native.v = 'e'
+	native.v = 'd'
 	-- native['<C-d>'] = '<C-n>'
 	-- native['<C-u>'] = '<C-e>'
 	native.file_explorer = '<C-r>'
@@ -20,12 +20,18 @@ end
 function M.set_keymap()
 	local colemap = MapCreator('n', '', '[Colemak Remaps]', { langmap = false })
 
+	colemap('<C-d>', '<C-v>')
+	colemap('-', '$')
+	-- Unmap('n', '<cr>')
+
+
 	-- folding shortcuts
 	colemap('<A-h>', Util.wrap(pcall, vim.cmd.foldclose))
 	colemap('<A-l>', Util.wrap(pcall, vim.cmd.foldopen))
 
-	colemap('~', 'ge', 'Move back (opposite of e)')
-	colemap('|', 'gE', 'Move back (opposite of E)')
+	colemap('q', 'ge', 'Move back (opposite of e)')
+	colemap('Q', 'gE', 'Move back (opposite of e)')
+
 	colemap('gf', 'gv', 'Switch to last VISUAL using last selection')
 	colemap('gt', 'gf', 'Go to file under cursor')
 	-- Omap('e', 'v')
@@ -45,14 +51,14 @@ function M.set_keymap()
 	-- Nmap('<leader>l', '<cmd>50message<cr>', 'Show Messages')
 
 	-- needs langmap off for some reason
-	colemap('ff', 'V', 'V-line', { langmap = false })
+	-- colemap('ff', 'V', 'V-line', { langmap = false })
 	-- Nmap('ee', 'V')
 	-- Nmap('E', 'vg_')
 	-- Vmap('E', 'V')
 
-	colemap('<C-l>', '<C-r>', { langmap = false })
+	colemap('<C-h>', '<C-r>', { langmap = false })
 end
 
-M.set_keymap()
+-- M.set_keymap()
 
 return M

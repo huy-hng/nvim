@@ -29,7 +29,6 @@ Augroup('LazyLoad', {
 		require_dir('lua/keymaps')
 		colemak.set_keymap()
 
-		Nmap('QQ', { vim.cmd, 'qa' })
 		return true
 	end),
 })
