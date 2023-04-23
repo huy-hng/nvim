@@ -70,7 +70,7 @@ end
 
 local function set_buf_keybindings()
 	local opts = { buffer = M.win_bufnr }
-	local nmap = MapCreator('n', '', '[Buffer Manager]', opts)
+	local nmap = Map.create('n', '', '[Buffer Manager]', opts)
 
 	nmap('q', M.close_menu, 'Close Menu')
 	nmap('<ESC>', M.close_menu, 'Close Menu')

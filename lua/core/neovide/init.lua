@@ -14,6 +14,7 @@ local function manjaro()
 
 	g.neovide_refresh_rate_idle = 120
 	g.neovide_default_transparency = 0.8
+	g.gui_font_default_size = 11
 
 	-- o.winblend = 0
 	-- o.pumblend = 0

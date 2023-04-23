@@ -160,7 +160,7 @@ local function toggler()
 	-- StatusColumn.set_window(close_to_default)
 	Statuscolumn.set_window(column)
 end
-Nmap("<c-'>", toggler)
+Map.n("<c-'>", toggler)
 
 -- vim.opt.statuscolumn = '%{v:wrap ? repeat(" ", float2nr(ceil(log10(v:lnum))))."↳":v:lnum}%=%s%C'
 

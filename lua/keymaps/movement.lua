@@ -1,10 +1,9 @@
 -- horizontal scrolling
-Nmap('zh', '10zh')
-Nmap('zl', '10zl')
+Map.n('zh', '10zh')
+Map.n('zl', '10zl')
 
-
-Nmap('<C-j>', '<C-d>zzzz')
-Nmap('<C-k>', '<C-u>zzzz')
+Map.nv('<C-j>', '<C-d>zzzz')
+Map.nv('<C-k>', '<C-u>zzzz')
 
 -- Nmap('<C-d>', function()
 -- 	nvim.feedkeys('<C-d>zz')
@@ -12,16 +11,17 @@ Nmap('<C-k>', '<C-u>zzzz')
 -- end)
 
 -- Cursor movement in insert and command mode
-ICmap('<A-h>', { nvim.feedkeys, '<Left>' })
-ICmap('<A-j>', { nvim.feedkeys, '<Down>' })
-ICmap('<A-k>', { nvim.feedkeys, '<Up>' })
-ICmap('<A-l>', { nvim.feedkeys, '<Right>' })
+-- ICmap('<A-h>', { nvim.feedkeys, '<Left>' })
+-- ICmap('<A-j>', { nvim.feedkeys, '<Down>' })
+-- ICmap('<A-k>', { nvim.feedkeys, '<Up>' })
+-- ICmap('<A-l>', { nvim.feedkeys, '<Right>' })
 
 -- Prev command in command mode
--- cmap('<C-j>', BindFeedkeys('<Down>'))
--- cmap('<C-k>', BindFeedkeys('<Up>'))
-Cmap('<C-n>', { nvim.feedkeys, '<Down>' })
-Cmap('<C-p>', { nvim.feedkeys, '<Up>' })
+-- Cmap('<C-n>', { nvim.feedkeys, '<Down>' })
+-- Cmap('<C-p>', { nvim.feedkeys, '<Up>' })
+Map.c('<A-j>', { nvim.feedkeys, '<Down>' })
+Map.c('<A-k>', { nvim.feedkeys, '<Up>' })
+
 local function move_to_indent()
 	local has_indent, ts_indent = pcall(require, 'nvim-treesitter.indent')
 	if not has_indent then return end
@@ -40,14 +40,14 @@ local function move_to_indent()
 	return string.format('A%s', tabs)
 end
 
-Nmap('A', 'A', 'Move to correct indentation, or normal A', {
+Map.n('A', 'A', 'Move to correct indentation, or normal A', {
 	callback = move_to_indent,
 })
-Nmap('a', 'a', 'Move to correct indentation, or normal A', {
+Map.n('a', 'a', 'Move to correct indentation, or normal A', {
 	callback = move_to_indent,
 })
 
 -----------------------------------------Fold Navigation Mode---------------------------------------
 -- folding shortcuts
-Nmap('<A-h>', Util.wrap(pcall, vim.cmd.foldclose))
-Nmap('<A-l>', Util.wrap(pcall, vim.cmd.foldopen))
+Map.n('<A-h>', Util.wrap(pcall, vim.cmd.foldclose))
+Map.n('<A-l>', Util.wrap(pcall, vim.cmd.foldopen))

@@ -80,13 +80,13 @@ function YankOperator(type)
 	vim.go.operatorfunc = ''
 end
 
-Nmap(native.p, keep_column('p==', true), 'paste, keep column and indent')
-Nmap(native.P, keep_column('P==', true), 'paste, keep column and indent')
-Vmap(native.y, keep_column('y', false, true))
-Vmap(native.Y, keep_column('Y'))
-Vmap('<C-c>', keep_column('"+y'), 'Yank to clipboard')
+Map.n(native.p, keep_column('p==', true), 'paste, keep column and indent')
+Map.n(native.P, keep_column('P==', true), 'paste, keep column and indent')
+Map.v(native.y, keep_column('y', false, true))
+Map.v(native.Y, keep_column('Y'))
+Map.v('<C-c>', keep_column('"+y'), 'Yank to clipboard')
 
-Vmap(native.p, '"_c<C-r>"<esc>', 'keep yank register when pasting over visual selection')
+Map.v(native.p, '"_c<C-r>"<esc>', 'keep yank register when pasting over visual selection')
 
 -- Nmap('y', yank_operator, '', { expr = true })
 -- Nmap('y', YankOperator, '', { expr = true })
@@ -97,18 +97,18 @@ Vmap(native.p, '"_c<C-r>"<esc>', 'keep yank register when pasting over visual se
 -- Nmap('yk', keep_column('yk'))
 -- Nmap('yl', 'yl')
 
-Nmap(native.J, keep_column('J'), 'keep column when joining lines')
+Map.n(native.J, keep_column('J'), 'keep column when joining lines')
 
 ----------------------------------copy current line above / below-----------------------------------
 
-Imap('<A-K>', keep_column('yyPi', true), '', { langmap = false })
-Imap('<A-J>', keep_column('yypi', true), '', { langmap = false })
+Map.i('<A-K>', keep_column('yyPi', true), '', { langmap = false })
+Map.i('<A-J>', keep_column('yypi', true), '', { langmap = false })
 
-Nmap('<A-J>', keep_column('yyp', true), '', { langmap = false })
-Nmap('<A-K>', keep_column('yyP', true), '', { langmap = false })
+Map.n('<A-J>', keep_column('yyp', true), '', { langmap = false })
+Map.n('<A-K>', keep_column('yyP', true), '', { langmap = false })
 
-Vmap('<A-J>', keep_column("Y'>p"), '', { langmap = false })
-Vmap('<A-K>', keep_column("Y'<P"), '', { langmap = false })
+Map.v('<A-J>', keep_column("Y'>p"), '', { langmap = false })
+Map.v('<A-K>', keep_column("Y'<P"), '', { langmap = false })
 
 ------------------------------------move line(s) above / below--------------------------------------
 
@@ -208,11 +208,11 @@ local function fn1(direction)
 end
 -- Defer(2000, Util.print_out)
 
-Nmap('<A-j>', move_line('+'), '', { langmap = false })
-Nmap('<A-k>', move_line('-2'), '', { langmap = false })
+Map.n('<A-j>', move_line('+'), '', { langmap = false })
+Map.n('<A-k>', move_line('-2'), '', { langmap = false })
 
-Nmap('<A-j>', fn1(1), '', { langmap = false })
-Nmap('<A-k>', fn1(-1), '', { langmap = false })
+Map.n('<A-j>', fn1(1), '', { langmap = false })
+Map.n('<A-k>', fn1(-1), '', { langmap = false })
 -- this is a comment
 
 -- Nmap('<A-j>', counter(1))
@@ -221,8 +221,8 @@ Nmap('<A-k>', fn1(-1), '', { langmap = false })
 -- nmap('<A-j>', '<cmd>m+<cr>==')
 -- nmap('<A-k>', '<cmd>m-2<cr>==')
 
-Vmap('<A-j>', ":m'>+<cr>`<my`>mzgv`yo`z=gv", '', { langmap = false })
-Vmap('<A-k>', ":m'<-2<cr>`>my`<mzgv`yo`z=gv", '', { langmap = false })
+Map.v('<A-j>', ":m'>+<cr>`<my`>mzgv`yo`z=gv", '', { langmap = false })
+Map.v('<A-k>', ":m'<-2<cr>`>my`<mzgv`yo`z=gv", '', { langmap = false })
 
 -- nmap('<A-j>', 'mz<cmd>m+<cr>`z')
 -- nmap('<A-k>', 'mz<cmd>m-2<cr>`z')
@@ -231,23 +231,23 @@ Vmap('<A-k>', ":m'<-2<cr>`>my`<mzgv`yo`z=gv", '', { langmap = false })
 
 ---------------------------------------------Substitution-------------------------------------------
 
-Nmap(
+Map.n(
 	'<leader>ss',
 	[[:%s/\<<C-r><C-w>\>/<C-r><C-w>/gI<Left><Left><Left>]],
 	'Substitute word under cursor'
 )
 --------------------------------------------Indentation---------------------------------------------
 
-Imap('<C-Tab>', '<C-t>')
-Imap('<S-Tab>', '<C-d>')
-Imap('<C-S-Tab>', '<C-d>')
+Map.i('<C-Tab>', '<C-t>')
+Map.i('<S-Tab>', '<C-d>')
+Map.i('<C-S-Tab>', '<C-d>')
 
-Nmap('<C-Tab>', '>>')
-Nmap('<S-Tab>', '<<')
-Nmap('<C-S-Tab>', '<<')
+Map.n('<C-Tab>', '>>')
+Map.n('<S-Tab>', '<<')
+Map.n('<C-S-Tab>', '<<')
 
-Vmap('<Tab>', '>gv')
-Vmap('<S-Tab>', '<gv')
+Map.v('<Tab>', '>gv')
+Map.v('<S-Tab>', '<gv')
 
 ------------------------------------------Blackhole Register----------------------------------------
 -- Nmap('x', '"_x')

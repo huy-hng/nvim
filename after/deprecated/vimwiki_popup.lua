@@ -62,7 +62,7 @@ local function create_popup()
 			local ft = vim.api.nvim_buf_get_option(bufnr, 'filetype')
 			if ft == 'vimwiki' then --
 				popup.bufnr = bufnr
-				Nmap('q', function() --
+				Map.n('q', function() --
 					popup:hide()
 				end, 'Close popup', { buffer = bufnr, nowait = true })
 			end
@@ -116,7 +116,7 @@ local function wrapper(cmd)
 	return function() open_popup(cmd) end
 end
 
-local vw = MapCreator('n', '<leader>d', '[Vimwiki]')
+local vw = Map.create('n', '<leader>d', '[Vimwiki]')
 local cmd = vim.cmd
 
 vw('j', wrapper(), 'Open last view')
@@ -130,6 +130,6 @@ vw('d', wrapper(cmd.VimwikiMakeDiaryNote), 'Daily Log Note')
 vw('y', wrapper(cmd.VimwikiMakeYesterdayDiaryNote), 'Yesterday Log Note')
 vw('m', wrapper(cmd.VimwikiMakeTomorrowDiaryNote), 'Tomorrow Log Note')
 
-Nmap('<leader>ww', '<nop>')
+Map.n('<leader>ww', '<nop>')
 
 -- vw('t', wrapper(vim.cmd.VimwikiTabMakeDiaryNote), 'Daily Log Tab')

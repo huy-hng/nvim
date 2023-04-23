@@ -6,7 +6,7 @@ local M = {
 require('plugins.ui.heirline.buffer_manager').setup()
 function M.config()
 	local window = require('plugins.ui.heirline.buffer_manager.window')
-	local nmap = MapCreator('n', '', '[Buffer Manager]')
+	local nmap = Map.create('n', '', '[Buffer Manager]')
 	nmap('<leader>b', window.toggle_quick_menu, 'Toggle quick menu')
 
 	local tabline = require('plugins.ui.heirline.tabline')

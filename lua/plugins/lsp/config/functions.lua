@@ -1,6 +1,6 @@
 local M = {}
 
-function M.unmapper(bufnr) Unmap('n', '<esc>', { buffer = bufnr }) end
+function M.unmapper(bufnr) Map.unmap('n', '<esc>', { buffer = bufnr }) end
 
 function M.close_with_esc(win_id, bufnr)
 	bufnr = bufnr or 0
@@ -9,7 +9,7 @@ function M.close_with_esc(win_id, bufnr)
 	-- 	autocmd('WinClosed', '*', { unmapper, bufnr }, { buffer = bufnr }),
 	-- })
 
-	Nmap('<esc>', function()
+	Map.n('<esc>', function()
 		pcall(vim.api.nvim_win_close, win_id, true)
 		M.unmapper(bufnr)
 	end, 'close diagnostic float', { buffer = bufnr })

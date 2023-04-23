@@ -2,7 +2,7 @@
 -- autocmd which listens to optionchanged
 -- and depending on option and its value, start or stop metamap
 
-local metamap = require('metamap')
+-- local metamap = require('metamap')
 
 -- local map = metamap.new('Fold Navigation')
 

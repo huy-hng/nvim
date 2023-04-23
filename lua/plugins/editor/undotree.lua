@@ -161,7 +161,7 @@ function M.config()
 		vim.cmd.UndotreeFocus()
 	end
 
-	Nmap('<F5>', current_buffer)
+	Map.n('<F5>', current_buffer)
 end
 
 return M

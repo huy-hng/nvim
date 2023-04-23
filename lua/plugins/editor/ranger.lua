@@ -150,8 +150,8 @@ end
 function M.config()
 	config()
 	local native = require('config.native_keymaps')
+	Map.n('<C-S-r>', vim.cmd.RnvimrToggle, 'Open Ranger')
 
-	-- Nmap('<A-e>', vim.cmd.RnvimrToggle, 'Open Ranger')
 	-- Nmap(native.file_explorer, vim.cmd.RnvimrToggle, 'Open Ranger')
 	-- Nmap('<A-E>', open_docked_sidebar, 'Docked Ranger')
 
@@ -191,8 +191,8 @@ function M.config()
 
 	Augroup('Ranger', {
 		Autocmd('FileType', 'rnvimr', function(data)
-			local nmap = MapCreator('n', '', '', { buffer = data.buf })
-			local tmap = MapCreator('t', '', '', { buffer = data.buf })
+			local nmap = Map.create('n', '', '', { buffer = data.buf })
+			local tmap = Map.create('t', '', '', { buffer = data.buf })
 
 			-- tmap('<esc>', vim.cmd.RnvimrToggle, 'Close Ranger')
 			tmap('<C-e>', vim.cmd.RnvimrToggle, 'Close Ranger')

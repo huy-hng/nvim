@@ -21,7 +21,7 @@ require('core.neovide')
 
 Augroup('LazyLoad', {
 	Autocmd('User', 'VeryLazy', function()
-		Nmap('<C-S-P>', require('lazy').home)
+		Map.n('<C-S-P>', require('lazy').home)
 		local require_dir = require('modules.require_dir')
 		require('core.autocmd')
 		require_dir('lua/functions')

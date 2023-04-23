@@ -42,12 +42,12 @@ function M.config()
 	local harpoon_mark = require('harpoon.mark')
 	local harpoon_term = require('harpoon.term')
 
-	local harpoonmap = MapCreator('n', '<leader>a', '[Harpoon]')
+	local harpoonmap = Map.create('n', '<leader>a', '[Harpoon]')
 	harpoonmap('h', harpoon_ui.toggle_quick_menu, 'Open Harpoon')
 	harpoonmap('a', harpoon_mark.add_file, 'Add file')
 	harpoonmap('c', require('harpoon.cmd-ui').toggle_quick_menu, '')
 
-	harpoonmap = MapCreator('n', '', '[Harpoon]')
+	harpoonmap = Map.create('n', '', '[Harpoon]')
 	for i in ipairs(vim.fn.range(1, 9)) do
 		local keymap = string.format('<A-%s>', i)
 		harpoonmap(keymap, { harpoon_ui.nav_file, i }, 'Go to File')

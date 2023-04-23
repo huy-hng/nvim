@@ -18,10 +18,10 @@ Augroup('WindowManagement', {
 		'startuptime',
 		'tsplayground',
 		'PlenaryTestPopup',
-		}, function(data)
-			vim.bo[data.buf].buflisted = false
-			Nmap('q', vim.cmd.q, 'Close Window', { buffer = data.buf })
-			-- vim.keymap.set('n', 'q', '<cmd>close<cr>', { buffer = data.buf, silent = true })
+	}, function(data)
+		vim.bo[data.buf].buflisted = false
+		Map.n('q', vim.cmd.q, 'Close Window', { buffer = data.buf })
+		-- vim.keymap.set('n', 'q', '<cmd>close<cr>', { buffer = data.buf, silent = true })
 	end),
 })
 
@@ -30,16 +30,20 @@ Augroup('FileTypes', {
 	Autocmd({ 'BufNewFile', 'BufRead' }, '*.tmux', 'set filetype=tmux'),
 	Autocmd({ 'BufNewFile', 'BufRead' }, '*.vim', 'set filetype=vim'),
 	Autocmd({ 'BufNewFile', 'BufRead' }, '*.ron', 'set filetype=rust'),
-	Autocmd({ 'BufNewFile', 'BufRead' }, { '*.overlay', '*.keymap' }, function(data)
-		vim.bo[data.buf].filetype = 'dts'
-		vim.bo[data.buf].commentstring = '// %s'
-		-- vim.keymap.set('n', '<leader>ff', 'QMKFormat', { buffer = data.buf })
-		-- vim.keymap.set('n', '<leader>ff', vim.cmd.QMKFormat, { buffer = true })
+	Autocmd(
+		{ 'BufNewFile', 'BufRead' },
+		{ '*.overlay', '*.keymap', '*.dts', '*.dtsi' },
+		function(data)
+			vim.bo[data.buf].filetype = 'dts'
+			vim.bo[data.buf].commentstring = '// %s'
+			-- vim.keymap.set('n', '<leader>ff', 'QMKFormat', { buffer = data.buf })
+			-- vim.keymap.set('n', '<leader>ff', vim.cmd.QMKFormat, { buffer = true })
 
-		vim.keymap.set('n', '<leader>ff', function() --
-			require('qmk').format()
+			vim.keymap.set('n', '<leader>ff', function() --
+				require('qmk').format()
 			end, { buffer = true })
-	end),
+		end
+	),
 	Autocmd(
 		{ 'BufNewFile', 'BufRead' },
 		{ '*.env', '*.profile', '*.rc', '*.login', '*.logout' },
@@ -169,9 +173,9 @@ Augroup('Misc', {
 		'WinEnter',
 		'CursorHold',
 		'CursorHoldI',
-		}, function()
-			if Util.is_cmdwin() then return end
-			vim.cmd.checktime()
+	}, function()
+		if Util.is_cmdwin() then return end
+		vim.cmd.checktime()
 	end),
 })
 
@@ -180,11 +184,11 @@ Augroup('Misc', {
 Augroup('CommandlineWindow', {
 	Autocmd('CmdlineEnter', function()
 		-- vim.cmd.NoiceDisable()
-		vim.o.cmdheight = 1
+		if vim.g.has_neovide then vim.o.cmdheight = 1 end
 		-- require('plugins.noice').pause(true)
 	end),
 	Autocmd('CmdlineLeave', function()
-		vim.o.cmdheight = 0
+		if vim.g.has_neovide then vim.o.cmdheight = 0 end
 		-- nvim.schedule(vim.cmd.NoiceEnable)
 		-- require('plugins.noice').pause(false)
 	end),
@@ -207,16 +211,16 @@ Augroup('CommandlineWindow', {
 			vim.g.neovide_scroll_animation_length = 0
 
 			local opts = { buffer = true, silent = false }
-			Nmap(';', ':', '', opts)
+			Map.n(';', ':', '', opts)
 
-			Nmap('<C-k>', vim.cmd.quit, '', opts)
-			Nmap('q', vim.cmd.quit, '', opts)
-			Nmap('<C-;>', vim.cmd.quit, '', opts)
-			Nmap('<leader>;', vim.cmd.quit, '', opts)
-			Imap('<C-;>', function()
+			Map.n('<C-k>', vim.cmd.quit, '', opts)
+			Map.n('q', vim.cmd.quit, '', opts)
+			Map.n('<C-;>', vim.cmd.quit, '', opts)
+			Map.n('<leader>;', vim.cmd.quit, '', opts)
+			Map.i('<C-;>', function()
 				nvim.feedkeys('<Esc>')
 				vim.cmd.quit()
-				end, '', opts)
+			end, '', opts)
 
 			vim.cmd.TSContextDisable()
 			vim.cmd.TSBufDisable('highlight')
@@ -288,7 +292,7 @@ Augroup('AutocmdTester', {
 		'WinEnter',
 		'WinLeave',
 		'WinClosed',
-		}, printer),
+	}, printer),
 	-- Autocmd('BufWinLeave', '*', printer),
 	-- Autocmd('BufWinEnter', '*', printer),
 

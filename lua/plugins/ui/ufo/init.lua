@@ -33,7 +33,7 @@ function M.config()
 				norg = '',
 				c = 'treesitter',
 			}
-			Nmap(native_keymaps.K, fn.peekOrHover, '[UFO] peek or hover')
+			Map.n(native_keymaps.K, fn.peekOrHover, '[UFO] peek or hover')
 			if ftMap[filetype] ~= '' then --
 				fn.set_keymaps(bufnr)
 				-- fn.customizeBufFoldText()

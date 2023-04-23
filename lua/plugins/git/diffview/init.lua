@@ -7,10 +7,10 @@ local M = {
 function M.config()
 	local diffview = require('diffview')
 
-	Nmap('<C-S-g>', vim.cmd.DiffviewOpen, '[Diffview] Open')
-	Vmap('<leader>gf', ":'<,'>DiffviewFileHistory<CR>", '[Diffview] File History Visual Selection')
+	Map.n('<C-S-g>', vim.cmd.DiffviewOpen, '[Diffview] Open')
+	Map.v('<leader>gf', ":'<,'>DiffviewFileHistory<CR>", '[Diffview] File History Visual Selection')
 
-	local map = MapCreator('n', '<leader>g', '[Diffview]')
+	local map = Map.create('n', '<leader>g', '[Diffview]')
 	map('f', { vim.cmd.DiffviewFileHistory, '%' }, 'Open')
 
 	diffview.setup {

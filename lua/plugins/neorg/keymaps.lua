@@ -1,4 +1,4 @@
-local nmap = MapCreator('n', '<leader>n', '[Neorg]')
+local nmap = Map.create('n', '<leader>n', '[Neorg]')
 
 nmap('n', vim.cmd.Neorg, 'Main Menu')
 nmap('i', { vim.cmd.Neorg, 'index' }, 'Open Index')

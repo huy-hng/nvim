@@ -17,17 +17,17 @@ function M.config()
 	requirer('neorg').setup {
 		load = {
 			['core.defaults'] = {},
-			['core.norg.journal'] = requirer('plugins.neorg.modules.journal'),
-			['core.norg.concealer'] = {},
-			['core.norg.esupports.indent'] = {},
+			['core.journal'] = requirer('plugins.neorg.modules.journal'),
+			['core.concealer'] = {},
+			['core.esupports.indent'] = {},
 			-- ['core.norg.concealer'] = { config = requirer('plugins.neorg.modules.concealer') },
 			-- ['core.norg.esupports.indent'] = { config = requirer('plugins.neorg.modules.indent') },
-			['core.norg.completion'] = {
+			['core.completion'] = {
 				config = {
 					engine = 'nvim-cmp',
 				},
 			},
-			['core.norg.dirman'] = {
+			['core.dirman'] = {
 				config = {
 					default_workspace = 'home',
 					workspaces = {

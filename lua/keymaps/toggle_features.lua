@@ -14,19 +14,19 @@ local function toggle_wrap()
 	if vim.o.wrap then
 		vim.notify('No Word Wrap')
 		vim.o.wrap = false
-		Nmap('j', 'j')
-		Nmap('k', 'k')
-		Nmap('0', 'g^')
-		Nmap('^', 'g0')
-		Nmap('$', 'g$')
+		Map.n('j', 'j')
+		Map.n('k', 'k')
+		Map.n('0', 'g^')
+		Map.n('^', 'g0')
+		Map.n('$', 'g$')
 	else
 		vim.notify('Word Wrap')
 		vim.o.wrap = true
-		Nmap('j', 'gj')
-		Nmap('k', 'gk')
-		Nmap('0', '^')
-		Nmap('^', '0')
-		Nmap('$', '$')
+		Map.n('j', 'gj')
+		Map.n('k', 'gk')
+		Map.n('0', '^')
+		Map.n('^', '0')
+		Map.n('$', '$')
 	end
 end
 
@@ -42,16 +42,16 @@ local function toggle_commenting()
 	vim.notify('Auto Comment')
 end
 
-Nmap('<F4>', { Util.toggle, 'concealcursor', false, { 'c', 'nc' } }, '[Toggle] Conceal')
+Map.n('<F4>', { Util.toggle, 'concealcursor', false, { 'c', 'nc' } }, '[Toggle] Conceal')
 
-Nmap('<F8>', toggle_wrap, '[Toggle] Wrap')
-Nmap('<F7>', toggle_commenting, '[Toggle] Auto Comment')
-Nmap('<F10>', 'gg=G<C-o>zz')
+Map.n('<F8>', toggle_wrap, '[Toggle] Wrap')
+Map.n('<F7>', toggle_commenting, '[Toggle] Auto Comment')
+Map.n('<F10>', 'gg=G<C-o>zz')
 -- Nmap('<F10>', 'gg=G')
 
 -- Nmap('<leader>tf', require('lazyvim.plugins.lsp.format').toggle, 'Toggle format on Save')
 
-Nmap('<F6>', function() Util.toggle('spell') end, 'Toggle Spelling')
+Map.n('<F6>', function() Util.toggle('spell') end, 'Toggle Spelling')
 -- Nmap('', function() Util.toggle('wrap') end, 'Toggle Word Wrap')
 -- Nmap("<leader>td", Util.toggle_diagnostics, { desc = "Toggle Diagnostics" })
 -- Nmap('<leader>tc', function() Util.toggle('conceallevel', false, { 0, 2 }) end, 'Toggle Conceal')

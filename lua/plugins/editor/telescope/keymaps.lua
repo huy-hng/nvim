@@ -9,13 +9,13 @@ local themes = require('telescope.themes')
 
 local layouts = require('plugins.editor.telescope.layouts')
 
-local tele_map = MapCreator('n', '<leader>f', '[Telescope]')
+local tele_map = Map.create('n', '<leader>f', '[Telescope]')
 
 --------------------------------------------Find Files----------------------------------------------
 
 -- nmap('<C-p>', { builtin.find_files, { layout_strategy = 'cursor' } }, '[Telescope] Find Files')
 -- tele_map('p', { builtin.find_files, { find_command = find_command } }, 'Find Ignored Files')
-Nmap('<C-p>', { builtin.find_files, layouts.vert_list_insert }, '[Telescope] Find Files')
+Map.n('<C-e>', { builtin.find_files, layouts.vert_list_insert }, '[Telescope] Find Files')
 local find_command = { 'rg', '--files', '--hidden', '-g', '!.git' }
 tele_map('b', { builtin.buffers, layouts.vert_list_normal }, 'Find Buffers')
 tele_map('o', { builtin.oldfiles, layouts.vert_list_normal }, 'Find Old Files')
@@ -59,14 +59,14 @@ end
 ---@param dir string path
 local function run_in_dir(fn, dir)
 	local opts = { cwd = dir or vim.fn.expand('%:p:h') }
-	P(opts)
 	fn(layout_opts(layouts.vert_list_insert, opts))
 end
 
 tele_map('P', { run_in_dir, builtin.find_files }, 'Find Files in buffer dir')
 tele_map('L', { run_in_dir, builtin.live_grep }, 'Live Grep in buffer dir')
 
--- tele_map('v', { run_in_dir, builtin.find_files, NVIM_CONFIG_PATH }, 'Find Neovim Files')
+tele_map('j', { run_in_dir, builtin.find_files, NVIM_CONFIG_PATH }, 'Find Neovim Files')
+
 tele_map(
 	'p',
 	{ run_in_dir, builtin.find_files, '/home/huy/.local/share/nvim/lazy' },
@@ -74,11 +74,12 @@ tele_map(
 )
 
 local maps = {
-	['<C-u>'] = actions.results_scrolling_up,
-	['<C-d>'] = actions.results_scrolling_down,
-	['<C-b>'] = actions.preview_scrolling_up,
-	['<C-f>'] = actions.preview_scrolling_down,
+	['<C-k>'] = actions.results_scrolling_up,
+	['<C-j>'] = actions.results_scrolling_down,
+	['<C-u>'] = actions.preview_scrolling_up,
+	['<C-d>'] = actions.preview_scrolling_down,
 
+	['<C-f>'] = actions.close,
 	['<C-c>'] = actions.close,
 	['<C-Esc>'] = actions.close,
 

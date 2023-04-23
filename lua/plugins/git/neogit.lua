@@ -8,8 +8,8 @@ local M = {
 function M.config()
 	local neogit = require('neogit')
 
-	Nmap('<C-g>', vim.cmd.Neogit, 'Open Neogit')
-	Nmap('<C-S-G>', vim.cmd.Neogit, 'Open Neogit')
+	Map.n('<C-g>', vim.cmd.Neogit, 'Open Neogit')
+	Map.n('<C-S-G>', vim.cmd.Neogit, 'Open Neogit')
 
 	neogit.setup {
 		disable_signs = false,

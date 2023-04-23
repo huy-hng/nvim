@@ -43,11 +43,11 @@ end
 
 local buf_manager = require('plugins.ui.heirline.buffer_manager.navigation')
 
-Nmap('H', buf_manager.nav_prev, 'Prev Buffer')
-Nmap('L', buf_manager.nav_next, 'Next Buffer')
+Map.n('H', buf_manager.nav_prev, 'Prev Buffer')
+Map.n('L', buf_manager.nav_next, 'Next Buffer')
 
-Nmap('<leader>0', { buffer_switch, -1 }, '')
+Map.n('<leader>0', { buffer_switch, -1 }, '')
 for i in ipairs(vim.fn.range(1, 9)) do
 	local keymap = string.format('<leader>%s', i)
-	Nmap(keymap, { buffer_switch, i }, 'Go to Buffer')
+	Map.n(keymap, { buffer_switch, i }, 'Go to Buffer')
 end

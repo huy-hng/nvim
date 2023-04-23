@@ -48,14 +48,15 @@ local if_visible = function(fn)
 	end
 end
 
+-- colemak version
 return {
 	['<C-c>'] = ls.unlink_current,
 
 	-- navigation
-	['<C-n>'] = cmp.mapping(choice_node_or_select_item(cmp.select_next_item), { 'i', 's' }),
-	['<C-p>'] = cmp.mapping(choice_node_or_select_item(cmp.select_prev_item), { 'i', 's' }),
+	['<C-l>'] = cmp.mapping(choice_node_or_select_item(cmp.select_next_item), { 'i', 's' }),
+	['<C-j>'] = cmp.mapping(choice_node_or_select_item(cmp.select_prev_item), { 'i', 's' }),
 
-	['<C-j>'] = cmp.mapping {
+	['<C-n>'] = cmp.mapping {
 		-- i = if_visible(cmp.select_next_item),
 		i = jump_or_select_item(cmp.select_next_item, 1),
 		s = jump_or_select_item(cmp.select_next_item, 1),
@@ -63,7 +64,7 @@ return {
 		-- s = next_item,
 		c = if_not_visible_feedkeys(cmp.select_next_item, '<Down>'),
 	},
-	['<C-k>'] = cmp.mapping {
+	['<C-e>'] = cmp.mapping {
 		-- i = if_visible(cmp.select_prev_item),
 		i = jump_or_select_item(cmp.select_prev_item, -1),
 		s = jump_or_select_item(cmp.select_prev_item, -1),
@@ -71,34 +72,72 @@ return {
 		-- s = prev_item,
 		c = if_not_visible_feedkeys(cmp.select_prev_item, '<Up>'),
 	},
-	-- ['<C-k>'] = cmp.mapping(if_visible(cmp.select_prev_item), { 'i', 'c' }),
+	['<C-i>'] = cmp.mapping.confirm { select = true },
 
-	['<C-f>'] = cmp.mapping.select_next_item { behavior = cmp.SelectBehavior, count = 16 },
-	['<C-b>'] = cmp.mapping.select_prev_item { behavior = cmp.SelectBehavior, count = 16 },
-
-	['<C-u>'] = cmp.mapping.scroll_docs(-8),
-	['<C-d>'] = cmp.mapping.scroll_docs(8),
-
-	-- accept / abort
-	-- ['<C-c>'] = cmp.abort,
-	['<C-e>'] = cmp.mapping {
-		i = cmp.mapping.abort(),
-		c = cmp.mapping.close(),
-	},
-	['<C-l>'] = cmp.mapping.confirm { select = true },
+	['<A-n>'] = cmp.mapping.scroll_docs(-8),
+	['<A-e>'] = cmp.mapping.scroll_docs(8),
 
 	-- open completion menu
-
 	['<C-Space>'] = cmp.mapping(
 		if_visible(cmp.mapping.confirm { select = true }),
 		{ 'i', 's', 'c' }
 	),
 
-	-- remove bindings
-	-- ['<C-p>'] = cmp.config.disable,
-	-- ['<C-n>'] = cmp.config.disable,
-	-- ['<C-y>'] = cmp.config.disable,
 	['<Tab>'] = cmp.config.disable,
 	['<S-Tab>'] = cmp.config.disable,
-	-- ['<C-e>'] = cmp.config.disable,
 }
+
+-- return {
+-- 	['<C-c>'] = ls.unlink_current,
+
+-- 	-- navigation
+-- 	['<C-n>'] = cmp.mapping(choice_node_or_select_item(cmp.select_next_item), { 'i', 's' }),
+-- 	['<C-p>'] = cmp.mapping(choice_node_or_select_item(cmp.select_prev_item), { 'i', 's' }),
+
+-- 	['<C-j>'] = cmp.mapping {
+-- 		-- i = if_visible(cmp.select_next_item),
+-- 		i = jump_or_select_item(cmp.select_next_item, 1),
+-- 		s = jump_or_select_item(cmp.select_next_item, 1),
+-- 		-- i = next_item,
+-- 		-- s = next_item,
+-- 		c = if_not_visible_feedkeys(cmp.select_next_item, '<Down>'),
+-- 	},
+-- 	['<C-k>'] = cmp.mapping {
+-- 		-- i = if_visible(cmp.select_prev_item),
+-- 		i = jump_or_select_item(cmp.select_prev_item, -1),
+-- 		s = jump_or_select_item(cmp.select_prev_item, -1),
+-- 		-- i = prev_item,
+-- 		-- s = prev_item,
+-- 		c = if_not_visible_feedkeys(cmp.select_prev_item, '<Up>'),
+-- 	},
+-- 	-- ['<C-k>'] = cmp.mapping(if_visible(cmp.select_prev_item), { 'i', 'c' }),
+
+-- 	['<C-f>'] = cmp.mapping.select_next_item { behavior = cmp.SelectBehavior, count = 16 },
+-- 	['<C-b>'] = cmp.mapping.select_prev_item { behavior = cmp.SelectBehavior, count = 16 },
+
+-- 	['<C-u>'] = cmp.mapping.scroll_docs(-8),
+-- 	['<C-d>'] = cmp.mapping.scroll_docs(8),
+
+-- 	-- accept / abort
+-- 	-- ['<C-c>'] = cmp.abort,
+-- 	['<C-e>'] = cmp.mapping {
+-- 		i = cmp.mapping.abort(),
+-- 		c = cmp.mapping.close(),
+-- 	},
+-- 	['<C-l>'] = cmp.mapping.confirm { select = true },
+
+-- 	-- open completion menu
+
+-- 	['<C-Space>'] = cmp.mapping(
+-- 		if_visible(cmp.mapping.confirm { select = true }),
+-- 		{ 'i', 's', 'c' }
+-- 	),
+
+-- 	-- remove bindings
+-- 	-- ['<C-p>'] = cmp.config.disable,
+-- 	-- ['<C-n>'] = cmp.config.disable,
+-- 	-- ['<C-y>'] = cmp.config.disable,
+-- 	['<Tab>'] = cmp.config.disable,
+-- 	['<S-Tab>'] = cmp.config.disable,
+-- 	-- ['<C-e>'] = cmp.config.disable,
+-- }

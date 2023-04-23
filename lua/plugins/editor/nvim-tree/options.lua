@@ -15,9 +15,9 @@ return {
 		number = false,
 		relativenumber = false,
 		signcolumn = 'yes',
-		mappings = {
-			custom_only = true,
-		},
+		-- mappings = {
+		-- 	custom_only = true,
+		-- },
 		float = {
 			enable = true,
 			open_win_config = {
@@ -105,7 +105,6 @@ return {
 		debounce_delay = 15,
 		ignore_list = { 'help' },
 	},
-	ignore_ft_on_setup = {},
 	system_open = {
 		cmd = '',
 		args = {},

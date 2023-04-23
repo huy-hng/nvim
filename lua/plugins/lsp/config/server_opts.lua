@@ -19,10 +19,11 @@ local function lsp_keymaps(bufnr)
 	-- Enable completion triggered by <c-x><c-o>
 	vim.api.nvim_buf_set_option(bufnr, 'omnifunc', 'v:lua.vim.lsp.omnifunc')
 
-	local opts = { buffer = bufnr }
-	local lsp_map = MapCreator('n', '', '[LSP]', opts)
-	local vlsp = MapCreator('v', '', '[LSP]', opts)
-	local diag_map = MapCreator('n', '', '[Diagnostic]', opts)
+	local opts = { buffer = bufnr, langmap = false }
+
+	local lsp_map = Map.create('n', '', '[LSP]', opts)
+	local vlsp = Map.create('v', '', '[LSP]', opts)
+	local diag_map = Map.create('n', '', '[Diagnostic]', opts)
 
 	-- See `:help vim.diagnostic.*` for documentation on any of the below functions
 	diag_map('<leader>e', fns.diagnostic_float, 'open Float')
@@ -53,16 +54,14 @@ local function lsp_keymaps(bufnr)
 	-- telescope references defined in telescope keymaps
 	-- lsp_map('<F12>', vim.lsp.buf.references, 'References')
 	lsp_map('<leader>ca', vim.lsp.buf.code_action, 'Code Actions')
-	lsp_map('<leader>ff', fns.lsp_format, 'Format Document')
-	vlsp('<leader>ff', fns.lsp_format, 'Format Visual Selection')
+	lsp_map('<leader>nn', fns.lsp_format, 'Format Document')
+	vlsp('<leader>nn', fns.lsp_format, 'Format Visual Selection')
 	-- lsp_map('<leader>lr', require('lsp.codelens').run, 'codelens')
 end
 
 local function on_attach(client, bufnr)
 	-- client.server_capabilities.semanticTokensProvider = {}
-	if vim.lsp.semantic_tokens then
-		vim.lsp.semantic_tokens.stop(bufnr, client.id)
-	end
+	if vim.lsp.semantic_tokens then vim.lsp.semantic_tokens.stop(bufnr, client.id) end
 	lsp_keymaps(bufnr)
 end
 

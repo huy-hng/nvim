@@ -5,6 +5,16 @@ local devicons = nrequire('nvim-web-devicons')
 local utils = require('heirline.utils')
 local C = require('catppuccin.palettes').get_palette()
 
+local update = {
+	'BufEnter',
+	'BufHidden',
+	'BufLeave',
+	'BufModifiedSet',
+	'OptionSet',
+	pattern = 'buflisted',
+	callback = function() print('callback') end,
+}
+
 local FileIcon = {
 	init = function(self)
 		local filename = self.filename
@@ -84,7 +94,8 @@ local BufferFileNameBlock = {
 	on_click = {
 		callback = function(_, minwid, _, button)
 			if button == 'm' then -- close on mouse middle click
-				vim.schedule(function() vim.api.nvim_buf_delete(minwid, { force = false }) end)
+				vim.schedule(function() vim.cmd.Bdelete(minwid) end)
+				vim.schedule(vim.cmd.redrawtabline)
 			else
 				vim.api.nvim_win_set_buf(0, minwid)
 			end
@@ -107,8 +118,8 @@ local BufferCloseButton = {
 		hl = { fg = 'gray' },
 		on_click = {
 			callback = function(_, minwid)
-				vim.schedule(function() vim.api.nvim_buf_delete(minwid, { force = false }) end)
-				vim.cmd.redrawtabline()
+				vim.schedule(function() vim.cmd.Bdelete(minwid) end)
+				vim.schedule(vim.cmd.redrawtabline)
 			end,
 			minwid = function(self) return self.bufnr end,
 			name = 'heirline_tabline_close_buffer_callback',
@@ -122,7 +133,10 @@ local BufferBlock = utils.surround({ '', '' }, function(self)
 	else
 		return utils.get_highlight('TabLine').bg
 	end
-end, { BufferFileNameBlock, BufferCloseButton })
+end, {
+	BufferFileNameBlock,
+	BufferCloseButton,
+})
 
 -- and here we go
 M.BufferLine = utils.make_buflist(

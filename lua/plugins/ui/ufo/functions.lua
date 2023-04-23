@@ -36,7 +36,7 @@ M.customizeBufFoldText = function()
 end
 
 M.set_keymaps = function(bufnr)
-	local ufomap = MapCreator('n', '', '[UFO]', { buffer = bufnr })
+	local ufomap = Map.create('n', '', '[UFO]', { buffer = bufnr })
 
 	ufomap('[f', M.goPreviousClosedAndPeek, 'go to previous fold and peek')
 	ufomap(']f', M.goNextClosedAndPeek, 'go to next fold and peek')

@@ -59,7 +59,7 @@ function M.config()
 	end
 
 	-- check out 'shortmess' to remove hit-enter prompt
-	local buf_map = MapCreator('n', '', '[DB (Buffer)]', { remap = true, buffer = true })
+	local buf_map = Map.create('n', '', '[DB (Buffer)]', { remap = true, buffer = true })
 
 	local function db_completion()
 		require('cmp').setup.buffer { sources = { { name = 'vim-dadbod-completion' } } }
@@ -78,8 +78,8 @@ function M.config()
 		end),
 	})
 
-	local db_map = MapCreator('n', '<leader>D', '[DB]')
-	Nmap('<C-S-D>', focus_drawer, 'Toggle Drawer')
+	local db_map = Map.create('n', '<leader>D', '[DB]')
+	Map.n('<C-S-D>', focus_drawer, 'Toggle Drawer')
 	db_map('u', vim.cmd.DBUIToggle, 'Toggle Drawer')
 	db_map('f', vim.cmd.DBUIFindBuffer, 'Find buffer in DBUI drawer')
 	db_map('r', vim.cmd.DBUIRenameBuffer, 'Rename buffer or saved query')

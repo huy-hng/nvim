@@ -8,15 +8,15 @@ function M.config()
 	local nvim_tree = require('nvim-tree')
 
 	local options = require('plugins.editor.nvim-tree.options')
-	local mappings = require('plugins.editor.nvim-tree.mappings')
-	options.view.mappings.list = mappings
+	local on_attach = require('plugins.editor.nvim-tree.on_attach')
+	options.on_attach = on_attach
 
 	nvim_tree.setup(options)
 
 	local events = require('nvim-tree.events')
 
 	-- with relative path
-	events.on_file_created(function(file) vim.cmd.edit(file.fname) end)
+	-- events.on_file_created(function(file) vim.cmd.edit(file.fname) end)
 	-- with absolute path
 	-- events.on_file_created(function(file) vim.cmd.edit(vim.fn.fnamemodify(file.fname, ':p')) end)
 
@@ -39,7 +39,7 @@ function M.config()
 	local functions = require('plugins.editor.nvim-tree.functions')
 	-- Nmap('<C-S-e>', functions.focus_tree, 'Toggle Nvim Tree')
 	local native = require('config.native_keymaps')
-	Nmap(native.file_explorer, functions.focus_tree, 'Open Ranger')
+	Map.n(native.file_explorer, functions.focus_tree, 'Open Nvim tree')
 	-- Nmap('<A-E>', NvimTreeFloat, 'Toggle Nvim Tree')
 	-- print(options.update_focused_file.enable)
 	-- nmap('<leader>e', functions.focus_tree, 'Toggle Nvim Tree')

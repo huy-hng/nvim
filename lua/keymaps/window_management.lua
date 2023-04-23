@@ -1,28 +1,28 @@
 -- Move between windows
-Nmap('<C-h>', Util.wrap(vim.cmd.wincmd, 'h'))
+Map.n('<C-h>', Util.wrap(vim.cmd.wincmd, 'h'))
 -- Nmap('<C-j>', Util.wrap(vim.cmd.wincmd, 'j'))
 -- Nmap('<C-k>', Util.wrap(vim.cmd.wincmd, 'k'))
-Nmap('<C-l>', Util.wrap(vim.cmd.wincmd, 'l'))
+Map.n('<C-l>', Util.wrap(vim.cmd.wincmd, 'l'))
 
 -- resize windows with arrow keys
-Nmap('<C-Up>',    { nvim.schedule, Util.wrap(vim.cmd.resize, '-4') })
-Nmap('<C-Down>',  { nvim.schedule, Util.wrap(vim.cmd.resize, '+4') })
-Nmap('<C-Left>',  { nvim.schedule, Util.wrap(vim.cmd.wincmd, '4>') })
-Nmap('<C-Right>', { nvim.schedule, Util.wrap(vim.cmd.wincmd, '4<') })
+Map.n('<C-Up>',    { nvim.schedule, Util.wrap(vim.cmd.resize, '-4') })
+Map.n('<C-Down>',  { nvim.schedule, Util.wrap(vim.cmd.resize, '+4') })
+Map.n('<C-Left>',  { nvim.schedule, Util.wrap(vim.cmd.wincmd, '4>') })
+Map.n('<C-Right>', { nvim.schedule, Util.wrap(vim.cmd.wincmd, '4<') })
 
-Nmap('<up>',   '4<C-y>', 'Scroll up')
-Nmap('<down>', '4<C-e>', 'Scroll down')
-Nmap('<left>',  '4zh', 'Scroll left')
-Nmap('<right>', '4zl', 'Scroll right')
+Map.n('<up>',   '4<C-y>', 'Scroll up')
+Map.n('<down>', '4<C-e>', 'Scroll down')
+Map.n('<left>',  '4zh', 'Scroll left')
+Map.n('<right>', '4zl', 'Scroll right')
 
-Nmap('<S-up>',    'k', 'Move cursor up')
-Nmap('<S-down>',  'j', 'Move cursor down')
-Nmap('<S-left>',  'h', 'Move cursor left')
-Nmap('<S-right>', 'l', 'Move cursor right')
+Map.n('<S-up>',    'k', 'Move cursor up')
+Map.n('<S-down>',  'j', 'Move cursor down')
+Map.n('<S-left>',  'h', 'Move cursor left')
+Map.n('<S-right>', 'l', 'Move cursor right')
 
 
 
-local win_prefix = MapCreator('n', '<C-w>', '[Window]')
+local win_prefix = Map.create('n', '<C-w>', '[Window]')
 
 win_prefix('<C-h>', '<C-w>R', 'Move current window to the left')
 win_prefix('<C-l>', '<C-w>r', 'Move current window to the right')
@@ -104,13 +104,13 @@ Augroup('WindowCenterer', {
 
 -----------------------------------------------Tabs-------------------------------------------------
 
-Nmap('<leader>tn', vim.cmd.tabnew, 'Open new Tab')
-Nmap('<leader>tc', vim.cmd.tabclose, 'Close Tab')
+Map.n('<leader>tn', vim.cmd.tabnew, 'Open new Tab')
+Map.n('<leader>tc', vim.cmd.tabclose, 'Close Tab')
 
-Nmap('<leader>to', vim.cmd.tabonly, 'Close all Tabs except current')
-Nmap('<leader>th', Util.wrap(vim.cmd.tabmove, '-'), 'Move Tab left')
-Nmap('<leader>tl', Util.wrap(vim.cmd.tabmove, '+'), 'Move Tab right')
+Map.n('<leader>to', vim.cmd.tabonly, 'Close all Tabs except current')
+Map.n('<leader>th', Util.wrap(vim.cmd.tabmove, '-'), 'Move Tab left')
+Map.n('<leader>tl', Util.wrap(vim.cmd.tabmove, '+'), 'Move Tab right')
 
-Nmap('<leader>h', vim.cmd.tabprevious, 'Previous Tab')
-Nmap('<leader>l', vim.cmd.tabnext, 'Next Tab')
+Map.n('<leader>h', vim.cmd.tabprevious, 'Previous Tab')
+Map.n('<leader>l', vim.cmd.tabnext, 'Next Tab')
 

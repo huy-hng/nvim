@@ -25,22 +25,13 @@ INFO = vim.log.levels.INFO
 WARN = vim.log.levels.WARN
 ERROR = vim.log.levels.ERROR
 
-local keymappers = require('modules.keymappers')
-MapCreator = keymappers.map_creator
-MapSpaceCapital = keymappers.map_space_capital
-Unmap = vim.keymap.del
-Map = keymappers.map_creator { 'n', 'v', 'o' }
+Map = require('modules.keymap.map')
 
-Nmap = keymappers.map_creator('n') -- actually nnoremap, everything below as well
-NVmap = keymappers.map_creator { 'n', 'v' }
-Vmap = keymappers.map_creator('v') -- visual and select
-Imap = keymappers.map_creator('i')
-ICmap = keymappers.map_creator('!') -- insert and commandline
-Cmap = keymappers.map_creator('c') -- commandline
-Smap = keymappers.map_creator('s') -- select mode
-Xmap = keymappers.map_creator('x') -- only visual mode
-Omap = keymappers.map_creator('o') -- operator pending mode
-Tmap = keymappers.map_creator('t') -- terminal
+local mappers = require('modules.keymap.mappers')
+Map.create = mappers.map_creator
+Map.parse = mappers.parse_map
+
+MapSpaceCapital = mappers.map_space_capital
 
 local au = require('modules.autocommander')
 Autocmd = au.autocmd

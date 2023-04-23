@@ -8,7 +8,7 @@ function M.config()
 	local gitsigns = require('gitsigns')
 
 	-- TODO: metamap
-	local map = MapCreator('n', '<leader>g', '[Gitsigns]')
+	local map = Map.create('n', '<leader>g', '[Gitsigns]')
 	map('nd', gitsigns.toggle_deleted, 'Show deleted lines')
 	map('nw', gitsigns.toggle_word_diff, 'Show word diff')
 	map('ns', gitsigns.toggle_signs, 'Show word diff')

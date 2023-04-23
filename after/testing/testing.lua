@@ -85,7 +85,7 @@ end
 local function slow_fn()
 	-- Defer(1000, print, 'hello')
 	local ns = vim.on_key(function(char) P(char) end)
-	Nmap('\\7', function() vim.on_key(nil, ns) end)
+	Map.n('\\7', function() vim.on_key(nil, ns) end)
 end
 
 -- vim.fn.timer_start()

@@ -1,5 +1,77 @@
 local M = {}
-local langmaps = require('keymaps.layout_changer.langmaps')
+
+local function translate(lhs)
+	if not LangmapTranslator then return lhs end
+
+	if type(lhs) == 'string' then --
+		return LangmapTranslator(lhs)
+	end
+
+	for i, l in ipairs(lhs) do
+		lhs[i] = LangmapTranslator(l)
+	end
+
+	return lhs
+end
+
+function M.parse_map(mode, lhs, rhs, desc, opts)
+	if type(desc) == 'table' and not opts then
+		opts = desc
+		desc = nil
+	end
+	opts = opts or {}
+
+	-- remove extra opts
+	local extra_opts = vim.tbl_extend('force', { langmap = true, fast = true }, opts)
+	opts.langmap = nil
+	opts.fast = nil
+	opts.mode = nil
+
+	if type(rhs) == 'table' then --
+		rhs = Util.extract_fn_from_table(rhs, extra_opts.fast)
+	end
+
+	-- handle callback option key
+	if opts.callback then
+		if opts.expr == nil then --
+			opts.expr = true
+		end
+
+		local fn = opts.callback
+		opts.callback = function()
+			local res = fn()
+			if res then return res end
+			return rhs
+		end
+	end
+
+	if extra_opts.langmap then lhs = translate(lhs) end
+
+	return mode, lhs, rhs, opts
+end
+
+function M.map(mode, lhs, rhs, desc, opts)
+	mode, lhs, rhs, opts = M.parse_map(mode, lhs, rhs, desc, opts)
+
+	if type(lhs) == 'string' then lhs = { lhs } end
+	for _, l in ipairs(lhs) do
+		Try(1, vim.keymap.set, mode, l, rhs, opts)
+	end
+end
+
+function M.unmap(mode, lhs, opts)
+	-- remove extra opts
+	local extra_opts = vim.tbl_extend('force', { langmap = true, fast = true }, opts)
+	opts.langmap = nil
+	opts.fast = nil
+	opts.mode = nil
+
+	if extra_opts.langmap and LangmapTranslator then --
+		lhs = LangmapTranslator(lhs)
+	end
+
+	Try(1, vim.keymap.del, mode, lhs, opts)
+end
 
 --- usage:
 --- 	`local pref_map = MapCreator('n', '<leader>a')`
@@ -14,6 +86,8 @@ local langmaps = require('keymaps.layout_changer.langmaps')
 --- langmap: boolean whether to remap a key to a different keyboard layout (only if langmap has been set)
 --- mode: override the mode inside the returned function
 function M.map_creator(mode, lhs_prefix, desc_prefix, outer_opts)
+	-- TODO: accept lhs_prefix as table to have different prefixes
+
 	if not mode or mode == '' then mode = 'nvo' end
 
 	lhs_prefix = lhs_prefix or ''
@@ -31,43 +105,7 @@ function M.map_creator(mode, lhs_prefix, desc_prefix, outer_opts)
 		desc = desc_prefix .. (desc or '')
 		opts = vim.tbl_extend('force', outer_opts, { desc = desc }, opts or {})
 
-		local extra_opts = vim.tbl_extend('force', outer_opts, opts or {})
-
-		opts.langmap = nil
-		opts.fast = nil
-		opts.mode = nil
-
-		-- if type(rhs) == 'function' then
-		-- 	rhs = Wrap(rhs)
-		-- if fn_opts.fast then
-		-- 	rhs = Wrap(rhs)
-		-- else
-		-- 	rhs = TryWrap(2, rhs)
-		-- end
-		if type(rhs) == 'table' then
-			rhs = Util.extract_fn_from_table(rhs, extra_opts.fast)
-		end
-
-		if opts.callback then
-			if not opts.expr then --
-				opts.expr = true
-			end
-
-			local fn = opts.callback
-			opts.callback = function()
-				local res = fn()
-				if res then return res end
-				return rhs
-			end
-		end
-
-		if extra_opts.langmap then
-			-- print(lhs)
-			lhs = LangmapTranslator(lhs)
-			-- print(lhs, '\n')
-		end
-
-		Try(1, vim.keymap.set, extra_opts.mode or mode, lhs, rhs, opts)
+		M.map(mode, lhs, rhs, desc, opts)
 	end
 end
 

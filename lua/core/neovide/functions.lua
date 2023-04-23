@@ -30,7 +30,7 @@ M.toggle_fonts = function()
 	M.reset_gui_font()
 end
 
-Nmap('<C-|>', M.toggle_fonts)
+Map.n('<C-|>', M.toggle_fonts)
 
 M.resize_scale = function(delta, absolute)
 	if absolute ~= nil then

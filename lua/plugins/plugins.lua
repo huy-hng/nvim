@@ -3,7 +3,7 @@
 return {
 	-- my plugins
 	{ 'huy-hng/convenience.nvim', lazy = false, dev = true, config = true, priority = 100 },
-	{ 'huy-hng/metamap.nvim', lazy = false, dev = true, dependencies = 'convenience.nvim' },
+	-- { 'huy-hng/metamap.nvim', lazy = false, dev = true, dependencies = 'convenience.nvim' },
 	-- full on features
 	'jceb/vim-orgmode',
 
