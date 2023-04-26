@@ -85,11 +85,12 @@ function M.config()
 	-- neovide bindings
 	-- if vim.g.neovide then
 	local commap = Map.create({ 'n', 'i', 'v' }, '', '[Comment]')
-	commap('<C-/>', toggle_comment, 'Toggle')
 
-	commap = Map.create({ 'n', 'i' }, '', '[Comment]')
+	Map.nv('<C-/>', vim.schedule_wrap(toggle_comment), 'Toggle')
+
+	-- commap = Map.create({ 'n', 'i' }, '', '[Comment]')
 	-- map({ 'n', 'i' }, '<C-/>', fn(api.toggle.linewise.current, nil, comment_empty), 'Toggle Comment')
-	commap('<A-/>', api.insert.linewise.eol, 'Comment at end of line')
+	-- commap('<A-/>', api.insert.linewise.eol, 'Comment at end of line')
 	-- map({ 'n', 'i' }, '<A-/>a', api.insert.linewise.eol, 'Comment at end of line')
 
 	-- map({ 'n', 'i' }, '<A-/>o', api.insert.linewise.below, 'Comment next line')

@@ -2,7 +2,6 @@
 local opt = vim.opt
 local o = vim.o
 local go = vim.go
-local wo = vim.wo
 local g = vim.g
 local opt_g = vim.opt_global
 

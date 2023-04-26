@@ -116,13 +116,13 @@ function MetaMap.restore_map(lhs, map, bufnr)
 		return
 	end
 
-	local mode = map.remove_key('mode')
-	local rhs = map.remove_key('rhs')
-	_ = map.remove_key('lnum')
-	_ = map.remove_key('lhsraw')
-	_ = map.remove_key('lhs')
-	_ = map.remove_key('sid')
-	_ = map.remove_key('expr')
+	local mode = table.remove_key(map, 'mode')
+	local rhs = table.remove_key(map, 'rhs')
+	_ = table.remove_key(map, 'lnum')
+	_ = table.remove_key(map, 'lhsraw')
+	_ = table.remove_key(map, 'lhs')
+	_ = table.remove_key(map, 'sid')
+	_ = table.remove_key(map, 'expr')
 	vim.keymap.set(mode, lhs, rhs or '', map)
 end
 

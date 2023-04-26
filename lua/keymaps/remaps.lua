@@ -30,9 +30,9 @@ Map('g0', 'g^')
 Map('g^', 'g0')
 
 Map.n(native.vv, 'V', 'V-line', { langmap = false })
-Map.n(native.V, 'vg_')
-Map.nv('<C-' .. native.v .. '>', '<C-v>')
-Map.v(native.V, 'V')
+Map.n(native.V, 'vg_', { langmap = false })
+Map.nv('<C-' .. native.v .. '>', '<C-v>', { langmap = false })
+Map.v(native.V, 'V', { langmap = false })
 
 -- break undo sequence before pasting from register
 Map.i(',', ',<c-g>u')

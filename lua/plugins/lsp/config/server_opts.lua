@@ -37,7 +37,7 @@ local function lsp_keymaps(bufnr)
 	lsp_map('gD', vim.lsp.buf.declaration, 'Declaration')
 	lsp_map('gd', vim.lsp.buf.definition, 'Definition')
 	lsp_map('gi', fns.implementation, 'Implementation')
-	lsp_map('gs', vim.lsp.buf.signature_help, 'Signature Help')
+	-- lsp_map('gs', vim.lsp.buf.signature_help, 'Signature Help')
 	lsp_map('<leader>D', vim.lsp.buf.type_definition, 'Type Definition')
 
 	lsp_map('<leader>wa', vim.lsp.buf.add_workspace_folder, 'Add Workspace')
@@ -54,8 +54,8 @@ local function lsp_keymaps(bufnr)
 	-- telescope references defined in telescope keymaps
 	-- lsp_map('<F12>', vim.lsp.buf.references, 'References')
 	lsp_map('<leader>ca', vim.lsp.buf.code_action, 'Code Actions')
-	lsp_map('<leader>nn', fns.lsp_format, 'Format Document')
-	vlsp('<leader>nn', fns.lsp_format, 'Format Visual Selection')
+	lsp_map('<leader>ff', fns.lsp_format, 'Format Document', { langmap = true })
+	vlsp('<leader>ff', fns.lsp_format, 'Format Visual Selection', { langmap = true })
 	-- lsp_map('<leader>lr', require('lsp.codelens').run, 'codelens')
 end
 

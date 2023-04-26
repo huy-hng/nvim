@@ -26,13 +26,16 @@ function M.config()
 				['&none'] = ' xxx ',
 
 				['&nav_toggle'] = 'navipad',
-				['&colon_swap'] = ': ;',
-				['&dash_swap'] = '_ -',
+				['&colon_semi'] = ': ;',
+				['&minus_plus'] = '- +',
+				['&under_equal'] = '_ =',
 				['&bspc_del'] = 'bspc/del',
 				['RET'] = 'enter',
 				['LALT'] = 'ALT',
 
 				['COMMA'] = ' , ',
+				['SEMI'] = ' ; ',
+				['COLON'] = ' : ',
 				['DOT'] = ' . ',
 				['FSLH'] = ' / ',
 				['MINUS'] = ' - ',

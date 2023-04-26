@@ -39,9 +39,8 @@ Augroup('FileTypes', {
 			-- vim.keymap.set('n', '<leader>ff', 'QMKFormat', { buffer = data.buf })
 			-- vim.keymap.set('n', '<leader>ff', vim.cmd.QMKFormat, { buffer = true })
 
-			vim.keymap.set('n', '<leader>ff', function() --
-				require('qmk').format()
-			end, { buffer = true })
+			Map.n('<leader>ff', require('qmk').format, { buffer = true })
+			
 		end
 	),
 	Autocmd(

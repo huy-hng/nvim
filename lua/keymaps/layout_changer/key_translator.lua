@@ -67,14 +67,21 @@ local function lhs_forbidden(lhs)
 	return some(matches, function(m) return string.lower(lhs):match(m) end)
 end
 
-function M.translate_keycode(lhs, from_lang, to_lang)
+function M.translate_keycode(lhs, from_lang, to_lang, actual_maps)
 	if lhs_forbidden(lhs) or #lhs == 1 then return lhs end
+	-- if lhs_forbidden(lhs) then return lhs end
+
+	from_lang = type(from_lang) == 'table' and table.concat(from_lang) or from_lang
+	to_lang = type(to_lang) == 'table' and table.concat(to_lang) or to_lang
+	actual_maps = type(actual_maps) == 'table' and table.concat(actual_maps) or actual_maps
 
 	local seq = split_multibyte(lhs)
 	local keycode_ranges = get_keycode_ranges(seq)
 	local trans_seq = {}
 	local in_keycode = false
 	local modifiers = { ['<C-'] = true, ['<M-'] = true, ['<A-'] = true, ['<D-'] = true }
+	local from = from_lang
+	local to = to_lang
 
 	local modifiers_seq = ''
 	local modifiers_len = 3
@@ -94,10 +101,11 @@ function M.translate_keycode(lhs, from_lang, to_lang)
 		if flag and (char:match('[-<>]') or not in_modifier) then return char end
 
 		local tr_char = char
-		tr_char = vim.fn.tr(char, from_lang, to_lang)
+		tr_char = vim.fn.tr(char, from, to)
+
 
 		-- Ctrl shouldn't be mapped with uppercase letter
-		if ms == '<C-' then tr_char = vim.fn.tr(char:lower(), from_lang, to_lang) end
+		if ms == '<C-' then tr_char = vim.fn.tr(char:lower(), from, to) end
 
 		return tr_char
 	end
@@ -110,6 +118,9 @@ function M.translate_keycode(lhs, from_lang, to_lang)
 		in_keycode = is_in_keycode(i)
 		-- Reset value of `modifiers_seq` on end `keycode`
 		if not in_keycode then
+			-- if modifiers_seq == '<LE' then
+			-- 	to = actual_maps
+			-- end
 			modifiers_seq = ''
 		else
 			modifiers_seq = #modifiers_seq < modifiers_len and modifiers_seq .. char:upper()
@@ -117,6 +128,8 @@ function M.translate_keycode(lhs, from_lang, to_lang)
 		end
 
 		table.insert(trans_seq, process_char(char, in_keycode, modifiers_seq, i))
+
+		-- to = to_lang
 	end
 
 	local tlhs = table.concat(trans_seq, '')
@@ -138,6 +151,9 @@ function M.translate_keycode(lhs, from_lang, to_lang)
 		end
 	end
 
+	-- if string.match(string.lower(lhs), 'leader') then --
+	-- 	print(lhs, tlhs)
+	-- end
 	return tlhs
 end
 
