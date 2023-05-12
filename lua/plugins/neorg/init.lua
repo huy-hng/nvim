@@ -9,9 +9,9 @@ local M = {
 	},
 }
 
-local requirer = R
-
+local requirer = require
 requirer('plugins.neorg.keymaps')
+
 function M.config()
 
 	requirer('neorg').setup {

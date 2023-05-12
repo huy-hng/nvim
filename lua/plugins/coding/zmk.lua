@@ -1,7 +1,7 @@
 local M = {
 	'codethread/qmk.nvim',
 	ft = 'dts',
-	branch = 'ZMK',
+	branch = 'tmp-debug-zmk',
 }
 
 function M.config()
@@ -38,6 +38,7 @@ function M.config()
 				['COLON'] = ' : ',
 				['DOT'] = ' . ',
 				['FSLH'] = ' / ',
+				['QMARK'] = ' ? ',
 				['MINUS'] = ' - ',
 				['UNDER'] = ' _ ',
 				['EQUAL'] = ' = ',

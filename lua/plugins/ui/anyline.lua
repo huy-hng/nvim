@@ -14,7 +14,8 @@ function M.config()
 		trail_length = 15,
 		fps = 60,
 	}
-	require('anyline.column_line').setup()
+	-- require('anyline.column_line').setup()
+	require('anyline.column_line').setup { buftype_whitelist = { 'dts' } }
 end
 
 return M
