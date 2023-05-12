@@ -6,11 +6,21 @@ local query = require('possession.query')
 local workspace_specs = {
 	{
 		'Neovim', -- title
-		'n', -- shortcuts prefix
+		'v', -- shortcuts prefix
 		{ '/home/huy/.dotfiles/nvim/.config/nvim/' },
 	},
 	{
-		'Sessions', -- title
+		'Dotfiles', -- title
+		'd', -- shortcuts prefix
+		{ '/home/huy/.dotfiles/' },
+	},
+	{
+		'Repositories', -- title
+		'r', -- shortcuts prefix
+		{ '/home/huy/repositories/' },
+	},
+	{
+		'Other Sessions', -- title
 		'', -- shortcuts prefix
 	},
 }
@@ -21,8 +31,8 @@ end
 
 local function sort_sessions_by_time(sessions)
 	table.sort(sessions, function(a, b) 
-		if not a then return false end
-		if not b then return true end
+		if not a or not a.user_data.timestamp then return false end
+		if not b or not b.user_data.timestamp then return true end
 		return a.user_data.timestamp > b.user_data.timestamp end)
 end
 

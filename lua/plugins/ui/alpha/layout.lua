@@ -50,7 +50,7 @@ return {
 			comp.padding(1),
 			-- comp.group_name('Actions'),
 			comp.group({
-				comp.button('  New file', 'e', vim.cmd.enew, nil, { cursor = 5 }),
+				comp.button('  New file', 'w', vim.cmd.enew, nil, { cursor = 5 }),
 				comp.button('  Quit', 'q', Util.quit_last_buffer, nil, { cursor = 5 }),
 			}, 1),
 
