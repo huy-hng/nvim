@@ -6,11 +6,11 @@ Map.n('<A-L>', { nvim.feedkeys, 'v<A-L>', true })
 configs.setup {
 	textsubjects = {
 		enable = true,
-		prev_selection = '<A-H>', -- (Optional) keymap to select the previous selection
+		prev_selection = '<A-M>', -- (Optional) keymap to select the previous selection
 		keymaps = {
-			['<A-L>'] = 'textsubjects-smart',
-			[':'] = 'textsubjects-container-outer',
-			['i;'] = 'textsubjects-container-inner',
+			['<A-I>'] = 'textsubjects-smart',
+			-- [':'] = 'textsubjects-container-outer',
+			-- ['i;'] = 'textsubjects-container-inner',
 		},
 	},
 

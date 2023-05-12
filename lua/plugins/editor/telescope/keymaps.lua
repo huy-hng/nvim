@@ -1,12 +1,8 @@
 local actions = require('telescope.actions')
 local actions_generate = require('telescope.actions.generate')
+local native = require('config.native_keymaps')
 
 local builtin = require('telescope.builtin')
-local themes = require('telescope.themes')
--- themes.get_dropdown() -- more vertical
--- themes.get_cursor() -- tiny
--- themes.get_ivy() -- bottom
-
 local layouts = require('plugins.editor.telescope.layouts')
 
 local tele_map = Map.create('n', '<leader>f', '[Telescope]')
@@ -102,20 +98,20 @@ return {
 	i = vim.tbl_extend('force', maps, {
 		['<C-BS>'] = Util.wrap(nvim.feedkeys, '<C-w>', true),
 
-		['<C-j>'] = actions.move_selection_next,
-		['<C-k>'] = actions.move_selection_previous,
+		[Map.ctrl(native.j)] = actions.move_selection_next,
+		[Map.ctrl(native.k)] = actions.move_selection_previous,
 
-		['<C-l>'] = actions.complete_tag,
+		-- ['<C-l>'] = actions.complete_tag,
 	}),
 	n = vim.tbl_extend('force', maps, {
 		['<esc>'] = actions.close,
 
-		['j'] = actions.move_selection_next,
-		['k'] = actions.move_selection_previous,
+		[native.j] = actions.move_selection_next,
+		[native.k] = actions.move_selection_previous,
 
-		['gg'] = actions.move_to_top,
+		[native.gg] = actions.move_to_top,
+		[native.G] = actions.move_to_bottom,
 		['M'] = actions.move_to_middle,
-		['G'] = actions.move_to_bottom,
 
 		['?'] = actions_generate.which_key {
 			name_width = 20, -- typically leads to smaller floats

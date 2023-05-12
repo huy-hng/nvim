@@ -5,8 +5,8 @@ Map.n('zl', '10zl')
 Map.nv('<C-j>', '<C-d>zz')
 Map.nv('<C-k>', '<C-u>zz')
 
-Map('q', 'ge', 'Move back (opposite of e)')
-Map('Q', 'gE', 'Move back (opposite of e)')
+-- Map('q', 'ge', 'Move back (opposite of e)')
+-- Map('Q', 'gE', 'Move back (opposite of e)')
 
 -- Cursor movement in insert and command mode
 -- ICmap('<A-h>', { nvim.feedkeys, '<Left>' })

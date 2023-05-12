@@ -28,69 +28,45 @@ local function is_in_area(prev_pos, yank_pos)
 	return behind_line
 end
 
-local prev_pos
 local function yank_operator()
 	local old_func = vim.go.operatorfunc
-	prev_pos = vim.fn.getcurpos()
-	_G.op_func_yank = function(type)
-		P(type)
-		P(prev_pos)
+	local prev_pos = vim.fn.getcurpos()
 
-		-- vim.api.nvim_command('normal! `[v`]y')
+	---@diagnostic disable-next-line: duplicate-set-field
+	_G.op_func_yank = function(type)
 		nvim.normal('`[v`]y')
 
-		-- vim.highlight.on_yank { higroup = 'Visual', on_macro = true, on_visual = true, timeout = 150 }
-
-		-- nvim.schedule(
-		-- 	vim.highlight.on_yank,
-		-- 	{ higroup = 'Visual', on_macro = true, on_visual = false, timeout = 150 }
-		-- )
-
-		local start = vim.api.nvim_buf_get_mark(0, '[')
-		local finish = vim.api.nvim_buf_get_mark(0, ']')
-		P(start, finish)
-
-		local yanked_pos = vim.fn.getpos("'[")
-		if is_in_area(prev_pos, yanked_pos) then vim.fn.cursor { prev_pos[2], prev_pos[3] } end
+		-- local yanked_pos = vim.fn.getpos("'[")
+		-- if is_in_area(prev_pos, yanked_pos) then vim.fn.cursor { prev_pos[2], prev_pos[3] } end
+		vim.fn.cursor { prev_pos[2], prev_pos[3] }
 
 		vim.go.operatorfunc = old_func
-		prev_pos = nil
 		_G.op_func_yank = nil
-		-- return 'g@'
 	end
 
 	vim.go.operatorfunc = 'v:lua.op_func_yank'
-	-- return 'g@'
-	vim.api.nvim_feedkeys('g@', 'n', false)
+	-- vim.api.nvim_feedkeys('g@', 'n', false)
+	return 'g@'
 end
 
-function YankOperator(type)
-	if not type then
-		prev_pos = vim.fn.getcurpos()
-		vim.go.operatorfunc = 'v:lua.YankOperator'
-		return 'g@'
-	end
+Map.n(native.p, keep_column('p==', true), 'paste, keep column and indent', { langmap = false })
+Map.n(native.P, keep_column('P==', true), 'paste, keep column and indent', { langmap = false })
 
-	vim.api.nvim_command('normal! `[v`]y')
-	local yanked_pos = vim.fn.getpos("'[")
-	-- if is_in_area(prev_pos, yanked_pos) then vim.fn.cursor { prev_pos[2], prev_pos[3] } end
-	if is_in_area(prev_pos, yanked_pos) then vim.fn.cursor { unpack(prev_pos, 2) } end
-
-	prev_pos = nil
-	vim.go.operatorfunc = ''
-end
-
-Map.n(native.p, keep_column('p==', true), 'paste, keep column and indent')
-Map.n(native.P, keep_column('P==', true), 'paste, keep column and indent')
-Map.v(native.y, keep_column('y', false, true))
-Map.v(native.Y, keep_column('Y'))
+Map.n(native.Y, keep_column('y$', false))
+Map.v(native.y, keep_column('y', false))
+Map.v(native.Y, keep_column('Y', false))
 Map.v('<C-c>', keep_column('"+y'), 'Yank to clipboard')
 
-Map.v(native.p, '"_c<C-r>"<esc>', 'keep yank register when pasting over visual selection')
+Map.v(
+	native.p,
+	'"_c<C-r>"<esc>',
+	'keep yank register when pasting over visual selection',
+	{ langmap = false }
+)
 
--- Nmap('y', yank_operator, '', { expr = true })
--- Nmap('y', YankOperator, '', { expr = true })
--- Nmap('yy', 'yy')
+Map.n(native.y, yank_operator, '', { expr = true })
+-- Map(native.y, YankOperator, '', { expr = true })
+Map.n(native.yy, 'yy', { langmap = false })
 
 -- Nmap('yh', keep_column('yh'))
 -- Nmap('yj', keep_column('yj'))
@@ -101,14 +77,14 @@ Map.n(native.J, keep_column('J'), 'keep column when joining lines')
 
 ----------------------------------copy current line above / below-----------------------------------
 
-Map.i('<A-K>', keep_column('yyPi', true), '', { langmap = false })
-Map.i('<A-J>', keep_column('yypi', true), '', { langmap = false })
+Map.i('<A-K>', keep_column('yyPi', true), '')
+Map.i('<A-J>', keep_column('yypi', true), '')
 
-Map.n('<A-J>', keep_column('yyp', true), '', { langmap = false })
-Map.n('<A-K>', keep_column('yyP', true), '', { langmap = false })
+Map.n('<A-J>', keep_column('yyp', true), '')
+Map.n('<A-K>', keep_column('yyP', true), '')
 
-Map.v('<A-J>', keep_column("Y'>p"), '', { langmap = false })
-Map.v('<A-K>', keep_column("Y'<P"), '', { langmap = false })
+Map.v('<A-J>', keep_column("Y'>p"), '')
+Map.v('<A-K>', keep_column("Y'<P"), '')
 
 ------------------------------------move line(s) above / below--------------------------------------
 
@@ -208,11 +184,11 @@ local function fn1(direction)
 end
 -- Defer(2000, Util.print_out)
 
-Map.n('<A-j>', move_line('+'), '', { langmap = false })
-Map.n('<A-k>', move_line('-2'), '', { langmap = false })
+Map.n('<A-j>', move_line('+'), '')
+Map.n('<A-k>', move_line('-2'), '')
 
-Map.n('<A-j>', fn1(1), '', { langmap = false })
-Map.n('<A-k>', fn1(-1), '', { langmap = false })
+Map.n('<A-j>', fn1(1), '')
+Map.n('<A-k>', fn1(-1), '')
 -- this is a comment
 
 -- Nmap('<A-j>', counter(1))
@@ -221,8 +197,8 @@ Map.n('<A-k>', fn1(-1), '', { langmap = false })
 -- nmap('<A-j>', '<cmd>m+<cr>==')
 -- nmap('<A-k>', '<cmd>m-2<cr>==')
 
-Map.v('<A-j>', ":m'>+<cr>`<my`>mzgv`yo`z=gv", '', { langmap = false })
-Map.v('<A-k>', ":m'<-2<cr>`>my`<mzgv`yo`z=gv", '', { langmap = false })
+Map.v('<A-j>', ":m'>+<cr>`<my`>mzgv`yo`z=gv", '')
+Map.v('<A-k>', ":m'<-2<cr>`>my`<mzgv`yo`z=gv", '')
 
 -- nmap('<A-j>', 'mz<cmd>m+<cr>`z')
 -- nmap('<A-k>', 'mz<cmd>m-2<cr>`z')

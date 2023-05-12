@@ -1,12 +1,12 @@
 local native = require('config.native_keymaps')
 
-Map.n('<F1>', '<nop>')
+Map.n('<F1>', '')
 
 -- Nmap('<space>', '<nop>')
 -- Nmap('<space><space>', '<nop>')
 
-Map.n('<S-SPACE>', '<nop>')
-Map.n('<C-SPACE>', '<nop>')
+Map.n('<S-SPACE>', '')
+Map.n('<C-SPACE>', '')
 
 -- Nmap('QQ', 'Q')
 -- Map('Q', 'q')
@@ -26,12 +26,13 @@ Map.n('<leader>/', 'q/')
 -- Remap 0 to first non-blank character
 Map('0', '^')
 Map('^', '0')
-Map('g0', 'g^')
-Map('g^', 'g0')
+-- Map('g0', 'g^')
+-- Map('g^', 'g0')
 
-Map.n(native.vv, 'V', 'V-line', { langmap = false })
-Map.n(native.V, 'vg_', { langmap = false })
-Map.nv('<C-' .. native.v .. '>', '<C-v>', { langmap = false })
+Map(native.v, 'v', 'Visual', { langmap = false })
+Map(native.vv, 'V', 'V-line', { langmap = false })
+Map(native.V, 'vg_o', { langmap = false })
+Map(Map.ctrl(native.v), Map.ctrl('v'), { langmap = false })
 Map.v(native.V, 'V', { langmap = false })
 
 -- break undo sequence before pasting from register

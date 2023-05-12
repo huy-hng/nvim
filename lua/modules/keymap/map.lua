@@ -20,6 +20,9 @@ Map.t = mappers.map_creator('t')
 Map.unmap = mappers.unmap
 Map.del = mappers.unmap
 
+Map.ctrl = function(key) return string.format('<C-%s>', key) end
+Map.alt = function(key) return string.format('<A-%s>', key) end
+
 Map.meta = require('modules.keymap.metamap')
 
 local nvo = mappers.map_creator { 'n', 'v', 'o' }

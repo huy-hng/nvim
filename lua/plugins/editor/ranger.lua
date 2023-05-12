@@ -150,14 +150,11 @@ end
 function M.config()
 	config()
 	local native = require('config.native_keymaps')
-	Map.n('<C-S-r>', vim.cmd.RnvimrToggle, 'Open Ranger')
-
-	-- Nmap(native.file_explorer, vim.cmd.RnvimrToggle, 'Open Ranger')
-	-- Nmap('<A-E>', open_docked_sidebar, 'Docked Ranger')
+	Map.n(Map.ctrl(native.file_explorer), vim.cmd.RnvimrToggle, 'Open Ranger')
 
 	g.rnvimr_presets = {
 		-- offset middle
-		editor { width = 0.5, height = 0.8, col = 0.67 },
+		editor { width = 0.75, height = 0.8, col = 0.75 },
 		-- middle
 		editor { width = 0.5, height = 0.8, col = 0.5 },
 
@@ -191,16 +188,17 @@ function M.config()
 
 	Augroup('Ranger', {
 		Autocmd('FileType', 'rnvimr', function(data)
-			local nmap = Map.create('n', '', '', { buffer = data.buf })
-			local tmap = Map.create('t', '', '', { buffer = data.buf })
+			local nmap = Map.create('n', '', '[ Ranger ]', { buffer = data.buf })
+			local tmap = Map.create('t', '', '[ Ranger ]', { buffer = data.buf })
 
 			-- tmap('<esc>', vim.cmd.RnvimrToggle, 'Close Ranger')
-			tmap('<C-e>', vim.cmd.RnvimrToggle, 'Close Ranger')
 
-			tmap('<Up>', { nvim.schedule, Util.wrap(vim.cmd.resize, '-4') }, 'Resize window')
-			tmap('<Down>', { nvim.schedule, Util.wrap(vim.cmd.resize, '+4') }, 'Resize window')
-			tmap('<Left>', { nvim.schedule, Util.wrap(vim.cmd.wincmd, '4>') }, 'Resize window')
-			tmap('<Right>', { nvim.schedule, Util.wrap(vim.cmd.wincmd, '4<') }, 'Resize window')
+			tmap(Map.ctrl(native.file_explorer), vim.cmd.RnvimrToggle, 'Close Ranger')
+
+			tmap('<C-Up>', { nvim.schedule, Util.wrap(vim.cmd.resize, '-4') }, 'Resize window')
+			tmap('<C-Down>', { nvim.schedule, Util.wrap(vim.cmd.resize, '+4') }, 'Resize window')
+			tmap('<C-Left>', { nvim.schedule, Util.wrap(vim.cmd.wincmd, '4>') }, 'Resize window')
+			tmap('<C-Right>', { nvim.schedule, Util.wrap(vim.cmd.wincmd, '4<') }, 'Resize window')
 
 			tmap('<A-e>', function()
 				vim.cmd.RnvimrResize('0,7,8')

@@ -11,10 +11,10 @@ local select = {
 
 	keymaps = {
 		-- You can use the capture groups defined in textobjects.scm
-		['af'] = '@function.outer',
-		['if'] = '@function.inner',
-		['ac'] = '@class.outer',
-		['ic'] = { query = '@class.inner', desc = 'Select inner part of a class region' },
+		['yf'] = '@function.outer',
+		['uf'] = '@function.inner',
+		['yc'] = '@class.outer',
+		['uc'] = { query = '@class.inner', desc = 'Select inner part of a class region' },
 	},
 	-- You can choose the select mode (default is charwise 'v')
 	--

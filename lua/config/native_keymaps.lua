@@ -1,27 +1,47 @@
 -- left side should be native qwerty and right side should be new location of that keymap
-return {
-	file_explorer = '<C-e>',
-
-	K = 'K', -- lsp hover
-	J = 'J', -- join lines
-
+local insensitive = {
+	-- operators
+	i = 'u',
+	a = 'y',
+	o = 'o',
+	v = 's',
 	p = 'p',
-	P = 'P',
-
-	y = 'y',
-	Y = 'Y',
+	y = 'f',
 
 	d = 'd',
-	D = 'D',
-
 	c = 'c',
-	C = 'C',
 
-	v = 'v', -- visual
-	vv = 'vv', -- visual line
-	V = 'V', -- visual until end on line
-	['<C-v>'] = '<C-v>', -- visual block
+	-- movement
+	b = 'r',
+	w = 't',
+	e = 'g',
 
-	['<C-d>'] = '<C-d>', -- half page down
-	['<C-u>'] = '<C-u>', -- half page up
+	h = 'm',
+	j = 'n',
+	k = 'e',
+	l = 'i',
+
+	-- misc
+	g = 'j',
+	t = 'k',
+	f = 'b',
 }
+
+local maps = {
+	file_explorer = 'r', -- without modifier
+
+	yy = 'ff',
+	vv = 'ss',
+	gg = 'jj',
+	ge = 'a',
+	gE = 'A',
+}
+
+-- local upper = {}
+for key, value in pairs(insensitive) do
+	insensitive[string.upper(key)] = string.upper(value)
+	-- upper[key] = string.upper(value)
+end
+-- maps.upper = upper
+
+return vim.tbl_extend('force', insensitive, maps)

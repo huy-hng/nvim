@@ -1,4 +1,4 @@
-Map.n('<leader>w', function() pcall(vim.api.nvim_exec, 'silent w', false) end, 'Write File')
+-- Map.n('<leader>w', function() pcall(vim.api.nvim_exec, 'silent w', false) end, 'Write File')
 Map.n('<leader>q', Util.quit_last_buffer, 'Close Buffer')
 
 -- NOTE: use <C-w>q or <C-w>c instead

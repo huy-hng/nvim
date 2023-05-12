@@ -39,7 +39,7 @@ function M.config()
 		ensure_installed = {
 			'bash',
 			'c',
-			'help',
+			-- 'help',
 			'javascript',
 			'json',
 			'lua',
