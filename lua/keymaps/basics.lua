@@ -1,4 +1,5 @@
 Map.ic('<C-BS>', { nvim.feedkeys, '<C-w>' }, 'Delete Word')
+Map.n('<C-CR>', { nvim.normal, 'o' })
 
 Map.n('<space><space>', '<nop>')
 Map.n('<esc>', function()
@@ -11,7 +12,7 @@ if vim.fn.has('nvim-0.9.0') == 1 then
 end
 
 Map.n('<leader>gt', Util.float_term, 'Terminal (cwd)')
-Map.n('<leader>tt', Util.float_term, 'Terminal (root dir)')
+-- Map.n('<leader>tt', Util.float_term, 'Terminal (root dir)')
 Map.n(
 	'<leader>gg',
 	{ Util.float_term, 'lazygit', { size = { width = 0.6, height = 0.9 } } },

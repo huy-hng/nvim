@@ -12,9 +12,7 @@ local function get_all_requires(dir)
 
 		-- skip the requires.lua file thats being created by this script
 		local is_requires_file = string.find(relative, REQUIRES_FILE_NAME)
-		if is_requires_file then
-			goto continue
-		end
+		if is_requires_file then goto continue end
 
 		local format = correct_format(relative)
 
@@ -58,7 +56,8 @@ vim.cmd('command! UpdateAllRequireFiles lua UpdateAllRequireFiles()')
 
 return function(dir)
 	for _, require_file in ipairs(get_all_requires(dir)) do
-		require(require_file)
+		Try(2, require, require_file)
+
 		-- local stack_trace = debug.traceback('require_dir: Error importing: ' .. require_file, 2)
 		--local status, errors = pcall(require, require_file)
 		-- if not status then print(stack_trace, errors) end

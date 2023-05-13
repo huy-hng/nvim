@@ -45,7 +45,7 @@ return {
 			---@type string[] list any plugins you want to disable here
 			disabled_plugins = {
 				'gzip',
-				-- 'matchit',
+				'matchit',
 				-- 'matchparen',
 				'netrwPlugin',
 				'tarPlugin',
