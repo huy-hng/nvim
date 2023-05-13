@@ -1,7 +1,7 @@
 local M = {}
 
 local function translate(lhs)
-	if not LangmapTranslator then return lhs end
+	if not LangmapTranslator or not lhs then return lhs end
 
 	if type(lhs) == 'string' then --
 		return LangmapTranslator(lhs)
@@ -14,15 +14,23 @@ local function translate(lhs)
 	return lhs
 end
 
+local function parse_mode(mode)
+	if not mode or mode == '' or mode == 'nvo' then --
+		return { 'n', 'v', 'o' }
+	end
+	return mode
+end
+
 function M.parse_map(mode, lhs, rhs, desc, opts)
 	if type(desc) == 'table' and not opts then
 		opts = desc
 		desc = nil
 	end
 	opts = opts or {}
+	mode = opts.mode or mode
 
 	-- remove extra opts
-	local extra_opts = vim.tbl_extend('force', { langmap = true, fast = true }, opts)
+	local extra_opts = vim.tbl_extend('force', { langmap = false, fast = true }, opts)
 	opts.langmap = nil
 	opts.fast = nil
 	opts.mode = nil
@@ -51,6 +59,7 @@ function M.parse_map(mode, lhs, rhs, desc, opts)
 end
 
 function M.map(mode, lhs, rhs, desc, opts)
+	mode = parse_mode(mode)
 	mode, lhs, rhs, opts = M.parse_map(mode, lhs, rhs, desc, opts)
 
 	if type(lhs) == 'string' then lhs = { lhs } end
@@ -60,17 +69,20 @@ function M.map(mode, lhs, rhs, desc, opts)
 end
 
 function M.unmap(mode, lhs, opts)
+	mode = parse_mode(mode)
+
 	-- remove extra opts
-	local extra_opts = vim.tbl_extend('force', { langmap = true, fast = true }, opts)
+	opts = vim.tbl_extend('force', { langmap = false, fast = true }, opts or {})
 	opts.langmap = nil
 	opts.fast = nil
 	opts.mode = nil
 
-	if extra_opts.langmap and LangmapTranslator then --
+	if opts.langmap and LangmapTranslator then --
 		lhs = LangmapTranslator(lhs)
 	end
 
-	Try(1, vim.keymap.del, mode, lhs, opts)
+	pcall(function() vim.keymap.del(mode, lhs, opts) end)
+	-- Try(1, vim.keymap.del, mode, lhs, opts)
 end
 
 --- usage:
@@ -78,7 +90,7 @@ end
 --- 	`pref_map('a', ':echo "hello"', 'does stuff')`
 ---
 --- then `<leader>aa` echoes `hello`
----@param mode string | string[] mode in which the keymap is mapped (n, v, i, etc.) if nil or empty string: 'nvo'
+---@param mode string | string[] | nil mode in which the keymap is mapped (n, v, i, etc.) if nil or empty string: 'nvo'
 ---@param lhs_prefix string | nil prefix for the keymap (<leader>f)
 ---@param desc_prefix string | nil prefix for the description ([LSP])
 ---@param outer_opts table | nil opts for vim.keymap.set ({ silent = true }) and extra opts for this function
@@ -88,15 +100,22 @@ end
 function M.map_creator(mode, lhs_prefix, desc_prefix, outer_opts)
 	-- TODO: accept lhs_prefix as table to have different prefixes
 
-	if not mode or mode == '' then mode = 'nvo' end
+	mode = parse_mode(mode)
 
 	lhs_prefix = lhs_prefix or ''
 	desc_prefix = desc_prefix and desc_prefix .. ' ' or ''
 
-	outer_opts = outer_opts or { remap = false, silent = true, langmap = true, fast = true }
+	outer_opts = outer_opts or { remap = false, silent = true, langmap = false, fast = true }
 
 	return function(lhs, rhs, desc, opts)
-		lhs = lhs_prefix .. lhs
+		-- lhs = lhs_prefix .. (lhs or '')
+		local status, res = pcall(function() lhs = lhs_prefix .. lhs end)
+
+		if not status then 
+			print(status,res)
+			print(lhs_prefix, lhs)
+		end
+
 		if type(desc) == 'table' and not opts then
 			opts = desc
 			desc = nil

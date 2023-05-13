@@ -1,6 +1,6 @@
 local M = {}
 
-function string.split(input, sep)
+local function split(input, sep)
 	sep = sep or '%s'
 	local t = {}
 	for str in string.gmatch(input, '([^' .. sep .. ']+)') do
@@ -9,7 +9,7 @@ function string.split(input, sep)
 	return t
 end
 
-M.qwerty = string.split([[
+M.qwerty = split([[
 	q w e r      u i o p
 	a s d f g  h j k l ;
 	z x c v      m , . /
@@ -19,7 +19,7 @@ M.qwerty = string.split([[
 	Z X C V      M < > ?
 ]])
 
-M.colemak = string.split([[
+M.colemak = split([[
 	q w f p      h u y j
 	a r s t g  m n e i o
 	z x c d      l k b v
@@ -30,7 +30,7 @@ M.colemak = string.split([[
 ]])
 
 -- S can be used for someting else since its useless
-M.word_nav_gap = string.split([[
+M.word_nav_gap = split([[
 	q r y p      u i a g
 	s b v w e  h j k l o
 	z x c d      n t f v
@@ -40,20 +40,14 @@ M.word_nav_gap = string.split([[
 	Z X C D      N T F V
 ]])
 
-M.colemak_lower = string.split([[
+M.colemak_lower = split([[
 	q w f p      h u y j
 	a r s t g  m n e i o
 	z x c d      l k b v
 ]])
 
-M.custom = string.split([[
-	_ _ _ _      _ _ _ g
-	_ _ _ w e  _ _ k _ _
-	_ _ _ _      _ _ _ _
-]])
-
-M.custom = string.split([[
-	_ _ _ _      _ _ _ g
+M.custom = split([[
+	_ t _ _      _ _ _ _
 	_ _ _ w _  _ _ _ _ _
 	_ _ _ _      _ _ _ _
 ]])

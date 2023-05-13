@@ -39,7 +39,7 @@ end
 function MetaMap:enter(mode, lhs, callback, opts)
 	opts = opts or {}
 	opts.desc = 'Enter ' .. self.name
-	opts.langmap = true
+	opts.langmap = false
 	-- vim.keymap.set(mode, lhs, function()
 	Map.map(mode, lhs, function()
 		local bufnr = vim.api.nvim_get_current_buf()

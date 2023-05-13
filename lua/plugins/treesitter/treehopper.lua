@@ -6,7 +6,7 @@ end
 -- omap('m', treehopper.nodes)
 -- xmap('m', treehopper.nodes)
 
-status, hop = pcall(require, 'hop')
+local status, hop = pcall(require, 'hop')
 if not status then
 	return
 end

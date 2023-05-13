@@ -1,5 +1,4 @@
 local M = {}
-local native = require('config.native_keymaps')
 
 local function keep_column(action, change_line, alt_method)
 	return function()
@@ -49,78 +48,46 @@ local function yank_operator()
 	return 'g@'
 end
 
-Map.n(native.p, keep_column('p==', true), 'paste, keep column and indent', { langmap = false })
-Map.n(native.P, keep_column('P==', true), 'paste, keep column and indent', { langmap = false })
+Map.n(Keys.p, keep_column('p==', true), 'paste, keep column and indent', { langmap = false })
+Map.n(Keys.P, keep_column('P==', true), 'paste, keep column and indent', { langmap = false })
 
-Map.n(native.Y, keep_column('y$', false))
-Map.v(native.y, keep_column('y', false))
-Map.v(native.Y, keep_column('Y', false))
+Map.n(Keys.Y, keep_column('y$', false))
+Map.v(Keys.y, keep_column('y', false))
+Map.v(Keys.Y, keep_column('Y', false))
 Map.v('<C-c>', keep_column('"+y'), 'Yank to clipboard')
 
 Map.v(
-	native.p,
+	Keys.p,
 	'"_c<C-r>"<esc>',
 	'keep yank register when pasting over visual selection',
 	{ langmap = false }
 )
 
-Map.n(native.y, yank_operator, '', { expr = true })
--- Map(native.y, YankOperator, '', { expr = true })
-Map.n(native.yy, 'yy', { langmap = false })
+Map.n(Keys.y, yank_operator, '', { expr = true })
+-- Map(Keys.y, YankOperator, '', { expr = true })
+Map.n(Keys.yy, 'yy', { langmap = false })
 
 -- Nmap('yh', keep_column('yh'))
 -- Nmap('yj', keep_column('yj'))
 -- Nmap('yk', keep_column('yk'))
 -- Nmap('yl', 'yl')
 
-Map.n(native.J, keep_column('J'), 'keep column when joining lines')
+Map.n(Keys.J, keep_column('J'), 'keep column when joining lines')
 
 ----------------------------------copy current line above / below-----------------------------------
 
-Map.i('<A-K>', keep_column('yyPi', true), '')
-Map.i('<A-J>', keep_column('yypi', true), '')
+Map.i(Keys.alt.K, keep_column('yyPi', true), '')
+Map.i(Keys.alt.J, keep_column('yypi', true), '')
 
-Map.n('<A-J>', keep_column('yyp', true), '')
-Map.n('<A-K>', keep_column('yyP', true), '')
+Map.n(Keys.alt.J, keep_column('yyp', true), '')
+Map.n(Keys.alt.K, keep_column('yyP', true), '')
 
-Map.v('<A-J>', keep_column("Y'>p"), '')
-Map.v('<A-K>', keep_column("Y'<P"), '')
+Map.v(Keys.alt.J, keep_column("Y'>p"), '')
+Map.v(Keys.alt.K, keep_column("Y'<P"), '')
 
 ------------------------------------move line(s) above / below--------------------------------------
 
 local a = require('plenary.async')
-local function move_line(direction)
-	local move = a.void(function() pcall(vim.cmd.move, direction) end)
-	local indent = a.void(function() vim.api.nvim_feedkeys('==', 'n', false) end)
-	-- local last_time = os.clock()
-
-	return function()
-		-- local cur_time = os.clock()
-		-- local time_between_moves = 0.001 -- probably milliseconds
-		-- if cur_time - last_time < time_between_moves then
-		-- 	print('returning')
-		-- 	return
-		-- end
-		vim.schedule(function()
-			a.run(move, indent)
-
-			-- pcall(vim.cmd.move, direction)
-			-- vim.schedule(function()
-			-- 	vim.api.nvim_feedkeys('==', 'n', false)
-			-- 	-- Schedule(vim.api.nvim_feedkeys, '==', 'n', false)
-			-- end)
-		end)
-		-- last_time = cur_time
-	end
-end
-
-local function move_visual_line(direction)
-	return function()
-		vim.cmd.move(direction)
-		vim.api.nvim_feedkeys('==', 'n', false)
-	end
-end
-
 local locked = false
 
 local function ScheduleWrapAsync(fn, ...)
@@ -149,17 +116,10 @@ local function fn1(direction)
 	local counter = 0
 	local wrapped = function()
 		counter = counter + direction
-		if locked then
-			-- WriteOut(over_the_counter .. ' locked')
-			return
-		end
-
-		-- WriteOut(over_the_counter .. ' scheduling')
+		if locked then return end
 		locked = true
 
 		vim.schedule(function()
-			-- WriteOut(over_the_counter .. ' running schedule')
-
 			local move
 			if counter > 0 then
 				move = '+' .. counter
@@ -167,13 +127,9 @@ local function fn1(direction)
 				move = tostring(math.min(-2, counter))
 			end
 
-			-- WriteOut(over_the_counter .. ' moving ' .. move)
 			mover(move)
-
-			-- WriteOut(over_the_counter .. ' indenting')
 			indent()
 
-			-- WriteOut(over_the_counter .. ' done')
 			locked = false
 			over_the_counter = over_the_counter + 1
 			counter = 0
@@ -184,11 +140,11 @@ local function fn1(direction)
 end
 -- Defer(2000, Util.print_out)
 
-Map.n('<A-j>', move_line('+'), '')
-Map.n('<A-k>', move_line('-2'), '')
+-- Map.n('<A-j>', move_line('+'), '')
+-- Map.n('<A-k>', move_line('-2'), '')
 
-Map.n('<A-j>', fn1(1), '')
-Map.n('<A-k>', fn1(-1), '')
+Map.n(Keys.alt.j, fn1(1), '')
+Map.n(Keys.alt.k, fn1(-1), '')
 -- this is a comment
 
 -- Nmap('<A-j>', counter(1))
@@ -197,8 +153,8 @@ Map.n('<A-k>', fn1(-1), '')
 -- nmap('<A-j>', '<cmd>m+<cr>==')
 -- nmap('<A-k>', '<cmd>m-2<cr>==')
 
-Map.v('<A-j>', ":m'>+<cr>`<my`>mzgv`yo`z=gv", '')
-Map.v('<A-k>', ":m'<-2<cr>`>my`<mzgv`yo`z=gv", '')
+Map.v(Keys.alt.j, ":m'>+<cr>`<my`>mzgv`yo`z=gv", '')
+Map.v(Keys.alt.k, ":m'<-2<cr>`>my`<mzgv`yo`z=gv", '')
 
 -- nmap('<A-j>', 'mz<cmd>m+<cr>`z')
 -- nmap('<A-k>', 'mz<cmd>m-2<cr>`z')

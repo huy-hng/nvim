@@ -1,15 +1,10 @@
--- Nmap('%', MatchCharacter, 'Jump to matching quote or whatever')
--- Nmap('<leader>m', '<cmd>50message<cr>', 'Show Messages')
+Map.n('%', require('functions.match_character'), 'Jump to matching quote or whatever')
 
-MapSpaceCapital('n', 'M', '<cmd>message<cr>', 'Show Messages')
--- Nmap('<leader><leader>M', { vim.cmd.messages, 'clear' }, 'Clear Messages')
-
--- Nmap('\\9', ReloadAll)
+Map.n('<leader>/', '<cmd>50message<cr>', 'Show Messages')
+Map.n('<leader><leader>/', { vim.cmd.messages, 'clear' }, 'Clear Messages')
 
 Map.n('<leader>z', vim.cmd.ZenMode, 'Zen Mode')
 Map.n('<leader>Z', vim.cmd.Twilight, 'Twilight')
-Map.n('<F5>', vim.cmd.UndotreeToggle, 'Undo Tree')
-Map.n('<A-e>', vim.cmd.RnvimrToggle, 'Open Ranger')
 
 Map.n('<leader><CR>', { require('functions.flash_cursor'), 3 }, 'Flash Cursor')
 
@@ -25,7 +20,6 @@ Map.n('\\4', cleanup.delete_all_unloaded_buffers, 'Delete all unloaded buffers')
 
 local surrounder = require('functions.surrounder')
 Map.v("'", surrounder("'"))
--- Vmap('"', surrounder('"'))
 Map.v("<A-'>", surrounder('"'))
 Map.v('<A-*>', surrounder('*'))
 Map.v('<A-8>', surrounder('*'))

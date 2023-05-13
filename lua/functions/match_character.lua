@@ -48,7 +48,7 @@ local function get_char_under_cursor(line, column)
 	return vim.fn.matchstr(line, '\\%' .. column .. 'c.')
 end
 
-function MatchCharacter()
+return function()
 	local line = vim.fn.getline('.')
 	local col = vim.fn.col('.')
 
@@ -82,9 +82,4 @@ function MatchCharacter()
 	-- print(target_char_col)
 
 	vim.fn.cursor(line, target_char_col)
-	-- print(unpack(locs))
-
-	-- 'bcnswW rm'
-	-- local res = vim.fn.searchpos('(', 'eW', vim.fn.line('.')
-	-- local res = vim.fn.searchpairpos('\'', '', '\'', 'bcnWrm')
 end

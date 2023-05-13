@@ -17,14 +17,12 @@ function M.config()
 				enabled = false, -- enabling this will show WhichKey when pressing z= to select spelling suggestions
 				suggestions = 20, -- how many suggestions should be shown in the list?
 			},
-			-- the presets plugin, adds help for a bunch of default keybindings in Neovim
-			-- No actual key bindings are created
 			presets = {
 				operators = true, -- adds help for operators like d, y, ... and registers them for motion / text object completion
 				motions = true, -- adds help for motions
 				text_objects = true, -- help for text objects triggered after entering an operator
 				windows = true, -- default bindings on <c-w>
-				nav = true, -- misc bindings to work with windows
+				nav = false, -- misc bindings to work with windows
 				z = true, -- bindings for folds, spelling and others prefixed with z
 				g = true, -- bindings for prefixed with g
 			},
@@ -46,8 +44,9 @@ function M.config()
 			group = '+', -- symbol prepended to a group
 		},
 		popup_mappings = {
-			scroll_down = native['<C-d>'], -- binding to scroll down inside the popup
-			scroll_up = native['<C-u>'], -- binding to scroll up inside the popup
+			-- binding to scroll inside the popup
+			scroll_down = Map.ctrl(native.j),
+			scroll_up = Map.ctrl(native.k),
 		},
 		window = {
 			border = 'none', -- none, single, double, shadow
@@ -66,15 +65,16 @@ function M.config()
 		hidden = { '<silent>', '<cmd>', '<Cmd>', '<CR>', 'call', 'lua', '^:', '^ ' }, -- hide mapping boilerplate
 		show_help = false, -- show help message on the command line when the popup is visible
 		show_keys = false, -- show the currently pressed key and its label as a message in the command line
-		-- triggers = 'auto', -- automatically setup triggers
-		triggers = { '<leader>', 'g' },
-		triggers_blacklist = {
-			-- list of mode / prefixes that should never be hooked by WhichKey
-			-- this is mostly relevant for key maps that start with a native binding
-			-- most people should not need to change this
-			i = { 'j', 'k' },
-			v = { 'j', 'k' },
-		},
+		triggers = { '<leader>', '<localleader>', 'z', '<C-w>', 'j', '"', "'", '`' }, -- 'auto', automatically setup triggers
+		-- triggers_blacklist = {
+		-- 	-- list of mode / prefixes that should never be hooked by WhichKey
+		-- 	-- this is mostly relevant for key maps that start with a native binding
+		-- 	-- most people should not need to change this
+		-- 	i = { 'j', 'k' },
+		-- 	v = { 'j', 'k' },
+		-- 	-- i = { 'n', 'e' },
+		-- 	-- v = { 'n', 'e' },
+		-- },
 		-- disable the WhichKey popup for certain buf types and file types.
 		-- Disabled by deafult for Telescope
 		disable = {

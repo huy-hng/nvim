@@ -42,17 +42,19 @@ function M.config()
 	local harpoon_mark = require('harpoon.mark')
 	local harpoon_term = require('harpoon.term')
 
-	local harpoonmap = Map.create('n', '<leader>a', '[Harpoon]')
+	local harpoonmap = Map.create('n', Keys.leader.harpoon, '[Harpoon]')
 	harpoonmap('h', harpoon_ui.toggle_quick_menu, 'Open Harpoon')
 	harpoonmap('a', harpoon_mark.add_file, 'Add file')
-	harpoonmap('c', require('harpoon.cmd-ui').toggle_quick_menu, '')
+	harpoonmap('c', require('harpoon.cmd-ui').toggle_quick_menu, 'Commands')
+	harpoonmap('t', { harpoon_term.gotoTerminal, 1 }, 'Open Terminal')
 
-	harpoonmap = Map.create('n', '', '[Harpoon]')
-	for i in ipairs(vim.fn.range(1, 9)) do
-		local keymap = string.format('<A-%s>', i)
-		harpoonmap(keymap, { harpoon_ui.nav_file, i }, 'Go to File')
-	end
-	harpoonmap('<A-0>', { harpoon_term.gotoTerminal, 1 }, 'Open Terminal')
+	harpoonmap('u', { harpoon_ui.nav_file, 1 }, 'Go to File 1')
+	harpoonmap('y', { harpoon_ui.nav_file, 2 }, 'Go to File 2')
+	harpoonmap('j', { harpoon_ui.nav_file, 3 }, 'Go to File 3')
+	harpoonmap('e', { harpoon_ui.nav_file, 4 }, 'Go to File 4')
+	harpoonmap('i', { harpoon_ui.nav_file, 5 }, 'Go to File 5')
+	harpoonmap('o', { harpoon_ui.nav_file, 6 }, 'Go to File 6')
+
 end
 
 return M

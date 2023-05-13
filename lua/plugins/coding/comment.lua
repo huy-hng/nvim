@@ -5,9 +5,7 @@ local M = {
 
 function M.config()
 	local Comment = require('Comment')
-
-	local has_ft, ft = pcall(require, 'Comment.ft')
-	if not has_ft then return end
+	local ft = require('Comment.ft')
 
 	local comment_empty = {
 		padding = true,
@@ -17,8 +15,27 @@ function M.config()
 
 	local conf = {
 		padding = true,
-		sticky = false,
+		sticky = true,
 		ignore = '^$',
+		toggler = {
+			line = '',
+			block = '',
+		},
+		opleader = {
+			line = '',
+			block = '',
+		},
+		extra = {
+			above = '',
+			below = '',
+			eol = '',
+		},
+		mappings = {
+			basic = false,
+			extra = false,
+		},
+		pre_hook = nil,
+		post_hook = nil,
 	}
 
 	local extra_conf = {
@@ -42,6 +59,7 @@ function M.config()
 		pre_hook = nil,
 		post_hook = nil,
 	}
+
 
 	Comment.setup(conf)
 	ft.set('vimwiki', '- %s')
@@ -86,7 +104,7 @@ function M.config()
 	-- if vim.g.neovide then
 	local commap = Map.create({ 'n', 'i', 'v' }, '', '[Comment]')
 
-	Map.nv('<C-/>', vim.schedule_wrap(toggle_comment), 'Toggle')
+	Map.nv(Keys.ctrl.comment, vim.schedule_wrap(toggle_comment), 'Toggle')
 
 	-- commap = Map.create({ 'n', 'i' }, '', '[Comment]')
 	-- map({ 'n', 'i' }, '<C-/>', fn(api.toggle.linewise.current, nil, comment_empty), 'Toggle Comment')

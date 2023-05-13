@@ -1,6 +1,5 @@
-local status_ok, configs = pcall(require, 'nvim-treesitter.configs')
-if not status_ok then return end
-
+local configs = require('nvim-treesitter.configs')
+local native = require('config.native_keymaps')
 -- https://github.com/nvim-treesitter/nvim-treesitter-textobjects
 
 local select = {
@@ -11,10 +10,10 @@ local select = {
 
 	keymaps = {
 		-- You can use the capture groups defined in textobjects.scm
-		['yf'] = '@function.outer',
-		['uf'] = '@function.inner',
-		['yc'] = '@class.outer',
-		['uc'] = { query = '@class.inner', desc = 'Select inner part of a class region' },
+		[native.a .. 'f'] = '@function.outer',
+		[native.i .. 'f'] = '@function.inner',
+		[native.a .. 'c'] = '@class.outer',
+		[native.i .. 'c'] = { query = '@class.inner', desc = 'Select inner part of a class region' },
 	},
 	-- You can choose the select mode (default is charwise 'v')
 	--

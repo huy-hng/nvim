@@ -1,6 +1,6 @@
 local M = {
 	'nvim-telescope/telescope.nvim',
-	keys = { '<C-p>', '<leader>fl' },
+	keys = { '<C-f>', '<leader>fl' },
 
 	dependencies = 'rcarriga/nvim-notify',
 }
@@ -16,7 +16,7 @@ function M.config()
 			-- winblend = function() return vim.go.winblend end,
 			winblend = vim.o.winblend,
 			-- winblend = 75,
-			prompt_prefix = '  ',
+			prompt_prefix = ' ',
 			cycle_layout_list = {},
 			selection_caret = ' ',
 			path_display = { 'truncate' },

@@ -1,17 +1,16 @@
 local actions = require('telescope.actions')
 local actions_generate = require('telescope.actions.generate')
-local native = require('config.native_keymaps')
 
 local builtin = require('telescope.builtin')
 local layouts = require('plugins.editor.telescope.layouts')
 
-local tele_map = Map.create('n', '<leader>f', '[Telescope]')
+local tele_map = Map.create('n', Keys.leader.telescope, '[Telescope]')
 
 --------------------------------------------Find Files----------------------------------------------
 
 -- nmap('<C-p>', { builtin.find_files, { layout_strategy = 'cursor' } }, '[Telescope] Find Files')
 -- tele_map('p', { builtin.find_files, { find_command = find_command } }, 'Find Ignored Files')
-Map.n('<C-e>', { builtin.find_files, layouts.vert_list_insert }, '[Telescope] Find Files')
+Map.n(Keys.ctrl.telescope, { builtin.find_files, layouts.vert_list_insert }, '[Telescope] Find Files')
 local find_command = { 'rg', '--files', '--hidden', '-g', '!.git' }
 tele_map('b', { builtin.buffers, layouts.vert_list_normal }, 'Find Buffers')
 tele_map('o', { builtin.oldfiles, layouts.vert_list_normal }, 'Find Old Files')
@@ -70,12 +69,12 @@ tele_map(
 )
 
 local maps = {
-	['<C-k>'] = actions.results_scrolling_up,
-	['<C-j>'] = actions.results_scrolling_down,
-	['<C-u>'] = actions.preview_scrolling_up,
-	['<C-d>'] = actions.preview_scrolling_down,
+	[Keys.ctrl.k] = actions.results_scrolling_up,
+	[Keys.ctrl.j] = actions.results_scrolling_down,
+	[Keys.alt.k] = actions.preview_scrolling_up,
+	[Keys.alt.j] = actions.preview_scrolling_down,
 
-	['<C-f>'] = actions.close,
+	[Keys.ctrl.telescope] = actions.close,
 	['<C-c>'] = actions.close,
 	['<C-Esc>'] = actions.close,
 
@@ -91,27 +90,25 @@ local maps = {
 
 	['<C-x>'] = actions.select_horizontal,
 	['<C-v>'] = actions.select_vertical,
-	['<C-t>'] = actions.select_tab,
+	-- ['<C-t>'] = actions.select_tab,
 }
 
 return {
 	i = vim.tbl_extend('force', maps, {
 		['<C-BS>'] = Util.wrap(nvim.feedkeys, '<C-w>', true),
 
-		[Map.ctrl(native.j)] = actions.move_selection_next,
-		[Map.ctrl(native.k)] = actions.move_selection_previous,
-
-		-- ['<C-l>'] = actions.complete_tag,
+		[Keys.ctrl.j] = actions.move_selection_next,
+		[Keys.ctrl.k] = actions.move_selection_previous,
 	}),
 	n = vim.tbl_extend('force', maps, {
 		['<esc>'] = actions.close,
 
-		[native.j] = actions.move_selection_next,
-		[native.k] = actions.move_selection_previous,
+		[Keys.j] = actions.move_selection_next,
+		[Keys.k] = actions.move_selection_previous,
 
-		[native.gg] = actions.move_to_top,
-		[native.G] = actions.move_to_bottom,
-		['M'] = actions.move_to_middle,
+		[Keys.gg] = actions.move_to_top,
+		[Keys.G] = actions.move_to_bottom,
+		-- ['M'] = actions.move_to_middle,
 
 		['?'] = actions_generate.which_key {
 			name_width = 20, -- typically leads to smaller floats

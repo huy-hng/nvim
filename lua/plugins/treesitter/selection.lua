@@ -1,14 +1,15 @@
-local has_config, configs = pcall(require, 'nvim-treesitter.configs')
-if not has_config then return end
+local configs = require('nvim-treesitter.configs')
+local native = require('config.native_keymaps')
 
-Map.n('<A-L>', { nvim.feedkeys, 'v<A-L>', true })
+local key = Map.alt(native.L)
+Map.n(key, { nvim.feedkeys, native.v .. key, true }, { langmap = false })
 
 configs.setup {
 	textsubjects = {
 		enable = true,
-		prev_selection = '<A-M>', -- (Optional) keymap to select the previous selection
+		prev_selection = Map.alt(native.H), -- (Optional) keymap to select the previous selection
 		keymaps = {
-			['<A-I>'] = 'textsubjects-smart',
+			[key] = 'textsubjects-smart',
 			-- [':'] = 'textsubjects-container-outer',
 			-- ['i;'] = 'textsubjects-container-inner',
 		},

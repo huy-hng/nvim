@@ -149,8 +149,8 @@ end
 
 function M.config()
 	config()
-	local native = require('config.native_keymaps')
-	Map.n(Map.ctrl(native.file_explorer), vim.cmd.RnvimrToggle, 'Open Ranger')
+	Map.n(Keys.ctrl.file_explorer, vim.cmd.RnvimrToggle, 'Open Ranger', { langmap = false })
+	-- Map.n(Map.ctrl(native.file_explorer), vim.cmd.RnvimrToggle, 'Open Ranger')
 
 	g.rnvimr_presets = {
 		-- offset middle
@@ -193,14 +193,14 @@ function M.config()
 
 			-- tmap('<esc>', vim.cmd.RnvimrToggle, 'Close Ranger')
 
-			tmap(Map.ctrl(native.file_explorer), vim.cmd.RnvimrToggle, 'Close Ranger')
+			tmap(Keys.ctrl.file_explorer, vim.cmd.RnvimrToggle, 'Close Ranger')
 
 			tmap('<C-Up>', { nvim.schedule, Util.wrap(vim.cmd.resize, '-4') }, 'Resize window')
 			tmap('<C-Down>', { nvim.schedule, Util.wrap(vim.cmd.resize, '+4') }, 'Resize window')
 			tmap('<C-Left>', { nvim.schedule, Util.wrap(vim.cmd.wincmd, '4>') }, 'Resize window')
 			tmap('<C-Right>', { nvim.schedule, Util.wrap(vim.cmd.wincmd, '4<') }, 'Resize window')
 
-			tmap('<A-e>', function()
+			tmap(Keys.alt.file_explorer, function()
 				vim.cmd.RnvimrResize('0,7,8')
 				vim.cmd.RnvimrToggle()
 				vim.cmd.RnvimrToggle()

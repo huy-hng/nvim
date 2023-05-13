@@ -1,8 +1,8 @@
 -- Move between windows
-Map.n('<C-h>', Util.wrap(vim.cmd.wincmd, 'h'))
--- Nmap('<C-j>', Util.wrap(vim.cmd.wincmd, 'j'))
--- Nmap('<C-k>', Util.wrap(vim.cmd.wincmd, 'k'))
-Map.n('<C-l>', Util.wrap(vim.cmd.wincmd, 'l'))
+Map.n(Keys.ctrl.h, Util.wrap(vim.cmd.wincmd, 'h'))
+-- Map.n(Keys.ctrl.j, Util.wrap(vim.cmd.wincmd, 'j'))
+-- Map.n(Keys.ctrl.k, Util.wrap(vim.cmd.wincmd, 'k'))
+Map.n(Keys.ctrl.l, Util.wrap(vim.cmd.wincmd, 'l'))
 
 -- resize windows with arrow keys
 Map.n('<C-Up>',    { nvim.schedule, Util.wrap(vim.cmd.resize, '-4') })
@@ -24,8 +24,8 @@ Map.n('<S-right>', 'l', 'Move cursor right')
 
 local win_prefix = Map.create('n', '<C-w>', '[Window]')
 
-win_prefix('<C-h>', '<C-w>R', 'Move current window to the left')
-win_prefix('<C-l>', '<C-w>r', 'Move current window to the right')
+win_prefix(Keys.ctrl.h, '<C-w>R', 'Move current window to the left')
+win_prefix(Keys.ctrl.l, '<C-w>r', 'Move current window to the right')
 
 local function has_vertical_wins()
 	local wins = vim.api.nvim_tabpage_list_wins(0)
@@ -104,13 +104,13 @@ Augroup('WindowCenterer', {
 
 -----------------------------------------------Tabs-------------------------------------------------
 
-Map.n('<leader>tn', vim.cmd.tabnew, 'Open new Tab')
-Map.n('<leader>tc', vim.cmd.tabclose, 'Close Tab')
+Map.n('<leader>wn', vim.cmd.tabnew, 'Open new Tab')
+Map.n('<leader>wc', vim.cmd.tabclose, 'Close Tab')
 
-Map.n('<leader>to', vim.cmd.tabonly, 'Close all Tabs except current')
-Map.n('<leader>th', Util.wrap(vim.cmd.tabmove, '-'), 'Move Tab left')
-Map.n('<leader>tl', Util.wrap(vim.cmd.tabmove, '+'), 'Move Tab right')
+Map.n('<leader>wo', vim.cmd.tabonly, 'Close all Tabs except current')
+Map.n('<leader>wh', Util.wrap(vim.cmd.tabmove, '-'), 'Move Tab left')
+Map.n('<leader>wl', Util.wrap(vim.cmd.tabmove, '+'), 'Move Tab right')
 
-Map.n('<leader>h', vim.cmd.tabprevious, 'Previous Tab')
-Map.n('<leader>l', vim.cmd.tabnext, 'Next Tab')
+Map.n(Keys.leader.h, vim.cmd.tabprevious, 'Previous Tab')
+Map.n(Keys.leader.l, vim.cmd.tabnext, 'Next Tab')
 

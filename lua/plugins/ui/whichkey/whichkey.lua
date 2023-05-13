@@ -2,39 +2,15 @@ local wk = require('which-key')
 
 ----------------------------------------------Labels------------------------------------------------
 
--- wk.register { ['<leader>w'] = { name = 'Vimwiki' } }
--- wk.register { ['<leader>b'] = { name = 'Buffers' } }
--- wk.register { ['<leader>f'] = { name = 'Telescope' } }
--- wk.register { ['<leader>D'] = { name = 'Database' } }
--- wk.register { ['<leader>d'] = { name = 'NeoTest' } }
--- wk.register { ['<leader>a'] = { name = 'Harpon' } }
--- wk.register { ['<leader>t'] = { name = 'Tabs' } }
+wk.register { ['<leader>w'] = { name = 'Vimwiki' } }
+wk.register { ['<leader>b'] = { name = 'Buffers' } }
+wk.register { [Keys.leader.telescope] = { name = 'Telescope' } }
+wk.register { ['<leader>D'] = { name = 'Database' } }
+wk.register { ['<leader>d'] = { name = 'NeoTest' } }
+wk.register { ['<leader>h'] = { name = 'Harpon' } }
+wk.register { ['<leader>w'] = { name = 'Tabs' } }
 
 ------------------------------------------Window Commands-------------------------------------------
-
-wk.register {
-	['<C-w>'] = {
-		name = '+Window',
-		-- creating windows
-		n = 'New empty Window',
-		['< s,v >'] = 'Split Horizontal/Vertical',
-		['^'] = 'Split and edit alternate file',
-		-- closing windows
-		['< c,q >'] = 'Close/Quit',
-		o = 'Close all, except current',
-		-- Moving windows around
-		['< r,R >'] = 'Rotate down/right',
-		x = 'Swap with next',
-		-- Change / move window layout
-		['< H,J,K,L >'] = 'move window to the far sides',
-		['< h,j,k,l >'] = 'move cursor to window',
-		-- resizing
-		['='] = 'make windows equal size',
-		['< |,_ >'] = 'set width,height to N (full)',
-		['<,>'] = 'de-/increase width',
-		['< -,+ >'] = 'de-/increase height',
-	},
-}
 
 local function example()
 	-- As an example, we will create the following mappings:

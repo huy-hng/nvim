@@ -1,28 +1,24 @@
 -- horizontal scrolling
-Map.n('zh', '10zh')
-Map.n('zl', '10zl')
+Map.n('z' .. Keys.h, '10zh')
+Map.n('z' .. Keys.l, '10zl')
 
-Map.nv('<C-j>', '<C-d>zz')
-Map.nv('<C-k>', '<C-u>zz')
+local ufo = nrequire('ufo')
+local zk = ufo and ufo.goPreviousStartFold  or 'zk^'
+Map.n('z' .. Keys.k, zk, 'Move to the end of the previous fold')
+Map.n('z' .. Keys.j, 'zj^', 'Move to the start of the next fold')
 
--- Map('q', 'ge', 'Move back (opposite of e)')
--- Map('Q', 'gE', 'Move back (opposite of e)')
+Map.nv(Keys.ctrl.j, '<C-d>zz')
+Map.nv(Keys.ctrl.k, '<C-u>zz')
 
 -- Cursor movement in insert and command mode
--- ICmap('<A-h>', { nvim.feedkeys, '<Left>' })
--- ICmap('<A-j>', { nvim.feedkeys, '<Down>' })
--- ICmap('<A-k>', { nvim.feedkeys, '<Up>' })
--- ICmap('<A-l>', { nvim.feedkeys, '<Right>' })
-
--- Prev command in command mode
--- Cmap('<C-n>', { nvim.feedkeys, '<Down>' })
--- Cmap('<C-p>', { nvim.feedkeys, '<Up>' })
-Map.c('<A-j>', { nvim.feedkeys, '<Down>' })
-Map.c('<A-k>', { nvim.feedkeys, '<Up>' })
+Map.ic(Keys.alt.h, { nvim.feedkeys, '<Left>' })
+Map.ic(Keys.alt.j, { nvim.feedkeys, '<Down>' })
+Map.ic(Keys.alt.k, { nvim.feedkeys, '<Up>' })
+Map.ic(Keys.alt.l, { nvim.feedkeys, '<Right>' })
 
 local function move_to_indent()
-	local has_indent, ts_indent = pcall(require, 'nvim-treesitter.indent')
-	if not has_indent then return end
+	local ts_indent = nrequire('nvim-treesitter.indent')
+	if not ts_indent then return end
 	if vim.fn.col('$') > 1 then return end
 
 	local line_nr = vim.fn.line('.')
@@ -38,14 +34,14 @@ local function move_to_indent()
 	return string.format('A%s', tabs)
 end
 
-Map.n('A', 'A', 'Move to correct indentation, or normal A', {
+Map.n(Keys.A, 'A', 'Move to correct indentation, or normal A', {
 	callback = move_to_indent,
 })
-Map.n('a', 'a', 'Move to correct indentation, or normal A', {
+Map.n(Keys.a, 'a', 'Move to correct indentation, or normal a', {
 	callback = move_to_indent,
 })
 
 -----------------------------------------Fold Navigation Mode---------------------------------------
 -- folding shortcuts
-Map.n('<A-h>', Util.wrap(pcall, vim.cmd.foldclose))
-Map.n('<A-l>', Util.wrap(pcall, vim.cmd.foldopen))
+Map.n(Keys.alt.h, Util.wrap(pcall, vim.cmd.foldclose))
+Map.n(Keys.alt.j, Util.wrap(pcall, vim.cmd.foldopen))
