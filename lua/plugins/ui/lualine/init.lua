@@ -14,15 +14,6 @@ local M = {
 -- print(sl.str)
 -- print(sl.width)
 
-local file = vim.fn.expand('%')
-Augroup('AutoreloadNoice', {
-	Autocmd('BufWritePost', file, function() --
-		print('autoreload')
-		vim.notify('autoreload')
-		M.config()
-	end),
-}, true, false)
-
 function M.config()
 	local lualine = require('lualine')
 	local cat = require('lualine.themes.catppuccin')
@@ -33,14 +24,21 @@ function M.config()
 	cat.inactive.b.bg = 'bg'
 	cat.inactive.c.bg = 'bg'
 
-	local ranger = {
-		sections = {
-			lualine_a = { { 'mode', fmt = function(str) return 'Ranger' end } },
-			lualine_y = { comp.command, 'progress', 'location' },
-			lualine_z = { comp.date, comp.clock },
-		},
-		filetypes = { 'rnvimr' },
-	}
+	local count = 0
+
+	Augroup('UpdateLualine', {
+		-- Autocmd('ModeChanged', '*', function(data)
+		-- 	print(data.match)
+		-- 	count = count + 1
+		-- end),
+		Autocmd('ModeChanged', '*:no', function(data)
+			lualine.refresh {
+				-- scope = 'tabpage',
+				place = { 'statusline' },
+			}
+			vim.cmd.redrawstatus()
+		end),
+	})
 
 	lualine.setup {
 		options = {
@@ -49,19 +47,16 @@ function M.config()
 			-- section_separators = { left = '', right = '' },
 			-- component_separators = { left = '', right = '' },
 			section_separators = { left = '', right = '' },
+			-- section_separators = { left = '', right = '' },
 			component_separators = { left = '', right = '' },
 			disabled_filetypes = { 'alpha' },
 			ignore_focus = {},
 			always_divide_middle = true,
 			globalstatus = true,
-			refresh = {
-				statusline = 1000,
-				tabline = 1000,
-				winbar = 1000,
-			},
 		},
 		sections = {
-			lualine_a = { 'mode' },
+			-- lualine_a = { 'mode', function() return count end },
+			lualine_a = { comp.mode },
 			lualine_b = { comp.branch },
 			lualine_c = { comp.plugin_info, comp.session_name, comp.filepath },
 			lualine_x = {
@@ -71,7 +66,10 @@ function M.config()
 				comp.filetype,
 				comp.plugin_info,
 			},
-			lualine_y = { comp.command, 'progress', 'location', '%B' },
+			lualine_y = {
+				'progress',
+				'location',--[[ , '%B' ]]
+			},
 			lualine_z = { comp.date, comp.clock },
 		},
 		inactive_sections = {},
@@ -97,7 +95,7 @@ function M.config()
 			lualine_x = {},
 		},
 		extensions = {
-			ranger,
+			comp.ranger,
 			-- 'aerial',
 			-- 'chadtree',
 			-- 'fern',
