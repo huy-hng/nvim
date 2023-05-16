@@ -7,8 +7,12 @@ Map.nv('<C-:>', 'q:')
 Map.n('<C-/>', 'q/')
 
 -- Remap 0 to first non-blank character
-Map('0', '^')
-Map('^', '0')
+Map('^', '%')
+Map('%', '$')
+Map('$', '^')
+
+-- Map('0', '^')
+-- Map('^', '0')
 -- Map('g0', 'g^')
 -- Map('g^', 'g0')
 

@@ -44,4 +44,4 @@ Map.n(Keys.a, 'a', 'Move to correct indentation, or normal a', {
 -----------------------------------------Fold Navigation Mode---------------------------------------
 -- folding shortcuts
 Map.n(Keys.alt.h, Util.wrap(pcall, vim.cmd.foldclose))
-Map.n(Keys.alt.j, Util.wrap(pcall, vim.cmd.foldopen))
+Map.n(Keys.alt.l, Util.wrap(pcall, vim.cmd.foldopen))

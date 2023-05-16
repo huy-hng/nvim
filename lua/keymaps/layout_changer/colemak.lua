@@ -1,23 +1,12 @@
 local M = {}
 
-
-function M.set_langmap()
-local langmaps = require('keymaps.layout_changer.langmaps')
-	local translator = require('keymaps.layout_changer.key_translator').translate_keycode
-
-	-- vim.opt.langmap = langmaps.minimize(langmaps.colemak_lower, langmaps.custom)
-	-- LangmapTranslator = function(lhs)
-	-- 	return translator(lhs, langmaps.qwerty, langmaps.colemak, langmaps.word_nav_gap)
-	-- end
-end
-
 local function uppermap(lhs, rhs)
 	Map(lhs, rhs)
 	Map(string.upper(lhs), string.upper(rhs))
 end
 
 function M.set_keymap()
-	Map('QQ', '<cmd>qa!<cr>')
+	-- Map('QQ', '<cmd>qa!<cr>')
 
 	Map('q', 's')
 
@@ -45,10 +34,26 @@ function M.set_keymap()
 
 	Map.unmap('', 'g%')
 
+	local utils = require('core.statuscolumn.utils')
+	local function open_fold()
+		local lnum = vim.fn.line('.')
+		if vim.fn.foldclosed(lnum) ~= -1 and utils.is_foldline(lnum) then --
+			vim.cmd.foldopen()
+		end
+	end
+
+	local function close_fold()
+		local lnum = vim.fn.line('.')
+		local cursor = vim.fn.getcurpos()
+		if cursor[3] == 1 and vim.fn.foldclosed(lnum) == -1 and utils.is_foldline(lnum) then --
+			vim.cmd.foldclose()
+		end
+	end
+
 	Map(Keys.h, 'h')
 	Map(Keys.j, 'j')
 	Map(Keys.k, 'k')
-	Map(Keys.l, 'l')
+	Map(Keys.l, 'l', '', { callback = open_fold })
 
 	Map(Keys.u, 'u')
 	Map(Keys.redo, '<C-r>')
