@@ -13,6 +13,7 @@ Map.i = mappers.map_creator('i')
 Map.s = mappers.map_creator('s')
 Map.x = mappers.map_creator('x')
 Map.o = mappers.map_creator('o')
+Map.vo = mappers.map_creator { 'o', 'v' }
 Map.ic = mappers.map_creator('!')
 Map.c = mappers.map_creator('c')
 Map.t = mappers.map_creator('t')

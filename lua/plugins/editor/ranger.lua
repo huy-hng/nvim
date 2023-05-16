@@ -149,7 +149,7 @@ end
 
 function M.config()
 	config()
-	Map.n(Keys.ctrl.file_explorer, vim.cmd.RnvimrToggle, 'Open Ranger', { langmap = false })
+	Map.n(Keys.ctrl.file_explorer, vim.cmd.RnvimrToggle, 'Open Ranger')
 	-- Map.n(Map.ctrl(native.file_explorer), vim.cmd.RnvimrToggle, 'Open Ranger')
 
 	g.rnvimr_presets = {

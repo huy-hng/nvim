@@ -48,24 +48,19 @@ local function yank_operator()
 	return 'g@'
 end
 
-Map.n(Keys.p, keep_column('p==', true), 'paste, keep column and indent', { langmap = false })
-Map.n(Keys.P, keep_column('P==', true), 'paste, keep column and indent', { langmap = false })
+Map.n(Keys.p, keep_column('p==', true), 'paste, keep column and indent')
+Map.n(Keys.P, keep_column('P==', true), 'paste, keep column and indent')
 
 Map.n(Keys.Y, keep_column('y$', false))
 Map.v(Keys.y, keep_column('y', false))
 Map.v(Keys.Y, keep_column('Y', false))
 Map.v('<C-c>', keep_column('"+y'), 'Yank to clipboard')
 
-Map.v(
-	Keys.p,
-	'"_c<C-r>"<esc>',
-	'keep yank register when pasting over visual selection',
-	{ langmap = false }
-)
+Map.v(Keys.p, '"_c<C-r>"<esc>', 'keep yank register when pasting over visual selection')
 
 Map.n(Keys.y, yank_operator, '', { expr = true })
 -- Map(Keys.y, YankOperator, '', { expr = true })
-Map.n(Keys.yy, 'yy', { langmap = false })
+Map.n(Keys.yy, 'yy')
 
 -- Nmap('yh', keep_column('yh'))
 -- Nmap('yj', keep_column('yj'))

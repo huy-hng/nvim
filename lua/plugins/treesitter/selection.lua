@@ -2,7 +2,7 @@ local configs = require('nvim-treesitter.configs')
 local native = require('config.native_keymaps')
 
 local key = Map.alt(native.L)
-Map.n(key, { nvim.feedkeys, native.v .. key, true }, { langmap = false })
+Map.n(key, { nvim.feedkeys, native.v .. key, true })
 
 configs.setup {
 	textsubjects = {

@@ -23,11 +23,42 @@ end
 -- left side should be native qwerty and right side should be new location of that keymap
 local letters = {
 	-- operators
+	i = 'i',
+	a = 'a',
+	o = 'o',
+	r = 'r',
+	v = 'v',
+	p = 'p',
+	y = 'y',
+
+	d = 'd',
+	c = 'c',
+
+	-- movement
+	b = 'b',
+	w = 'w',
+	e = 'e',
+
+	h = 'h',
+	j = 'j',
+	k = 'k',
+	l = 'l',
+
+	-- misc
+	-- g = 'g',
+	g = 'g',
+	t = 't',
+	f = 'f',
+	u = 'u',
+	n = 'n',
+}
+
+letters = {
+	-- operators
 	i = 'u',
 	a = 'y',
 	o = 'o',
-	-- r = 'w',
-	r = 't', -- this is actually the 'w' key but that key has been langmapped to t
+	r = 'w',
 	v = 's',
 	p = 'p',
 	y = 'f',

@@ -2,16 +2,13 @@ local M = {}
 
 
 function M.set_langmap()
-	local langmaps = require('keymaps.layout_changer.langmaps')
+local langmaps = require('keymaps.layout_changer.langmaps')
 	local translator = require('keymaps.layout_changer.key_translator').translate_keycode
 
-	-- langmaps.langmap(langmaps.colemak, langmaps.word_nav_gap)
-	local maps = langmaps.minimize(langmaps.colemak_lower, langmaps.custom)
-	vim.opt.langmap = maps
-
-	LangmapTranslator = function(lhs)
-		return translator(lhs, langmaps.qwerty, langmaps.colemak, langmaps.word_nav_gap)
-	end
+	-- vim.opt.langmap = langmaps.minimize(langmaps.colemak_lower, langmaps.custom)
+	-- LangmapTranslator = function(lhs)
+	-- 	return translator(lhs, langmaps.qwerty, langmaps.colemak, langmaps.word_nav_gap)
+	-- end
 end
 
 local function uppermap(lhs, rhs)
@@ -20,7 +17,7 @@ local function uppermap(lhs, rhs)
 end
 
 function M.set_keymap()
-	-- Map('QQ', '<cmd>qa!<cr>')
+	Map('QQ', '<cmd>qa!<cr>')
 
 	Map('q', 's')
 
@@ -37,10 +34,16 @@ function M.set_keymap()
 	Map(Keys.gE, 'gE')
 	Map(Keys.ge, 'ge')
 	uppermap(Keys.b, 'b')
-	-- uppermap(Keys.w, 'w')
+	uppermap(Keys.w, 'w')
 	uppermap(Keys.e, 'e')
 
-	Map.unmap('', 'g%', { langmap = false })
+	-- text objects
+	Map.vo(Keys.i .. Keys.w, 'iw')
+	Map.vo(Keys.i .. Keys.W, 'iW')
+	Map.vo(Keys.a .. Keys.w, 'aw')
+	Map.vo(Keys.a .. Keys.W, 'aW')
+
+	Map.unmap('', 'g%')
 
 	Map(Keys.h, 'h')
 	Map(Keys.j, 'j')
@@ -54,8 +57,9 @@ function M.set_keymap()
 	uppermap(Keys.i, 'i')
 	uppermap(Keys.a, 'a')
 
-	uppermap(Keys.t, 't')
-	uppermap(Keys.f, 'f')
+	-- bound by quickscope
+	-- uppermap(Keys.t, 't')
+	-- uppermap(Keys.f, 'f')
 end
 
 return M

@@ -8,7 +8,7 @@ return function(bufnr)
 	-- Enable completion triggered by <c-x><c-o>
 	vim.api.nvim_buf_set_option(bufnr, 'omnifunc', 'v:lua.vim.lsp.omnifunc')
 
-	local opts = { buffer = bufnr, langmap = false }
+	local opts = { buffer = bufnr }
 
 	local lsp_map = Map.create('n', '<leader>l', '[LSP]', opts)
 	local diag_map = Map.create('n', '<leader>l', '[Diagnostic]', opts)
