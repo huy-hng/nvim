@@ -17,13 +17,11 @@ local function path_to_require(path)
 	return string.gsub(relative, '/', '.')
 end
 
-local function reload_config(data)
-	-- P(data)
+local function reload_config()
 	local path = npcall(path_to_require)
 	if not path then return end
 
 	local module = R(path)
-	-- P(module)
 	if not module or type(module) ~= 'table' or not module.config then return end
 
 	module.config()

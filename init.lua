@@ -12,9 +12,9 @@ require('core.globals')
 require('core.types')
 require('core.colorscheme')
 require('core.statuscolumn')
+require('config.native_keymaps')
 
 local colemak = require('keymaps.layout_changer.colemak')
-colemak.set_langmap()
 
 require('plugin_management.lazy')
 require('core.neovide')

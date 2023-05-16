@@ -3,9 +3,8 @@ Map.n('<F1>', '')
 Map.n('<S-SPACE>', '')
 Map.n('<C-SPACE>', '')
 
-Map('<C-;>', 'q:')
-Map.n('<leader>;', 'q:')
-Map.n('<leader>/', 'q/')
+Map.nv('<C-:>', 'q:')
+Map.n('<C-/>', 'q/')
 
 -- Remap 0 to first non-blank character
 Map('0', '^')
@@ -24,7 +23,7 @@ Map.i(',', ',<c-g>u')
 Map.i('.', '.<c-g>u')
 Map.i(';', ';<c-g>u')
 Map.i('<C-r>', '<C-g>u<C-r>')
-Map.i('<C-v>', '<C-g>u<C-r>+')
+Map.i('<C-d>', '<C-g>u<C-r>+')
 
 Map.c('<C-v>', '<C-r>+', 'Paste from clipboard', { silent = false })
 
