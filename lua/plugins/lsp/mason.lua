@@ -26,6 +26,7 @@ function M.config()
 			'stylua', -- lua formatter
 			'yamlfmt',
 			'fixjson',
+			'vimls',
 		},
 		automatic_installation = true,
 	}
