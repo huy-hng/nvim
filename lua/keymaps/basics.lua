@@ -1,7 +1,10 @@
 Map.ic('<C-BS>', { nvim.feedkeys, '<C-w>' }, 'Delete Word')
 Map.n('<C-CR>', { nvim.normal, 'o' })
 
-Map.n('<space><space>', '<nop>')
+Map.n('<leader><leader>', '')
+Map.n('<localleader><localleader>', '')
+Map.n('<localleader>', '')
+
 Map.n('<esc>', function()
 	nvim.feedkeys('<esc>')
 	vim.cmd.noh()

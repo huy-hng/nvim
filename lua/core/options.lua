@@ -6,7 +6,7 @@ local g = vim.g
 local opt_g = vim.opt_global
 
 g.mapleader = ' '
-g.maplocalleader = '\\'
+vim.cmd([[ let maplocalleader="\<BS>" ]])
 
 ----------------------------------------------Appearance--------------------------------------------
 -- window transparency

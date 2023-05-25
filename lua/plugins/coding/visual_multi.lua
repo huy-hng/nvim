@@ -1,7 +1,7 @@
 local M = {
 	'mg979/vim-visual-multi',
 	branch = 'master',
-	keys = { '<C-l>' },
+	keys = { Keys.ctrl.n },
 	-- lazy = false,
 }
 
@@ -11,8 +11,8 @@ g.VM_default_mappings = 1 -- set to 0 to disable default mappings
 g.VM_mouse_mappings = 0 -- set to 1 to enable mouse mappings
 g.VM_maps = {
 	-- ['Find Word'] = '<C-l>',
-	['Find Under'] = '<C-l>',
-	['Find Subword Under'] = '<C-l>',
+	['Find Under'] = Keys.ctrl.n,
+	['Find Subword Under'] = Keys.ctrl.n,
 	-- ['Goto Next'] = '<C-n>',
 	-- ['Goto Prev'] = '<C-p>',
 }

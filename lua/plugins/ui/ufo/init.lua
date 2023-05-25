@@ -3,6 +3,7 @@ local M = {
 	dependencies = 'kevinhwang91/promise-async',
 	-- event = 'BufReadPre',
 	event = 'VeryLazy',
+	-- lazy = false
 }
 
 local native_keymaps = require('config.native_keymaps')
@@ -28,7 +29,6 @@ function M.config()
 		provider_selector = function(bufnr, filetype, buftype)
 			local ftMap = {
 				help = '',
-				vimwiki = 'indent',
 				Outline = '',
 				norg = '',
 				c = 'treesitter',

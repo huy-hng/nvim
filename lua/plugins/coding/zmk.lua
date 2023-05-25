@@ -20,8 +20,6 @@ function M.config()
 			keymap_overrides = {
 				['&kp'] = '',
 				['&mt'] = '',
-				['&rgb_ug'] = '',
-				['&rgb'] = '',
 				-- ['____'] = '______',
 				['&none'] = ' xxx ',
 
@@ -110,17 +108,17 @@ function M.config()
 				BT_CLR = 'Clear BT',
 
 				-- rgb
-				['&rgb TOG'] = 'Toggle light',
-				['&rgb EFF'] = 'Next Effect',
-				['&rgb EFR'] = 'Prev Effect',
-				['&rgb BRI'] = 'Inc Bright',
-				['&rgb BRD'] = 'Dec Bright',
-				['&rgb SPI'] = 'Inc Ani Speed',
-				['&rgb SPD'] = 'Dec Ani Speed',
-				['&rgb SAI'] = 'Inc Sat',
-				['&rgb SAD'] = 'Dec Sat',
-				['&rgb HUI'] = 'Inc Hue',
-				['&rgb HUD'] = 'Dec Hue',
+				['&rgb_ug RGB_TOG'] = 'Toggle light',
+				['&rgb_ug RGB_EFF'] = 'Next Effect',
+				['&rgb_ug RGB_EFR'] = 'Prev Effect',
+				['&rgb_ug RGB_BRI'] = 'Inc Bright',
+				['&rgb_ug RGB_BRD'] = 'Dec Bright',
+				['&rgb_ug RGB_SPI'] = 'Inc Ani Speed',
+				['&rgb_ug RGB_SPD'] = 'Dec Ani Speed',
+				['&rgb_ug RGB_SAI'] = 'Inc Sat',
+				['&rgb_ug RGB_SAD'] = 'Dec Sat',
+				['&rgb_ug RGB_HUI'] = 'Inc Hue',
+				['&rgb_ug RGB_HUD'] = 'Dec Hue',
 			},
 		},
 	}
