@@ -38,7 +38,7 @@ Augroup('Neorg', {
 		local format = [[ +'\%A, \%b \%d']]
 
 		local command = '$(date -d ' .. filtered .. format .. ')'
-		vim.cmd('0r !echo _*' .. command .. [[*_$'\n']])
+		vim.cmd('0r !echo "_*' .. command .. [[*_"$'\n']])
 		vim.schedule(function() vim.cmd('3') end)
 	end),
 
