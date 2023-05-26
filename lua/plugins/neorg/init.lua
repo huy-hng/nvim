@@ -6,6 +6,7 @@ local M = {
 	dependencies = {
 		'nvim-neorg/neorg-telescope',
 		'nvim-lua/plenary.nvim',
+		'MunifTanjim/nui.nvim',
 	},
 }
 
