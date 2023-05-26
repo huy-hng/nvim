@@ -1,4 +1,4 @@
-require('plugin_management.ensure_lazy')
+require('plugin_manager.ensure_lazy')
 local spec = {
 	{ import = 'plugins' },
 	{ import = 'plugins.coding' },
@@ -8,6 +8,6 @@ local spec = {
 	{ import = 'plugins.ui' },
 }
 
-require('lazy').setup(spec, require('plugin_management.config'))
+require('lazy').setup(spec, require('plugin_manager.config'))
 
-require('plugin_management.reload_on_save').start()
+require('plugin_manager.reload_on_save').start()
