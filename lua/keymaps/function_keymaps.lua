@@ -13,9 +13,9 @@ if has_notify then Map.n('\\1', notify.dismiss, 'Dismiss all notifications') end
 
 local cleanup = require('modules.cleanup')
 
-Map.n('\\2', cleanup.close_all_floating_windows, 'Close all floating windows')
-Map.n('\\3', cleanup.delete_all_scratch_buffers, 'Delete all scratch buffers')
-Map.n('\\4', cleanup.delete_all_unloaded_buffers, 'Delete all unloaded buffers')
+Map.n('<localleader>2', cleanup.close_all_floating_windows, 'Close all floating windows')
+Map.n('<localleader>3', cleanup.delete_all_scratch_buffers, 'Delete all scratch buffers')
+Map.n('<localleader>4', cleanup.delete_all_unloaded_buffers, 'Delete all unloaded buffers')
 
 
 local surrounder = require('functions.surrounder')
