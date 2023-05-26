@@ -1,9 +1,6 @@
 -- checkout link below for organizing plugins
 -- https://github.com/folke/LazyVim/blob/main/lua/lazyvim/plugins/coding.lua
 return {
-	-- my plugins
-	{ 'huy-hng/convenience.nvim', lazy = false, dev = true, config = true, priority = 100 },
-	-- { 'huy-hng/metamap.nvim', lazy = false, dev = true, dependencies = 'convenience.nvim' },
 	-- full on features
 	'jceb/vim-orgmode',
 
