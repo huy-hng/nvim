@@ -17,6 +17,9 @@ function M.defer(timeout, fn, ...) --
 	return vim.defer_fn(function() fn(unpack(args)) end, timeout)
 end
 
+---@diagnostic disable-next-line: undefined-field
+function M.save() pcall(vim.api.nvim_exec, 'silent w', false) end
+
 function M.sleep(timeout, fn, ...) --
 	local args = { ... }
 	local res

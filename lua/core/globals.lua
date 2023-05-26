@@ -11,9 +11,9 @@ R = dev.reload_require
 LOADED = dev.loaded
 RELOAD = dev.reload
 
-local tryer = require('modules.error_handling')
-Try = tryer.try
-TryWrap = tryer.try_wrap
+local error_handler = require('modules.error_handling')
+Try = error_handler.try
+TryWrap = error_handler.try_wrap
 
 Util = require('modules.utils')
 
@@ -25,6 +25,7 @@ INFO = vim.log.levels.INFO
 WARN = vim.log.levels.WARN
 ERROR = vim.log.levels.ERROR
 
+require('modules.lua_extension')
 Map = require('modules.keymap.map')
 
 local mappers = require('modules.keymap.mappers')

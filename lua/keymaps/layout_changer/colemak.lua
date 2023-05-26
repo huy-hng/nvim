@@ -60,7 +60,7 @@ function M.set_keymap()
 
 	uppermap(Keys.r, 'r')
 	uppermap(Keys.i, 'i')
-	-- uppermap(Keys.a, 'a')
+	uppermap(Keys.a, 'a')
 
 	-- bound by quickscope
 	-- uppermap(Keys.t, 't')
