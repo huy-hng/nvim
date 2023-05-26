@@ -56,7 +56,8 @@ Map.v(Keys.y, keep_column('y', false))
 Map.v(Keys.Y, keep_column('Y', false))
 Map.v('<C-c>', keep_column('"+y'), 'Yank to clipboard')
 
-Map.v(Keys.p, '"_c<C-r>"<esc>', 'keep yank register when pasting over visual selection')
+-- Map.v(Keys.p, '"_c<C-r>"<esc>', 'keep yank register when pasting over visual selection')
+Map.v(Keys.p, '"_dP', 'keep yank register when pasting over visual selection')
 
 Map.n(Keys.y, yank_operator, '', { expr = true })
 -- Map(Keys.y, YankOperator, '', { expr = true })
