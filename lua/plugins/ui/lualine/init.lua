@@ -15,6 +15,8 @@ local M = {
 -- print(sl.width)
 
 function M.config()
+	if vim.g.started_by_firenvim == true then return end
+
 	local lualine = require('lualine')
 	local cat = require('lualine.themes.catppuccin')
 	local comp = require('plugins.ui.lualine.components')

@@ -55,15 +55,17 @@ Augroup('NoComment', {
 	end),
 })
 
-vim.o.updatetime = 200 -- used for CursorHold
-local line_numbers = require('modules.line_numbers')
-Augroup('renu', {
-	Autocmd('CursorHold', line_numbers.renu_autocmd(true)),
-	Autocmd('CursorMoved', line_numbers.renu_autocmd(false)),
-	Autocmd('InsertEnter', line_numbers.renu_autocmd(false)),
-	Autocmd('InsertLeave', line_numbers.renu_autocmd(true)),
-	Autocmd('WinLeave', line_numbers.renu_autocmd(false)),
-}, true, true)
+if not vim.g.started_by_firenvim then
+	vim.o.updatetime = 200 -- used for CursorHold
+	local line_numbers = require('modules.line_numbers')
+	Augroup('renu', {
+		Autocmd('CursorHold', line_numbers.renu_autocmd(true)),
+		Autocmd('CursorMoved', line_numbers.renu_autocmd(false)),
+		Autocmd('InsertEnter', line_numbers.renu_autocmd(false)),
+		Autocmd('InsertLeave', line_numbers.renu_autocmd(true)),
+		Autocmd('WinLeave', line_numbers.renu_autocmd(false)),
+	})
+end
 
 Augroup('Misc', {
 	Autocmd('BufReadPost', function()
@@ -144,42 +146,6 @@ Augroup('CommandlineWindow', {
 		end)
 	end),
 })
-
-Augroup('Cmp', {
-	-- Autocmd('CmdlineEnter', function(data) --
-	-- 	P(data)
-	-- 	NestedAutocmd(data, 'CmdlineChanged', '*', function(innerdata) --
-	-- 		P(innerdata)
-	-- 		local has_cmp, cmp = pcall(require, 'cmp')
-	-- 		if not has_cmp then return end
-	-- 		cmp.complete()
-	-- 	end, { once = true })
-	-- end),
-
-	-- Autocmd('CmdlineChanged', function(data) --
-	-- 	P(data)
-	-- end),
-
-	-- Autocmd({ 'TextChangedI', 'TextChangedP' }, function()
-	-- 	local line = vim.api.nvim_get_current_line()
-	-- 	local column = vim.api.nvim_win_get_cursor(0)[2]
-
-	-- 	local current = string.sub(line, column, column + 1)
-	-- 	if current == '.' or current == ',' or current == ' ' then require('cmp').close() end
-
-	-- 	local before_line = string.sub(line, 1, column + 1)
-	-- 	local after_line = string.sub(line, column + 1, -1)
-	-- 	if not string.match(before_line, '^%s+$') then
-	-- 		if
-	-- 			after_line == ''
-	-- 			or string.match(before_line, ' $')
-	-- 			or string.match(before_line, '%.$')
-	-- 		then
-	-- 			require('cmp').complete()
-	-- 		end
-	-- 	end
-	-- end),
-}, true, false)
 
 local function printer(data)
 	WriteToSplit(data.event)

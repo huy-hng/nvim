@@ -24,6 +24,8 @@ local M = {
 }
 
 function M.config()
+	if vim.g.started_by_firenvim == true then return end
+
 	---@module cmp
 	local cmp = require('cmp')
 

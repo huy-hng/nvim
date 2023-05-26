@@ -513,6 +513,8 @@ local function get_config()
 end
 
 function M.config()
+	if vim.g.started_by_firenvim == true then return end
+
 	local noice = require('noice')
 
 	local config = get_config()

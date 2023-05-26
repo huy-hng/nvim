@@ -6,7 +6,7 @@ local M = {
 	lazy = false,
 	dependencies = {
 		{ 'folke/neodev.nvim', config = function() require('plugins.lsp.config.neodev') end },
-		'hrsh7th/cmp-nvim-lsp',
+		-- 'hrsh7th/cmp-nvim-lsp',
 		'jose-elias-alvarez/null-ls.nvim',
 	},
 }

@@ -1,10 +1,12 @@
 local M = {
 	'rebelot/heirline.nvim',
-	event = 'VeryLazy',
+	-- event = 'VeryLazy',
 }
 
 require('plugins.ui.heirline.buffer_manager').setup()
 function M.config()
+	if vim.g.started_by_firenvim == true then return end
+
 	local window = require('plugins.ui.heirline.buffer_manager.window')
 	local nmap = Map.create('n', '', '[Buffer Manager]')
 	nmap('<leader>b', window.toggle_quick_menu, 'Toggle quick menu')
