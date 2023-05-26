@@ -1,7 +1,7 @@
 local M = {
 	'kevinhwang91/rnvimr', -- ranger
-	event = 'VeryLazy',
-	-- keys = '<A-e>',
+	-- event = 'VeryLazy',
+	keys = Keys.ctrl.file_explorer,
 }
 
 local g = vim.g
