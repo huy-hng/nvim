@@ -19,6 +19,21 @@ return {
 		-- a number <1 is a percentage., >1 is a fixed size
 		size = { width = 0.67, height = 0.8 },
 	},
+	custom_keys = {
+		-- open lazygit log
+		['<localleader>l'] = function(plugin)
+			require('lazy.util').float_term({ 'lazygit', 'log' }, {
+				cwd = plugin.dir,
+			})
+		end,
+
+		-- open a terminal for the plugin dir
+		['<localleader>t'] = function(plugin)
+			require('lazy.util').float_term(nil, {
+				cwd = plugin.dir,
+			})
+		end,
+	},
 	diff = {
 		-- diff command <d> can be one of:
 		-- * browser: opens the github compare view. Note that this is always mapped to <K> as well,

@@ -60,7 +60,7 @@ function M.config()
 			-- lualine_a = { 'mode', function() return count end },
 			lualine_a = { comp.mode },
 			lualine_b = { comp.branch },
-			lualine_c = { comp.plugin_info, comp.session_name, comp.filepath },
+			lualine_c = { comp.session_name, comp.filepath },
 			lualine_x = {
 				'searchcount',
 				comp.metamap,
