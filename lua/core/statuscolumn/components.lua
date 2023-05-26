@@ -60,6 +60,15 @@ function M.signs()
 	return utils.wrap_hl(sign_text, sign_hl)
 end
 
+local gitsign_highlights = {
+	GitSignsDeleteDelete = 'GitSignsDelete',
+	GitSignsAddAdd = 'GitSignsAdd',
+	GitSignsChangeChange = 'GitSignsChange',
+	GitSignsStagedStaged = 'GitSignsStaged',
+	GitSignsUntrackedUntracked = 'GitSignsUntracked',
+	-- GitSigns = 'GitSigns',
+}
+
 function M.gitsign_border()
 
 	local border = icons.border
@@ -77,7 +86,7 @@ function M.gitsign_border()
 	end
 
 	if sign and sign.group == 'gitsigns_vimfn_signs_' then --
-		hl = sign.name
+		hl = gitsign_highlights[sign.name]
 	end
 
 	return utils.wrap_hl(border, hl)

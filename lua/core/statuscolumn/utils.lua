@@ -33,6 +33,7 @@ end
 function M.get_gitsigns(bufnr, lnum)
 	local sign = M.get_sign(bufnr, 'gitsigns_vimfn_signs_', lnum)
 	sign = sign and sign[1]
+	-- P(sign)
 	return sign
 end
 
@@ -50,6 +51,7 @@ function M.wrap_hl(text, hl) --
 end
 
 function M.remove_statuscolumn()
+	vim.o.statuscolumn = ''
 	vim.o.number = false
 	vim.o.signcolumn = 'no'
 	vim.o.foldcolumn = '0'
