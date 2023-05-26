@@ -60,17 +60,14 @@ function M.signs()
 	return utils.wrap_hl(sign_text, sign_hl)
 end
 
-local gitsign_highlights = {
-	GitSignsDeleteDelete = 'GitSignsDelete',
-	GitSignsAddAdd = 'GitSignsAdd',
-	GitSignsChangeChange = 'GitSignsChange',
-	GitSignsStagedStaged = 'GitSignsStaged',
-	GitSignsUntrackedUntracked = 'GitSignsUntracked',
-	-- GitSigns = 'GitSigns',
-}
+nvim.hl(0, 'GitSignsDeleteDelete', { link = 'GitSignsDelete' })
+nvim.hl(0, 'GitSignsAddAdd', { link = 'GitSignsAdd' })
+nvim.hl(0, 'GitSignsChangeChange', { link = 'GitSignsChange' })
+nvim.hl(0, 'GitSignsStagedStaged', { link = 'GitSignsStaged' })
+nvim.hl(0, 'GitSignsUntrackedUntracked', { link = 'GitSignsUntracked' })
+-- nvim.hl(0, 'GitSigns', { link = 'GitSigns' })
 
 function M.gitsign_border()
-
 	local border = icons.border
 	local hl = 'Comment'
 	local lnum = vim.v.lnum
@@ -86,7 +83,7 @@ function M.gitsign_border()
 	end
 
 	if sign and sign.group == 'gitsigns_vimfn_signs_' then --
-		hl = gitsign_highlights[sign.name]
+		hl = sign.name
 	end
 
 	return utils.wrap_hl(border, hl)

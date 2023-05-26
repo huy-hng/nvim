@@ -81,6 +81,7 @@ end
 -----------------------------------------------Creators---------------------------------------------
 
 Highlight = vim.api.nvim_set_hl
+M.hl = vim.api.nvim_set_hl
 
 function M.command(name, command, opts)
 	if type(command) == 'table' then command = Util.extract_fn_from_table(command, 2) end
