@@ -3,19 +3,10 @@
 local M = {}
 local preferences = {}
 
--- Optionally require a module returning `nil` if it can't be found
-local function optional_require(module)
-	local has_module, module = pcall(require, module)
-	if not has_module then module = nil end
-
-	return module
-end
-
 -- Tree-sitter includes
-local ts_parsers = optional_require('nvim-treesitter.parsers')
-local ts_highlighter = optional_require('vim.treesitter.highlighter')
-local ts_utils = optional_require('nvim-treesitter.ts_utils')
-local ts_enabled = ts_parsers ~= nil and ts_highlighter ~= nil and ts_utils ~= nil
+local ts_parsers = nrequire('nvim-treesitter.parsers')
+local ts_highlighter = nrequire('vim.treesitter.highlighter')
+local ts_utils = nrequire('nvim-treesitter.ts_utils')
 
 -- Get the configuration's value or its default if not set
 local function config(config_key, default_value)
@@ -53,13 +44,13 @@ end
 
 -- Detect if the line is a comment or a string based on Neovim's tree-sitter module
 local function is_multiline_ts(line_number)
-	local root_lang_tree = ts_parsers.get_parser()
+	local root_lang_tree = ts_parsers and ts_parsers.get_parser()
 	if not root_lang_tree then
 		-- No syntax tree => no strings/comments
 		return false
 	end
 
-	local root = ts_utils.get_root_for_position(line_number, 0, root_lang_tree)
+	local root = ts_utils and ts_utils.get_root_for_position(line_number, 0, root_lang_tree)
 	if not root then
 		-- No syntax tree on this line
 		return false
@@ -76,7 +67,7 @@ end
 local function get_is_multiline_function()
 	local buf = vim.api.nvim_get_current_buf()
 
-	if ts_enabled and ts_highlighter.active[buf] then
+	if ts_highlighter and ts_highlighter.active[buf] then
 		-- Buffer is highlighted through tree-sitter
 		return is_multiline_ts
 	else

@@ -1,7 +1,17 @@
 local detect_indent = require('modules.detect_indentation.detect_indentation').detect
+
 Augroup('DetectIndent', {
-	-- Autocmd('OptionSet', { 'expandtab', 'tabstop', 'shiftwidth' }, detect_indent),
-	Autocmd('BufReadPost', detect_indent),
+	Autocmd('OptionSet', { 'expandtab', 'tabstop', 'shiftwidth' }, detect_indent),
+	-- Autocmd('BufReadPost', detect_indent),
+	Autocmd('BufReadPost', function(data)
+		if detect_indent(data) then return end
+
+		-- FIX: doesnt work with leader f save mapping for some reason
+		NestedAutocmd(data, 'BufWritePost', '*', function()
+			if detect_indent(data) then return true end
+		end)
+	end),
+
 	Autocmd('BufNew', function(data) --
 		NestedAutocmd(data, 'BufWritePost', '*', detect_indent, { once = true })
 	end),
@@ -33,6 +43,7 @@ Augroup('AfterYank', { -- highlight yanked text
 })
 
 Augroup('Neorg', {
+	Autocmd('FileType', 'norg', 'set nobuflisted'),
 	Autocmd('BufNewFile', '*/neorg/journal/[0-9]*.norg', function(data)
 		local filtered = string.match(data.file, 'neorg/journal/(.*).norg')
 		local format = [[ +'\%A, \%b \%d']]
@@ -205,7 +216,7 @@ Augroup('Testing', {
 	Autocmd('BufEnter', { print, 'enter' }),
 	Autocmd({ 'WinEnter', 'WinNew' }, function()
 		-- P(data)
-		local wins = vim.api.nvim_list_wins()
+		-- local wins = vim.api.nvim_list_wins()
 		-- P(wins)
 	end),
 	Autocmd({ 'UiEnter', 'VimEnter' }, function(data) --
