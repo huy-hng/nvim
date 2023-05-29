@@ -56,8 +56,8 @@ return {
 	messages = {
 		view = 'split',
 		enter = true,
-		size = '30%'
-		-- position = 'bottom'
+		size = '30%',
+		-- position = 'left',
 	},
 	vsplit = {
 		view = 'split',
@@ -97,7 +97,8 @@ return {
 		},
 		border = {
 			style = 'none',
-			padding = { 1, 2 },
+			-- padding = { 1, 2 },
+			padding = { 0, 0 },
 		},
 		position = { row = 2, col = 2 },
 		win_options = {
@@ -109,13 +110,12 @@ return {
 		backend = 'popup',
 		relative = 'editor',
 		position = {
-			-- row = -1,
 			row = '100%',
-			col = 0,
+			col = '50%',
 		},
 		size = {
 			height = 'auto',
-			width = '100%',
+			width = '33%',
 		},
 		border = {
 			style = 'none',
@@ -150,17 +150,15 @@ return {
 				Search = '',
 			},
 		},
-
 	},
 	mini_middle = {
-		backend = 'popup',
+		backend = 'mini',
 		relative = 'editor',
-		-- align = 'center',
+		align = 'center',
 		timeout = 4000,
+		replace = true,
 		-- reverse = false,
-		-- focusable = false,
 		position = {
-			-- row = vim.api.nvim_win_get_height(0)+1,
 			row = '100%',
 			-- row = -2,
 			col = '50%',
@@ -169,7 +167,7 @@ return {
 		-- border = {
 		-- 	style = 'none',
 		-- },
-		-- zindex = 60,
+		zindex = 60,
 		win_options = {
 			winblend = 0,
 			winhighlight = {
