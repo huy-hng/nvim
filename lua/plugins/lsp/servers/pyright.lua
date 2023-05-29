@@ -1,4 +1,4 @@
-local py = require('lsp.servers.python')
+local py = require('plugins.lsp.servers.python')
 
 return {
 	settings = {
