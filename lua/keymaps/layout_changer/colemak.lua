@@ -6,8 +6,6 @@ local function uppermap(lhs, rhs)
 end
 
 function M.set_keymap()
-	-- Map('QQ', '<cmd>qa!<cr>')
-
 	Map('q', 's')
 
 	Map('<C-d>', '', '', { mode = { 'n', 'v' } })

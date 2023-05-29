@@ -16,16 +16,16 @@ require('config.native_keymaps')
 
 local colemak = require('keymaps.layout_changer.colemak')
 
-require('plugin_management.lazy')
+require('plugin_manager.lazy')
 require('core.neovide')
 
-
-require_dir('lua/keymaps')
+-- Map('QQ', '<cmd>qa!<cr>')
 Augroup('LazyLoad', {
 	Autocmd('User', 'VeryLazy', function()
 		Map.n('<C-S-P>', require('lazy').home)
 		local require_dir = require('modules.require_dir')
 		require_dir('lua/functions')
+		require_dir('lua/keymaps')
 		colemak.set_keymap()
 		require('core.autocmd')
 
