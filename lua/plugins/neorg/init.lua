@@ -14,13 +14,13 @@ local requirer = require
 requirer('plugins.neorg.keymaps')
 
 function M.config()
-
 	requirer('neorg').setup {
 		load = {
 			['core.defaults'] = {},
 			['core.journal'] = requirer('plugins.neorg.modules.journal'),
+			-- ['core.concealer'] = { config = { performance = { timeout = 200 } } },
 			['core.concealer'] = {},
-			['core.esupports.indent'] = {},
+			['core.esupports.indent'] = requirer('plugins.neorg.modules.indent'),
 			-- ['core.norg.concealer'] = { config = requirer('plugins.neorg.modules.concealer') },
 			-- ['core.norg.esupports.indent'] = { config = requirer('plugins.neorg.modules.indent') },
 			['core.completion'] = {
