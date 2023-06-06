@@ -94,7 +94,7 @@ end
 
 M.metamap = function()
 	local bufnr = vim.api.nvim_get_current_buf()
-	return vim.b[bufnr].MetaMap or ''
+	return vim.b[bufnr].Metamap or vim.g.Metamap or ''
 end
 
 M.indentation = {

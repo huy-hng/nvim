@@ -1,9 +1,6 @@
 -- ../../../plugins/extra_modes/lua/extra_modes/init.lua
 
 -- local has_metamap, MetaMap = pcall(require, 'metamap')
-local has_metamap, MetaMap = pcall(require, 'modules.keymap.metamap')
-if not has_metamap then return end
-
 local function temp_change_cursor_color()
 	local group_id = vim.fn.hlID('Cursor')
 	local fg = vim.fn.synIDattr(group_id, 'fg')
@@ -86,7 +83,6 @@ local function goPreviousStartFold()
 	if previousLnum then vim.cmd(('norm! %dgg_'):format(previousLnum)) end
 end
 
--- MapSpaceCapital('n', 'F', start_navigation, 'Start Fold navigation mode')
 -- Nmap('<C-f>', start_navigation, 'Start Fold navigation mode')
 
 local function end_navigation()
@@ -103,10 +99,10 @@ local function start_navigation()
 	-- vim.o.cursorcolumn = true
 end
 
-local fold = MetaMap('Fold Navigation')
+local fold = Map.meta('Fold Navigation', { buffer = true })
 
-fold:enter('n', Keys.ctrl.fold_navigation, start_navigation)
-fold:exit('n', { 'q', '<esc>', Keys.ctrl.fold_navigation }, end_navigation)
+fold:map_enter('n', Keys.ctrl.fold_navigation, start_navigation)
+fold:map_exit('n', { 'q', '<esc>', Keys.ctrl.fold_navigation }, end_navigation)
 
 -- map:N('m', 'zm')
 fold:n('m', 'zm')
