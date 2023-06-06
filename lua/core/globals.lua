@@ -28,12 +28,6 @@ ERROR = vim.log.levels.ERROR
 require('modules.lua_extension')
 Map = require('modules.keymap.map')
 
-local mappers = require('modules.keymap.mappers')
-Map.create = mappers.map_creator
-Map.parse = mappers.parse_map
-
-MapSpaceCapital = mappers.map_space_capital
-
 local au = require('modules.autocommander')
 Autocmd = au.autocmd
 CreateAutocmd = au.createAutocmd

@@ -112,6 +112,6 @@ nvim.command(
 -- )
 
 -- Unmap('n', '<localleader>t')
-Map.n('<localleader>t', '<Plug>PlenaryTestFile', '', { remap = true })
+-- Map.n('<localleader>t', '<Plug>PlenaryTestFile', '', { remap = true })
 
 return M

@@ -17,6 +17,7 @@ Augroup('DetectIndent', {
 	end),
 })
 
+
 Augroup('WindowManagement', {
 	Autocmd('FileType', {
 		'qf',
