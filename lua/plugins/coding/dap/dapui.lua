@@ -1,5 +1,4 @@
-local has_dapui, dapui = pcall(require, 'dapui')
-if not has_dapui then return end
+local dapui = require('dapui')
 
 dapui.setup {
 	icons = { expanded = '', collapsed = '', current_frame = '' },
