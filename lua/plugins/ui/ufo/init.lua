@@ -6,8 +6,6 @@ local M = {
 	-- lazy = false
 }
 
-local native_keymaps = require('config.native_keymaps')
-
 -- hi default UfoFoldedFg guifg=Normal.foreground
 -- hi default UfoFoldedBg guibg=Folded.background
 -- hi default link UfoPreviewSbar PmenuSbar
@@ -33,7 +31,7 @@ function M.config()
 				norg = '',
 				c = 'treesitter',
 			}
-			Map.n(native_keymaps.K, fn.peekOrHover, '[UFO] peek or hover')
+			Map.n(Keys.K, fn.peekOrHover, '[UFO] peek or hover')
 			if ftMap[filetype] ~= '' then --
 				fn.set_keymaps(bufnr)
 				-- fn.customizeBufFoldText()
@@ -58,12 +56,12 @@ function M.config()
 			mappings = {
 				scrollB = '',
 				scrollF = '',
-				scrollU = '<C-u>',
-				scrollD = '<C-d>',
-				scrollE = '<C-E>',
-				scrollY = '<C-Y>',
-				close = 'q',
-				switch = 'K',
+				scrollU = Keys.ctrl.u,
+				scrollD = Keys.ctrl.d,
+				scrollE = Keys.ctrl.E,
+				scrollY = Keys.ctrl.Y,
+				close = Keys.q,
+				switch = Keys.K,
 				trace = '<CR>',
 			},
 		},

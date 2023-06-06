@@ -1,19 +1,5 @@
 local M = {}
 
-local function translate(lhs)
-	if not LangmapTranslator or not lhs then return lhs end
-
-	if type(lhs) == 'string' then --
-		return LangmapTranslator(lhs)
-	end
-
-	for i, l in ipairs(lhs) do
-		lhs[i] = LangmapTranslator(l)
-	end
-
-	return lhs
-end
-
 local function parse_mode(mode)
 	if not mode or mode == '' or mode == 'nvo' then --
 		return { 'n', 'v', 'o' }
@@ -53,8 +39,6 @@ function M.parse_map(mode, lhs, rhs, desc, opts)
 		end
 	end
 
-	if extra_opts.langmap then lhs = translate(lhs) end
-
 	return mode, lhs, rhs, opts
 end
 
@@ -76,10 +60,6 @@ function M.unmap(mode, lhs, opts)
 	opts.langmap = nil
 	opts.fast = nil
 	opts.mode = nil
-
-	if opts.langmap and LangmapTranslator then --
-		lhs = LangmapTranslator(lhs)
-	end
 
 	pcall(function() vim.keymap.del(mode, lhs, opts) end)
 	-- Try(1, vim.keymap.del, mode, lhs, opts)

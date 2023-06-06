@@ -1,36 +1,37 @@
----@class Map
-local Map = {}
+---@class map
+local map = {}
 
 local mappers = require('modules.keymap.mappers')
 
-Map.create = mappers.map_creator
-Map.map = mappers.map
+map.create = mappers.map_creator
+map.parse = mappers.parse_map
+map.map = mappers.map
 
-Map.nv = mappers.map_creator { 'n', 'v' }
-Map.n = mappers.map_creator('n')
-Map.v = mappers.map_creator('v')
-Map.i = mappers.map_creator('i')
-Map.s = mappers.map_creator('s')
-Map.x = mappers.map_creator('x')
-Map.o = mappers.map_creator('o')
-Map.vo = mappers.map_creator { 'o', 'v' }
-Map.ic = mappers.map_creator('!')
-Map.c = mappers.map_creator('c')
-Map.t = mappers.map_creator('t')
+map.nv = mappers.map_creator { 'n', 'v' }
+map.nvo = mappers.map_creator { 'n', 'v', 'o' }
+map.n = mappers.map_creator('n')
+map.v = mappers.map_creator('v')
+map.i = mappers.map_creator('i')
+map.s = mappers.map_creator('s')
+map.x = mappers.map_creator('x')
+map.o = mappers.map_creator('o')
+map.vo = mappers.map_creator { 'o', 'v' }
+map.ic = mappers.map_creator('!')
+map.c = mappers.map_creator('c')
+map.t = mappers.map_creator('t')
 
-Map.unmap = mappers.unmap
-Map.del = mappers.unmap
+map.unmap = mappers.unmap
+map.del = mappers.unmap
 
-Map.ctrl = function(key) return string.format('<C-%s>', key) end
-Map.alt = function(key) return string.format('<A-%s>', key) end
+map.ctrl = function(key) return string.format('<C-%s>', key) end
+map.alt = function(key) return string.format('<A-%s>', key) end
 
-Map.meta = require('modules.keymap.metamap')
+map.meta = require('modules.keymap.metamap')
 
-local nvo = mappers.map_creator { 'n', 'v', 'o' }
-function Map:call(...) nvo(...) end
+function map:call(...) self.nvo(...) end
 
-return setmetatable(Map, {
-	__call = Map.call,
+return setmetatable(map, {
+	__call = map.call,
 	-- __index = function(self, name)
 	-- 	P(self, name)
 

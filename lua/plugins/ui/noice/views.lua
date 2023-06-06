@@ -97,8 +97,8 @@ return {
 		},
 		border = {
 			style = 'none',
-			-- padding = { 1, 2 },
-			padding = { 0, 0 },
+			padding = { 1, 2 },
+			-- padding = { 0, 0 },
 		},
 		position = { row = 2, col = 2 },
 		win_options = {
