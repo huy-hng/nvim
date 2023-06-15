@@ -10,7 +10,7 @@ function M.config()
 	na.setup()
 
 	-- Map.n(Keys.localleader.n, na.node_action, 'Trigger TS Node Action')
-	Map.n(Keys.ctrl.x, na.node_action, 'Trigger TS Node Action')
+	Map.n(Keys.ctrl.c, na.node_action, 'Trigger TS Node Action')
 
 end
 

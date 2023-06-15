@@ -5,10 +5,12 @@ return {
 	'jceb/vim-orgmode',
 
 	-- extra features
-	'tpope/vim-obsession',
-	'tpope/vim-repeat',
+	-- plugins below mess up key maps
+	-- 'tpope/vim-obsession',
+	-- 'tpope/vim-repeat',
 	-- 'tpope/vim-surround',
-	'tpope/vim-fugitive', -- git stuff
+	-- 'tpope/vim-fugitive', -- git stuff
+
 	{ 'moll/vim-bbye', lazy = false }, -- stop fucking closing my shit
 	-- { 'tiagovla/scope.nvim', config = function() require('scope').setup() end }, -- scope buffers to tabs
 
