@@ -20,6 +20,7 @@ function M.config()
 			['core.journal'] = requirer('plugins.neorg.modules.journal'),
 			-- ['core.concealer'] = { config = { performance = { timeout = 200 } } },
 			['core.concealer'] = {},
+			['core.summary'] = { config = { strategy = 'default' }, },
 			['core.esupports.indent'] = requirer('plugins.neorg.modules.indent'),
 			-- ['core.norg.concealer'] = { config = requirer('plugins.neorg.modules.concealer') },
 			-- ['core.norg.esupports.indent'] = { config = requirer('plugins.neorg.modules.indent') },
