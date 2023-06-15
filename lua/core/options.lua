@@ -69,9 +69,7 @@ o.list = true
 opt.listchars = icons.listchars
 opt.fillchars = icons.fillchars
 
---==============================================================================
---                       |=> Editor User Interface <=|
---==============================================================================
+----------------------------------------Editor User Interface---------------------------------------
 
 -- go.winminheight = 1
 -- go.winminwidth = 1
@@ -91,9 +89,8 @@ go.wildmenu = true
 -- g.magic = true
 go.timeoutlen = 300
 
---==============================================================================
---                              |=> Behavior <=|
---==============================================================================
+-----------------------------------------------Behavior---------------------------------------------
+
 
 -- to edit with no text in visual block mode
 o.virtualedit = 'block'
@@ -144,10 +141,7 @@ o.lazyredraw = false
 o.splitright = true -- split vertical window to the right
 o.splitbelow = true -- split horizontal window to the bottom
 
-go.iskeyword = '@,48-57,_,192-255,-'
-o.iskeyword = '@,48-57,_,192-255,-'
--- opt_g.iskeyword:append('-') -- consider string-string as whole word
--- opt.iskeyword:remove({'-', '_'}) -- consider string-string as whole word
+opt.iskeyword:remove({'-', '_'}) -- consider string-string and str_str not as whole word
 opt.isfname:append('@-@') -- use @ for filename completion
 
 -- when pressing "K" then do a vim command, pressing K on 'h statusline' will open the help page
@@ -179,34 +173,4 @@ opt_g.path:append('**')
 
 opt.switchbuf:append { 'useopen', 'vsplit' }
 -- opt.sessionoptions:remove { 'buffers', 'terminal', 'blank', 'folds' }
-opt.sessionoptions:remove { 'terminal', 'blank', 'folds' }
-
---==============================================================================
---                          |=> Plugin Settings <=|
---==============================================================================
-
-g.startuptime_event_width = 40
-g.startuptime_tries = 10
-g.startuptime_sourced = 0
-g.startuptime_exe_args = { '--noplugin' }
-g.startuptime_exe_args = {}
-
-function FoldText()
-	local v = vim.v
-	local line = vim.fn.getline(v.foldstart)
-	local line_num = v.foldend - v.foldstart
-
-	-- remove tab indentations
-	---@diagnostic disable-next-line: param-type-mismatch
-	line = vim.fn.substitute(line, '	', '', 'g')
-	line = vim.fn.substitute(line, '    ', '', 'g')
-
-	local indent_level = vim.fn.indent(v.foldstart)
-	local indent = vim.fn['repeat'](' ', indent_level)
-
-	-- local sub = vim.fn.substitute(line, [[/*|*/|{{{\d\=]], '', 'g')
-	return indent .. line .. ' ---- ' .. line_num .. ' lines folded '
-end
-
-vim.o.foldtext = 'v:lua.FoldText()'
--- vim.wo.foldtext = 'v:lua.require("ufo.main").foldtext()'
+opt.sessionoptions:remove { 'terminal', 'blank', 'folds', 'help' }
