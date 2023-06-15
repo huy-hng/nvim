@@ -1,6 +1,7 @@
 local function upper_mod(keys)
 	local modified = {
 		leader = {},
+		localleader = {},
 		ctrl = {},
 		alt = {},
 	}
@@ -16,6 +17,9 @@ local function upper_mod(keys)
 
 		modified.leader[native] = string.format('<leader>%s', translated)
 		modified.leader[up_native] = string.format('<leader>%s', up_translated)
+
+		modified.localleader[native] = string.format('<localleader>%s', translated)
+		modified.localleader[up_native] = string.format('<localleader>%s', up_translated)
 	end
 	return modified
 end
@@ -50,6 +54,7 @@ local og_letters = {
 	f = 'f',
 	u = 'u',
 	n = 'n',
+	x = 'x',
 }
 
 local letters = {
@@ -81,6 +86,7 @@ local letters = {
 	f = 'b',
 	u = 'h',
 	n = 'l',
+	x = 'x',
 }
 
 local functions = {
