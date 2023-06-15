@@ -41,11 +41,10 @@ local function requirefolder(--[[ args, parent, user_args ]])
 	return path .. '.'
 end
 
--- local type_fmt = fmt("type({}) {}= '{}'", { i(1), c(2, { t('='), t('~') }), i(3) })
-
-local type_fmt = function()
-	return fmt("type({}) {}= '{}'", { i(1), c(2, { t('='), t('~') }), i(3) })
-end
+local type_choices = {
+	fmt("type({}) == '{}'", { r(1, 'variable'), r(2, 'type') }),
+	fmt("type({}) ~= '{}'", { r(1, 'variable'), r(2, 'type') }),
+}
 
 return {
 	--------------------------------------------Shortcuts-------------------------------------------
@@ -63,13 +62,11 @@ return {
 	snippet('p', fmt("print('{}'){}{}", { i(1, ' '), utils.newline(), i(0) })),
 
 	--stylua: ignore
-	snippet('module',
-		fmt([[
-			---@module '{}'
-			local {} = R('{}')
-			{}
-		]], { i(1), d(2, require_var, { 1 }), rep(1), i(0), })
-	),
+	snippet('module', fmt([[
+		---@module '{}'
+		local {} = R('{}')
+		{}
+	]], { i(1), d(2, require_var, { 1 }), rep(1), i(0), })),
 
 	--stylua: ignore
 	snippet('plugin', fmt([[
@@ -97,47 +94,27 @@ return {
 		return M
 	]], {})),
 
-	-- snippet('asserttype', fmt('assert({})', { sn(1, type_fmt) })),
-	snippet('type', sn(1, type_fmt())),
+	snippet('type', { c(1, type_choices) }),
+	snippet('asserttype', fmt('assert({})', { c(1, type_choices) })),
 
 	-- stylua: ignore
 	snippet('iftype', fmt([[
 		if {} then
 			{}
 		end
-	]], { sn(1, type_fmt()), i(0)})),
+	]], { c(1, type_choices), i(0)})),
 
-	snippet('asserttype', fmt('assert({})', { sn(1, type_fmt()) })),
-
-	snippet(
-		'for .. ipairs()',
-		fmt(
-			[[
+	-- stylua: ignore
+	snippet('for .. ipairs()', fmt([[
 		for {}, {} in ipairs({}) do
 			{}
 		end
-	]],
-			{ i(1, '_'), i(2, 'val'), i(3), i(0) }
-		)
-	),
+	]], { i(1, '_'), i(2, 'val'), i(3), i(0) })),
 
-	-- snippet('lf', {
-	-- 	desc = 'table function',
-	-- 	'local ',
-	-- 	i(1),
-	-- 	' = function(',
-	-- 	i(2),
-	-- 	')',
-	-- 	newline('  '),
-	-- 	i(0),
-	-- 	newline('end'),
-	-- }),
-
-	-- TODO: I don't know how I would like to set this one up.
-	-- snippet('f', fmt('function({})\n  {}\nend', { i(1), i(0) })),
+	---------------------------------------------requires-------------------------------------------
 
 	snippet(
-		'pcall',
+		'preq',
 		fmt([[pcall(require, '{}'))]], {
 			i(1),
 		})
@@ -160,22 +137,6 @@ return {
 		})
 	),
 
-	-- snippet(
-	-- 	'nreq',
-	-- 	fmt([[
-	-- 	local {} = nrequire('')
-	-- 	if not has_{} then return end
-	-- 	{}
-	-- 	]],
-	-- 		{
-	-- 			d(2, require_var, { 1 }),
-	-- 			rep(2),
-	-- 			i(1),
-	-- 			rep(2),
-	-- 			i(0),
-	-- 		}
-	-- 	)
-	-- ),
 	snippet(
 		'nreq',
 		fmt(
@@ -192,29 +153,4 @@ return {
 			}
 		)
 	),
-	snippet(
-		'preq',
-		fmt(
-			[[
-		local has_{}, {} = pcall(require, '{}')
-		if not has_{} then return end
-		{}
-		]],
-			{
-				d(2, require_var, { 1 }),
-				rep(2),
-				i(1),
-				rep(2),
-				i(0),
-			}
-		)
-	),
-	-- test = { "local ", i(1), ' = require("', f(function(args)
-	--   table.insert(RESULT, args[1])
-	--   return { "hi" }
-	-- end, { 1 }), '")', i(0) },
-
-	-- test = { i(1), " // ", d(2, function(args)
-	--   return snippet_from_nodes(nil, { str "hello" })
-	-- end, { 1 }), i(0) },
 }

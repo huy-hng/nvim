@@ -34,7 +34,7 @@ function M.config()
 		-- If true, Snippets that were exited can still be jumped back into.
 		-- As Snippets are not removed when their text is deleted, they have to be removed manually
 		-- via LuasnipUnlinkCurrent if delete_check_events is not enabled (set to eg. 'TextChanged').
-		history = false,
+		history = true,
 
 		-- This one is cool cause if you have dynamic snippets, it updates as you type!
 		-- Choose which events trigger an update of the active nodes' dependents.
@@ -45,7 +45,6 @@ function M.config()
 		-- Events on which to leave the current snippet if the cursor is outside its' 'region'.
 		-- Disabled by default, 'CursorMoved', 'CursorHold' or 'InsertEnter' seem reasonable.
 		region_check_events = 'InsertEnter,InsertLeave',
-		-- region_check_events = 'User None',
 
 		-- When to check if the current snippet was deleted, and if so, remove it from the history.
 		-- Off by default, 'TextChanged' (perhaps 'InsertLeave', to react to changes done in Insert
@@ -108,9 +107,9 @@ function M.config()
 		-- ---@diagnostic disable = nil, -- undefined-global somewhere in the affected files.
 		-- globals injected into luasnippet-files.
 		snip_env = {
-			snippet = require('luasnip.nodes.snippet').S,
 			snippet_from_nodes = require('luasnip.nodes.snippet').SN,
 
+			snippet = require('luasnip.nodes.snippet').S,
 			s = require('luasnip.nodes.snippet').S,
 			sn = require('luasnip.nodes.snippet').SN,
 			isn = require('luasnip.nodes.snippet').ISN,
