@@ -21,7 +21,7 @@ local function upper_mod(keys)
 end
 
 -- left side should be native qwerty and right side should be new location of that keymap
-local letters = {
+local og_letters = {
 	-- operators
 	i = 'i',
 	a = 'a',
@@ -45,7 +45,6 @@ local letters = {
 	l = 'l',
 
 	-- misc
-	-- g = 'g',
 	g = 'g',
 	t = 't',
 	f = 'f',
@@ -53,7 +52,7 @@ local letters = {
 	n = 'n',
 }
 
-letters = {
+local letters = {
 	-- operators
 	i = 'u',
 	a = 'y',
@@ -77,7 +76,6 @@ letters = {
 	l = 'i',
 
 	-- misc
-	-- g = 'g',
 	g = 'j',
 	t = 'k',
 	f = 'b',
@@ -92,6 +90,11 @@ local functions = {
 	fold_navigation = 'f',
 	save_file = 'f',
 	comment = 'v',
+}
+
+local special_keys = {
+	enter = '<CR>',
+	backspace = '<BS>',
 }
 
 local unique = {

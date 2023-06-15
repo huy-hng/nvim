@@ -77,14 +77,13 @@ end
 
 (function()
 	Metamap.n = Metamap.map_wrap('n')
-	Metamap.v = Metamap.map_wrap('v')
-	Metamap.i = Metamap.map_wrap('i')
-	Metamap.n = Metamap.map_wrap('n')
-	Metamap.v = Metamap.map_wrap('v')
-	Metamap.i = Metamap.map_wrap('i')
-	Metamap.s = Metamap.map_wrap('s')
-	Metamap.x = Metamap.map_wrap('x')
 	Metamap.o = Metamap.map_wrap('o')
+
+	Metamap.v = Metamap.map_wrap('x')
+	Metamap.x = Metamap.map_wrap('v')
+	Metamap.s = Metamap.map_wrap('s')
+
+	Metamap.i = Metamap.map_wrap('i')
 	Metamap.ic = Metamap.map_wrap('!')
 	Metamap.c = Metamap.map_wrap('c')
 	Metamap.t = Metamap.map_wrap('t')
@@ -129,7 +128,7 @@ function Metamap:create_buf_maps(bufnr)
 	-- TODO: put maps in seperate tables sorted by mode so that the below is cheaper to do
 	local mode_maps = {
 		n = vim.api.nvim_buf_get_keymap(self.bufnr, 'n'),
-		v = vim.api.nvim_buf_get_keymap(self.bufnr, 'v'),
+		v = vim.api.nvim_buf_get_keymap(self.bufnr, 'x'),
 	}
 
 	for _, map in ipairs(self.registered_maps) do

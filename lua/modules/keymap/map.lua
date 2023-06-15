@@ -16,6 +16,7 @@ map.s = mappers.map_creator('s')
 map.x = mappers.map_creator('v')
 map.o = mappers.map_creator('o')
 map.vo = mappers.map_creator { 'o', 'x' }
+map.ov = mappers.map_creator { 'o', 'x' }
 map.ic = mappers.map_creator('!')
 map.c = mappers.map_creator('c')
 map.t = mappers.map_creator('t')
