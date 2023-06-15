@@ -11,10 +11,10 @@ Map.nv(Keys.ctrl.j, '<C-d>zz')
 Map.nv(Keys.ctrl.k, '<C-u>zz')
 
 -- Cursor movement in insert and command mode
-Map.ic(Keys.alt.h, { nvim.feedkeys, '<Left>' })
-Map.ic(Keys.alt.j, { nvim.feedkeys, '<Down>' })
-Map.ic(Keys.alt.k, { nvim.feedkeys, '<Up>' })
-Map.ic(Keys.alt.l, { nvim.feedkeys, '<Right>' })
+-- Map.ic(Keys.alt.h, { nvim.feedkeys, '<Left>' })
+-- Map.ic(Keys.alt.j, { nvim.feedkeys, '<Down>' })
+-- Map.ic(Keys.alt.k, { nvim.feedkeys, '<Up>' })
+-- Map.ic(Keys.alt.l, { nvim.feedkeys, '<Right>' })
 
 local function move_to_indent()
 	local ts_indent = nrequire('nvim-treesitter.indent')
@@ -34,10 +34,10 @@ local function move_to_indent()
 	return string.format('A%s', tabs)
 end
 
-Map.n(Keys.A, 'A', 'Move to correct indentation, or normal A', {
+Map(Keys.A, 'A', 'Move to correct indentation, or normal A', {
 	callback = move_to_indent,
 })
-Map.n(Keys.a, 'a', 'Move to correct indentation, or normal a', {
+Map(Keys.a, 'a', 'Move to correct indentation, or normal a', {
 	callback = move_to_indent,
 })
 

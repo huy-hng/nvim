@@ -2,7 +2,7 @@ local M = {}
 
 local function parse_mode(mode)
 	if not mode or mode == '' or mode == 'nvo' then --
-		return { 'n', 'v', 'o' }
+		return { 'n', 'x', 'o' }
 	end
 	return mode
 end

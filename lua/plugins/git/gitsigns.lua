@@ -36,45 +36,45 @@ function M.config()
 	-- map('rB', gitsigns.reset_buffer_index, 'reset buffer')
 
 	gitsigns.setup {
-		on_attach = function(bufnr)
-			local gs = package.loaded.gitsigns
+		-- on_attach = function(bufnr)
+		-- 	local gs = package.loaded.gitsigns
 
-			local map = Map.create('n', '<leader>g', '[Gitsigns]', { buffer = bufnr })
+		-- 	local map = Map.create('n', '<leader>g', '[Gitsigns]', { buffer = bufnr })
 
-			-- Navigation
-			map(']c', function()
-				if vim.wo.diff then return ']c' end
-				vim.schedule(function() gs.next_hunk() end)
-				return '<Ignore>'
-			end, { expr = true })
+		-- 	-- Navigation
+		-- 	map(']c', function()
+		-- 		if vim.wo.diff then return ']c' end
+		-- 		vim.schedule(function() gs.next_hunk() end)
+		-- 		return '<Ignore>'
+		-- 	end, { expr = true })
 
-			map('[c', function()
-				if vim.wo.diff then return '[c' end
-				vim.schedule(function() gs.prev_hunk() end)
-				return '<Ignore>'
-			end, { expr = true })
+		-- 	map('[c', function()
+		-- 		if vim.wo.diff then return '[c' end
+		-- 		vim.schedule(function() gs.prev_hunk() end)
+		-- 		return '<Ignore>'
+		-- 	end, { expr = true })
 
-			-- Actions
-			map('s', gs.stage_hunk)
-			map('r', gs.reset_hunk)
+		-- 	-- Actions
+		-- 	map('s', gs.stage_hunk)
+		-- 	map('r', gs.reset_hunk)
 
-			-- visual mode
-			-- map( 's', function() gs.stage_hunk { vim.fn.line('.'), vim.fn.line('v') } end)
-			-- map( 'r', function() gs.reset_hunk { vim.fn.line('.'), vim.fn.line('v') } end)
+		-- 	-- visual mode
+		-- 	-- map( 's', function() gs.stage_hunk { vim.fn.line('.'), vim.fn.line('v') } end)
+		-- 	-- map( 'r', function() gs.reset_hunk { vim.fn.line('.'), vim.fn.line('v') } end)
 
-			map('S', gs.stage_buffer)
-			map('u', gs.undo_stage_hunk)
-			map('R', gs.reset_buffer)
-			map('p', gs.preview_hunk)
-			map('b', function() gs.blame_line { full = true } end)
-			map('b', gs.toggle_current_line_blame)
-			map('d', gs.diffthis)
-			map('D', function() gs.diffthis('~') end)
-			map('d', gs.toggle_deleted)
+		-- 	map('S', gs.stage_buffer)
+		-- 	map('u', gs.undo_stage_hunk)
+		-- 	map('R', gs.reset_buffer)
+		-- 	map('p', gs.preview_hunk)
+		-- 	map('b', function() gs.blame_line { full = true } end)
+		-- 	map('b', gs.toggle_current_line_blame)
+		-- 	map('d', gs.diffthis)
+		-- 	map('D', function() gs.diffthis('~') end)
+		-- 	map('d', gs.toggle_deleted)
 
-			-- Text object
-			-- map({ 'o', 'x' }, 'ih', ':<C-U>Gitsigns select_hunk<CR>')
-		end,
+		-- 	-- Text object
+		-- 	-- map({ 'o', 'x' }, 'ih', ':<C-U>Gitsigns select_hunk<CR>')
+		-- end,
 		--stylua: ignore
 		signs = {
 			add =          { hl = 'GitSignsAdd',    text = '│', numhl = 'GitSignsAddNr',    linehl = 'GitSignsAddLn', },

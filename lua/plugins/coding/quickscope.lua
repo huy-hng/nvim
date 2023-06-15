@@ -12,10 +12,10 @@ local M = {
 function M.config()
 	g.qs_enable = 1
 	g.qs_ignorecase = 0
-	Map.n(Keys.t, '<Plug>(QuickScopet)')
-	Map.n(Keys.T, '<Plug>(QuickScopeT)')
-	Map.n(Keys.f, '<Plug>(QuickScopef)')
-	Map.n(Keys.F, '<Plug>(QuickScopeF)')
+	Map(Keys.t, '<Plug>(QuickScopet)')
+	Map(Keys.T, '<Plug>(QuickScopeT)')
+	Map(Keys.f, '<Plug>(QuickScopef)')
+	Map(Keys.F, '<Plug>(QuickScopeF)')
 
 	-- local copy = g.qs_accepted_chars
 	-- for _, val in ipairs({ '{', '}', '[', ']', 'alskdj3joqiweds' }) do
