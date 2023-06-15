@@ -35,18 +35,16 @@ vim.diagnostic.config {
 local null_ls = nrequire('null-ls')
 if not null_ls then return end
 
--- local code_actions = null_ls.builtins.code_actions
+local code_actions = null_ls.builtins.code_actions
 -- local diagnostics = null_ls.builtins.diagnostics
 local formatting = null_ls.builtins.formatting
 -- local hover = null_ls.builtins.hover
 -- local completion = null_ls.builtins.completion
 
--- to setup format on save
--- local augroup = vim.api.nvim_create_augroup('LspFormatting', {})
-
 null_ls.setup({
 	debug = true,
 	sources = {
+		code_actions.ts_node_action,
 		formatting.autopep8.with({ extra_args = { '--ignore W191,E402' } }),
 		formatting.stylua,
 		formatting.yamlfmt,
