@@ -1,5 +1,3 @@
-local configs = require('nvim-treesitter.configs')
-local native = require('config.native_keymaps')
 -- https://github.com/nvim-treesitter/nvim-treesitter-textobjects
 
 local select = {
@@ -10,10 +8,10 @@ local select = {
 
 	keymaps = {
 		-- You can use the capture groups defined in textobjects.scm
-		[native.a .. 'f'] = '@function.outer',
-		[native.i .. 'f'] = '@function.inner',
-		[native.a .. 'c'] = '@class.outer',
-		[native.i .. 'c'] = { query = '@class.inner', desc = 'Select inner part of a class region' },
+		[Keys.a .. 'f'] = '@function.outer',
+		[Keys.i .. 'f'] = '@function.inner',
+		[Keys.a .. 'c'] = '@class.outer',
+		[Keys.i .. 'c'] = { query = '@class.inner', desc = 'Select inner part of a class region' },
 	},
 	-- You can choose the select mode (default is charwise 'v')
 	--
@@ -38,15 +36,17 @@ local select = {
 	-- and should return true of false
 	include_surrounding_whitespace = true,
 }
+
 local swap = {
 	enable = true,
 	swap_next = {
-		['<leader>a'] = '@parameter.inner',
+		[Keys.alt.w] = '@parameter.inner',
 	},
 	swap_previous = {
-		['<leader>A'] = '@parameter.inner',
+		[Keys.alt.b] = '@parameter.inner',
 	},
 }
+
 local move = {
 	enable = true,
 	set_jumps = true, -- whether to set jumps in the jumplist
@@ -75,6 +75,7 @@ local move = {
 		['[]'] = '@class.outer',
 	},
 }
+
 local lsp_interop = {
 	enable = true,
 	border = 'solid',
@@ -84,7 +85,7 @@ local lsp_interop = {
 	},
 }
 
-configs.setup {
+return {
 	textobjects = {
 		select = select,
 		move = move,

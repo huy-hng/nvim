@@ -2,6 +2,7 @@ require('plugin_manager.ensure_lazy')
 local spec = {
 	{ import = 'plugins' },
 	{ import = 'plugins.coding' },
+	{ import = 'plugins.treesitter' },
 	{ import = 'plugins.editor' },
 	{ import = 'plugins.git' },
 	{ import = 'plugins.lsp' },
