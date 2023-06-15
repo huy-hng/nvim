@@ -1,11 +1,16 @@
 local layout = require('plugins.editor.telescope.layouts').vert_list_normal
 local references = require('telescope.builtin').lsp_references
-local fns = require('plugins.lsp.config.functions')
+local fns = require('plugins.lsp.core.functions')
 
--- Use an on_attach function to only map the following keys
--- after the language server attaches to the current buffer
+Map.n(Keys.K, function()
+	local peek_fold = require('plugins.ui.ufo.functions').peek_fold
+
+	-- if fns.diagnostic_float() then return end
+	if peek_fold() then return end
+	vim.lsp.buf.hover()
+end, 'Hover')
+
 return function(bufnr)
-	-- Enable completion triggered by <c-x><c-o>
 	vim.api.nvim_buf_set_option(bufnr, 'omnifunc', 'v:lua.vim.lsp.omnifunc')
 
 	local opts = { buffer = bufnr }
@@ -14,17 +19,17 @@ return function(bufnr)
 	local diag_map = Map.create('n', '<leader>l', '[Diagnostic]', opts)
 
 	-- See `:help vim.diagnostic.*` for documentation on any of the below functions
-	diag_map('', fns.diagnostic_float, 'open Float')
-	diag_map('n', vim.diagnostic.goto_prev, 'Go to prev')
-	diag_map('e', vim.diagnostic.goto_next, 'Go to next')
-	-- lsp_map('<leader>r', vim.diagnostic.setloclist)
+	diag_map('o', fns.diagnostic_float, 'open Float')
+	diag_map('n', vim.diagnostic.goto_prev, 'Go to prev Diagnostic')
+	diag_map('e', vim.diagnostic.goto_next, 'Go to next Diagnostic')
 
-	-- See `:help vim.lsp.*` for documentation on any of the below functions
-	-- lsp_map('K', vim.lsp.buf.hover, 'Hover')
+	lsp_map('gl', vim.diagnostic.setloclist)
+
 	-- lsp_map('m', fns.format_range_operator, 'Format Motion')
 	lsp_map('D', vim.lsp.buf.declaration, 'Declaration')
 	-- lsp_map('D', vim.lsp.buf.type_definition, 'Type Definition')
 	lsp_map('d', vim.lsp.buf.definition, 'Definition')
+
 	lsp_map('i', fns.implementation, 'Implementation')
 	lsp_map('h', vim.lsp.buf.signature_help, 'Signature Help')
 
@@ -35,10 +40,20 @@ return function(bufnr)
 
 	lsp_map('s', { references, layout }, '[Telescope] LSP References')
 	lsp_map('r', vim.lsp.buf.rename, 'Rename')
-	-- telescope references defined in telescope keymaps
-	-- lsp_map('<F12>', vim.lsp.buf.references, 'References')
-	lsp_map('ca', vim.lsp.buf.code_action, 'Code Actions')
-	lsp_map('cl', require('plugins.lsp.config.codelens').run, 'codelens')
-	-- lsp_map('f', fns.lsp_format, 'Format Document or Selection', { mode = { 'n', 'v' } })
+	lsp_map('a', vim.lsp.buf.code_action, 'Code Actions')
+	lsp_map('c', require('plugins.lsp.core.codelens').run, 'codelens')
 	lsp_map('l', fns.lsp_format, 'Format Document or Selection', { mode = { 'n', 'v' } })
+
+	if not nrequire('lspsaga') then return end
+	local saga_map = Map.create('n', '<leader>l', '[Saga]', opts)
+
+	saga_map('o', { vim.cmd.Lspsaga, 'show_line_diagnostics' }, 'open Float')
+	saga_map('f', { vim.cmd.Lspsaga, 'lsp_finder' }, 'Lsp finder')
+	saga_map('a', { vim.cmd.Lspsaga, 'code_action' }, 'Code Actions')
+	saga_map('p', { vim.cmd.Lspsaga, 'peek_definition' }, 'Peek Definition')
+
+	local saga_diag = require('lspsaga.diagnostic')
+	local severity = { severity = vim.diagnostic.severity.WARN }
+	saga_map('e', function() saga_diag:goto_prev(severity) end, 'Go to prev Diagnostic')
+	saga_map('n', function() saga_diag:goto_next(severity) end, 'Go to next Diagnostic')
 end

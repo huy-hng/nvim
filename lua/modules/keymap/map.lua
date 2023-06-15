@@ -1,3 +1,5 @@
+---@diagnostic disable: duplicate-set-field
+
 ---@class map
 local map = {}
 

@@ -1,9 +1,9 @@
 local ufo = require('ufo')
 
 local M = {}
-M.peekOrHover = function()
-	local winid = ufo.peekFoldedLinesUnderCursor(false, false)
-	if not winid then vim.lsp.buf.hover() end
+
+M.peek_fold = function()
+	return ufo.peekFoldedLinesUnderCursor(false, false)
 end
 
 M.goPreviousClosedAndPeek = function()

@@ -31,7 +31,6 @@ function M.config()
 				norg = '',
 				c = 'treesitter',
 			}
-			Map.n(Keys.K, fn.peekOrHover, '[UFO] peek or hover')
 			if ftMap[filetype] ~= '' then --
 				fn.set_keymaps(bufnr)
 				-- fn.customizeBufFoldText()

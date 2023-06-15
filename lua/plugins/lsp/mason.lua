@@ -12,9 +12,7 @@ function M.config()
 
 	require('mason-lspconfig').setup {
 		ensure_installed = {
-			-- 'LuaLS',
 			'pyright',
-			-- 'json-lsp',
 		},
 		automatic_installation = true, -- not the same as ensure_installed
 	}
@@ -32,23 +30,4 @@ function M.config()
 	}
 end
 
--- M.tools = {
--- 	'prettierd',
--- 	'stylua',
--- 	'selene',
--- 	'luacheck',
--- 	'eslint_d',
--- 	'shellcheck',
--- 	'black',
--- 	'isort',
--- 	'flake8',
--- }
-
--- function M.check()
--- 	local mr = require('mason-registry')
--- 	for _, tool in ipairs(M.tools) do
--- 		local p = mr.get_package(tool)
--- 		if not p:is_installed() then p:install() end
--- 	end
--- end
 return M

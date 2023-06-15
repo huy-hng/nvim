@@ -83,7 +83,7 @@ local function set_hover_handler()
 		local bufnr, winnr = vim.lsp.handlers.hover(_, result, ctx, lsp_config)
 		if winnr == nil then return end
 
-		require('plugins.lsp.config.functions').close_with_esc(winnr)
+		require('plugins.lsp.core.functions').close_with_esc(winnr)
 
 		local win_config = vim.api.nvim_win_get_config(winnr)
 
@@ -118,7 +118,7 @@ vim.lsp.handlers['textDocument/definition'] = function(_, result)
 	end
 end
 
-vim.lsp.handlers['window/showMessage'] = require('plugins.lsp.config.show_message')
+vim.lsp.handlers['window/showMessage'] = require('plugins.lsp.core.show_message')
 
 -- handler('textDocument/publishDiagnostics', vim.lsp.diagnostic.on_publish_diagnostics, {
 -- 	update_in_insert = true,

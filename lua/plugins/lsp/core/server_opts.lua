@@ -11,7 +11,7 @@ capabilities.textDocument.foldingRange = {
 
 local function on_attach(client, bufnr)
 	if vim.lsp.semantic_tokens then vim.lsp.semantic_tokens.stop(bufnr, client.id) end
-	require('plugins.lsp.config.keymaps')(bufnr)
+	require('plugins.lsp.core.keymaps')(bufnr)
 end
 
 return {

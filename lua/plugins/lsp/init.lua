@@ -5,13 +5,12 @@ local M = {
 	-- event = 'VeryLazy',
 	lazy = false,
 	dependencies = {
-		{ 'folke/neodev.nvim', config = function() require('plugins.lsp.config.neodev') end },
+		{ 'folke/neodev.nvim', config = function() require('plugins.lsp.core.neodev') end },
 		-- 'hrsh7th/cmp-nvim-lsp',
 		'jose-elias-alvarez/null-ls.nvim',
 	},
 }
 
--- print(package.path)
 -- package.path = "../?.lua;" .. package.path
 -- local file_path = ... -- pathOfThisFile is now 'lib.foo.bar'
 -- print(file_path)
@@ -20,11 +19,11 @@ local M = {
 -- require(require_path .. 'mason')
 
 function M.config()
-	-- require('plugins.lsp.config.neodev')
-	require('plugins.lsp.config.setup')
-	require('plugins.lsp.config.handlers')
+	-- require('plugins.lsp.core.neodev')
+	require('plugins.lsp.core.setup')
+	require('plugins.lsp.core.handlers')
 
-	local base_opts = require('plugins.lsp.config.server_opts')
+	local base_opts = require('plugins.lsp.core.server_opts')
 
 	local language_servers = {
 		'jsonls',

@@ -1,23 +1,20 @@
 local M = {}
 
-function M.unmapper(bufnr) Map.unmap('n', '<esc>', { buffer = bufnr }) end
+local function unmapper(bufnr) Map.unmap('n', '<esc>', { buffer = bufnr }) end
 
 function M.close_with_esc(win_id, bufnr)
 	bufnr = bufnr or 0
 
-	-- augroup('FloatingWindowManager', false, {
-	-- 	autocmd('WinClosed', '*', { unmapper, bufnr }, { buffer = bufnr }),
-	-- })
-
 	Map.n('<esc>', function()
 		pcall(vim.api.nvim_win_close, win_id, true)
-		M.unmapper(bufnr)
+		unmapper(bufnr)
 	end, 'close diagnostic float', { buffer = bufnr })
 end
 
 function M.diagnostic_float()
 	local bufnr, win_id = vim.diagnostic.open_float()
-	M.close_with_esc(win_id)
+	if not win_id then return end
+	M.close_with_esc(win_id, bufnr)
 end
 
 ----------------------------------------------Formatting--------------------------------------------
@@ -37,16 +34,16 @@ end
 
 function M.format_range_operator()
 	local old_func = vim.go.operatorfunc
-		_G.op_func_formatting = function()
-			local start = vim.api.nvim_buf_get_mark(0, '[')
-			local finish = vim.api.nvim_buf_get_mark(0, ']')
-			-- P(start, finish)
-			-- vim.lsp.buf.range_formatting({}, start, finish)
-			M.lsp_format { range = { start, finish } }
+	_G.op_func_formatting = function()
+		local start = vim.api.nvim_buf_get_mark(0, '[')
+		local finish = vim.api.nvim_buf_get_mark(0, ']')
+		-- P(start, finish)
+		-- vim.lsp.buf.range_formatting({}, start, finish)
+		M.lsp_format { range = { start, finish } }
 
-			vim.go.operatorfunc = old_func
-			_G.op_func_formatting = nil
-		end
+		vim.go.operatorfunc = old_func
+		_G.op_func_formatting = nil
+	end
 	vim.go.operatorfunc = 'v:lua.op_func_formatting'
 	-- vim.api.nvim_feedkeys('g@', 'n', false)
 	return 'g@'
