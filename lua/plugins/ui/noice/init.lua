@@ -263,7 +263,7 @@ function M.config()
 		config.messages.enabled = not config.messages.enabled
 		noice.setup(config)
 	end
-	Map.n('<localleader>n', toggle_pause)
+	-- Map.n('<localleader>n', toggle_pause)
 end
 
 return M
