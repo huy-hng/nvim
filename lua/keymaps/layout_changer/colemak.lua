@@ -31,6 +31,9 @@ function M.set_keymap()
 	Map.vo(Keys.a .. Keys.W, 'aW')
 
 	Map.unmap('', 'g%')
+	Map.unmap('', 'gO')
+
+	Map(Keys.g .. 'O', 'gO')
 
 	local utils = require('core.statuscolumn.utils')
 	local function open_fold()
@@ -51,9 +54,10 @@ function M.set_keymap()
 	Map(Keys.h, 'h')
 	Map(Keys.j, 'j')
 	Map(Keys.k, 'k')
+	Map.v(Keys.K, 'K')
 	Map(Keys.l, 'l', '', { callback = open_fold })
 
-	Map(Keys.u, 'u')
+	uppermap(Keys.u, 'u')
 	Map(Keys.redo, '<C-r>')
 
 	uppermap(Keys.r, 'r')
