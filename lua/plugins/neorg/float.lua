@@ -65,16 +65,14 @@ end
 
 local function open_popup(...)
 	local cmd = { ... }
-	-- local default_command = function() vim.cmd.Neorg('journal', 'today') end
-	-- local default_command = { 'journal', 'today' }
-	local default_command = { 'index' }
 
 	if not popup then
 		popup = create_popup()
-		cmd = cmd or default_command
+		if #cmd == 0 then cmd = { 'index' } end
 		popup:mount()
 	end
 
+	DeleteAugroup('NeorgOpenPopup')
 	popup:show()
 
 	if #cmd > 0 then vim.cmd.Neorg(unpack(cmd)) end
@@ -85,19 +83,23 @@ local function open_popup(...)
 	if gitsigns then gitsigns.detach(popup.bufnr) end
 
 	Augroup('NeorgOpenPopup', {
-		Autocmd({ 'WinLeave' }, '*', function(data)
+		Autocmd('WinLeave', '*', function(data)
 			local leave_winid = vim.api.nvim_get_current_win()
 			if leave_winid == popup.winid then
 				popup.bufnr = data.buf
 				popup:hide()
 			end
-			return true
 		end),
 
-		Autocmd({ 'BufDelete' }, '*.norg', function(data)
+		Autocmd('BufWinLeave', '*', function(data)
+			local matched = string.match(data.file, '.norg')
+
+			local leave_winid = vim.api.nvim_get_current_win()
+			if not matched and popup and leave_winid ~= popup.winid then
+				popup:hide()
+				return
+			end
 			popup.bufnr = data.buf
-			popup:hide()
-			return true
 		end),
 	})
 end
