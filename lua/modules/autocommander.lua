@@ -83,7 +83,7 @@ local saved_groups = {}
 function M.deleteAugroup(group)
 	assert(type(group) == 'number' or type(group) == 'string')
 
-	local saved_group = vim.api.nvim_get_autocmds { group = group }
+	local saved_group = npcall(vim.api.nvim_get_autocmds, { group = group })
 	if not saved_group then return end
 
 	saved_groups[group] = saved_group
@@ -92,16 +92,11 @@ function M.deleteAugroup(group)
 		string = vim.api.nvim_del_augroup_by_name,
 		number = vim.api.nvim_del_augroup_by_id,
 	}
-	fn[type(group)](group)
+	pcall(fn[type(group)], group)
 end
 
 ---@alias group table
 ---| 'buflocal' boolean, callback: function, command: string, event:  }
----|
----|
----|
----|
----|
 
 ---@param group_name string
 ---@return integer? returns group_id if it exists, nil otherwise
