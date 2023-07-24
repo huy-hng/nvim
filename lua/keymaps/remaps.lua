@@ -8,8 +8,11 @@ Map.n('<C-/>', 'q/')
 
 -- Remap 0 to first non-blank character
 Map('^', '%')
-Map('%', '$')
-Map('$', '^')
+Map('$', '^') -- to beginning
+Map('%', '$') -- to end
+
+Map('-', '^')
+Map('+', '$')
 
 -- Map('0', '^')
 -- Map('^', '0')
