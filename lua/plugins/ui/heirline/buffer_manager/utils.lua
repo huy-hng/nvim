@@ -2,7 +2,6 @@ local Path = require('plenary.path')
 
 local M = {}
 
-
 function M.string_starts(string, start) return string.sub(string, 1, string.len(start)) == start end
 
 function M.project_key() return vim.loop.cwd() end
@@ -27,7 +26,25 @@ function M.get_relative_file_name(file)
 	return folder .. M.get_file_name(file)
 end
 
-function M.get_short_file_name(file)
+function M.truncate_path(filename, deepness)
+	deepness = deepness or 0
+
+	local path = vim.fn.fnamemodify(filename, ':h')
+	local split = path:split('/')
+
+	local folder = ''
+	-- local folder = #split > 0 and split[#split] .. '/' or ''
+	if #split > 0 then
+		for i = 0, deepness do
+			folder = folder .. split[#split - i] .. '/'
+		end
+	end
+
+	filename = filename == '' and '[No Name]' or vim.fn.fnamemodify(filename, ':t:r')
+	return folder .. filename
+end
+
+function M.shorten_path2(file)
 	-- Get normalized file path
 	file = M.normalize_path(file)
 	-- File to string
@@ -44,6 +61,8 @@ function M.get_short_file_name(file)
 		return slash_count .. '|' .. M.get_file_name(file)
 	end
 end
+
+function M.get_short_file_name(file) return M.truncate_path(file, 1) end
 
 function M.get_short_term_name(term_name) return term_name:gsub('://.*//', ':') end
 

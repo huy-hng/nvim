@@ -43,8 +43,8 @@ end
 
 local buf_manager = require('plugins.ui.heirline.buffer_manager.navigation')
 
-Map.n(Keys.H, buf_manager.nav_prev, 'Prev Buffer')
-Map.n(Keys.L, buf_manager.nav_next, 'Next Buffer')
+Map.n(Keys.H, {buf_manager.goto, -1}, 'Prev Buffer')
+Map.n(Keys.L, {buf_manager.goto, 1}, 'Next Buffer')
 
 Map.n('<leader>0', { buffer_switch, -1 }, '')
 for i in ipairs(vim.fn.range(1, 9)) do

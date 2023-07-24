@@ -128,13 +128,52 @@ function M.close_menu()
 	list_manager.update_buffers()
 end
 
-function M.open_menu()
-	local current_buf = vim.api.nvim_get_current_buf()
+local function get_display_filename(mark)
+	if utils.string_starts(mark.filename, 'term://') then
+		if config.short_file_names then --
+			return utils.get_short_term_name(mark.filename)
+		end
+		return mark.filename
+	end
+
+	if config.short_file_names then
+		return utils.get_short_file_name(mark.filename)
+		-- return utils.get_relative_file_name(mark.filename)
+	end
+
+	return utils.normalize_path(mark.filename)
+	-- mark.filename = utils.shorten_path_name(mark.filename)
+end
+
+local function generate_marks_list()
 	---@diagnostic disable-next-line: param-type-mismatch
+	local current_buf = vim.api.nvim_get_current_buf()
 	current_buf = config.focus_alternate_buffer and vim.fn.bufnr('#') or current_buf
 
-	local win_info = create_window()
 	local contents = {}
+	local current_buf_line = 1
+	local line = 1
+	for i, mark in ipairs(list_manager.marks) do
+		-- Add buffer only if it does not already exist
+		if vim.fn.buflisted(mark.bufnr) ~= 1 then
+			list_manager.marks[i] = nil
+			return
+		end
+		list_manager.initial_marks[i] = {
+			filename = mark.filename,
+			bufnr = mark.bufnr,
+		}
+		if mark.bufnr == current_buf then current_buf_line = line end
+		local display_filename = get_display_filename(mark)
+
+		contents[line] = string.format('%s', display_filename)
+		line = line + 1
+	end
+	return contents, current_buf_line
+end
+
+function M.open_menu()
+	local win_info = create_window()
 	list_manager.initial_marks = {}
 
 	M.win_id = win_info.win_id
@@ -142,37 +181,7 @@ function M.open_menu()
 
 	list_manager.update_marks()
 
-	-- set initial_marks
-	local current_buf_line = 1
-	local line = 1
-	for i, mark in ipairs(list_manager.marks) do
-		-- Add buffer only if it does not already exist
-		if vim.fn.buflisted(mark.bufnr) ~= 1 then
-			list_manager.marks[i] = nil
-		else
-			list_manager.initial_marks[i] = {
-				filename = mark.filename,
-				bufnr = mark.bufnr,
-			}
-			if mark.bufnr == current_buf then current_buf_line = line end
-			local display_filename = mark.filename
-			if not utils.string_starts(display_filename, 'term://') then
-				if config.short_file_names then
-					display_filename = utils.get_short_file_name(display_filename)
-					-- display_filename = utils.get_relative_file_name(display_filename)
-				else
-					display_filename = utils.normalize_path(display_filename)
-				end
-			else
-				if config.short_term_names then
-					display_filename = utils.get_short_term_name(display_filename)
-				end
-			end
-
-			contents[line] = string.format('%s', display_filename)
-			line = line + 1
-		end
-	end
+	local contents, current_buf_line = generate_marks_list()
 
 	set_buf_options()
 	set_buf_keybindings()

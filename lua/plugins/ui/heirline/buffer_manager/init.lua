@@ -12,11 +12,13 @@ local default_config = {
 			command = 'edit',
 		},
 	},
+	sort_by = nil,
+	sort_on_close = false,
 	focus_alternate_buffer = false,
-	short_file_names = false,
+	short_file_names = true,
 	short_term_names = false,
-	-- highlight = 'Float',
-	highlight = 'Normal',
+	highlight = 'Float',
+	-- highlight = 'Normal',
 	-- width = 0.5,
 	-- height = 0.5
 }

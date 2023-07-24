@@ -1,14 +1,26 @@
 local utils = require('plugins.ui.heirline.buffer_manager.utils')
-
 local buffer_manager = require('plugins.ui.heirline.buffer_manager')
 local config = buffer_manager.get_config()
 
 local M = {}
 
----@type { filename: string, bufnr: number }[]
+---@alias marks { filename: string, bufnr: number }[]
+
+---@type marks
 M.marks = {}
 
 M.initial_marks = {}
+
+---@enum sorting_functions
+local sorting_functions = {
+	alphabet = function(a, b) return a.filename > b.filename end,
+	bufnr = function(a, b) return a.bufnr < b.bufnr end,
+}
+
+function M.sort_marks()
+	local sorting_fn = sorting_functions[config.sort_by] or sorting_functions.bufnr
+	table.sort(M.marks, sorting_fn)
+end
 
 function M.get_ordered_bufids()
 	local bufs = {}
@@ -20,20 +32,17 @@ end
 
 function M.initialize_marks()
 	local buffers = vim.api.nvim_list_bufs()
-	M.marks = {}
 
-	for idx = 1, #buffers do
-		local bufnr = buffers[idx]
+	M.marks = table.map(function(bufnr)
 		local buf_name = vim.api.nvim_buf_get_name(bufnr)
-		local filename = buf_name
-		-- if buffer is listed, then add to contents and M.marks
-		if utils.buffer_is_valid(bufnr, buf_name) then
-			table.insert(M.marks, {
-				filename = filename,
-				bufnr = bufnr,
-			})
-		end
-	end
+		if not utils.buffer_is_valid(bufnr, buf_name) then return end
+		return {
+			filename = buf_name,
+			bufnr = bufnr,
+		}
+	end, buffers)
+
+	if config.sort_by then M.sort_marks() end
 end
 
 function M.get_mark_by_name(name, specific_marks)
@@ -50,31 +59,29 @@ function M.get_mark_by_name(name, specific_marks)
 	return nil
 end
 
-local function set_mark_list(new_list)
-	local original_marks = utils.deep_copy(M.marks)
-	M.marks = {}
-	for _, v in ipairs(new_list) do
-		if type(v) == 'string' then
-			local filename = v
-			local bufnr = nil
-			local current_mark = M.get_mark_by_name(filename, original_marks)
-			if current_mark then
-				filename = current_mark.filename
-				bufnr = current_mark.bufnr
-			else
-				bufnr = vim.fn.bufnr(v)
-			end
-			table.insert(M.marks, {
-				filename = filename,
-				bufnr = bufnr,
-			})
+local function update_marks_list(new_list)
+	-- local original_marks = utils.deep_copy(M.marks)
+	M.marks = table.map(function(v)
+		if type(v) ~= 'string' then return end
+
+		local filename = v
+		local bufnr = nil
+
+		local existing_mark = M.get_mark_by_name(filename, M.marks--[[ original_marks ]])
+		if existing_mark then
+			filename = existing_mark.filename
+			bufnr = existing_mark.bufnr
+		else
+			bufnr = vim.fn.bufnr(v)
 		end
-	end
+
+		return { filename = filename, bufnr = bufnr }
+	end, new_list)
 end
 
 local function get_menu_items()
-	local window_manager = require('plugins.ui.heirline.buffer_manager.window')
-	local lines = vim.api.nvim_buf_get_lines(window_manager.win_bufnr, 0, -1, true)
+	local win_bufnr = require('plugins.ui.heirline.buffer_manager.window').win_bufnr
+	local lines = vim.api.nvim_buf_get_lines(win_bufnr, 0, -1, true)
 	local items = {}
 
 	-- TODO: copy whitespace as well for organizing buffers
@@ -87,7 +94,10 @@ local function get_menu_items()
 	return items
 end
 
-function M.on_menu_save() set_mark_list(get_menu_items()) end
+function M.on_menu_save()
+	update_marks_list(get_menu_items())
+	if config.sort_on_close and config.sort_by then M.sort_marks() end
+end
 
 function M.can_be_deleted(bufname, bufnr)
 	return (
@@ -100,9 +110,7 @@ end
 
 local function is_buffer_in_marks(bufnr)
 	for _, mark in ipairs(M.marks) do
-		if mark.bufnr == bufnr then
-			return true
-		end
+		if mark.bufnr == bufnr then return true end
 	end
 	return false
 end
@@ -110,11 +118,9 @@ end
 function M.update_buffers()
 	-- Check deletions
 	for _, mark in ipairs(M.initial_marks) do
-		if not is_buffer_in_marks(mark.bufnr) then
-			if M.can_be_deleted(mark.filename, mark.bufnr) then
-				vim.api.nvim_buf_clear_namespace(mark.bufnr, -1, 1, -1)
-				vim.cmd.Bdelete(mark.bufnr)
-			end
+		if not is_buffer_in_marks(mark.bufnr) and M.can_be_deleted(mark.filename, mark.bufnr) then
+			vim.api.nvim_buf_clear_namespace(mark.bufnr, -1, 1, -1)
+			vim.cmd.Bdelete(mark.bufnr)
 		end
 	end
 

@@ -6,6 +6,7 @@ function M.nav_file(id, command)
 	if command == nil then command = 'edit' end
 
 	local mark = list_manager.marks[id]
+	P(list_manager.marks)
 	if not mark then
 		return
 	else
@@ -21,22 +22,20 @@ local function get_current_buf_line()
 	return -1
 end
 
-function M.nav_next()
+function M.goto(direction)
 	list_manager.update_marks()
-	local current_buf_line = get_current_buf_line()
-	if current_buf_line == -1 then return end
-	local next_buf_line = current_buf_line + 1
-	if next_buf_line > #list_manager.marks then next_buf_line = 1 end
-	M.nav_file(next_buf_line)
-end
 
-function M.nav_prev()
-	list_manager.update_marks()
-	local current_buf_line = get_current_buf_line()
-	if current_buf_line == -1 then return end
-	local prev_buf_line = current_buf_line - 1
-	if prev_buf_line < 1 then prev_buf_line = #list_manager.marks end
-	M.nav_file(prev_buf_line)
+	local current_line = get_current_buf_line()
+	if current_line == -1 then return end
+
+	local target_line = current_line + direction
+	if target_line < 1 then
+		target_line = #list_manager.marks
+	elseif target_line > #list_manager.marks then
+		target_line = 1
+	end
+
+	M.nav_file(target_line)
 end
 
 function M.location_window(options)
