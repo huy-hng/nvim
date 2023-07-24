@@ -143,7 +143,7 @@ local function config()
 		['<C-_>'] = 'NvimEdit split',
 		['<C-|>'] = 'NvimEdit vsplit',
 		gw = 'JumpNvimCwd',
-		yw = 'EmitRangerCwd',
+		fw = 'EmitRangerCwd',
 	}
 end
 
