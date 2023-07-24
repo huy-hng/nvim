@@ -50,6 +50,8 @@ null_ls.setup({
 		formatting.yamlfmt,
 		formatting.fixjson,
 		formatting.prettier.with({ extra_args = { '--no-semi', '--single-quote', '--jsx-single-quote' } }),
+		formatting.clang_format,
+		-- diagnostics.clang_check
 		-- diagnostics.flake8
 	},
 })
