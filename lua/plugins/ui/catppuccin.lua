@@ -25,7 +25,9 @@ function M.config()
 		telescope = true,
 		treesitter = true,
 		treesitter_context = true,
-		ts_rainbow = true,
+		-- ts_rainbow = true,
+		ts_rainbow2 = true,
+		-- rainbow_delimiters = true,
 		vimwiki = true,
 		which_key = true,
 		native_lsp = {

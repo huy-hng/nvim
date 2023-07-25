@@ -5,6 +5,119 @@ local M = {
 }
 
 function M.config()
+	local function format(str) return string.format(' %s ', str) end
+	local overrides = {
+		-- [''] = format(''),
+		-- ['&'] = '',
+		['_oo_'] = '---',
+		['____'] = '   ',
+
+		['&kp '] = '',
+		['&kp (%a)$'] = format('%1'),
+		['&mo '] = ' ',
+		['&tog '] = ' ',
+
+		['&kp_(%a+) '] = '',
+		['&mo_(%a+) '] = ' ',
+		['&mt (.*) (.*)'] = '%1│%2',
+		['&mt(%a*)_(%a+) (.*) (.*)'] = '%3│%4',
+		['&lt(%a*)_(%a+) (.*) (.*)'] = '%3│%4',
+		['&ht_(%a+) (.*) (.*)'] = '%2│%3',
+		-- ['&lt_(%a+) (.*) (.*)'] = ' %2│%3',
+
+		['&key_repeat'] = 'repeat',
+		['&td_(%a+)'] = '%1',
+		['&tap_settings'] = 'settings',
+		['LA%(PIPE%)'] = format(''),
+
+		--------------------------------------------Layers------------------------------------------
+
+		SETTINGS_HUE = 'HUE',
+
+		---------------------------------------------Keys-------------------------------------------
+		['SPACE'] = format('␣'),
+		['RET'] = format('⏎'),
+		['TAB'] = format('⭾'),
+		['ESC'] = format('⎋'),
+		['BSPC'] = format('⌫'),
+		['BACKSPACE'] = format('⌫'),
+		['DEL'] = format('⌦'),
+
+		['(%u)ALT'] = format('⎇'),
+		['(%u)CTRL'] = format('⌃'),
+		['(%u)SHIFT'] = format('⇧'),
+		['&capsword'] = format('⇧'),
+		['(%u)META'] = format('◆'),
+
+		-------------------------------------------Symbols------------------------------------------
+
+		['COMMA'] = format(','),
+		['SEMI'] = format(';'),
+		['COLON'] = format(':'),
+		['DOT'] = format('.'),
+		['FSLH'] = format('/'),
+		['QMARK'] = format('?'),
+		['MINUS'] = format('-'),
+		['UNDER'] = format('_'),
+		['EQUAL'] = format('='),
+		['PLUS'] = format('+'),
+		['LBRC'] = format('{'),
+		['RBRC'] = format('}'),
+		['LBKT'] = format('['),
+		['RBKT'] = format(']'),
+		['BSLH'] = format('\\'),
+		['PIPE'] = format('|'),
+
+		['SINGLE_QUOTE'] = format("'"),
+		['SQT'] = format("'"),
+
+		['GRAVE'] = format('`'),
+		['TILDE'] = format('~'),
+		['EXCL'] = format('!'),
+		['AT'] = format('@'),
+		['POUND'] = format('#'),
+		['DLLR'] = format('$'),
+		['PRCNT'] = format('%%'),
+		['CARET'] = format('^'),
+		['AMPS'] = format('&'),
+		['STAR'] = format('*'),
+		['LPAR'] = format('('),
+		['RPAR'] = format(')'),
+
+		['RA%(LS%(SINGLE_QUOTE%)%)'] = format('¨'),
+
+		['&kp GT'] = format('>'),
+		['&kp LT'] = format('<'),
+
+		['&kp N(%d)'] = format('%1'),
+		['&kp KP_N(%d)'] = format('%1'),
+		['&kp KP_(.*)'] = '%1',
+
+		-------------------------------------------Settings-----------------------------------------
+
+		-- bluetooth
+		['&bt'] = '',
+		['&bootloader'] = 'boot',
+		['&visual_boot'] = 'boot',
+		['&bt(%d)'] = 'bt %1',
+		['&out OUT_TOG'] = 'Toggle Output',
+		BT_CLR = 'Clear BT',
+
+		-- rgb
+		['&rgb_ug '] = '',
+		['RGB_TOG'] = 'Toggle light',
+		['RGB_EFF'] = 'Next Eff',
+		['RGB_EFR'] = 'Prev Eff',
+		['RGB_BRI'] = 'Inc Bri',
+		['RGB_BRD'] = 'Dec Bri',
+		['RGB_SPI'] = 'Inc Speed',
+		['RGB_SPD'] = 'Dec Speed',
+		['RGB_SAI'] = 'Inc Sat',
+		['RGB_SAD'] = 'Dec Sat',
+		['RGB_HUI'] = 'Inc Hue',
+		['RGB_HUD'] = 'Dec Hue',
+	}
+
 	local conf = {
 		name = 'LAYOUT_preonic_grid',
 		layout = {
@@ -17,108 +130,23 @@ function M.config()
 		-- auto_format_pattern = '*.keymap',
 		comment_preview = {
 			position = 'inside',
-			keymap_overrides = {
-				['&kp'] = '',
-				['&mt'] = '',
-				-- ['____'] = '______',
-				['&none'] = ' xxx ',
+			keymap_overrides = overrides,
+			symbols = {
+				space = ' ',
+				horz = '─',
+				vert = '│',
 
-				['&nav_toggle'] = 'navipad',
-				['&colon_semi'] = ': ;',
-				['&minus_plus'] = '- +',
-				['&under_equal'] = '_ =',
-				['&bspc_del'] = 'bspc/del',
-				['RET'] = 'enter',
-				['LALT'] = 'ALT',
+				tl = '╭',
+				tm = '┬',
+				tr = '╮',
 
-				['COMMA'] = ' , ',
-				['SEMI'] = ' ; ',
-				['COLON'] = ' : ',
-				['DOT'] = ' . ',
-				['FSLH'] = ' / ',
-				['QMARK'] = ' ? ',
-				['MINUS'] = ' - ',
-				['UNDER'] = ' _ ',
-				['EQUAL'] = ' = ',
-				['PLUS'] = ' + ',
-				['LBRC'] = ' { ',
-				['RBRC'] = ' } ',
-				['LBKT'] = ' [ ',
-				['RBKT'] = ' ] ',
-				['BSLH'] = ' \\ ',
-				['PIPE'] = ' | ',
+				ml = '├',
+				mm = '┼',
+				mr = '┤',
 
-				['SINGLE_QUOTE'] = '\' "',
-
-				['GRAVE'] = ' ` ',
-				['TILDE'] = ' ~ ',
-				['EXCL'] = ' ! ',
-				['AT'] = ' @ ',
-				['POUND'] = ' # ',
-				['DLLR'] = ' $ ',
-				['PRCNT'] = ' %% ',
-				['CARET'] = ' ^ ',
-				['AMPS'] = ' AND ',
-				['STAR'] = ' * ',
-				['LPAR'] = ' ( ',
-				['RPAR'] = ' ) ',
-
-				['&kp GT'] = ' > ',
-				['&kp LT'] = ' < ',
-
-				['N0'] = ' 0 ',
-				['N1'] = ' 1 ',
-				['N2'] = ' 2 ',
-				['N3'] = ' 3 ',
-				['N4'] = ' 4 ',
-				['N5'] = ' 5 ',
-				['N6'] = ' 6 ',
-				['N7'] = ' 7 ',
-				['N8'] = ' 8 ',
-				['N9'] = ' 9 ',
-				['KP_N0'] = ' 0 ',
-				['KP_N1'] = ' 1 ',
-				['KP_N2'] = ' 2 ',
-				['KP_N3'] = ' 3 ',
-				['KP_N4'] = ' 4 ',
-				['KP_N5'] = ' 5 ',
-				['KP_N6'] = ' 6 ',
-				['KP_N7'] = ' 7 ',
-				['KP_N8'] = ' 8 ',
-				['KP_N9'] = ' 9 ',
-				['KP_MULTIPLY'] = ' *  ',
-				['KP_EQUAL'] = ' =  ',
-				['KP_MINUS'] = ' -  ',
-				['KP_PLUS'] = ' +  ',
-				['KP_SLASH'] = ' /  ',
-				['KP_DOT'] = ' .  ',
-				['KP_COMMA'] = ' ,  ',
-
-				['&'] = '',
-
-				['LEFT_SHIFT'] = 'SHIFT',
-				['LSHFT'] = 'SHIFT',
-				['LCTRL'] = 'CTRL',
-				['RCTRL'] = 'CTRL',
-				['LMETA'] = 'META',
-				['&hyper'] = 'hype',
-
-				-- bluetooth
-				['&out OUT_TOG'] = 'Toggle Output',
-				BT_CLR = 'Clear BT',
-
-				-- rgb
-				['&rgb_ug RGB_TOG'] = 'Toggle light',
-				['&rgb_ug RGB_EFF'] = 'Next Effect',
-				['&rgb_ug RGB_EFR'] = 'Prev Effect',
-				['&rgb_ug RGB_BRI'] = 'Inc Bright',
-				['&rgb_ug RGB_BRD'] = 'Dec Bright',
-				['&rgb_ug RGB_SPI'] = 'Inc Ani Speed',
-				['&rgb_ug RGB_SPD'] = 'Dec Ani Speed',
-				['&rgb_ug RGB_SAI'] = 'Inc Sat',
-				['&rgb_ug RGB_SAD'] = 'Dec Sat',
-				['&rgb_ug RGB_HUI'] = 'Inc Hue',
-				['&rgb_ug RGB_HUD'] = 'Dec Hue',
+				bl = '╰',
+				bm = '┴',
+				br = '╯',
 			},
 		},
 	}
