@@ -78,6 +78,37 @@ function M.feedkeys(key, remap)
 	vim.api.nvim_feedkeys(escaped, remap and 'm' or 'n', false)
 end
 
+-- from https://github.com/neovim/neovim/pull/13896
+function M.region_to_text(region)
+	local text = ''
+	local maxcol = vim.v.maxcol
+	for line, cols in vim.spairs(region) do
+		local endcol = cols[2] == maxcol and -1 or cols[2]
+		local chunk = vim.api.nvim_buf_get_text(0, line, cols[1], line, endcol, {})[1]
+		text = ('%s%s\n'):format(text, chunk)
+	end
+	return text
+end
+
+-- TODO: only works with selection in same line
+function M.visual_text()
+	local visual = vim.fn.getpos('v')
+	local cursor = vim.fn.getpos('.')
+
+	if visual[2] ~= cursor[2] then return end
+
+	local line = visual[2] - 1
+	local startcol = visual[3] - 1
+	local endcol = cursor[3]
+
+	if visual[3] > cursor[3] then
+		startcol = cursor[3] - 1
+		endcol = visual[3]
+	end
+
+	return vim.api.nvim_buf_get_text(0, line, startcol, line, endcol, {})[1]
+end
+
 -----------------------------------------------Creators---------------------------------------------
 
 Highlight = vim.api.nvim_set_hl
