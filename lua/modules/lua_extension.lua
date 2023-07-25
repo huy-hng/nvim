@@ -32,8 +32,19 @@ function string.split(input, sep)
 	return t
 end
 
+--- split string by separator (space by default)
+---@param input table table to join
+---@param sep string? separator to separate with
+function string.join(input, sep)
+	local result = ''
+	for _, val in ipairs(input) do
+		result = result .. val .. (sep or ' ')
+	end
+	return result
+end
+
 --- Check if a string starts with a substring
-function string.starts(String, Start) return string.sub(String, 1, string.len(Start)) == Start end
+function string.starts(str, start) return string.sub(str, 1, string.len(start)) == start end
 
 --- Checks if a list-like (vector) table contains `value`.
 ---
