@@ -1,10 +1,9 @@
 local popup = require('plenary.popup')
 local utils = require('plugins.ui.heirline.buffer_manager.utils')
-local buffer_manager = require('plugins.ui.heirline.buffer_manager')
 
 local list_manager = require('plugins.ui.heirline.buffer_manager.list_manager')
 local navigator = require('plugins.ui.heirline.buffer_manager.navigation')
-local config = buffer_manager.get_config()
+local config = require('plugins.ui.heirline.buffer_manager').get_config()
 
 local M = {}
 
@@ -26,11 +25,7 @@ local function create_window()
 	local height = config.height or 10
 
 	if width <= 1 then width = math.floor(vim.o.columns * config.width) end
-
 	if height <= 1 then height = math.floor(vim.o.lines * config.height) end
-
-	local borderchars = config.borderchars
-		or { '─', '│', '─', '│', '╭', '╮', '╯', '╰' }
 	local bufnr = vim.api.nvim_create_buf(false, false)
 
 	local win_config = {
@@ -39,10 +34,10 @@ local function create_window()
 		col = math.floor((vim.o.columns - width) / 2),
 		minwidth = width,
 		minheight = height,
-		borderchars = borderchars,
+		borderchars = config.borderchars
 	}
 	if config.highlight ~= '' then win_config['highlight'] = config.highlight end
-	local Buffer_manager_win_id, win = popup.create(bufnr, win_config)
+	local win_id, win = popup.create(bufnr, win_config)
 
 	if config.highlight ~= '' then
 		vim.api.nvim_win_set_option(
@@ -52,10 +47,7 @@ local function create_window()
 		)
 	end
 
-	return {
-		bufnr = bufnr,
-		win_id = Buffer_manager_win_id,
-	}
+	return { bufnr = bufnr, win_id = win_id }
 end
 
 function M.select_menu_item(command)
@@ -103,7 +95,12 @@ local function set_buf_autocmds()
 	})
 end
 
-local function set_buf_options()
+local function set_options()
+	if config.cursorline then
+		vim.api.nvim_win_set_option(M.win_id, 'cursorline', true)
+		vim.api.nvim_win_set_option(M.win_id, 'cursorlineopt', 'both')
+	end
+
 	vim.api.nvim_buf_set_name(M.win_bufnr, 'buffer_manager-menu')
 	vim.api.nvim_win_set_option(M.win_id, 'number', true)
 	vim.api.nvim_buf_set_option(M.win_bufnr, 'filetype', 'buffer_manager')
@@ -129,7 +126,7 @@ function M.close_menu()
 end
 
 local function get_display_filename(mark)
-	if utils.string_starts(mark.filename, 'term://') then
+	if string.starts(mark.filename, 'term://') then
 		if config.short_file_names then --
 			return utils.get_short_term_name(mark.filename)
 		end
@@ -145,7 +142,7 @@ local function get_display_filename(mark)
 	-- mark.filename = utils.shorten_path_name(mark.filename)
 end
 
-local function generate_marks_list()
+local function create_buffer_content()
 	---@diagnostic disable-next-line: param-type-mismatch
 	local current_buf = vim.api.nvim_get_current_buf()
 	current_buf = config.focus_alternate_buffer and vim.fn.bufnr('#') or current_buf
@@ -157,7 +154,7 @@ local function generate_marks_list()
 		-- Add buffer only if it does not already exist
 		if vim.fn.buflisted(mark.bufnr) ~= 1 then
 			list_manager.marks[i] = nil
-			return
+			goto continue
 		end
 		list_manager.initial_marks[i] = {
 			filename = mark.filename,
@@ -168,22 +165,23 @@ local function generate_marks_list()
 
 		contents[line] = string.format('%s', display_filename)
 		line = line + 1
+
+		::continue::
 	end
 	return contents, current_buf_line
 end
 
 function M.open_menu()
-	local win_info = create_window()
 	list_manager.initial_marks = {}
+	list_manager.update_marks()
 
+	local contents, current_buf_line = create_buffer_content()
+
+	local win_info = create_window()
 	M.win_id = win_info.win_id
 	M.win_bufnr = win_info.bufnr
 
-	list_manager.update_marks()
-
-	local contents, current_buf_line = generate_marks_list()
-
-	set_buf_options()
+	set_options()
 	set_buf_keybindings()
 	set_buf_autocmds()
 	set_buf_lines(contents, current_buf_line)

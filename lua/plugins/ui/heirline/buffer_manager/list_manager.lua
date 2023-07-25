@@ -1,6 +1,5 @@
 local utils = require('plugins.ui.heirline.buffer_manager.utils')
-local buffer_manager = require('plugins.ui.heirline.buffer_manager')
-local config = buffer_manager.get_config()
+local config = require('plugins.ui.heirline.buffer_manager').get_config()
 
 local M = {}
 
@@ -13,16 +12,25 @@ M.initial_marks = {}
 
 ---@enum sorting_functions
 local sorting_functions = {
-	alphabet = function(a, b) return a.filename > b.filename end,
+	alphabet = function(a, b)
+		if not a or not b then
+			P(a)
+			P(b)
+			return false
+		end
+		return utils.get_short_file_name(a.filename) < utils.get_short_file_name(b.filename)
+	end,
 	bufnr = function(a, b) return a.bufnr < b.bufnr end,
 }
 
 function M.sort_marks()
+	if #M.marks < 2 then return end
 	local sorting_fn = sorting_functions[config.sort_by] or sorting_functions.bufnr
 	table.sort(M.marks, sorting_fn)
 end
 
 function M.get_ordered_bufids()
+	M.update_marks()
 	local bufs = {}
 	for _, mark in ipairs(M.marks) do
 		table.insert(bufs, mark.bufnr)
@@ -49,7 +57,8 @@ function M.get_mark_by_name(name, specific_marks)
 	local ref_name = nil
 	for _, mark in ipairs(specific_marks) do
 		ref_name = mark.filename
-		if utils.string_starts(mark.filename, 'term:') then
+
+		if string.starts(mark.filename, 'term://') then
 			if config.short_term_names then ref_name = utils.get_short_term_name(mark.filename) end
 		else
 			if config.short_file_names then ref_name = utils.get_short_file_name(mark.filename) end
@@ -60,14 +69,14 @@ function M.get_mark_by_name(name, specific_marks)
 end
 
 local function update_marks_list(new_list)
-	-- local original_marks = utils.deep_copy(M.marks)
+	local original_marks = utils.deep_copy(M.marks)
 	M.marks = table.map(function(v)
 		if type(v) ~= 'string' then return end
 
 		local filename = v
 		local bufnr = nil
 
-		local existing_mark = M.get_mark_by_name(filename, M.marks--[[ original_marks ]])
+		local existing_mark = M.get_mark_by_name(filename, original_marks)
 		if existing_mark then
 			filename = existing_mark.filename
 			bufnr = existing_mark.bufnr
@@ -97,12 +106,13 @@ end
 function M.on_menu_save()
 	update_marks_list(get_menu_items())
 	if config.sort_on_close and config.sort_by then M.sort_marks() end
+	M.marks = utils.remove_duplicates(M.marks)
 end
 
 function M.can_be_deleted(bufname, bufnr)
 	return (
 		vim.api.nvim_buf_is_valid(bufnr)
-		and (not utils.string_starts(bufname, 'term://'))
+		and not string.starts(bufname, 'term://')
 		and not vim.bo[bufnr].modified
 		and bufnr ~= -1
 	)

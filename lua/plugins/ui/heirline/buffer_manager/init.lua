@@ -12,12 +12,15 @@ local default_config = {
 			command = 'edit',
 		},
 	},
-	sort_by = nil,
-	sort_on_close = false,
+	sort_by = 'alphabet',
+	sort_on_close = true,
 	focus_alternate_buffer = false,
 	short_file_names = true,
+	cursorline = true,
 	short_term_names = false,
 	highlight = 'Float',
+	borderchars = { '─', ' ', ' ', ' ', ' ', ' ', ' ', ' ' },
+	-- borderchars = { '─', '│', '─', '│', '╭', '╮', '╯', '╰' },
 	-- highlight = 'Normal',
 	-- width = 0.5,
 	-- height = 0.5
@@ -31,7 +34,7 @@ function M.setup(user_config)
 
 	Augroup('BufferManager', {
 		Autocmd('SessionLoadPost', function() list_manger.initialize_marks() end),
-		Autocmd({ 'BufLeave' }, function() vim.schedule(list_manger.initialize_marks) end),
+		Autocmd({ 'BufLeave' }, function() vim.schedule(list_manger.update_marks) end),
 	})
 end
 

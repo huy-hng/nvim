@@ -6,7 +6,6 @@ function M.nav_file(id, command)
 	if command == nil then command = 'edit' end
 
 	local mark = list_manager.marks[id]
-	P(list_manager.marks)
 	if not mark then
 		return
 	else
