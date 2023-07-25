@@ -9,7 +9,9 @@ nmap('i', open_popup('index'), 'Float Index')
 
 nmap('j', { vim.cmd.Neorg, 'journal' }, 'Journal Menu')
 
-nmap('t', open_popup('journal', 'today'), 'Float Journal')
+nmap('t', open_popup('journal', 'today'), 'Float Todays Journal')
 nmap('d', { vim.cmd.Neorg, 'journal', 'today' }, 'Todays Journal')
+
+nmap('y', open_popup('journal', 'yesterday'), 'Float Yesterdays Journal')
 
 

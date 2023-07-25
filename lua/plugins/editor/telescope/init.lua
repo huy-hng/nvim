@@ -1,6 +1,6 @@
 local M = {
 	'nvim-telescope/telescope.nvim',
-	keys = { '<C-f>', '<leader>fl' },
+	keys = { '<C-t>', '<leader>tl' },
 
 	dependencies = 'rcarriga/nvim-notify',
 }

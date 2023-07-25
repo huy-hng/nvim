@@ -14,9 +14,14 @@ function M.config()
 			enable = false,
 			enable_in_insert = false,
 		},
+		diagnostic = {
+			max_show_width = 0.4,
+			max_show_height = 0.6,
+			extend_relatedInformation = true,
+		},
 		outline = {
+			border_follow = false,
 			win_position = 'right',
-			win_with = '',
 			win_width = 40,
 			show_detail = true,
 			auto_preview = true,

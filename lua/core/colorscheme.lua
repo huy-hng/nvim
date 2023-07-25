@@ -30,6 +30,7 @@ function SetColors(theme)
 	if ColorTheme == 'default' then return end
 
 	-- Highlight(0, 'Statusline', { fg = 'fg' })
+	Highlight(0, 'CursorLine', { link = 'Visual' })
 	-- Highlight(0, 'CursorColumn', { link = 'CursorLine' })
 	-- Highlight(0, 'helpCommand', { link = 'markdownCode' })
 end

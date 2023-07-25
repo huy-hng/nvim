@@ -47,7 +47,8 @@ return function(bufnr)
 	if not nrequire('lspsaga') then return end
 	local saga_map = Map.create('n', '<leader>l', '[Saga]', opts)
 
-	saga_map('o', { vim.cmd.Lspsaga, 'show_line_diagnostics' }, 'open Float')
+	saga_map('o', { vim.cmd.Lspsaga, 'show_line_diagnostics', '++unfocus' }, 'open Float')
+	saga_map('O', { vim.cmd.Lspsaga, 'show_line_diagnostics' }, 'open Float')
 	saga_map('f', { vim.cmd.Lspsaga, 'lsp_finder' }, 'Lsp finder')
 	saga_map('a', { vim.cmd.Lspsaga, 'code_action' }, 'Code Actions')
 	saga_map('p', { vim.cmd.Lspsaga, 'peek_definition' }, 'Peek Definition')
