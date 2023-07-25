@@ -3,6 +3,7 @@ local M = {}
 local devicons = nrequire('nvim-web-devicons')
 
 local heirline = require('heirline.utils')
+local list_manager = require('plugins.ui.heirline.buffer_manager.list_manager')
 local utils = require('plugins.ui.heirline.buffer_manager.utils')
 local C = require('catppuccin.palettes').get_palette()
 
@@ -40,7 +41,13 @@ local BufferBufnr = {
 
 -- we redefine the filename component, as we probably only want the tail and not the relative path
 local BufferFileName = {
-	provider = function(self) return utils.truncate_path(self.filename) end,
+	provider = function(self)
+		-- return utils.truncate_path(self.filename)
+		local folders, _ = utils.get_path_folders(self.filename, 1)
+		local path = string.join(folders, '/')
+
+		return path .. utils.get_filename(self.filename)
+	end,
 	hl = function(self) return { bold = self.is_active or self.is_visible, italic = true } end,
 }
 
@@ -136,7 +143,6 @@ M.BufferLine = heirline.make_buflist(
 	{ provider = ' ', hl = { fg = 'gray' } },
 	{ provider = ' ', hl = { fg = 'gray' } },
 	function()
-		local list_manager = require('plugins.ui.heirline.buffer_manager.list_manager')
 		local bufs = list_manager.get_ordered_bufids()
 		return bufs
 	end,
