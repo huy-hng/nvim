@@ -222,8 +222,9 @@ M.filename = function()
 	-- if filetype doesn't match devicon will set f_icon to nil so add a patch
 	f_icon = not f_icon and '' or (f_icon .. ' ')
 	f_hl = f_hl or ''
-	local ns_prefix = '%#LspSagaWinbar'
-	return '%#' .. f_hl .. '#' .. f_icon .. '%*' .. ns_prefix .. 'File#' .. file_name .. '%*'
+	-- local ns_prefix = '%#SagaWinbar'
+	-- return '%#' .. f_hl .. '#' .. f_icon .. '%*' .. ns_prefix .. 'File#' .. file_name .. '%*'
+	return '%#' .. f_hl .. '#' .. f_icon .. '%*%#Tag#' .. file_name .. '%*'
 end
 
 M.filepath = {
@@ -245,8 +246,8 @@ M.filepath = {
 			if cur == '.' or cur == '~' then
 				-- file_path = ''
 			else
-				file_path = file_path .. cur .. '%#LspSagaWinbarSep#  %*'
-				-- file_path = file_path .. cur .. '%#LspSagaWinbarSep# > %*'
+				-- file_path = file_path .. cur .. '%#SagaWinbarSep#  %*'
+				file_path = file_path .. cur .. '%#Operator#  %*'
 			end
 		end
 		return file_path .. file_name
