@@ -10,15 +10,31 @@ local tele_map = Map.create('n', Keys.leader.telescope, '[Telescope]')
 
 -- nmap('<C-p>', { builtin.find_files, { layout_strategy = 'cursor' } }, '[Telescope] Find Files')
 -- tele_map('p', { builtin.find_files, { find_command = find_command } }, 'Find Ignored Files')
-Map.n(Keys.ctrl.telescope, { builtin.find_files, layouts.vert_list_insert }, '[Telescope] Find Files')
+Map.n(
+	Keys.ctrl.telescope,
+	{ builtin.find_files, layouts.vert_list_insert },
+	'[Telescope] Find Files'
+)
 local find_command = { 'rg', '--files', '--hidden', '-g', '!.git' }
 tele_map('b', { builtin.buffers, layouts.vert_list_normal }, 'Find Buffers')
 tele_map('o', { builtin.oldfiles, layouts.vert_list_normal }, 'Find Old Files')
 
 --------------------------------------------Find String---------------------------------------------
 
+local function layout_extend(layout, opts) return vim.tbl_extend('force', layout, opts) end
+
 tele_map('l', { builtin.live_grep, layouts.vert_list_insert }, 'Live Grep')
 tele_map('g', { builtin.grep_string, layouts.vert_list_normal }, 'Grep String')
+tele_map(
+	'g',
+	function()
+		builtin.grep_string(
+			layout_extend(layouts.vert_list_normal, { search = nvim.visual_text() })
+		)
+	end,
+	'Grep String',
+	{ mode = { 'v' } }
+)
 
 ---------------------------------------------Reference----------------------------------------------
 
@@ -37,36 +53,20 @@ tele_map('t', builtin.treesitter, 'Treesitter')
 
 ------------------------------------Different Working Directory-------------------------------------
 
-local function vert_list_insert(opts) --
-	return vim.tbl_extend('force', layouts.vert_list_insert, opts)
-end
-
-local function layout_opts(layout, opts) --
-	return vim.tbl_extend('force', layout, opts)
-end
-
-local function run_with_layout(fn, layout, opts)
-	return function() fn(vim.tbl_extend('force', layout, opts)) end
-end
-
 -- runs in dir or the cwd
 ---@param fn function
 ---@param dir string path
 local function run_in_dir(fn, dir)
 	local opts = { cwd = dir or vim.fn.expand('%:p:h') }
-	fn(layout_opts(layouts.vert_list_insert, opts))
+	fn(vim.tbl_extend('force', layouts.vert_list_insert, opts))
 end
 
 tele_map('P', { run_in_dir, builtin.find_files }, 'Find Files in buffer dir')
 tele_map('L', { run_in_dir, builtin.live_grep }, 'Live Grep in buffer dir')
+tele_map('v', { run_in_dir, builtin.find_files, NVIM_CONFIG_PATH }, 'Find Neovim Files')
 
-tele_map('j', { run_in_dir, builtin.find_files, NVIM_CONFIG_PATH }, 'Find Neovim Files')
-
-tele_map(
-	'p',
-	{ run_in_dir, builtin.find_files, '/home/huy/.local/share/nvim/lazy' },
-	'Find Plugin Files'
-)
+--stylua: ignore
+tele_map( 'p', { run_in_dir, builtin.find_files, '/home/huy/.local/share/nvim/lazy' }, 'Find Plugin Files')
 
 local maps = {
 	[Keys.ctrl.k] = actions.results_scrolling_up,
