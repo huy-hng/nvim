@@ -2,9 +2,34 @@ local Path = require('plenary.path')
 
 local M = {}
 
+function M.get_extmark_name(filename)
+	local display_name = { M.get_icon(filename) }
+
+	-- local project_root = vim.loop.cwd()
+	-- local path = vim.fn.fnamemodify(filename, ':h')
+	-- local folders = path:split('/')
+
+	-- local folders, truncated = M.get_path_folders(filename, 0)
+	-- if truncated > 0 then
+	-- 	table.insert(display_name, { '..' .. truncated .. '  ', 'NonText' })
+	-- end
+
+	-- for _, folder in ipairs(folders) do
+	-- 	table.insert(display_name, { folder })
+	-- 	table.insert(display_name, { '  ', 'Operator' })
+	-- end
+
+	local fname, extension = M.get_filename_hl(filename)
+	table.insert(display_name, fname)
+	table.insert(display_name, extension)
+	table.insert(display_name, { vim.fn['repeat'](' ', #filename) })
+	return display_name
+end
+
 function M.normalize_path(item)
 	if string.find(item, '.*:///.*') ~= nil then return Path:new(item) end
-	return Path:new(Path:new(item):absolute()):make_relative(vim.loop.cwd())
+	return Path:new(item):normalize()
+	-- return Path:new(Path:new(item):absolute()):make_relative(vim.loop.cwd())
 end
 
 function M.get_icon(filename)
@@ -17,7 +42,7 @@ function M.get_icon(filename)
 		f_icon, f_hl = devicons.get_icon(filename, extension, { default = true })
 		f_icon = f_icon .. ' '
 	end
-	return f_icon, f_hl
+	return { f_icon, f_hl }
 end
 
 function M.get_path_folders(filename, folder_amount, normalize)
@@ -29,6 +54,8 @@ function M.get_path_folders(filename, folder_amount, normalize)
 
 	local path = vim.fn.fnamemodify(filename, ':h')
 	local split = path:split('/')
+
+	if folder_amount == 0 then return split, 0 end
 
 	local folders = {}
 	if folder_amount > 0 and #split > 0 then
@@ -42,12 +69,19 @@ function M.get_path_folders(filename, folder_amount, normalize)
 	return folders, truncated
 end
 
-function M.get_file_name(file) return file:match('[^/\\]*$') end
-
 function M.get_filename(filename, extension)
 	local mods = ':t'
 	if extension then mods = mods .. ':r' end
 	return filename == '' and '[No Name]' or vim.fn.fnamemodify(filename, mods)
+end
+
+function M.get_filename_hl(filename)
+	local extension_hl = 'NonText'
+	local extension = '.' .. vim.fn.fnamemodify(filename, ':e')
+	filename = filename == '' and '[No Name]' or vim.fn.fnamemodify(filename, ':t:r')
+	local filename_hl = 'Tag'
+
+	return { filename, filename_hl }, { extension, extension_hl }
 end
 
 function M.truncate_path(filename, folder_amount, add_icon)
@@ -57,13 +91,11 @@ function M.truncate_path(filename, folder_amount, add_icon)
 	-- local truncation = truncated > 0 and '(' .. truncated .. ')' .. sep or ''
 	local truncation = truncated > 0 and '..' .. truncated .. sep or ''
 
-	local icon = ''
-	if add_icon then
-		icon, _ = M.get_icon(filename)
-	end
+	local icon = add_icon and M.get_icon(filename)[1] or ''
 
 	filename = M.get_filename(filename)
 	return icon .. truncation .. path .. filename
+	-- return truncation .. path .. filename
 end
 
 function M.get_short_file_name(file) return M.truncate_path(file, 1, true) end

@@ -22,7 +22,7 @@ local function get_current_buf_line()
 end
 
 function M.goto(direction)
-	list_manager.update_marks()
+	-- list_manager.synchronize_marks()
 
 	local current_line = get_current_buf_line()
 	if current_line == -1 then return end

@@ -1,17 +1,19 @@
-local utils = require('plugins.ui.heirline.buffer_manager.utils')
-local filename = require('plugins.ui.heirline.buffer_manager.filename')
+local fname = require('plugins.ui.heirline.buffer_manager.filename')
 local config = require('plugins.ui.heirline.buffer_manager.config').config
 
 local M = {}
 
----@alias marks { filename: string, bufnr: number }[]
+---@alias marks { filename: string, display_name: string, bufnr: number }[]
 
 ---@type marks
 M.marks = {}
 
 M.initial_marks = {}
 
-local function is_white_space(str) return str:gsub('%s', '') == '' end
+function M.sort_marks(sorting_fn)
+	if #M.marks < 2 then return end
+	table.sort(M.marks, config.sorting.functions[sorting_fn][1])
+end
 
 local function remove_duplicates(list)
 	local hash = {}
@@ -36,53 +38,13 @@ local function get_mark_by_name(name, specific_marks)
 		ref_name = mark.filename
 
 		if string.starts(mark.filename, 'term://') then
-			if config.short_term_names then
-				ref_name = filename.get_short_term_name(mark.filename)
-			end
+			if config.short_term_names then ref_name = fname.get_short_term_name(mark.filename) end
 		else
-			if config.short_file_names then
-				ref_name = filename.get_short_file_name(mark.filename)
-			end
+			if config.short_file_names then ref_name = fname.get_short_file_name(mark.filename) end
 		end
 		if name == ref_name then return mark end
 	end
 	return nil
-end
-
-local function update_marks_list(new_list)
-	M.marks = table.map(function(v)
-		if type(v) ~= 'string' then return end
-
-		local filename = v
-		local bufnr = nil
-
-		local existing_mark = get_mark_by_name(filename, M.marks)
-		if existing_mark then
-			filename = existing_mark.filename
-			bufnr = existing_mark.bufnr
-		else
-			bufnr = vim.fn.bufnr(v)
-		end
-
-		return { filename = filename, bufnr = bufnr }
-	end, new_list)
-end
-
-local function get_menu_items()
-	local win_bufnr = require('plugins.ui.heirline.buffer_manager.window').win_bufnr
-	local lines = vim.api.nvim_buf_get_lines(win_bufnr, 0, -1, true)
-	local items = {}
-
-	-- TODO: copy whitespace as well for organizing buffers
-	-- or instead use virtual text to space them out
-	-- also possible to separate buffers by their folders for example
-	for _, line in ipairs(lines) do
-		if not is_white_space(line) then --
-			table.insert(items, line)
-		end
-	end
-
-	return items
 end
 
 local function can_be_deleted(bufname, bufnr)
@@ -98,7 +60,6 @@ local function is_buffer_in_marks(bufnr)
 	for _, mark in ipairs(M.marks) do
 		if mark.bufnr == bufnr then return true end
 	end
-	return false
 end
 
 function M.update_buffers()
@@ -130,7 +91,7 @@ local function remove_mark(idx)
 	end
 end
 
-function M.update_marks(initialize)
+function M.synchronize_marks(initialize)
 	if initialize then M.marks = {} end
 
 	-- Check if any buffer has been deleted
@@ -141,26 +102,47 @@ function M.update_marks(initialize)
 		end
 	end
 
-	for _, buf in ipairs(vim.api.nvim_list_bufs()) do
-		local bufname = vim.api.nvim_buf_get_name(buf)
-		if buffer_is_valid(buf, bufname) and not is_buffer_in_marks(buf) then
-			table.insert(M.marks, { filename = bufname, bufnr = buf })
+	for _, bufnr in ipairs(vim.api.nvim_list_bufs()) do
+		local filename = vim.api.nvim_buf_get_name(bufnr)
+		if buffer_is_valid(bufnr, filename) and not is_buffer_in_marks(bufnr) then
+			table.insert(M.marks, {
+				filename = filename,
+				display_name = fname.get_extmark_name(filename),
+				bufnr = bufnr,
+			})
 		end
 	end
 end
 
-function M.on_menu_save()
-	update_marks_list(get_menu_items())
+function M.update_marks_list()
+	local window = require('plugins.ui.heirline.buffer_manager.window')
+	M.marks = table.map(function(v)
+		if type(v) ~= 'string' then return end
+
+		local filename = v
+		local bufnr = nil
+
+		local existing_mark = get_mark_by_name(filename, M.marks)
+		if existing_mark then
+			filename = existing_mark.filename
+			bufnr = existing_mark.bufnr
+		else
+			bufnr = vim.fn.bufnr(v)
+		end
+
+		return {
+			filename = filename,
+			display_name = fname.get_extmark_name(filename),
+			bufnr = bufnr,
+		}
+	end, window.get_buffer_lines())
+
 	M.marks = remove_duplicates(M.marks)
 end
 
 function M.get_ordered_bufids()
-	M.update_marks()
-	local bufs = {}
-	for _, mark in ipairs(M.marks) do
-		table.insert(bufs, mark.bufnr)
-	end
-	return bufs
+	M.synchronize_marks()
+	return table.map(function(mark) return mark.bufnr end, M.marks)
 end
 
 return M

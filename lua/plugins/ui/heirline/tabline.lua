@@ -2,9 +2,9 @@ local M = {}
 
 local devicons = nrequire('nvim-web-devicons')
 
-local heirline = require('heirline.utils')
+local utils = require('heirline.utils')
 local list_manager = require('plugins.ui.heirline.buffer_manager.list_manager')
-local utils = require('plugins.ui.heirline.buffer_manager.utils')
+local filename = require('plugins.ui.heirline.buffer_manager.filename')
 local C = require('catppuccin.palettes').get_palette()
 
 local update = {
@@ -42,11 +42,10 @@ local BufferBufnr = {
 -- we redefine the filename component, as we probably only want the tail and not the relative path
 local BufferFileName = {
 	provider = function(self)
-		-- return utils.truncate_path(self.filename)
-		local folders, _ = utils.get_path_folders(self.filename, 1)
+		local folders, _ = filename.get_path_folders(self.filename, 1)
 		local path = string.join(folders, '/')
 
-		return path .. utils.get_filename(self.filename)
+		return path .. filename.get_filename(self.filename)
 	end,
 	hl = function(self) return { bold = self.is_active or self.is_visible, italic = true } end,
 }
@@ -125,11 +124,11 @@ local BufferCloseButton = {
 	},
 }
 
-local BufferBlock = heirline.surround({ '', '' }, function(self)
+local BufferBlock = utils.surround({ '', '' }, function(self)
 	if self.is_active then
-		return heirline.get_highlight('TabLineSel').bg
+		return utils.get_highlight('TabLineSel').bg
 	else
-		return heirline.get_highlight('TabLine').bg
+		return utils.get_highlight('TabLine').bg
 	end
 end, {
 	BufferFileNameBlock,
@@ -137,7 +136,7 @@ end, {
 })
 
 -- and here we go
-M.BufferLine = heirline.make_buflist(
+M.BufferLine = utils.make_buflist(
 	BufferBlock,
 	-- truncation indicator
 	{ provider = ' ', hl = { fg = 'gray' } },
@@ -169,7 +168,7 @@ M.TabPages = {
 	-- only show this component if there's 2 or more tabpages
 	condition = function() return #vim.api.nvim_list_tabpages() >= 2 end,
 	{ provider = '%=' },
-	heirline.make_tablist(Tabpage),
+	utils.make_tablist(Tabpage),
 	TabpageClose,
 }
 

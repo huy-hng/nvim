@@ -1,6 +1,7 @@
 local popup = require('plenary.popup')
 local filename = require('plugins.ui.heirline.buffer_manager.filename')
 
+local extmark = require('plugins.ui.heirline.buffer_manager.extmark')
 local list_manager = require('plugins.ui.heirline.buffer_manager.list_manager')
 local navigator = require('plugins.ui.heirline.buffer_manager.navigation')
 local config = require('plugins.ui.heirline.buffer_manager.config').config
@@ -8,7 +9,7 @@ local config = require('plugins.ui.heirline.buffer_manager.config').config
 local M = {}
 
 M.win_id = nil
-M.win_bufnr = nil
+M.bufnr = nil
 
 local function get_display_filename(mark)
 	if string.starts(mark.filename, 'term://') then
@@ -53,30 +54,63 @@ local function create_buffer_content(current_buf)
 	return contents, current_buf_line
 end
 
-local function set_buf_lines(contents, current_buf_line)
-	local undolevels = vim.api.nvim_buf_get_option(M.win_bufnr, 'undolevels')
-	vim.api.nvim_buf_set_option(M.win_bufnr, 'undolevels', -1)
-	vim.api.nvim_buf_set_lines(M.win_bufnr, 0, #contents, false, contents)
+local function set_buf_lines(contents, current_buf_line, allow_undo)
+	local undolevels = vim.api.nvim_buf_get_option(M.bufnr, 'undolevels')
+	if not allow_undo then
+		vim.api.nvim_buf_set_option(M.bufnr, 'undolevels', -1)
+	end
+	vim.api.nvim_buf_set_lines(M.bufnr, 0, #contents, false, contents)
 	if current_buf_line then
 		vim.fn.cursor { current_buf_line, 1 }
 	end
-	vim.api.nvim_buf_set_option(M.win_bufnr, 'undolevels', undolevels)
+
+	if not allow_undo then
+		vim.api.nvim_buf_set_option(M.bufnr, 'undolevels', undolevels)
+	end
 end
 
-local function update_buffer_content(current_buf)
+local function update_extmarks(lines)
+	lines = lines or M.get_buffer_lines()
+	extmark.remove_extmarks(M.bufnr)
+	local prev_path
+	for i, file in ipairs(lines) do
+
+		local path, _ = filename.get_path_folders(file, 0)
+		local path_string = string.join(path)
+
+		local extra_opts = {}
+		local separator_line = {{vim.fn['repeat']('─', config.width)}}
+		if path_string ~= prev_path then
+			local virt_line = {}
+
+			for _, dir in ipairs(path) do
+				table.insert(virt_line, { dir })
+				table.insert(virt_line, { '  ', 'Operator' })
+			end
+			table.remove(virt_line, #virt_line)
+
+			if prev_path then
+				extra_opts.virt_lines = { separator_line, virt_line }
+			else
+				extra_opts.virt_lines = { virt_line }
+			end
+
+		end
+
+		extmark.set_extmark(M.bufnr, i - 1, 5, filename.get_extmark_name(file), extra_opts)
+		prev_path = path_string
+	end
+end
+
+local function update_buffer_content(current_buf, allow_undo)
 	local contents, current_buf_line = create_buffer_content(current_buf)
-	set_buf_lines(contents, current_buf_line)
-end
-
-function M.sort_marks(sorting_fn)
-	if #list_manager.marks < 2 then return end
-	table.sort(list_manager.marks, config.sorting.functions[sorting_fn][1])
-	update_buffer_content()
+	set_buf_lines(contents, current_buf_line, allow_undo)
+	update_extmarks(contents)
 end
 
 local function create_window()
-	local width = config.width or 60
-	local height = config.height or 10
+	local width = config.width
+	local height = config.height
 
 	if width <= 1 then width = math.floor(vim.o.columns * config.width) end
 	if height <= 1 then height = math.floor(vim.o.lines * config.height) end
@@ -106,8 +140,8 @@ end
 
 local function select_menu_item(command)
 	local idx = vim.fn.line('.')
-	if vim.api.nvim_buf_get_changedtick(M.win_bufnr) > 0 then --
-		list_manager.on_menu_save()
+	if vim.api.nvim_buf_get_changedtick(M.bufnr) > 0 then --
+		list_manager.update_marks_list()
 	end
 	M.close_menu()
 	navigator.nav_file(idx, command)
@@ -115,7 +149,7 @@ local function select_menu_item(command)
 end
 
 local function set_buf_keybindings()
-	local opts = { buffer = M.win_bufnr }
+	local opts = { buffer = M.bufnr }
 	local nmap = Map.create('n', '', '[Buffer Manager]', opts)
 
 	nmap('q', M.close_menu, 'Close Menu')
@@ -124,13 +158,13 @@ local function set_buf_keybindings()
 	local sorting_functions = config.sorting.functions
 	for name, sort in pairs(sorting_functions) do
 		nmap(sort.key, function ()
-			M.sort_marks(name)
+			list_manager.sort_marks(name)
+			update_buffer_content(nil, true)
 		end, 'Sort Marks by '.. name)
-
 	end
 
 	for command, key in pairs(config.select_menu_item_commands) do
-		nmap(key, { select_menu_item, command }, '')
+		nmap(key, { select_menu_item, command }, 'Go to buffer in line')
 	end
 
 	-- Go to file hitting its line number
@@ -143,10 +177,18 @@ end
 
 local function set_buf_autocmds()
 	Augroup('BufferManager', {
-		Autocmd('BufModifiedSet', nil, function() vim.bo.modified = false end, { buffer = M.win_bufnr, }),
-		Autocmd('BufWriteCmd', nil, list_manager.on_menu_save, { buffer = M.win_bufnr, }),
+		Autocmd('BufModifiedSet', nil, function()
+			update_extmarks()
+			vim.bo.modified = false
+		end, { buffer = M.bufnr, }),
+		Autocmd('CursorMoved', nil, function()
+			if vim.fn.line('.') == 1 then
+				nvim.feedkeys('<C-y>', false)
+			end
+		end, { buffer = M.bufnr, }),
+		Autocmd('BufWriteCmd', nil, list_manager.update_marks_list, { buffer = M.bufnr, }),
 		Autocmd('BufLeave', nil, M.close_menu, {
-			buffer = M.win_bufnr,
+			buffer = M.bufnr,
 			nested = true,
 			once = true,
 		}),
@@ -159,34 +201,54 @@ local function set_options()
 		vim.api.nvim_win_set_option(M.win_id, 'cursorlineopt', 'both')
 	end
 
-	vim.api.nvim_buf_set_name(M.win_bufnr, 'buffer_manager-menu')
+	vim.api.nvim_buf_set_name(M.bufnr, 'buffer_manager-menu')
 	vim.api.nvim_win_set_option(M.win_id, 'number', true)
-	vim.api.nvim_buf_set_option(M.win_bufnr, 'filetype', 'buffer_manager')
-	vim.api.nvim_buf_set_option(M.win_bufnr, 'buftype', 'acwrite')
-	vim.api.nvim_buf_set_option(M.win_bufnr, 'bufhidden', 'delete')
+	vim.api.nvim_buf_set_option(M.bufnr, 'filetype', 'buffer_manager')
+	vim.api.nvim_buf_set_option(M.bufnr, 'buftype', 'acwrite')
+	vim.api.nvim_buf_set_option(M.bufnr, 'bufhidden', 'delete')
+end
+
+function M.get_buffer_lines()
+	local function is_white_space(str) return str:gsub('%s', '') == '' end
+
+	local bufnr = require('plugins.ui.heirline.buffer_manager.window').bufnr
+	local lines = vim.api.nvim_buf_get_lines(bufnr, 0, -1, true)
+	local items = {}
+
+	-- TODO: copy whitespace as well for organizing buffers
+	-- or instead use virtual text to space them out
+	-- also possible to separate buffers by their folders for example
+	for _, line in ipairs(lines) do
+		if not is_white_space(line) then --
+			table.insert(items, line)
+		end
+	end
+	-- M.sort_marks('alphabet')
+
+	return items
 end
 
 function M.close_menu()
 	if M.win_id == nil or not vim.api.nvim_win_is_valid(M.win_id) then return end
 
-	if vim.api.nvim_buf_get_changedtick(M.win_bufnr) > 0 then list_manager.on_menu_save() end
+	if vim.api.nvim_buf_get_changedtick(M.bufnr) > 0 then list_manager.update_marks_list() end
 
 	vim.api.nvim_win_close(M.win_id, true)
 
 	M.win_id = nil
-	M.win_bufnr = nil
+	M.bufnr = nil
 	list_manager.update_buffers()
 end
 
 function M.open_menu()
 	list_manager.initial_marks = {}
-	list_manager.update_marks()
+	list_manager.synchronize_marks()
 
 	local current_buf = vim.api.nvim_get_current_buf()
 
 	local win_info = create_window()
 	M.win_id = win_info.win_id
-	M.win_bufnr = win_info.bufnr
+	M.bufnr = win_info.bufnr
 
 	update_buffer_content(current_buf)
 	set_options()
