@@ -83,6 +83,7 @@ local function update_extmarks(lines)
 		if path_string ~= prev_path then
 			local virt_line = {}
 
+			table.insert(virt_line, { '   ' })
 			for _, dir in ipairs(path) do
 				table.insert(virt_line, { dir })
 				table.insert(virt_line, { '  ', 'Operator' })
@@ -254,6 +255,7 @@ function M.open_menu()
 	set_options()
 	set_buf_keybindings()
 	set_buf_autocmds()
+	nvim.feedkeys('<C-y>', false)
 end
 
 function M.toggle_quick_menu()

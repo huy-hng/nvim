@@ -30,7 +30,7 @@ M.default_config = {
 	sorting = {
 		functions = sorting_functions,
 	},
-	height = 15,
+	height = 20,
 	width = 80,
 	focus_alternate_buffer = false,
 	short_file_names = false,

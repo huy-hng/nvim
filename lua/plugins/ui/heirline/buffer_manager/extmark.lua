@@ -18,7 +18,7 @@ function M.set_extmark(bufnr, row, col, content, extra_opts)
 	}
 	mark_opts = table.extend(mark_opts, extra_opts)
 
-	vim.api.nvim_buf_set_extmark(bufnr, ns, row, 0, mark_opts)
+	vim.api.nvim_buf_set_extmark(bufnr, ns, row, col, mark_opts)
 end
 
 function M.remove_extmarks(bufnr)
