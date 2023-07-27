@@ -30,7 +30,6 @@ vim.diagnostic.config {
 	},
 }
 
-
 -----------------------------------------------Null-ls----------------------------------------------
 local null_ls = nrequire('null-ls')
 if not null_ls then return end
@@ -42,7 +41,7 @@ local formatting = null_ls.builtins.formatting
 -- local completion = null_ls.builtins.completion
 
 null_ls.setup({
-	debug = true,
+	-- debug = true,
 	sources = {
 		code_actions.ts_node_action,
 		formatting.autopep8.with({ extra_args = { '--ignore W191,E402' } }),

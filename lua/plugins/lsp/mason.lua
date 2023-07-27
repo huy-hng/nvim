@@ -26,7 +26,7 @@ function M.config()
 			'fixjson',
 			'vimls',
 		},
-		automatic_installation = true,
+		automatic_installation = false,
 	}
 end
 

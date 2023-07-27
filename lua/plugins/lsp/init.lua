@@ -3,10 +3,9 @@ local M = {
 	-- ft = { 'python', 'lua', 'c', 'json' },
 	-- event = 'BufReadPre',
 	-- event = 'VeryLazy',
-	lazy = false,
+	lazy = true,
 	dependencies = {
 		{ 'folke/neodev.nvim', config = function() require('plugins.lsp.core.neodev') end },
-		-- 'hrsh7th/cmp-nvim-lsp',
 		'jose-elias-alvarez/null-ls.nvim',
 	},
 }
