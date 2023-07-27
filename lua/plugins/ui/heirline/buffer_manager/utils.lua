@@ -38,4 +38,31 @@ function M.deep_copy(obj, seen)
 	return setmetatable(res, getmetatable(obj))
 end
 
+M._guicursor = nil
+function M.hide_cursor()
+	if M._guicursor == nil then
+		M._guicursor = vim.go.guicursor
+	end
+	vim.schedule(function()
+		if M._guicursor then
+			vim.go.guicursor = "a:BufferManagerHiddenCursor"
+		end
+	end)
+end
+
+function M.show_cursor()
+	if not M._guicursor then
+		return
+	end
+	vim.schedule(function()
+		if not M._guicursor then
+			return
+		end
+		vim.go.guicursor = "a:"
+		vim.cmd.redrawstatus()
+		vim.go.guicursor = M._guicursor
+		M._guicursor = nil
+	end)
+end
+
 return M

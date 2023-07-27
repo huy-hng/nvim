@@ -1,10 +1,13 @@
 local popup = require('plenary.popup')
 local filename = require('plugins.ui.heirline.buffer_manager.filename')
+local utils = require('plugins.ui.heirline.buffer_manager.utils')
 
 local extmark = require('plugins.ui.heirline.buffer_manager.extmark')
 local list_manager = require('plugins.ui.heirline.buffer_manager.list_manager')
 local navigator = require('plugins.ui.heirline.buffer_manager.navigation')
 local config = require('plugins.ui.heirline.buffer_manager.config').config
+
+local Object = require('nui.object')
 
 local M = {}
 
@@ -19,9 +22,7 @@ local function get_display_filename(mark)
 		return mark.filename
 	end
 
-	if config.short_file_names then
-		return filename.get_short_file_name(mark.filename)
-	end
+	if config.short_file_names then return filename.get_short_file_name(mark.filename) end
 
 	return filename.normalize_path(mark.filename)
 end
@@ -56,17 +57,11 @@ end
 
 local function set_buf_lines(contents, current_buf_line, allow_undo)
 	local undolevels = vim.api.nvim_buf_get_option(M.bufnr, 'undolevels')
-	if not allow_undo then
-		vim.api.nvim_buf_set_option(M.bufnr, 'undolevels', -1)
-	end
+	if not allow_undo then vim.api.nvim_buf_set_option(M.bufnr, 'undolevels', -1) end
 	vim.api.nvim_buf_set_lines(M.bufnr, 0, #contents, false, contents)
-	if current_buf_line then
-		vim.fn.cursor { current_buf_line, 1 }
-	end
+	if current_buf_line then vim.fn.cursor { current_buf_line, 1 } end
 
-	if not allow_undo then
-		vim.api.nvim_buf_set_option(M.bufnr, 'undolevels', undolevels)
-	end
+	if not allow_undo then vim.api.nvim_buf_set_option(M.bufnr, 'undolevels', undolevels) end
 end
 
 local function update_extmarks(lines)
@@ -74,16 +69,15 @@ local function update_extmarks(lines)
 	extmark.remove_extmarks(M.bufnr)
 	local prev_path
 	for i, file in ipairs(lines) do
-
 		local path, _ = filename.get_path_folders(file, 0)
 		local path_string = string.join(path)
 
 		local extra_opts = {}
-		local separator_line = {{vim.fn['repeat']('─', config.width)}}
+		local separator_line = { { vim.fn['repeat']('─', config.width) } }
 		if path_string ~= prev_path then
 			local virt_line = {}
 
-			table.insert(virt_line, { '   ' })
+			table.insert(virt_line, { '  ' })
 			for _, dir in ipairs(path) do
 				table.insert(virt_line, { dir })
 				table.insert(virt_line, { '  ', 'Operator' })
@@ -95,10 +89,9 @@ local function update_extmarks(lines)
 			else
 				extra_opts.virt_lines = { virt_line }
 			end
-
 		end
 
-		extmark.set_extmark(M.bufnr, i - 1, 5, filename.get_extmark_name(file), extra_opts)
+		extmark.set_extmark(M.bufnr, i - 1, 0, filename.get_extmark_name(file), extra_opts)
 		prev_path = path_string
 	end
 end
@@ -123,7 +116,7 @@ local function create_window()
 		col = math.floor((vim.o.columns - width) / 2),
 		minwidth = width,
 		minheight = height,
-		borderchars = config.borderchars
+		borderchars = config.borderchars,
 	}
 	if config.highlight ~= '' then win_config['highlight'] = config.highlight end
 	local win_id, win = popup.create(bufnr, win_config)
@@ -158,10 +151,10 @@ local function set_buf_keybindings()
 
 	local sorting_functions = config.sorting.functions
 	for name, sort in pairs(sorting_functions) do
-		nmap(sort.key, function ()
+		nmap(sort.key, function()
 			list_manager.sort_marks(name)
 			update_buffer_content(nil, true)
-		end, 'Sort Marks by '.. name)
+		end, 'Sort Marks by ' .. name)
 	end
 
 	for command, key in pairs(config.select_menu_item_commands) do
@@ -181,13 +174,11 @@ local function set_buf_autocmds()
 		Autocmd('BufModifiedSet', nil, function()
 			update_extmarks()
 			vim.bo.modified = false
-		end, { buffer = M.bufnr, }),
+		end, { buffer = M.bufnr }),
 		Autocmd('CursorMoved', nil, function()
-			if vim.fn.line('.') == 1 then
-				nvim.feedkeys('<C-y>', false)
-			end
-		end, { buffer = M.bufnr, }),
-		Autocmd('BufWriteCmd', nil, list_manager.update_marks_list, { buffer = M.bufnr, }),
+			if vim.fn.line('.') == 1 then nvim.feedkeys('<C-y>', false) end
+		end, { buffer = M.bufnr }),
+		Autocmd('BufWriteCmd', nil, list_manager.update_marks_list, { buffer = M.bufnr }),
 		Autocmd('BufLeave', nil, M.close_menu, {
 			buffer = M.bufnr,
 			nested = true,
@@ -239,6 +230,7 @@ function M.close_menu()
 	M.win_id = nil
 	M.bufnr = nil
 	list_manager.update_buffers()
+	utils.show_cursor()
 end
 
 function M.open_menu()
@@ -255,7 +247,7 @@ function M.open_menu()
 	set_options()
 	set_buf_keybindings()
 	set_buf_autocmds()
-	nvim.feedkeys('<C-y>', false)
+	utils.hide_cursor()
 end
 
 function M.toggle_quick_menu()
