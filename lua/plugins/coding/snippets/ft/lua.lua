@@ -52,7 +52,7 @@ return {
 	snippet('fn', t('vim.fn.')),
 	snippet('@', t('---@')),
 	snippet('ifreturn', t('if true then return end')),
-	snippet('ignore', t('--stylua: ignore')),
+	snippet('ignore', t('-- stylua: ignore')),
 
 	--------------------------------------------One Liners------------------------------------------
 

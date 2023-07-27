@@ -72,6 +72,8 @@ end
 
 -- local sudo_write = function(tmpfile, filepath)
 local sudo_write = function()
+	local filepath
+	local tmpfile
 	if not tmpfile then tmpfile = vim.fn.tempname() end
 	if not filepath then filepath = vim.fn.expand('%') end
 	if not filepath or #filepath == 0 then

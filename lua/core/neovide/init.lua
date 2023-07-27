@@ -10,7 +10,7 @@ local g = vim.g
 g.neovide_profiler = false
 
 local function manjaro()
-	g.neovide_refresh_rate = 240
+	g.neovide_refresh_rate = 120
 
 	g.neovide_refresh_rate_idle = 120
 	g.neovide_default_transparency = 0.8
@@ -52,6 +52,8 @@ local function post_init()
 	local hostname = os_fn.get_hostname()
 
 	local device = hostname == 'huystower' or hostname == 'arch' and manjaro or chromebook
+
+	-- print(jit.os) -- prints Linux
 	if hostname == 'huystower' then
 		manjaro()
 	elseif hostname == 'arch' then
