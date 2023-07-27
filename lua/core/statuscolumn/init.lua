@@ -35,8 +35,9 @@ Augroup('Statuscolumn', {
 		if wintype ~= '' or buftype_filter[buftype] or filetype_filter[filetype] then
 			utils.remove_statuscolumn()
 			-- vim.wo[winid].statuscolumn = ''
+		else
+			M.custom_statuscolumn()
 		end
-		-- if type ~= '' or buftype == 'diff' then vim.wo[winid].statuscolumn = '' end
 	end),
 })
 
