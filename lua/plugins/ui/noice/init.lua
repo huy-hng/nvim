@@ -4,33 +4,7 @@ local M = {
 	event = 'VeryLazy',
 }
 
-local file = vim.fn.expand('%')
-Augroup('AutoreloadNoice', {
-	Autocmd('BufWritePost', file, function() --
-		-- vim.cmd.luafile(init_file)
-		print('autoreload')
-		vim.notify('autoreload')
-		M.config()
-	end),
-}, true, false)
-
--- for _, ui in ipairs(uis) do
--- 	local ok = true
--- 	for _, ext in ipairs {
--- 		"ext_multigrid",
--- 	} do
--- 		if ui[ext] then ok = false end
--- 	end
--- end
-
 local function get_config()
-	---@diagnostic disable: undefined-doc-name
-	-- local uis = vim.api.nvim_list_uis()[1]
-	-- local cmdline = true
-	-- if uis['ext_multigrid'] then
-	-- 	cmdline = false
-	-- end
-
 	return {
 		cmdline = {
 			enabled = not vim.g.has_neovide, -- enables the Noice cmdline UI
@@ -46,18 +20,8 @@ local function get_config()
 				-- icon_hl_group: optional hl_group for the icon
 				-- title: set to anything or empty string to hide
 				cmdline = { pattern = '^:', icon = '', lang = 'vim' },
-				search_down = {
-					pattern = '^/',
-					icon = ' ',
-					kind = 'search',
-					lang = 'regex',
-				},
-				search_up = {
-					pattern = '^%?',
-					icon = ' ',
-					kind = 'search',
-					lang = 'regex',
-				},
+				search_down = { pattern = '^/', icon = ' ', kind = 'search', lang = 'regex' },
+				search_up = { pattern = '^%?', icon = ' ', kind = 'search', lang = 'regex' },
 				filter = { pattern = '^:%s*!', icon = '$', lang = 'bash' },
 				lua = { pattern = '^:%s*lua%s+', icon = '', lang = 'lua' },
 				help = { pattern = '^:%s*he?l?p?%s+', icon = '' },
@@ -68,14 +32,12 @@ local function get_config()
 		messages = {
 			-- NOTE: If you enable messages, then the cmdline is enabled automatically.
 			-- This is a current Neovim limitation.
-			-- enabled = not vim.g.has_neovide, -- enables the Noice messages UI
-			enabled = false, -- enables the Noice messages UI
-			-- view = 'mini_middle', -- default view for messages
-			view = 'notify', -- default view for messages
-			view_error = 'notify', -- view for errors
-			view_warn = 'notify', -- view for warnings
-			-- view_info = 'mini',
-			-- view_debug = 'mini_middle',
+
+			enabled = not vim.g.has_neovide, -- enables the Noice messages UI
+			-- enabled = true, -- enables the Noice messages UI
+			view = 'mini', -- default view for messages
+			view_warn = 'messages', -- view for warnings
+			view_error = 'messages', -- view for errors
 			view_history = 'messages', -- view for :messages
 			view_search = 'virtualtext', -- view for search count messages. Set to `false` to disable
 		},
@@ -89,17 +51,21 @@ local function get_config()
 		},
 		-- default options for require('noice').redirect
 		-- see the section on Command Redirection
-		---@type NoiceRouteConfig
 		redirect = {
 			view = 'popup',
 			filter = { event = 'msg_show' },
 		},
 		-- You can add any custom commands below that will be available with `:Noice command`
-		---@type table<string, NoiceCommand>
 		commands = {
-			-- cursortext = {
-			-- 	view = 'cursor_text',
-			-- },
+			messages = {
+				view = 'split',
+				opts = { enter = true, lang = 'lua' },
+				filter = {
+					any = {
+						{ event = 'msg_show', kind = { '', 'echo', 'echomsg' } },
+					},
+				},
+			},
 			history = {
 				-- options for the message history that you get with `:Noice`
 				view = 'split',
@@ -169,6 +135,7 @@ local function get_config()
 			},
 			hover = {
 				enabled = true,
+				silent = true, -- set to true to not show a message if hover is not available
 				view = nil, -- when nil, use defaults from documentation
 				---@type NoiceViewOptions
 				opts = {}, -- merged with defaults from documentation
@@ -218,16 +185,12 @@ local function get_config()
 				['{%S-}'] = '@parameter',
 			},
 		},
-		health = {
-			checker = true, -- Disable if you don't want health checks to run
-		},
 		smart_move = {
 			-- noice tries to move out of the way of existing floating windows.
 			enabled = true, -- you can disable this behaviour here
 			-- add any filetypes here, that shouldn't trigger smart move.
 			excluded_filetypes = { 'cmp_menu', 'cmp_docs', 'notify' },
 		},
-		---@type NoicePresets
 		presets = {
 			-- you can enable a preset by setting it to true, or a table that will override the preset config
 			-- you can also add custom presets that you can enable/disable with enabled=true
@@ -238,32 +201,42 @@ local function get_config()
 			lsp_doc_border = false, -- add a border to hover docs and signature help
 		},
 		throttle = 1000 / 30, -- how frequently does Noice need to check for ui updates? This has no effect when in blocking mode.
-		---@type NoiceConfigViews
-		-- views = R('plugins.noice.views'), ---@see section on views
 		views = R('plugins.ui.noice.views'),
-		---@type NoiceRouteConfig[]
-		routes = {}, --- @see section on routes
-		---@type table<string, NoiceFilter>
-		status = {}, --- @see section on statusline components
-		---@type NoiceFormatOptions
-		format = {}, --- @see section on formatting
+		routes = R('plugins.ui.noice.routes'),
+		status = {},
+		format = {},
 	}
+end
+
+local function enable_messages(enable)
+	local config = get_config()
+	config.messages.enabled = enable
+	require('noice').setup(config)
 end
 
 function M.config()
 	if vim.g.started_by_firenvim == true then return end
-	-- if true then return end
-
-	local noice = require('noice')
 
 	local config = get_config()
-	noice.setup(config)
+	require('noice').setup(config)
 
-	local function toggle_pause()
-		config.messages.enabled = not config.messages.enabled
-		noice.setup(config)
-	end
-	-- Map.n('<localleader>n', toggle_pause)
+	Map.n('<localleader>n', function()
+		-- P(config)
+		print('hellooo')
+	end)
+
+	Map.n('<leader>/', function()
+		if not vim.g.has_neovide then
+			vim.cmd.messages()
+			return
+		end
+		enable_messages(true)
+		nvim.schedule(function()
+			vim.cmd.messages()
+			nvim.defer(100, nvim.feedkeys, 'G')
+			enable_messages(false)
+		end)
+	end)
 end
 
 return M

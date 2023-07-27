@@ -39,8 +39,8 @@ return {
 		backend = 'split',
 		enter = false,
 		relative = 'editor',
-		position = 'bottom',
-		size = '20%',
+		position = 'right',
+		size = '30%',
 		close = {
 			keys = { 'q' },
 		},
@@ -49,19 +49,20 @@ return {
 			wrap = true,
 		},
 	},
+	vsplit = {
+		view = 'split',
+		position = 'right',
+	},
 	cmdline_output = {
 		format = 'details',
 		view = 'split',
 	},
 	messages = {
 		view = 'split',
+		relative = 'editor',
+		position = 'right',
 		enter = true,
 		size = '30%',
-		-- position = 'left',
-	},
-	vsplit = {
-		view = 'split',
-		position = 'right',
 	},
 	popup = {
 		backend = 'popup',

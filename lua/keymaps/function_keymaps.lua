@@ -1,6 +1,7 @@
 Map.n('%', require('functions.match_character'), 'Jump to matching quote or whatever')
 
-Map.n('<leader>/', '<cmd>50message<cr>', 'Show Messages')
+-- Map.n('<leader>/', '<cmd>50message<cr>', 'Show Messages')
+-- Map.n('<leader>/', '<cmd>message<cr>', 'Show Messages') -- defined in noice
 Map.n('<leader><leader>/', { vim.cmd.messages, 'clear' }, 'Clear Messages')
 
 Map.n('<leader>z', vim.cmd.ZenMode, 'Zen Mode')
