@@ -20,19 +20,24 @@ local function init()
 	vim.keymap.set('n', "<c-'>", M.toggler)
 end
 
+local filetype_filter = { noice = true }
+local buftype_filter = { diff = true }
+
 Augroup('Statuscolumn', {
 	Autocmd('CmdwinEnter', function() utils.default_statuscolumn() end),
 
-	Autocmd('WinEnter', function(data)
+	Autocmd('WinEnter', function()
 		local winid = vim.api.nvim_get_current_win()
-		local type = Util.win_type(winid)
+		local wintype = Util.win_type(winid)
 		local buftype = vim.bo.buftype
-		-- TODO:
-		local buftypes = { 'diff' }
+		local filetype = vim.bo.filetype
 
-		if type ~= '' or buftype == 'diff' then vim.wo[winid].statuscolumn = '' end
+		if wintype ~= '' or buftype_filter[buftype] or filetype_filter[filetype] then
+			utils.remove_statuscolumn()
+			-- vim.wo[winid].statuscolumn = ''
+		end
+		-- if type ~= '' or buftype == 'diff' then vim.wo[winid].statuscolumn = '' end
 	end),
-
 })
 
 function M.custom_statuscolumn()
