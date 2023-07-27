@@ -19,8 +19,10 @@ local blur_amount = 7
 g.neovide_floating_blur = true
 g.neovide_floating_blur_amount_x = blur_amount
 g.neovide_floating_blur_amount_y = blur_amount
--- g.gui_font_face = 'FiraCode Nerd Font'
+-- g.gui_font_face = 'FiraCode Nerd Font' ->
 g.gui_font_face = 'CaskaydiaCove Nerd Font'
+-- g.gui_font_face = 'CaskaydiaCove NF'
+
 
 -----------------------------------------------Sizes------------------------------------------------
 

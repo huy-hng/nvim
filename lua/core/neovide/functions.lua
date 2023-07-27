@@ -19,19 +19,6 @@ M.reset_gui_font = function()
 	M.refresh_gui_font()
 end
 
-M.toggle_fonts = function()
-	if g.gui_font_face == 'FiraCode Nerd Font' then
-		g.gui_font_face = 'CaskaydiaCove Nerd Font'
-		g.gui_font_default_size = 10
-	else
-		g.gui_font_face = 'FiraCode Nerd Font'
-		g.gui_font_default_size = 10
-	end
-	M.reset_gui_font()
-end
-
-Map.n('<C-|>', M.toggle_fonts)
-
 M.resize_scale = function(delta, absolute)
 	if absolute ~= nil then
 		-- print('Scale: ', absolute)
