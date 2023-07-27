@@ -1,7 +1,6 @@
 local M = {
 	'codethread/qmk.nvim',
 	ft = 'dts',
-	branch = 'tmp-debug-zmk',
 }
 
 function M.config()

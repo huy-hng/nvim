@@ -61,24 +61,9 @@ function M.config()
 		formatting = {
 			fields = { 'kind', 'abbr', 'menu' },
 			format = function(entry, vim_item)
-				-- This concatonates the icons with the name of the item kind
 				vim_item.kind = string.format('%s %s', kind_icons[vim_item.kind], vim_item.kind)
 				vim_item.menu = (sources.source_names)[entry.source.name]
 				return vim_item
-
-				-- requires https://github.com/onsails/lspkind.nvim
-				-- if vim.tbl_contains({ 'path' }, entry.source.name) then
-				-- 	local ok, devicons = pcall(require, 'nvim-web-devicons')
-				-- 	if ok then
-				-- 		local icon, hl_group = devicons.get_icon(entry:get_completion_item().label)
-				-- 		if icon then
-				-- 			vim_item.kind = icon
-				-- 			vim_item.kind_hl_group = hl_group
-				-- 			return vim_item
-				-- 		end
-				-- 		return lspkind.cmp_format { with_text = false }(entry, vim_item)
-				-- 	end
-				-- end
 			end,
 		},
 		sorting = {

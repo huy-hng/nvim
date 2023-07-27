@@ -15,9 +15,17 @@ function M.config()
 			enable_in_insert = false,
 		},
 		diagnostic = {
-			max_show_width = 0.4,
+			show_normal_height = 30,
+			max_show_width = 0.6,
 			max_show_height = 0.6,
-			extend_relatedInformation = true,
+			diagnostic_only_current = false,
+		},
+		code_action = {
+			extend_gitsigns = true,
+			keys = {
+				quit = { 'q', '<ESC>' },
+				exec = '<CR>',
+			},
 		},
 		outline = {
 			border_follow = false,
