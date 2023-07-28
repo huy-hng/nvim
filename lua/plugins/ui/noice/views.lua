@@ -32,7 +32,7 @@ return {
 		backend = 'notify',
 		fallback = 'mini',
 		format = 'notify',
-		replace = false,
+		replace = true,
 		merge = false,
 	},
 	split = {
@@ -49,10 +49,6 @@ return {
 			wrap = true,
 		},
 	},
-	vsplit = {
-		view = 'split',
-		position = 'right',
-	},
 	cmdline_output = {
 		format = 'details',
 		view = 'split',
@@ -62,7 +58,39 @@ return {
 		relative = 'editor',
 		position = 'right',
 		enter = true,
-		size = '30%',
+		-- size = 'auto',
+		max_size = '40%',
+	},
+	popup_ = {
+		backend = 'popup',
+		relative = 'editor',
+		close = {
+			events = { 'BufLeave' },
+			keys = { 'q' },
+		},
+		enter = false,
+		timeout = 5000,
+		border = {
+			-- style = 'rounded',
+			style = 'none',
+		},
+		-- position = { row = '50%', col = '50%' },
+		position = { row = '100%', col = '50%' },
+		size = {
+			width = 'auto',
+			height = 'auto',
+			max_height = 40,
+		},
+		win_options = {
+			winblend = 100,
+			winhighlight = {
+				Normal = 'NoiceMini',
+				-- Normal = 'NoicePopupmenu',
+				-- FloatBorder = 'NoicePopupmenuBorder'
+			},
+			-- winbar = '',
+			-- foldenable = false,
+		},
 	},
 	popup = {
 		backend = 'popup',
@@ -73,12 +101,14 @@ return {
 		},
 		enter = true,
 		border = {
-			style = 'rounded',
+			style = 'none',
 		},
 		position = '50%',
 		size = {
-			width = '120',
-			height = '20',
+			width = 'auto',
+			height = 'auto',
+			-- max_height = '50',
+			max_width = 40,
 		},
 		win_options = {
 			winhighlight = { Normal = 'NoicePopup', FloatBorder = 'NoicePopupBorder' },
@@ -152,27 +182,25 @@ return {
 			},
 		},
 	},
-	mini_middle = {
+	mini_center = {
 		backend = 'mini',
 		relative = 'editor',
-		align = 'center',
-		timeout = 4000,
-		replace = true,
-		-- reverse = false,
+		align = 'message-left',
+		timeout = 2000,
 		position = {
 			row = '100%',
-			-- row = -2,
 			col = '50%',
 		},
-		size = 'auto',
-		-- border = {
-		-- 	style = 'none',
-		-- },
-		zindex = 60,
+		size = {
+			width = 'auto',
+			height = 'auto',
+			-- max_height = 20,
+		},
+		zindex = 61,
 		win_options = {
 			winblend = 0,
 			winhighlight = {
-				Normal = 'Statusline',
+				Normal = 'NoiceMini',
 				IncSearch = '',
 				Search = '',
 			},
@@ -217,9 +245,6 @@ return {
 		size = {
 			width = 60,
 			height = 'auto',
-			-- min_width = 60,
-			-- width = 'auto',
-			-- height = 'auto',
 		},
 		border = {
 			style = 'rounded',
