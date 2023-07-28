@@ -28,18 +28,18 @@ function M.config()
 		if enable or enable == nil then
 			options.view.float.enable = true
 			options.update_focused_file.enable = false
-			options.view.mappings.list[1].action = 'edit_no_picker'
+			-- options.view.mappings.list[1].action = 'edit_no_picker'
 		else
 			options.view.float.enable = false
 			options.update_focused_file.enable = true
-			options.view.mappings.list[1].action = 'edit'
+			-- options.view.mappings.list[1].action = 'edit'
 		end
 		nvim_tree.setup(options)
 	end
+	NvimTreeFloat(false)
 
 	local functions = require('plugins.editor.nvim-tree.functions')
-	local native = require('config.native_keymaps')
-	Map.n(Map.alt(native.file_explorer), functions.focus_tree, 'Open Nvim tree')
+	Map.n(Keys.alt.file_explorer, functions.focus_tree, 'Open Nvim tree')
 	-- Map.n('<C-d>', functions.focus_tree, 'Open Nvim tree')
 	-- print(options.update_focused_file.enable)
 	-- nmap('<leader>e', functions.focus_tree, 'Toggle Nvim Tree')

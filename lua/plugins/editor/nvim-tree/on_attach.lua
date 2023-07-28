@@ -23,11 +23,9 @@ return function(bufnr)
 	-- Mappings migrated from view.mappings.list
 	--
 	-- You will need to insert 'your code goes here' for any mappings with a custom action_cb
-	map('l', api.node.open.no_window_picker, 'Open: No Window Picker')
 	map('<CR>', api.node.open.no_window_picker, 'Open: No Window Picker')
 	map('<esc>', api.tree.close, 'Close')
-	map('<C-e>', api.tree.close, 'Close')
-	map('h', api.node.navigate.parent_close, 'Close Directory')
+	map(Keys.alt.file_explorer, api.tree.close, 'Close')
 	map('?', api.tree.toggle_help, 'Help')
 	map('<Tab>', api.node.open.preview, 'Open Preview')
 	map('<C-v>', api.node.open.vertical, 'Open: Vertical Split')
@@ -35,8 +33,6 @@ return function(bufnr)
 	map('<C-t>', api.node.open.tab, 'Open: New Tab')
 	map('[c', api.node.navigate.git.prev, 'Prev Git')
 	map(']c', api.node.navigate.git.next, 'Next Git')
-	map('K', api.node.navigate.sibling.first, 'First Sibling')
-	map('J', api.node.navigate.sibling.last, 'Last Sibling')
 	map('a', api.fs.create, 'Create')
 	map('r', api.fs.rename, 'Rename')
 	map('x', api.fs.cut, 'Cut')
@@ -63,6 +59,10 @@ return function(bufnr)
 	map('<C-k>', api.node.show_info_popup, 'Info')
 	map('m', api.marks.toggle, 'Toggle Bookmark')
 	map('bmv', api.marks.bulk.move, 'Move Bookmarked')
+	map('i', api.node.open.no_window_picker, 'Open: No Window Picker')
+	map('m', api.node.navigate.parent_close, 'Close Directory')
+	map('E', api.node.navigate.sibling.first, 'First Sibling')
+	map('N', api.node.navigate.sibling.last, 'Last Sibling')
 end
 
 -- return {

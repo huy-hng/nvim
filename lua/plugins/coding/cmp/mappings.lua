@@ -69,8 +69,8 @@ return {
 	[Keys.ctrl.h] = cmp.mapping(jump(-1), { 'i', 's' }),
 	[Keys.ctrl.l] = cmp.mapping(confirm_or_jump_forward(), { 'i', 's', 'c' }),
 
-	[Keys.alt.j] = cmp.mapping.scroll_docs(-8),
-	[Keys.alt.k] = cmp.mapping.scroll_docs(8),
+	-- [Keys.alt.j] = cmp.mapping.scroll_docs(-8),
+	-- [Keys.alt.k] = cmp.mapping.scroll_docs(8),
 
 	[Keys.ctrl.j] = cmp.mapping {
 		i = if_visible(cmp.select_next_item),
