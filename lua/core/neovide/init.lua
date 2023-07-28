@@ -12,8 +12,8 @@ g.neovide_profiler = false
 local function manjaro()
 	g.neovide_refresh_rate = 120
 
-	g.neovide_refresh_rate_idle = 120
-	g.neovide_default_transparency = 0.8
+	g.neovide_refresh_rate_idle = 60
+	g.neovide_default_transparency = 0.75
 	g.gui_font_default_size = 11
 
 	-- o.winblend = 0
@@ -31,7 +31,6 @@ end
 
 local function chromebook()
 	g.neovide_refresh_rate = 60
-	g.neovide_default_transparency = 1
 	g.neovide_default_transparency = 0.85
 	g.gui_font_default_size = 11
 end
