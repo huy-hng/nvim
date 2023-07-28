@@ -13,16 +13,33 @@ function M.set_keymap()
 	Map('<C-u>', '<C-o>')
 	Map('<C-y>', '<C-i>')
 
+	-- local which_key = nrequire('which-key')
+	-- if which_key then --
+	-- 	local opts = { mode = 'n', auto = true }
+	-- 	Map.n(Keys.g, { which_key.show, 'j', opts }, 'g')
+	-- end
+
+	-- Map(Keys.g, 'g', 'g', { remap = true })
 	uppermap(Keys.g, 'g')
-	Map(Keys.gg, 'gg', 'Go to top of file')
+	Map(Keys.gg, 'gg', 'First line')
 	Map(Keys.g .. '<C-a>', 'g<C-a>', 'Increment cumulatively')
-	Map(Keys.g .. Keys.v, 'gv', 'Highlight last VISUAL', { mode = 'n' })
+	Map(Keys.g .. Keys.v, 'gv', 'Switch to VISUAL using last selection', { mode = 'n' })
+	Map(Keys.g .. Keys.n, 'gn', 'Search forward and select')
+	Map(Keys.g .. Keys.N, 'gN', 'Search backward and select')
+	Map(Keys.g .. Keys.i, 'gi', 'Move to last insertion and INSERT')
+	Map(Keys.g .. 'f', 'gf', 'Go to file under cursor')
+	Map(Keys.g .. '%', 'g%', 'Cycle backwards through results')
+	Map(Keys.g .. 'x', 'gx', 'Open the file under the cursor with system app')
+	Map(Keys.g .. 'u', 'gu', 'Lower Case')
+	Map(Keys.g .. 'U', 'gU', 'Upper Case')
 
 	Map(Keys.gE, 'gE')
 	Map(Keys.ge, 'ge')
 	uppermap(Keys.b, 'b')
 	uppermap(Keys.w, 'w')
 	uppermap(Keys.e, 'e')
+
+	Map(Keys.m, 'm')
 
 	-- text objects
 	Map.vo(Keys.i .. Keys.w, 'iw')
@@ -68,5 +85,8 @@ function M.set_keymap()
 	-- uppermap(Keys.t, 't')
 	-- uppermap(Keys.f, 'f')
 end
+
+R('config.native_keymaps')
+M.set_keymap()
 
 return M

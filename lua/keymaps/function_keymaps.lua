@@ -20,11 +20,11 @@ Map.n('<localleader>4', cleanup.delete_all_unloaded_buffers, 'Delete all unloade
 
 
 local surrounder = require('functions.surrounder')
-Map.v("'", surrounder("'"))
+-- Map.v("'", surrounder("'"))
 Map.v("<A-'>", surrounder('"'))
 Map.v('<A-*>', surrounder('*'))
 Map.v('<A-8>', surrounder('*'))
-Map.v('`', surrounder('`'))
+-- Map.v('`', surrounder('`'))
 -- vmap('=', surrounder('='))
 
 Map.v('(', surrounder('(', ')'))

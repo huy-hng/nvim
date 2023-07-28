@@ -81,6 +81,7 @@ local letters = {
 	l = 'i',
 
 	-- misc
+	m = 'v',
 	g = 'j',
 	t = 'k',
 	f = 'b',

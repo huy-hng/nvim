@@ -14,6 +14,15 @@ Map('%', '$') -- to end
 Map('-', '^')
 Map('+', '$')
 
+Map('Q', '')
+
+local remap = true
+if not nrequire('which-key') then
+	Map('`', "'", 'Jump to mark in line')
+	remap = false
+end
+Map("'", '`', 'Jump to mark in column', { remap = remap })
+
 -- Map('0', '^')
 -- Map('^', '0')
 -- Map('g0', 'g^')

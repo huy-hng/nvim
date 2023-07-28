@@ -99,7 +99,7 @@ local function ScheduleAsync(fn, ...)
 end
 
 local over_the_counter = 0
-local function fn1(direction)
+local function fn1(direction, should_indent)
 	-- 	vim.cmd.move(move)
 	-- 	vim.api.nvim_feedkeys('==', 'n', false)
 	-- end)
@@ -124,7 +124,7 @@ local function fn1(direction)
 			end
 
 			mover(move)
-			indent()
+			if should_indent then indent() end
 
 			locked = false
 			over_the_counter = over_the_counter + 1
@@ -139,8 +139,11 @@ end
 -- Map.n('<A-j>', move_line('+'), '')
 -- Map.n('<A-k>', move_line('-2'), '')
 
-Map.n(Keys.alt.j, fn1(1), '')
-Map.n(Keys.alt.k, fn1(-1), '')
+Map.n(Keys.alt.j, fn1(1, true), '')
+Map.n(Keys.alt.k, fn1(-1, true), '')
+
+Map.i(Keys.alt.j, fn1(1), '')
+Map.i(Keys.alt.k, fn1(-1), '')
 -- this is a comment
 
 -- Nmap('<A-j>', counter(1))
