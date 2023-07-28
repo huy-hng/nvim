@@ -118,7 +118,7 @@ vim.lsp.handlers['textDocument/definition'] = function(_, result)
 	end
 end
 
-vim.lsp.handlers['window/showMessage'] = require('plugins.lsp.core.show_message')
+-- vim.lsp.handlers['window/showMessage'] = require('plugins.lsp.core.show_message')
 
 -- handler('textDocument/publishDiagnostics', vim.lsp.diagnostic.on_publish_diagnostics, {
 -- 	update_in_insert = true,

@@ -5,7 +5,7 @@ local M = {
 	-- event = 'VeryLazy',
 	lazy = true,
 	dependencies = {
-		{ 'folke/neodev.nvim', config = function() require('plugins.lsp.core.neodev') end },
+		'folke/neodev.nvim',
 		'jose-elias-alvarez/null-ls.nvim',
 	},
 }
@@ -18,7 +18,7 @@ local M = {
 -- require(require_path .. 'mason')
 
 function M.config()
-	-- require('plugins.lsp.core.neodev')
+	require('plugins.lsp.core.neodev')
 	require('plugins.lsp.core.setup')
 	require('plugins.lsp.core.handlers')
 

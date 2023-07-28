@@ -65,7 +65,7 @@ function M.config()
 		hidden = { '<silent>', '<cmd>', '<Cmd>', '<CR>', 'call', 'lua', '^:', '^ ' }, -- hide mapping boilerplate
 		show_help = false, -- show help message on the command line when the popup is visible
 		show_keys = false, -- show the currently pressed key and its label as a message in the command line
-		triggers = { '<leader>', '<localleader>', 'z', '<C-w>', 'j', '"', "'", '`' }, -- 'auto', automatically setup triggers
+		triggers = { '<leader>', '<localleader>', 'z', '<C-w>', '"', "'", '`' }, -- 'auto', automatically setup triggers
 		-- triggers_blacklist = {
 		-- 	-- list of mode / prefixes that should never be hooked by WhichKey
 		-- 	-- this is mostly relevant for key maps that start with a native binding

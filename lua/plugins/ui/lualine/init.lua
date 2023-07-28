@@ -62,6 +62,7 @@ function M.config()
 			lualine_b = { comp.branch },
 			lualine_c = { comp.session_name, comp.filepath },
 			lualine_x = {
+				'%B',
 				'searchcount',
 				comp.metamap,
 				comp.indentation,
@@ -70,7 +71,7 @@ function M.config()
 			},
 			lualine_y = {
 				'progress',
-				'location',--[[ , '%B' ]]
+				'location',
 			},
 			lualine_z = { comp.date, comp.clock },
 		},

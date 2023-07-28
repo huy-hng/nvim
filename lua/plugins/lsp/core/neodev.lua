@@ -7,20 +7,8 @@ require('neodev').setup {
 		types = true, -- full signature, docs and completion of vim.api, vim.treesitter, vim.lsp and others
 		-- plugins = true, -- installed opt or start plugins in packpath
 		plugins = {
-			'indent_line',
-			'column_line',
-			'metamap',
-			'convenience',
-			'bufferline.nvim',
-			'noice',
-			'possession',
-			'alpha',
-			'ufo',
-			'possession.nvim',
-			'alpha-nvim',
-			'gitsigns',
-			'buffer_manager.nvim',
-			'heirline',
+			'edgy.nvim',
+			'noice.nvim'
 		},
 	},
 	setup_jsonls = false, -- configures jsonls to provide completion for project specific .luarc.json files

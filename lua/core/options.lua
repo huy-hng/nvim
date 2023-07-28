@@ -139,6 +139,8 @@ o.lazyredraw = false
 -- split windows
 o.splitright = true -- split vertical window to the right
 o.splitbelow = true -- split horizontal window to the bottom
+o.splitkeep = 'screen'
+-- opt.switchbuf:append { 'useopen', 'vsplit' }
 
 opt.iskeyword:remove { '-' } -- consider string-string and str_str not as whole word
 opt.isfname:append('@-@') -- use @ for filename completion
@@ -170,6 +172,5 @@ opt.formatoptions:remove { 'c', 'r', 'o' }
 -- opt_g.path:append(NVIM_CONFIG_PATH)
 opt_g.path:append('**')
 
-opt.switchbuf:append { 'useopen', 'vsplit' }
 -- opt.sessionoptions:remove { 'buffers', 'terminal', 'blank', 'folds' }
 opt.sessionoptions:remove { 'terminal', 'blank', 'folds', 'help' }

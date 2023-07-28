@@ -157,33 +157,6 @@ M.clock = {
 	icon = '',
 }
 
------------------------------------------------Noice------------------------------------------------
-
--- M.command = {
--- 	require('noice').api.status.command.get,
--- 	cond = require('noice').api.status.command.has,
--- }
-
--- M.ruler = {
--- 	require('noice').api.status.ruler.get,
--- 	cond = require('noice').api.status.ruler.has,
--- }
-
--- M.message = {
--- 	require('noice').api.status.message.get_hl,
--- 	cond = require('noice').api.status.message.has,
--- }
-
--- M.search = {
--- 	require('noice').api.status.search.get_hl,
--- 	cond = require('noice').api.status.search.has,
--- }
-
--- M.mode = {
--- 	require('noice').api.status.mode.get,
--- 	cond = require('noice').api.status.mode.has,
--- }
-
 ----------------------------------------------Tabline-----------------------------------------------
 M.bufferline = {
 	'%{%v:lua.nvim_bufferline()%}',
