@@ -1,8 +1,7 @@
 local popup = require('plenary.popup')
-local filename = require('plugins.ui.heirline.buffer_manager.filename')
 local utils = require('plugins.ui.heirline.buffer_manager.utils')
 
-local extmark = require('plugins.ui.heirline.buffer_manager.extmark')
+local buffer_content = require('plugins.ui.heirline.buffer_manager.buffer_content')
 local list_manager = require('plugins.ui.heirline.buffer_manager.list_manager')
 local navigator = require('plugins.ui.heirline.buffer_manager.navigation')
 local config = require('plugins.ui.heirline.buffer_manager.config').config
@@ -14,46 +13,6 @@ local M = {}
 M.win_id = nil
 M.bufnr = nil
 
-local function get_display_filename(mark)
-	if string.starts(mark.filename, 'term://') then
-		if config.short_file_names then --
-			return filename.get_short_term_name(mark.filename)
-		end
-		return mark.filename
-	end
-
-	if config.short_file_names then return filename.get_short_file_name(mark.filename) end
-
-	return filename.normalize_path(mark.filename)
-end
-
-local function create_buffer_content(current_buf)
-	---@diagnostic disable-next-line: param-type-mismatch
-	current_buf = config.focus_alternate_buffer and vim.fn.bufnr('#') or current_buf
-
-	local contents = {}
-	local current_buf_line
-	local line = 1
-	for i, mark in ipairs(list_manager.marks) do
-		-- Add buffer only if it does not already exist
-		if vim.fn.buflisted(mark.bufnr) ~= 1 then
-			list_manager.marks[i] = nil
-			goto continue
-		end
-		list_manager.initial_marks[i] = {
-			filename = mark.filename,
-			bufnr = mark.bufnr,
-		}
-		if mark.bufnr == current_buf then current_buf_line = line end
-
-		contents[line] = string.format('%s', mark.filename)
-		line = line + 1
-
-		::continue::
-	end
-	return contents, current_buf_line
-end
-
 local function set_buf_lines(contents, current_buf_line, allow_undo)
 	local undolevels = vim.api.nvim_buf_get_option(M.bufnr, 'undolevels')
 	if not allow_undo then vim.api.nvim_buf_set_option(M.bufnr, 'undolevels', -1) end
@@ -63,33 +22,10 @@ local function set_buf_lines(contents, current_buf_line, allow_undo)
 	if not allow_undo then vim.api.nvim_buf_set_option(M.bufnr, 'undolevels', undolevels) end
 end
 
-local function update_extmarks(lines)
-	lines = lines or M.get_buffer_lines()
-	extmark.remove_extmarks(M.bufnr)
-	local prev_path
-	for i, file in ipairs(lines) do
-		local path, _ = filename.get_path_folders(file, 0)
-		local path_string = string.join(path)
-
-		local extra_opts = {}
-		local separator_line = { { vim.fn['repeat']('─', config.width) } }
-		if path_string ~= prev_path then
-			local virt_line = filename.get_extmark_path(path)
-			table.insert(virt_line, 1, { '  ' })
-
-			extra_opts.virt_lines = { virt_line }
-			if prev_path then table.insert(extra_opts.virt_lines, 1, separator_line) end
-		end
-
-		extmark.set_extmark(M.bufnr, i - 1, 0, filename.get_extmark_name(file), extra_opts)
-		prev_path = path_string
-	end
-end
-
 local function set_buffer_content(current_buf, allow_undo)
-	local contents, current_buf_line = create_buffer_content(current_buf)
+	local contents, current_buf_line = buffer_content.create_buffer_content(current_buf)
 	set_buf_lines(contents, current_buf_line, allow_undo)
-	update_extmarks(contents)
+	buffer_content.update_extmarks(M.bufnr, contents)
 end
 
 local function create_window()
@@ -164,7 +100,8 @@ local function set_buf_autocmds()
 		Autocmd('BufWriteCmd', nil, list_manager.update_marks_list, { buffer = M.bufnr }),
 		Autocmd('BufModifiedSet', nil, function()
 			-- update extmarks when line is moved
-			update_extmarks()
+			local lines = M.get_buffer_lines()
+			buffer_content.update_extmarks(M.bufnr, lines)
 			vim.bo.modified = false
 		end, { buffer = M.bufnr }),
 		Autocmd('CursorMoved', nil, function()
@@ -178,10 +115,13 @@ local function set_buf_autocmds()
 		}),
 		-- remove extmarks in current line when inserting
 		-- TODO: same for visual mode
-		Autocmd('InsertLeave', nil, function() update_extmarks() end, { buffer = M.bufnr }),
+		Autocmd('InsertLeave', nil, function()
+			local lines = M.get_buffer_lines()
+			buffer_content.update_extmarks(M.bufnr, lines)
+		end, { buffer = M.bufnr }),
 		Autocmd('InsertEnter', nil, function()
 			local current_line = vim.fn.line('.')
-			extmark.remove_extmarks(M.bufnr, current_line - 1, current_line)
+			buffer_content.remove_extmarks(M.bufnr, current_line - 1, current_line)
 		end, { buffer = M.bufnr }),
 	})
 end
@@ -205,13 +145,9 @@ end
 function M.get_buffer_lines()
 	local function is_white_space(str) return str:gsub('%s', '') == '' end
 
-	local bufnr = require('plugins.ui.heirline.buffer_manager.window').bufnr
-	local lines = vim.api.nvim_buf_get_lines(bufnr, 0, -1, true)
+	local lines = vim.api.nvim_buf_get_lines(M.bufnr, 0, -1, true)
 	local items = {}
 
-	-- TODO: copy whitespace as well for organizing buffers
-	-- or instead use virtual text to space them out
-	-- also possible to separate buffers by their folders for example
 	for _, line in ipairs(lines) do
 		if not is_white_space(line) then --
 			table.insert(items, line)
