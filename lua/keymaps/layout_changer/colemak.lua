@@ -55,7 +55,8 @@ function M.set_keymap()
 	local utils = require('core.statuscolumn.utils')
 	local function open_fold()
 		local lnum = vim.fn.line('.')
-		if vim.fn.foldclosed(lnum) ~= -1 and utils.is_foldline(lnum) then --
+		-- if vim.fn.foldclosed(lnum) ~= -1 and utils.is_foldline(lnum) then --
+		if vim.fn.foldclosed(lnum) ~= -1 then --
 			vim.cmd.foldopen()
 		end
 	end
@@ -86,7 +87,7 @@ function M.set_keymap()
 	-- uppermap(Keys.f, 'f')
 end
 
-R('config.native_keymaps')
-M.set_keymap()
+-- R('config.native_keymaps')
+-- M.set_keymap()
 
 return M
