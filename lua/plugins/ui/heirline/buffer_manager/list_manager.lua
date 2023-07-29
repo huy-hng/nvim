@@ -1,13 +1,13 @@
-local fname = require('plugins.ui.heirline.buffer_manager.filename')
 local config = require('plugins.ui.heirline.buffer_manager.config').config
+local grouper = require('plugins.ui.heirline.buffer_manager.grouper')
 
 local M = {}
 
----@alias marks { filename: string, display_name: string, bufnr: number }[]
+---@alias marks { filename: string, bufnr: number }[]
 
 ---@type marks
 M.marks = {}
-
+M.groups = {}
 M.initial_marks = {}
 
 function M.sort_marks(sorting_fn)
@@ -37,11 +37,11 @@ local function get_mark_by_name(name, specific_marks)
 	for _, mark in ipairs(specific_marks) do
 		ref_name = mark.filename
 
-		if string.starts(mark.filename, 'term://') then
-			if config.short_term_names then ref_name = fname.get_short_term_name(mark.filename) end
-		else
-			if config.short_file_names then ref_name = fname.get_short_file_name(mark.filename) end
-		end
+		-- if string.starts(mark.filename, 'term://') then
+		-- 	if config.short_term_names then ref_name = fname.get_short_term_name(mark.filename) end
+		-- else
+		-- 	if config.short_file_names then ref_name = fname.get_short_file_name(mark.filename) end
+		-- end
 		if name == ref_name then return mark end
 	end
 	return nil
@@ -107,7 +107,6 @@ function M.synchronize_marks(initialize)
 		if buffer_is_valid(bufnr, filename) and not is_buffer_in_marks(bufnr) then
 			table.insert(M.marks, {
 				filename = filename,
-				display_name = fname.get_extmark_name(filename),
 				bufnr = bufnr,
 			})
 		end
@@ -132,17 +131,21 @@ function M.update_marks_list()
 
 		return {
 			filename = filename,
-			display_name = fname.get_extmark_name(filename),
 			bufnr = bufnr,
 		}
 	end, window.get_buffer_lines())
-
 	M.marks = remove_duplicates(M.marks)
+
+	M.groups = grouper.group_marks(M.marks)
 end
 
-function M.get_ordered_bufids()
+function M.get_ordered_bufids(should_remove_duplicates)
 	M.synchronize_marks()
-	return table.map(function(mark) return mark.bufnr end, M.marks)
+	local marks = M.marks
+	if Util.nil_or_true(should_remove_duplicates) then --
+		marks = remove_duplicates(M.marks)
+	end
+	return table.map(function(mark) return mark.bufnr end, marks)
 end
 
 return M

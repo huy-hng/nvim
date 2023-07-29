@@ -2,6 +2,18 @@ local Path = require('plenary.path')
 
 local M = {}
 
+function M.get_extmark_path(path)
+	local virt_line = {}
+
+	for _, dir in ipairs(path) do
+		table.insert(virt_line, { dir })
+		table.insert(virt_line, { '  ', 'Operator' })
+	end
+	table.remove(virt_line, #virt_line)
+
+	return virt_line
+end
+
 function M.get_extmark_name(filename)
 	local display_name = { M.get_icon(filename) }
 
@@ -46,7 +58,7 @@ function M.get_icon(filename)
 end
 
 function M.get_path_folders(filename, folder_amount, normalize)
-	folder_amount = folder_amount or 1
+	folder_amount = folder_amount or 0
 
 	if Util.nil_or_true(normalize) then --
 		filename = M.normalize_path(filename)

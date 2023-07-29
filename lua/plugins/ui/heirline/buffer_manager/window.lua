@@ -7,7 +7,7 @@ local list_manager = require('plugins.ui.heirline.buffer_manager.list_manager')
 local navigator = require('plugins.ui.heirline.buffer_manager.navigation')
 local config = require('plugins.ui.heirline.buffer_manager.config').config
 
-local Object = require('nui.object')
+-- local Object = require('nui.object')
 
 local M = {}
 
@@ -45,9 +45,8 @@ local function create_buffer_content(current_buf)
 			bufnr = mark.bufnr,
 		}
 		if mark.bufnr == current_buf then current_buf_line = line end
-		local display_filename = get_display_filename(mark)
 
-		contents[line] = string.format('%s', display_filename)
+		contents[line] = string.format('%s', mark.filename)
 		line = line + 1
 
 		::continue::
@@ -75,20 +74,11 @@ local function update_extmarks(lines)
 		local extra_opts = {}
 		local separator_line = { { vim.fn['repeat']('─', config.width) } }
 		if path_string ~= prev_path then
-			local virt_line = {}
+			local virt_line = filename.get_extmark_path(path)
+			table.insert(virt_line, 1, { '  ' })
 
-			table.insert(virt_line, { '  ' })
-			for _, dir in ipairs(path) do
-				table.insert(virt_line, { dir })
-				table.insert(virt_line, { '  ', 'Operator' })
-			end
-			table.remove(virt_line, #virt_line)
-
-			if prev_path then
-				extra_opts.virt_lines = { separator_line, virt_line }
-			else
-				extra_opts.virt_lines = { virt_line }
-			end
+			extra_opts.virt_lines = { virt_line }
+			if prev_path then table.insert(extra_opts.virt_lines, 1, separator_line) end
 		end
 
 		extmark.set_extmark(M.bufnr, i - 1, 0, filename.get_extmark_name(file), extra_opts)
@@ -96,7 +86,7 @@ local function update_extmarks(lines)
 	end
 end
 
-local function update_buffer_content(current_buf, allow_undo)
+local function set_buffer_content(current_buf, allow_undo)
 	local contents, current_buf_line = create_buffer_content(current_buf)
 	set_buf_lines(contents, current_buf_line, allow_undo)
 	update_extmarks(contents)
@@ -111,7 +101,7 @@ local function create_window()
 	local bufnr = vim.api.nvim_create_buf(false, false)
 
 	local win_config = {
-		title = 'Buffers',
+		title = 'Buffer Manager',
 		line = math.floor(((vim.o.lines - height) / 2) - 1),
 		col = math.floor((vim.o.columns - width) / 2),
 		minwidth = width,
@@ -153,7 +143,7 @@ local function set_buf_keybindings()
 	for name, sort in pairs(sorting_functions) do
 		nmap(sort.key, function()
 			list_manager.sort_marks(name)
-			update_buffer_content(nil, true)
+			set_buffer_content(nil, true)
 		end, 'Sort Marks by ' .. name)
 	end
 
@@ -171,19 +161,28 @@ end
 
 local function set_buf_autocmds()
 	Augroup('BufferManager', {
+		Autocmd('BufWriteCmd', nil, list_manager.update_marks_list, { buffer = M.bufnr }),
 		Autocmd('BufModifiedSet', nil, function()
+			-- update extmarks when line is moved
 			update_extmarks()
 			vim.bo.modified = false
 		end, { buffer = M.bufnr }),
 		Autocmd('CursorMoved', nil, function()
-			if vim.fn.line('.') == 1 then nvim.feedkeys('<C-y>', false) end
+			local cur_line = vim.fn.line('.')
+			if cur_line == 1 or cur_line == 2 then nvim.feedkeys('<C-y>', false) end
 		end, { buffer = M.bufnr }),
-		Autocmd('BufWriteCmd', nil, list_manager.update_marks_list, { buffer = M.bufnr }),
 		Autocmd('BufLeave', nil, M.close_menu, {
 			buffer = M.bufnr,
 			nested = true,
 			once = true,
 		}),
+		-- remove extmarks in current line when inserting
+		-- TODO: same for visual mode
+		Autocmd('InsertLeave', nil, function() update_extmarks() end, { buffer = M.bufnr }),
+		Autocmd('InsertEnter', nil, function()
+			local current_line = vim.fn.line('.')
+			extmark.remove_extmarks(M.bufnr, current_line - 1, current_line)
+		end, { buffer = M.bufnr }),
 	})
 end
 
@@ -194,7 +193,10 @@ local function set_options()
 	end
 
 	vim.api.nvim_buf_set_name(M.bufnr, 'buffer_manager-menu')
+
+	vim.api.nvim_win_set_option(M.win_id, 'wrap', false)
 	vim.api.nvim_win_set_option(M.win_id, 'number', true)
+
 	vim.api.nvim_buf_set_option(M.bufnr, 'filetype', 'buffer_manager')
 	vim.api.nvim_buf_set_option(M.bufnr, 'buftype', 'acwrite')
 	vim.api.nvim_buf_set_option(M.bufnr, 'bufhidden', 'delete')
@@ -243,7 +245,7 @@ function M.open_menu()
 	M.win_id = win_info.win_id
 	M.bufnr = win_info.bufnr
 
-	update_buffer_content(current_buf)
+	set_buffer_content(current_buf)
 	set_options()
 	set_buf_keybindings()
 	set_buf_autocmds()

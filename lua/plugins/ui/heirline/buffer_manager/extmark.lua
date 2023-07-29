@@ -21,8 +21,8 @@ function M.set_extmark(bufnr, row, col, content, extra_opts)
 	vim.api.nvim_buf_set_extmark(bufnr, ns, row, col, mark_opts)
 end
 
-function M.remove_extmarks(bufnr)
-	vim.api.nvim_buf_clear_namespace(bufnr, ns, 0, -1)
+function M.remove_extmarks(bufnr, line_start, line_end)
+	vim.api.nvim_buf_clear_namespace(bufnr, ns, line_start or 0, line_end or -1)
 end
 
 return M
