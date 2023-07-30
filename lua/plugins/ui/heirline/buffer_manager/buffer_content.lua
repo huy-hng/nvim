@@ -6,7 +6,7 @@ local M = {}
 
 local ns = vim.api.nvim_create_namespace('BufferManager')
 
-function M.set_extmark(bufnr, row, col, content, extra_opts)
+local function set_extmark(bufnr, row, col, content, extra_opts)
 	if not vim.api.nvim_buf_is_valid(bufnr) then return end
 
 	local mark_opts = {
@@ -46,7 +46,7 @@ function M.update_extmarks(bufnr, lines)
 			if prev_path then table.insert(extra_opts.virt_lines, 1, separator_line) end
 		end
 
-		M.set_extmark(bufnr, i - 1, 0, filename.get_extmark_name(file), extra_opts)
+		set_extmark(bufnr, i - 1, 0, filename.get_extmark_name(file), extra_opts)
 		prev_path = path_string
 	end
 end
@@ -57,23 +57,10 @@ function M.create_buffer_content(current_buf)
 
 	local contents = {}
 	local current_buf_line
-	local line = 1
+
 	for i, mark in ipairs(list_manager.marks) do
-		-- Add buffer only if it does not already exist
-		if vim.fn.buflisted(mark.bufnr) ~= 1 then
-			list_manager.marks[i] = nil
-			goto continue
-		end
-		list_manager.initial_marks[i] = {
-			filename = mark.filename,
-			bufnr = mark.bufnr,
-		}
-		if mark.bufnr == current_buf then current_buf_line = line end
-
-		contents[line] = string.format('%s', mark.filename)
-		line = line + 1
-
-		::continue::
+		if mark.bufnr == current_buf then current_buf_line = i end
+		table.insert(contents, mark.filename)
 	end
 	return contents, current_buf_line
 end

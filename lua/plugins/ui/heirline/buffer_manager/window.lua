@@ -58,14 +58,14 @@ local function create_window()
 	return { bufnr = bufnr, win_id = win_id }
 end
 
-local function select_menu_item(command)
-	local idx = vim.fn.line('.')
+local function select_item_cb(command)
+	local selected_line = vim.fn.line('.')
 	if vim.api.nvim_buf_get_changedtick(M.bufnr) > 0 then --
 		list_manager.update_marks_list()
 	end
 	M.close_menu()
-	navigator.nav_file(idx, command)
-	list_manager.update_buffers()
+	navigator.nav_file(selected_line, command)
+	list_manager.apply_buffer_changes()
 end
 
 local function set_buf_keybindings()
@@ -75,16 +75,17 @@ local function set_buf_keybindings()
 	nmap('q', M.close_menu, 'Close Menu')
 	nmap('<ESC>', M.close_menu, 'Close Menu')
 
-	local sorting_functions = config.sorting.functions
-	for name, sort in pairs(sorting_functions) do
+	for name, sort in pairs(config.sorting.functions) do
 		nmap(sort.key, function()
+			-- M.update_marks_list()
 			list_manager.sort_marks(name)
 			set_buffer_content(nil, true)
+			-- M.update_marks_list()
 		end, 'Sort Marks by ' .. name)
 	end
 
 	for command, key in pairs(config.select_menu_item_commands) do
-		nmap(key, { select_menu_item, command }, 'Go to buffer in line')
+		nmap(key, { select_item_cb, command }, 'Go to buffer in line')
 	end
 
 	-- Go to file hitting its line number
@@ -161,18 +162,17 @@ end
 function M.close_menu()
 	if M.win_id == nil or not vim.api.nvim_win_is_valid(M.win_id) then return end
 
-	if vim.api.nvim_buf_get_changedtick(M.bufnr) > 0 then list_manager.update_marks_list() end
-
+	if vim.api.nvim_buf_get_changedtick(M.bufnr) > 2 then list_manager.update_marks_list() end
 	vim.api.nvim_win_close(M.win_id, true)
 
 	M.win_id = nil
 	M.bufnr = nil
-	list_manager.update_buffers()
+	list_manager.apply_buffer_changes()
 	utils.show_cursor()
 end
 
 function M.open_menu()
-	list_manager.initial_marks = {}
+	list_manager.window_marks = utils.deep_copy(list_manager.marks)
 	list_manager.synchronize_marks()
 
 	local current_buf = vim.api.nvim_get_current_buf()

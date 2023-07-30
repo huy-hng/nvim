@@ -1,5 +1,6 @@
 local config = require('plugins.ui.heirline.buffer_manager.config').config
 local grouper = require('plugins.ui.heirline.buffer_manager.grouper')
+local Debounce = require('plugins.ui.heirline.buffer_manager.debounce')
 
 local M = {}
 
@@ -8,9 +9,10 @@ local M = {}
 ---@type marks
 M.marks = {}
 M.groups = {}
-M.initial_marks = {}
+M.window_marks = {}
 
 function M.sort_marks(sorting_fn)
+	M.update_marks_list()
 	if #M.marks < 2 then return end
 	table.sort(M.marks, config.sorting.functions[sorting_fn][1])
 end
@@ -62,27 +64,33 @@ local function is_buffer_in_marks(bufnr)
 	end
 end
 
-function M.update_buffers()
-	-- Check deletions
-	for _, mark in ipairs(M.initial_marks) do
+local function delete_buffers()
+	for _, mark in ipairs(M.window_marks) do
 		if not is_buffer_in_marks(mark.bufnr) and can_be_deleted(mark.filename, mark.bufnr) then
-			vim.api.nvim_buf_clear_namespace(mark.bufnr, -1, 1, -1)
 			vim.cmd.Bdelete(mark.bufnr)
 		end
 	end
+end
 
-	-- Check additions
+local function add_buffers()
 	for i, mark in ipairs(M.marks) do
-		local bufnr = vim.fn.bufnr(mark.filename)
+		local bufnr = vim.fn.bufnr(mark.bufnr)
 		-- Add buffer only if it does not already exist
 		if bufnr == -1 then
-			-- vim.cmd('badd ' .. mark.filename)
+			vim.cmd('badd ' .. mark.filename)
 			M.marks[i].bufnr = vim.fn.bufnr(mark.filename)
 		end
 	end
 end
 
+-- apply changes that have been made inside the buffer manager window
+function M.apply_buffer_changes()
+	delete_buffers()
+	-- add_buffers()
+end
+
 local function remove_mark(idx)
+	-- shift indices over
 	M.marks[idx] = nil
 	if idx < #M.marks then
 		for i = idx, #M.marks do
@@ -91,7 +99,8 @@ local function remove_mark(idx)
 	end
 end
 
-function M.synchronize_marks(initialize)
+-- sync marks with actual buffers
+local function synchronize_marks(initialize)
 	if initialize then M.marks = {} end
 
 	-- Check if any buffer has been deleted
@@ -113,6 +122,9 @@ function M.synchronize_marks(initialize)
 	end
 end
 
+M.synchronize_marks = Debounce(vim.schedule_wrap(synchronize_marks), 20)
+
+-- sync marks list with window lines
 function M.update_marks_list()
 	local window = require('plugins.ui.heirline.buffer_manager.window')
 	M.marks = table.map(function(v)

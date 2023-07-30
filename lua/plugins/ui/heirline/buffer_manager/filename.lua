@@ -39,7 +39,7 @@ function M.get_extmark_name(filename)
 end
 
 function M.normalize_path(item)
-	if string.find(item, '.*:///.*') ~= nil then return Path:new(item) end
+	if string.find(item, '.*:///.*') ~= nil then return item end
 	return Path:new(item):normalize()
 	-- return Path:new(Path:new(item):absolute()):make_relative(vim.loop.cwd())
 end
