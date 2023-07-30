@@ -47,7 +47,16 @@ local function parse_args(par1, ...)
 	end
 
 	assert(type(level) == 'number', 'traceback level should be a number')
-	assert(type(fn) == 'function')
+	if type(fn) == 'table' then
+		local meta = getmetatable(fn)
+		if meta.__call then
+			assert(type(meta.__call) == 'function')
+		else
+			error('not callable')
+		end
+	else
+		assert(type(fn) == 'function')
+	end
 	assert(type(args) == 'table')
 	return level, fn, args
 end

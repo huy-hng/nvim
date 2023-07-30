@@ -40,12 +40,12 @@ local function create_popup()
 		},
 		win_options = {
 			winblend = 50,
+			concealcursor = 'nc',
 			-- winhighlight = 'Normal:Normal,FloatBorder:FloatShadowThrough',
 			-- winhighlight = 'Normal:Normal,FloatBorder:FloatShadowOpaque',
 			winhighlight = 'Normal:Normal,FloatBorder:none',
 			-- winhighlight = 'Normal:Normal,FloatBorder:FloatBorder',
 		},
-		-- bufnr = vim.api.nvim_get_current_buf(),
 	}
 
 	Augroup('NeorgPopup', {

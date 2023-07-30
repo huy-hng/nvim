@@ -18,13 +18,11 @@ Map.n('<localleader>2', cleanup.close_all_floating_windows, 'Close all floating 
 Map.n('<localleader>3', cleanup.delete_all_scratch_buffers, 'Delete all scratch buffers')
 Map.n('<localleader>4', cleanup.delete_all_unloaded_buffers, 'Delete all unloaded buffers')
 
-
 local surrounder = require('functions.surrounder')
--- Map.v("'", surrounder("'"))
-Map.v("<A-'>", surrounder('"'))
+Map.v("<A-'>", surrounder("'"))
+Map.v('<A-">', surrounder('"'))
+Map.v('<A-`>', surrounder('`'))
 Map.v('<A-*>', surrounder('*'))
-Map.v('<A-8>', surrounder('*'))
--- Map.v('`', surrounder('`'))
 -- vmap('=', surrounder('='))
 
 Map.v('(', surrounder('(', ')'))

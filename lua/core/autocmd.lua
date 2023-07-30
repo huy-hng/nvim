@@ -17,7 +17,6 @@ Augroup('DetectIndent', {
 	end),
 })
 
-
 Augroup('WindowManagement', {
 	Autocmd('FileType', {
 		'qf',
@@ -101,8 +100,7 @@ Augroup('Misc', {
 		'CursorHold',
 		'CursorHoldI',
 	}, function()
-		if Util.is_cmdwin() then return end
-		vim.cmd.checktime()
+		if not Util.is_cmdwin() then vim.cmd.checktime() end
 	end),
 })
 
@@ -206,8 +204,8 @@ Augroup('AutoSource', {
 	-- Autocmd('BufWritePost', '*.lua', 'so $HOME/.config/nvim/init.lua'),
 }, true, false)
 
-local start = vim.loop.now()
-local res = { { vim.loop.now() - start, 'imports done' } }
+-- local start = vim.loop.now()
+-- local res = { { vim.loop.now() - start, 'imports done' } }
 Augroup('Testing', {
 	Autocmd('BufAdd', { print, 'add' }),
 	Autocmd('BufReadPre', { print, 'readpre' }),
