@@ -2,38 +2,29 @@ local Path = require('plenary.path')
 
 local M = {}
 
-function M.get_extmark_path(path)
+---@param path string[]
+---@return table
+function M.get_extmark_path(path, remove_last_separator)
 	local virt_line = {}
 
 	for _, dir in ipairs(path) do
 		table.insert(virt_line, { dir })
 		table.insert(virt_line, { '  ', 'Operator' })
 	end
-	table.remove(virt_line, #virt_line)
+	if Util.nil_or_true(remove_last_separator) then table.remove(virt_line, #virt_line) end
 
 	return virt_line
 end
 
 function M.get_extmark_name(filename)
-	local display_name = { M.get_icon(filename) }
+	local display_name = {}
+	-- if add_icon then table.insert(display_name, M.get_icon(filename)) end
 
-	-- local project_root = vim.loop.cwd()
-	-- local path = vim.fn.fnamemodify(filename, ':h')
-	-- local folders = path:split('/')
+	local extension = '.' .. vim.fn.fnamemodify(filename, ':e')
+	local fname = filename == '' and '[No Name]' or vim.fn.fnamemodify(filename, ':t:r')
 
-	-- local folders, truncated = M.get_path_folders(filename, 0)
-	-- if truncated > 0 then
-	-- 	table.insert(display_name, { '..' .. truncated .. '  ', 'NonText' })
-	-- end
-
-	-- for _, folder in ipairs(folders) do
-	-- 	table.insert(display_name, { folder })
-	-- 	table.insert(display_name, { '  ', 'Operator' })
-	-- end
-
-	local fname, extension = M.get_filename_hl(filename)
-	table.insert(display_name, fname)
-	table.insert(display_name, extension)
+	table.insert(display_name, { fname, 'Tag' })
+	table.insert(display_name, { extension, 'NonText' })
 	table.insert(display_name, { vim.fn['repeat'](' ', #filename) })
 	return display_name
 end
@@ -87,15 +78,6 @@ function M.get_filename(filename, extension)
 	return filename == '' and '[No Name]' or vim.fn.fnamemodify(filename, mods)
 end
 
-function M.get_filename_hl(filename)
-	local extension_hl = 'NonText'
-	local extension = '.' .. vim.fn.fnamemodify(filename, ':e')
-	filename = filename == '' and '[No Name]' or vim.fn.fnamemodify(filename, ':t:r')
-	local filename_hl = 'Tag'
-
-	return { filename, filename_hl }, { extension, extension_hl }
-end
-
 function M.truncate_path(filename, folder_amount, add_icon)
 	local folders, truncated = M.get_path_folders(filename, folder_amount)
 	local sep = '  '
@@ -108,6 +90,18 @@ function M.truncate_path(filename, folder_amount, add_icon)
 	filename = M.get_filename(filename)
 	return icon .. truncation .. path .. filename
 	-- return truncation .. path .. filename
+end
+
+function M.truncate_path_hl(filename, folder_amount)
+	local path = {}
+	if folder_amount > 0 then
+		local folders, _ = M.get_path_folders(filename, folder_amount)
+		path = M.get_extmark_path(folders, false)
+	end
+	local icon = M.get_icon(filename)
+
+	filename = M.get_extmark_name(filename)
+	return table.add({ icon }, path, filename)
 end
 
 function M.get_short_file_name(file) return M.truncate_path(file, 1, true) end

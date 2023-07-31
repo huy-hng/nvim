@@ -4,9 +4,9 @@ local Debounce = require('plugins.ui.heirline.buffer_manager.debounce')
 
 local M = {}
 
----@alias marks { filename: string, bufnr: number }[]
+---@alias mark { filename: string, bufnr: number }
 
----@type marks
+---@type mark[]
 M.marks = {}
 M.groups = {}
 M.window_marks = {}
@@ -89,16 +89,6 @@ function M.apply_buffer_changes()
 	-- add_buffers()
 end
 
-local function remove_mark(idx)
-	-- shift indices over
-	M.marks[idx] = nil
-	if idx < #M.marks then
-		for i = idx, #M.marks do
-			M.marks[i] = M.marks[i + 1]
-		end
-	end
-end
-
 -- sync marks with actual buffers
 local function synchronize_marks(initialize)
 	if initialize then M.marks = {} end
@@ -107,7 +97,7 @@ local function synchronize_marks(initialize)
 	-- If so, remove it from M.marks
 	for i, mark in ipairs(M.marks) do
 		if not buffer_is_valid(mark.bufnr, mark.filename) then --
-			remove_mark(i)
+			table.remove(M.marks, i)
 		end
 	end
 
@@ -147,8 +137,6 @@ function M.update_marks_list()
 		}
 	end, window.get_buffer_lines())
 	M.marks = remove_duplicates(M.marks)
-
-	M.groups = grouper.group_marks(M.marks)
 end
 
 function M.get_ordered_bufids(should_remove_duplicates)
