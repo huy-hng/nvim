@@ -36,9 +36,10 @@ end
 ---@param input table table to join
 ---@param sep string? separator to separate with
 function string.join(input, sep)
+	sep = sep or ' '
 	local result = ''
-	for _, val in ipairs(input) do
-		result = result .. val .. (sep or ' ')
+	for i, val in ipairs(input) do
+		result = result .. (i ~= 1 and sep or '') .. val
 	end
 	return result
 end
@@ -118,7 +119,7 @@ end
 ---@return any[]
 function table.add(...)
 	local new = select(1, ...)
-	new = type(new) == 'table' and new or { new }
+	new = type(new) == 'table' and table.copy(new) or { new }
 
 	for _, list in ipairs { select(2, ...) } do
 		if type(list) ~= 'table' then
