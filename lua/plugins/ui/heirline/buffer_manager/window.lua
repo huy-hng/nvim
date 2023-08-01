@@ -24,12 +24,11 @@ end
 
 local function set_buffer_content(current_buf, allow_undo)
 	local contents, current_buf_line = buffer_content.create_buffer_content(current_buf)
-	-- local contents, current_buf_line, extmarks = buffer_content.create_grouped_buffer_content(current_buf)
 
 	set_buf_lines(contents, current_buf_line, allow_undo)
 
-	-- buffer_content.extmark_setter(M.bufnr, extmarks)
-	buffer_content.update_extmarks(M.bufnr, contents)
+	-- buffer_content.update_extmarks(M.bufnr, contents)
+	buffer_content.update_grouped_extmarks(M.bufnr, contents)
 end
 
 local function create_window()
@@ -106,7 +105,7 @@ local function set_buf_autocmds()
 		Autocmd('BufModifiedSet', nil, function()
 			-- update extmarks when line is moved
 			local lines = M.get_buffer_lines()
-			-- buffer_content.update_extmarks(M.bufnr, lines)
+			buffer_content.update_grouped_extmarks(M.bufnr, lines)
 			vim.bo.modified = false
 		end, { buffer = M.bufnr }),
 		Autocmd('CursorMoved', nil, function()
@@ -122,7 +121,7 @@ local function set_buf_autocmds()
 		-- TODO: same for visual mode
 		Autocmd('InsertLeave', nil, function()
 			local lines = M.get_buffer_lines()
-			-- buffer_content.update_extmarks(M.bufnr, lines)
+			-- buffer_content.update_grouped_extmarks(M.bufnr, lines)
 		end, { buffer = M.bufnr }),
 		Autocmd('InsertEnter', nil, function()
 			local current_line = vim.fn.line('.')

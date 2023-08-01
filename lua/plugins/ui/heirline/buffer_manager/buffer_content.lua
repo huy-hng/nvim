@@ -27,13 +27,6 @@ function M.remove_extmarks(bufnr, line_start, line_end)
 	vim.api.nvim_buf_clear_namespace(bufnr, ns, line_start or 0, line_end or -1)
 end
 
-function M.extmark_setter(bufnr, extmarks)
-	M.remove_extmarks(bufnr)
-	for _, extmark in ipairs(extmarks) do
-		set_extmark(bufnr, extmark[1] - 1, 0, extmark[2], extmark[3])
-	end
-end
-
 function M.update_extmarks(bufnr, lines)
 	M.remove_extmarks(bufnr)
 	local prev_path
@@ -95,44 +88,24 @@ local function get_virt_line(path, add_separator)
 	return extra_opts
 end
 
-function M.create_grouped_buffer_content(current_buf)
-	local contents = {}
-	local extmarks = {}
-	local current_buf_line
+function M.update_grouped_extmarks(bufnr, lines)
+	M.remove_extmarks(bufnr)
+	local groups = grouper.group_buffers(lines)
 
-	local groups = grouper.group_marks(list_manager.marks)
 	local line = 1
 	for i, group in ipairs(groups) do
 		local common_path = group.common_path
 
-		for j, mark in ipairs(group.marks) do
-			if mark.bufnr == current_buf then current_buf_line = line end
-
+		for j, buffer in ipairs(group.buffers) do
 			-- add virt line for group
-			local extra_opts = j > 1 and {} or get_virt_line(common_path, i ~= 1)
+			local extra_opts = j == 1 and get_virt_line(common_path, i ~= 1) or {}
 
-			local path_folders = filename.get_path_folders(mark.filename)
-			local extmark = get_truncated_extmark(mark.filename, #path_folders - #common_path)
-
-			table.insert(extmarks, { line, extmark, extra_opts })
-			table.insert(contents, mark.filename)
+			local path_folders = filename.get_path_folders(buffer)
+			local extmark = get_truncated_extmark(buffer, #path_folders - #common_path)
+			set_extmark(bufnr, line - 1, 0, extmark, extra_opts)
 			line = line + 1
 		end
 	end
-	return contents, current_buf_line, extmarks
-end
-
-local function get_display_filename(mark)
-	if string.starts(mark.filename, 'term://') then
-		if config.short_file_names then --
-			return filename.get_short_term_name(mark.filename)
-		end
-		return mark.filename
-	end
-
-	if config.short_file_names then return filename.get_short_file_name(mark.filename) end
-
-	return filename.normalize_path(mark.filename)
 end
 
 return M

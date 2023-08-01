@@ -1,38 +1,49 @@
-local utils = require('plugins.ui.heirline.buffer_manager.utils')
 local filename = require('plugins.ui.heirline.buffer_manager.filename')
+local utils = require('plugins.ui.heirline.buffer_manager.utils')
 
 local M = {}
 local MAX_DISPLAY_NAME_FOLDERS = 1
 local MIN_AMOUNT_GROUPED_FILES = 2
 
-local function marks_with_common_path(marks, path)
-	local matching_marks = {}
+---@param buffers string[]
+---@param common_path string[] table with each directory being an element
+---@return table
+local function buffers_with_common_path(buffers, common_path)
+	local matches = {}
 	-- print('--------------------------------')
-	for _, mark in ipairs(marks) do
-		local name = filename.normalize_path(mark.filename)
-		if string.starts(name, path) then
-			-- print(name, 'MATCH')
-			table.insert(matching_marks, mark)
-		end
-		-- print(name)
+	local common_path_string = string.join(common_path, '/')
+	-- print(common_path_string)
+	for _, buffer in ipairs(buffers) do
+		local buffer_path = filename.get_path_folders(buffer)
+
+		if not string.starts(string.join(buffer_path, '/'), common_path_string) then break end
+
+		table.insert(matches, buffer)
+		-- print(buffer)
 	end
-	return matching_marks
+	return matches
 end
 
 local function group_mark(marks)
-	local folders = filename.get_path_folders(marks[1].filename)
+	local folders = filename.get_path_folders(marks[1])
 
 	local common_path = {}
-	local matching_marks = { marks[1] }
+	local chosen_group = { marks[1] }
 	for _, folder in ipairs(folders) do
-		local path = string.join(common_path, '/') .. folder
-		local match = marks_with_common_path(marks, path)
-		if #match < MIN_AMOUNT_GROUPED_FILES then break end
-		matching_marks = match
+		local matches = buffers_with_common_path(marks, table.add(common_path, { folder }))
+
+		local folder_diff = #folders - #common_path
+		local too_many_folders = folder_diff >= MAX_DISPLAY_NAME_FOLDERS
+		local too_few_grouped_files = #matches < MIN_AMOUNT_GROUPED_FILES
+
+		-- its okay to exceed MAX_DISPLAY_NAME_FOLDERS if MIN_AMOUNT_GROUPED_FILES is not met
+		if too_few_grouped_files and too_many_folders then break end
+
 		table.insert(common_path, folder)
+		chosen_group = matches
 	end
 
-	return common_path, matching_marks
+	return common_path, chosen_group
 end
 
 local function remove_matching_marks(marks, matching_marks)
@@ -47,36 +58,18 @@ local function remove_matching_marks(marks, matching_marks)
 	return marks
 end
 
----@param marks mark[]
----@return { common_path: string[], marks: mark[] }[]
-function M.group_marks(marks)
-	local to_be_grouped = utils.deep_copy(marks)
+---@param buffers string[]
+---@return { buffers: string[], common_path: string[] }[]
+function M.group_buffers(buffers)
 	local groups = {}
 	local safety_counter = 0
-	while #to_be_grouped > 0 or safety_counter > 100 do
-		local common_path, matching_marks = group_mark(to_be_grouped)
-		remove_matching_marks(to_be_grouped, matching_marks)
-		table.insert(groups, { common_path = common_path, marks = matching_marks })
+	while #buffers > 0 and safety_counter < 100 do
+		local common_path, matching_marks = group_mark(buffers)
+		remove_matching_marks(buffers, matching_marks)
+		table.insert(groups, { buffers = matching_marks, common_path = common_path })
 		safety_counter = safety_counter + 1
 	end
 	return groups
-end
-
-function M.group_by_text(lines)
-	local prev_path
-	local groups = {}
-	for i, file in ipairs(lines) do
-		local path, _ = filename.get_path_folders(file, 0)
-
-		local common_path = {}
-		local matching_marks = { lines[1] }
-		for _, folder in ipairs(path) do
-			local path_string = string.join(common_path, '/') .. folder
-			table.insert(common_path, folder)
-
-			table.remove(lines, i)
-		end
-	end
 end
 
 return M
