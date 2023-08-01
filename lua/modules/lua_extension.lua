@@ -36,12 +36,7 @@ end
 ---@param input table table to join
 ---@param sep string? separator to separate with
 function string.join(input, sep)
-	sep = sep or ' '
-	local result = ''
-	for i, val in ipairs(input) do
-		result = result .. (i ~= 1 and sep or '') .. val
-	end
-	return result
+	return table.concat(input, sep or ' ')
 end
 
 --- Check if a string starts with a substring
