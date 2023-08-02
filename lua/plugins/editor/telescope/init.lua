@@ -1,6 +1,7 @@
 local M = {
 	'nvim-telescope/telescope.nvim',
 	keys = { '<C-t>', '<leader>tl' },
+	event = 'VeryLazy',
 
 	dependencies = 'rcarriga/nvim-notify',
 }
@@ -73,12 +74,12 @@ function M.config()
 
 	telescope.setup(config)
 
-	Augroup('TelescopeRefresh', {
-		Autocmd('OptionSet', 'winblend', function()
-			config.defaults.winblend = vim.o.winblend
-			telescope.setup(config)
-		end),
-	})
+	-- Augroup('TelescopeRefresh', {
+	-- 	Autocmd('OptionSet', 'winblend', function()
+	-- 		config.defaults.winblend = vim.o.winblend
+	-- 		telescope.setup(config)
+	-- 	end),
+	-- })
 end
 
 return M

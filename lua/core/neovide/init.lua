@@ -48,8 +48,6 @@ end
 local function post_init()
 	local hostname = os_fn.get_hostname()
 
-	local device = hostname == 'huystower' or hostname == 'arch' and manjaro or chromebook
-
 	-- print(jit.os) -- prints Linux
 	if hostname == 'huystower' then
 		manjaro()
