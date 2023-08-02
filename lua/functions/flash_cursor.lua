@@ -18,8 +18,8 @@ local function blink(duration)
 end
 
 return function(times, blink_time)
-	vim.cmd('hi CursorColumn guibg=#3a3b4c')
-	vim.cmd('hi CursorLine guibg=#3a3b4c')
+	-- vim.cmd('hi CursorColumn guibg=#3a3b4c')
+	-- vim.cmd('hi CursorLine guibg=#3a3b4c')
 
 	local opts_before = {
 		cursorlineopt = vim.o.cursorlineopt,

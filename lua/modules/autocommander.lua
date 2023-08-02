@@ -101,11 +101,8 @@ end
 ---@param group_name string
 ---@return integer? returns group_id if it exists, nil otherwise
 function M.restoreAugroup(group_name)
-	local group = saved_groups[group_name] --[[as group]]
-
-	-- print(group_name)
-	-- group = vim.api.nvim_get_autocmds { group = group_name }
-	-- if not group then return end
+	local group = saved_groups[group_name]
+	if not group then return end
 
 	local cmds = {}
 	for _, cmd in ipairs(group) do

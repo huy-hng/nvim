@@ -42,7 +42,6 @@ M.animate_transparency_change = function(neovide_transparency, winblend, pumblen
 	neovide_transparency = neovide_transparency or g.neovide_default_transparency
 	local duration = speed or 500
 
-	-- o.winblend = winblend
 	vim.go.pumblend = pumblend
 
 	for _, winnr in ipairs(vim.api.nvim_list_wins()) do

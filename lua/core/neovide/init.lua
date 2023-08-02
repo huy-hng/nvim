@@ -16,8 +16,6 @@ local function manjaro()
 	g.neovide_default_transparency = 0.75
 	g.gui_font_default_size = 11
 
-	-- o.winblend = 0
-	-- o.pumblend = 0
 	nvim.schedule(os_fn.toggle_blur_on_kde, true)
 end
 

@@ -26,10 +26,6 @@ Map.n(
 --==============================================================================
 --                            |=> Transparency <=|
 --==============================================================================
-local speed = 300
--- nmap('<localleader>1', { os_fn.animate_transparency_change, 1, 67, 50, speed })
--- nmap('<localleader>2', { os_fn.animate_transparency_change, g.neovide_default_transparency, 0, 0, speed })
-
 Map.n('<C-{>', { nvim.schedule, functions.change_window_opacity, -0.1 }, 'Decrease window opacity')
 Map.n('<C-}>', { nvim.schedule, functions.change_window_opacity, 0.1 }, 'Increase window opacity')
 Map.n('<C-|>', os_fn.toggle_blur_on_kde, 'Increase window opacity')
