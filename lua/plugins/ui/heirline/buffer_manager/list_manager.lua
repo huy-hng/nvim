@@ -1,6 +1,6 @@
 local config = require('plugins.ui.heirline.buffer_manager.config').config
 local grouper = require('plugins.ui.heirline.buffer_manager.grouper')
-local Debounce = require('plugins.ui.heirline.buffer_manager.debounce')
+local Debounce = require('modules.debounce')
 
 local M = {}
 

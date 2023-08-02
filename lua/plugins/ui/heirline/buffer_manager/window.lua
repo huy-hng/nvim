@@ -121,7 +121,7 @@ local function set_buf_autocmds()
 		-- TODO: same for visual mode
 		Autocmd('InsertLeave', nil, function()
 			local lines = M.get_buffer_lines()
-			-- buffer_content.update_grouped_extmarks(M.bufnr, lines)
+			buffer_content.update_grouped_extmarks(M.bufnr, lines)
 		end, { buffer = M.bufnr }),
 		Autocmd('InsertEnter', nil, function()
 			local current_line = vim.fn.line('.')

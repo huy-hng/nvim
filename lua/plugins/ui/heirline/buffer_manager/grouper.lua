@@ -3,7 +3,7 @@ local utils = require('plugins.ui.heirline.buffer_manager.utils')
 
 local M = {}
 local MAX_DISPLAY_NAME_FOLDERS = 1
-local MIN_AMOUNT_GROUPED_FILES = 2
+local MIN_AMOUNT_GROUPED_FILES = 1
 
 ---@param buffers string[]
 ---@param common_path string[] table with each directory being an element
@@ -33,11 +33,12 @@ local function group_mark(marks)
 		local matches = buffers_with_common_path(marks, table.add(common_path, { folder }))
 
 		local folder_diff = #folders - #common_path
-		local too_many_folders = folder_diff >= MAX_DISPLAY_NAME_FOLDERS
-		local too_few_grouped_files = #matches < MIN_AMOUNT_GROUPED_FILES
+		local too_many_folders = folder_diff > MAX_DISPLAY_NAME_FOLDERS
+		local too_few_grouped_files = #matches <= MIN_AMOUNT_GROUPED_FILES
 
 		-- its okay to exceed MAX_DISPLAY_NAME_FOLDERS if MIN_AMOUNT_GROUPED_FILES is not met
 		if too_few_grouped_files and too_many_folders then break end
+		-- if too_many_folders then break end
 
 		table.insert(common_path, folder)
 		chosen_group = matches
