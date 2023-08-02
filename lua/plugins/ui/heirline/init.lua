@@ -1,6 +1,6 @@
 local M = {
 	'rebelot/heirline.nvim',
-	-- event = 'VeryLazy',
+	event = 'VeryLazy',
 }
 
 require('plugins.ui.heirline.buffer_manager').setup()
@@ -15,13 +15,20 @@ function M.config()
 	local tabline = require('plugins.ui.heirline.tabline')
 	vim.o.showtabline = 2
 
-	require('heirline').setup {
-		tabline = { tabline.BufferLine, tabline.TabPages },
-		-- tabline = {},
-		-- statusline = { ... },
-		-- winbar = { ... },
-		-- statuscolumn = { ... },
-	}
+	local function setup()
+		require('heirline').setup {
+			tabline = { tabline.BufferLine, tabline.TabPages },
+			-- winbar = require('plugins.ui.heirline.winbar'),
+			-- statusline = { ... },
+			-- statuscolumn = { ... },
+		}
+	end
+
+	setup()
+
+	Augroup('Heirline', {
+		Autocmd('ColorScheme', setup),
+	})
 end
 
 return M
