@@ -12,12 +12,13 @@ require('core.globals')
 require('core.types')
 require('core.colorscheme')
 require('core.statuscolumn')
+require('core.menus')
 require('config.native_keymaps')
 
 local colemak = require('keymaps.layout_changer.colemak')
 
-require('plugin_manager.lazy')
 require('core.neovide')
+require('plugin_manager.lazy')
 
 -- Map('QQ', '<cmd>qa!<cr>')
 Augroup('LazyLoad', {
