@@ -15,7 +15,6 @@ local M = {
 }
 
 function M.config()
-
 	local config = {
 		-- A list of parser names, or "all"
 		ensure_installed = {

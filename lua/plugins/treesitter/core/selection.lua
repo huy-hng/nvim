@@ -1,10 +1,11 @@
-local key = Map.alt(Keys.L)
+-- local key = Map.alt(Keys.L)
+local key = Keys.alt.L
 Map.n(key, { nvim.feedkeys, Keys.v .. key, true })
 
 return {
 	textsubjects = {
 		enable = true,
-		prev_selection = Map.alt(Keys.H), -- (Optional) keymap to select the previous selection
+		prev_selection = Keys.alt.H, -- (Optional) keymap to select the previous selection
 		keymaps = {
 			[key] = 'textsubjects-smart',
 			-- [':'] = 'textsubjects-container-outer',
@@ -16,10 +17,10 @@ return {
 		-- :help nvim-treesitter-incremental-selection-mod
 		enable = false,
 		keymaps = {
-			-- init_selection = '<A-L>', -- in normal mode, start incremental selection.
+			init_selection = Keys.alt.L, -- in normal mode, start incremental selection.
 			-- scope_incremental = '<A-B>', -- in visual mode, increment to the upper named parent.
-			-- node_incremental = '<A-L>', -- in visual mode, increment to the upper scope
-			-- node_decremental = '<A-H>', -- in visual mode, decrement to the previous named node.
+			node_incremental = Keys.alt.L, -- in visual mode, increment to the upper scope
+			node_decremental = Keys.alt.H, -- in visual mode, decrement to the previous named node.
 		},
 	},
 }
