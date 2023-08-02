@@ -7,12 +7,14 @@ local M = {
 -- vim.g.catppuccin_flavour = 'latte' -- latte, frappe, macchiato, mocha
 function M.config()
 	local integrations = {
-		bufferline = true,
+		alpha = true,
 		cmp = true,
 		dap = {
 			enabled = true,
 			enable_ui = true,
 		},
+		dropbar = true,
+		flash = true,
 		gitsigns = true,
 		harpoon = true,
 		mason = true,
@@ -21,6 +23,7 @@ function M.config()
 		noice = true,
 		notify = true,
 		nvimtree = true,
+		semantic_tokens = true,
 		symbols_outline = true,
 		telescope = true,
 		treesitter = true,
@@ -28,7 +31,6 @@ function M.config()
 		-- ts_rainbow = true,
 		ts_rainbow2 = true,
 		-- rainbow_delimiters = true,
-		vimwiki = true,
 		which_key = true,
 		native_lsp = {
 			enabled = true,
@@ -66,10 +68,10 @@ function M.config()
 		no_bold = false, -- Force no bold
 		styles = {
 			comments = { 'italic' },
-			conditionals = { 'italic' },
+			conditionals = {},
 			loops = {},
 			functions = {},
-			keywords = {},
+			keywords = { 'italic' },
 			strings = {},
 			variables = {},
 			numbers = {},
@@ -92,10 +94,7 @@ function M.config()
 		end,
 		integrations = integrations,
 	}
-
-	SetColors('catppuccin-mocha')
-
+	nvim.schedule(SetColors, 'catppuccin-mocha')
 end
--- M.config()
 
 return M
