@@ -3,11 +3,18 @@ local M = {
 	lazy = false,
 }
 
+local utils = require('plugins.ui.heirline.buffer_manager.utils')
 Augroup('Alpha', {
 	Autocmd('User', 'AlphaReady', function(data)
 		vim.o.showtabline = 0
+		vim.wo.statuscolumn = ''
+		-- vim.wo.cursorline = true
+		-- vim.wo.cursorlineopt = 'both'
+		-- TODO: hide cursor and use cursorline instead
+		-- utils.hide_cursor()
 		NestedAutocmd(data, 'BufUnload', nil, function()
 			vim.o.showtabline = 2
+			-- utils.show_cursor()
 			-- require('core.statuscolumn').custom_statuscolumn()
 		end, { buffer = 0 })
 	end),

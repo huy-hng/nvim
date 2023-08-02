@@ -18,13 +18,13 @@ M.line_number = {
 		local lnum = vim.o.relativenumber and vim.v.relnum or vim.v.lnum
 		local hl
 
+		if utils.is_foldline(vim.v.lnum) and utils.is_collapsed(vim.v.lnum) then
+			hl = 'FoldColumn'
+		end
+
 		if vim.o.relativenumber and vim.v.relnum % 10 == 0 then
 			lnum = vim.v.lnum
 			hl = 'CursorLineNr'
-		end
-
-		if utils.is_foldline(vim.v.lnum) and utils.is_collapsed(vim.v.lnum) then
-			hl = 'FoldColumn'
 		end
 
 		return utils.wrap_hl(lnum, hl)
