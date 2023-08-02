@@ -13,8 +13,8 @@ function M.config()
 	meta:map_exit('n', { 'q', '<esc>', '<C-g>' })
 
 	-- Navigation
-	meta:n(Keys.ctrl.j, gs.next_hunk, 'Next hunk')
-	meta:n(Keys.ctrl.k, gs.prev_hunk, 'Previous hunk')
+	meta:n(Keys.j, gs.next_hunk, 'Next hunk')
+	meta:n(Keys.k, gs.prev_hunk, 'Previous hunk')
 	meta:n(Keys.K, gs.preview_hunk_inline)
 
 	-- Actions
@@ -98,6 +98,7 @@ function M.config()
 		max_file_length = 10000, -- Disable if file is longer than this (in lines)
 		preview_config = {
 			-- Options passed to nvim_open_win
+			title = 'Preview',
 			border = 'rounded',
 			style = 'minimal',
 			relative = 'cursor',
