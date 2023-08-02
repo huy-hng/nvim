@@ -29,13 +29,8 @@ function M.config()
 	local count = 0
 
 	Augroup('UpdateLualine', {
-		-- Autocmd('ModeChanged', '*', function(data)
-		-- 	print(data.match)
-		-- 	count = count + 1
-		-- end),
-		Autocmd('ModeChanged', '*:no', function(data)
+		Autocmd('ModeChanged', '*:no', function()
 			lualine.refresh {
-				-- scope = 'tabpage',
 				place = { 'statusline' },
 			}
 			vim.cmd.redrawstatus()
@@ -60,7 +55,11 @@ function M.config()
 			-- lualine_a = { 'mode', function() return count end },
 			lualine_a = { comp.mode },
 			lualine_b = { comp.branch },
-			lualine_c = { comp.session_name, comp.filepath },
+			lualine_c = {
+				comp.session_name,
+				-- comp.filepath,
+				'%{%v:lua.dropbar.get_dropbar_str()%}',
+			},
 			lualine_x = {
 				'%B',
 				'searchcount',
@@ -89,11 +88,13 @@ function M.config()
 			lualine_a = {},
 			lualine_b = {},
 			lualine_c = { comp.diff, 'diagnostics', comp.filename },
+			-- lualine_c = { '%{%v:lua.dropbar.get_dropbar_str()%}' },
 			-- lualine_x = { comp.symbols },
 			lualine_z = {},
 		},
 		inactive_winbar = {
 			lualine_b = {},
+			-- lualine_c = { '%{%v:lua.dropbar.get_dropbar_str()%}' },
 			lualine_c = { comp.diff, 'diagnostics', comp.filename },
 			lualine_x = {},
 		},

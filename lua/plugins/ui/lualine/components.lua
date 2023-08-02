@@ -197,7 +197,8 @@ M.filename = function()
 	f_hl = f_hl or ''
 	-- local ns_prefix = '%#SagaWinbar'
 	-- return '%#' .. f_hl .. '#' .. f_icon .. '%*' .. ns_prefix .. 'File#' .. file_name .. '%*'
-	return '%#' .. f_hl .. '#' .. f_icon .. '%*%#Tag#' .. file_name .. '%*'
+	-- return '%#' .. f_hl .. '#' .. f_icon .. '%*%#Tag#' .. file_name .. '%*'
+	return '%#' .. f_hl .. '#' .. f_icon .. '%*%#Tag#' .. file_name
 end
 
 M.filepath = {
@@ -212,14 +213,13 @@ M.filepath = {
 		-- local path_list = vim.split(string.gsub(vim.fn.expand '%:~:.:h', '%%', ''), sep, {})
 		local path_list = vim.split(vim.fn.expand('%:~:.:h'), sep, {})
 
-		-- local file_path = '%*' -- start with correct highlight group
-		local file_path = '' -- start with correct highlight group
+		local file_path = '%*' -- start with correct highlight group
+		-- local file_path = '' -- start with correct highlight group
 
 		for _, cur in ipairs(path_list) do
 			if cur == '.' or cur == '~' then
 				-- file_path = ''
 			else
-				-- file_path = file_path .. cur .. '%#SagaWinbarSep#  %*'
 				file_path = file_path .. cur .. '%#Operator#  %*'
 			end
 		end
@@ -227,6 +227,7 @@ M.filepath = {
 	end,
 }
 
+local icons = require('config.ui.icons')
 M.diff = {
 	'diff',
 	colored = true, -- Displays a colored diff status if set to true
@@ -236,9 +237,32 @@ M.diff = {
 	-- 	modified = 'DiffChange', -- Changes the diff's modified color
 	-- 	removed = 'DiffDelete', -- Changes the diff's removed color you
 	-- },
-	-- symbols = { added = '+', modified = '~', removed = '-' }, -- Changes the symbols used by the diff.
-	symbols = { added = ' ', modified = ' ', removed = ' ' }, -- Changes the symbols used by the diff.
-	source = nil, -- A function that works as a data source for diff.lualine
+	symbols = {
+		added = icons.git.added,
+		modified = icons.git.modified,
+		removed = icons.git.deleted,
+	},
+	source = function()
+		local hunks = require('gitsigns').get_hunks()
+		if not hunks then return nil end
+		local added, removed, modified = 0, 0, 0
+
+		for _, hunk in ipairs(hunks) do
+			if hunk.type == 'add' then
+				added = added + hunk.added.count
+			elseif hunk.type == 'delete' then
+				added = added + hunk.removed.count
+			else
+				local min = math.min(hunk.removed.count, hunk.added.count)
+				modified = modified + min
+				added = added + hunk.added.count - min
+				removed = removed + hunk.removed.count - min
+			end
+		end
+
+		return { added = added, modified = modified, removed = removed }
+	end,
+	-- source = nil, -- A function that works as a data source for diff.lualine
 	-- It must return a table as such:
 	--   { added = add_count, modified = modified_count, removed = removed_count }
 	-- or nil on failure. count <= 0 won't be displayed.
@@ -253,7 +277,7 @@ end
 M.ranger = {
 	sections = {
 		lualine_a = { { 'mode', fmt = function(_) return 'Ranger' end } },
-		lualine_y = { 'progress', 'location' },
+		-- lualine_y = { 'progress', 'location' },
 		lualine_z = { M.date, M.clock },
 	},
 	filetypes = { 'rnvimr' },
