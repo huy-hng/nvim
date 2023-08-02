@@ -45,7 +45,7 @@ local BufferFileName = {
 		local folders, _ = filename.get_path_folders(self.filename, 1)
 		local path = string.join(folders, '/')
 
-		return path .. filename.get_filename(self.filename)
+		return path .. '/' .. filename.get_filename(self.filename)
 	end,
 	hl = function(self) return { bold = self.is_active or self.is_visible, italic = true } end,
 }
