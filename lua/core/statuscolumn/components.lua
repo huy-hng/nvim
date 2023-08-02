@@ -3,20 +3,13 @@ local M = {}
 local icons = require('config.ui.icons').statuscolumn
 local utils = require('core.statuscolumn.utils')
 
-local function lnum()
-	if vim.v.virtnum > 0 then return vim.v.virtnum end
-	local diff = vim.fn.diff_filler(vim.v.lnum)
-	if diff > 0 then
-		print(vim.v.lnum, diff)
-		-- return vim.fn['repeat'](' ', #vim.v.lnum)
-		return ''
-	end
-end
 -- TODO: different highlights for odd and even relative numbers
 M.line_number = {
 	function()
-		if vim.v.wrap then --
-			return vim.fn['repeat'](' ', #vim.v.lnum)
+		if vim.v.virtnum ~= 0 then
+			-- negative for virtual lines
+			-- positive for wrapped lines
+			return ''
 		end
 
 		local is_current_line = vim.v.relnum == 0
@@ -37,40 +30,25 @@ M.line_number = {
 		return utils.wrap_hl(lnum, hl)
 	end,
 	on_click = function(clicks, button, modifiers, mousepos)
-		-- local args = get_click_args(...)
-		print('lnum')
-		-- P(clicks, button, modifiers, mousepos)
+		-- print('lnum')
 	end,
 }
+
+local function get_git_sign() end
 
 M.sign_column = {
 	function()
 		local lnum = vim.v.lnum
-		local sign_text
-		local sign_hl
+		local sign_text = ' '
+		local sign_hl = ''
 
-		local signs = utils.get_sign(nil, '*', lnum)
-		if not signs or #signs == 0 then goto skip end
+		local signs = utils.get_signs_in_line(nil, '*', lnum)
+		signs = utils.remove_sign_group(signs, 'gitsigns_vimfn_signs_')
 
-		-- get sign if available
-		for _, sign in ipairs(signs) do
-			if sign.group ~= 'gitsigns_vimfn_signs_' then
-				local defined = utils.defined_signs[sign.name]
-				if not defined then break end
-
-				sign_text = defined.text
-				sign_hl = defined.texthl
-				break
-			end
+		if #signs > 0 then
+			sign_text = signs[1].text
+			sign_hl = signs[1].hl
 		end
-
-		::skip::
-
-		-- sign_text = (sign_text or ' ') .. ' '
-		sign_text = sign_text or ' '
-		sign_hl = sign_hl or ''
-
-		-- if lnum < 99 then sign_text = sign_text .. ' ' end
 
 		return utils.wrap_hl(sign_text, sign_hl)
 	end,
@@ -97,24 +75,43 @@ M.sign_column = {
 M.border = {
 	function()
 		local border = icons.border
-		local hl = 'Comment'
+		local hl = 'NonText'
 		local lnum = vim.v.lnum
 
-		-- if vim.v.wrap then return border end
-
 		local sign = utils.get_gitsigns(nil, lnum)
-
-		-- fold indicator when no sign
-		if utils.is_foldline(lnum) and utils.is_collapsed(lnum) then
-			border = icons.thick_border
-			hl = 'FoldColumn'
-		end
 
 		if sign and sign.group == 'gitsigns_vimfn_signs_' then --
 			hl = sign.name
 		end
 
+		-- fold indicator
+		if utils.is_collapsed(lnum) and utils.is_foldline(lnum) then
+			-- use first found gitsign for hl
+			local start_line, end_line = utils.get_fold_range(lnum)
+			for i = start_line, end_line do
+				sign = utils.get_gitsigns(nil, i)
+				if sign then
+					hl = sign.name
+					break
+				end
+			end
+			border = icons.fold_collapsed
+		end
+
 		return utils.wrap_hl(border, hl)
+	end,
+
+	on_click = function(clicks, button, modifiers, mousepos)
+		local gitsigns = nrequire('gitsigns')
+		if not gitsigns then return end
+		local gitsigns_actions = {
+			l = gitsigns.preview_hunk_inline,
+			-- m = gitsigns.reset_hunk,
+			-- r = gitsigns.stage,
+			r = function() print('right') end,
+		}
+		local fn = gitsigns_actions[button]
+		if fn then fn() end
 	end,
 }
 
@@ -125,8 +122,6 @@ end
 
 M.fold = {
 	function()
-		if vim.v.wrap then return ' ' end
-
 		local lnum = vim.v.lnum
 		local fold_icon = ''
 
@@ -160,17 +155,11 @@ M.fold = {
 	hl = 'FoldColumn',
 }
 
-local function wrap_text(prefix, text, suffix)
-	return prefix .. 'v:lua.Statuscolumn.components.' .. text .. suffix
-end
-local function create_display_text(text) return wrap_text('%{%', text, '()%}') end
-local function create_on_click_text(text) return wrap_text('%@', text, '.on_click@') end
-
 local function get_component_text(component_name)
 	local component = M[component_name]
 
-	local on_click_text = component.on_click and create_on_click_text(component_name) or ''
-	local display_text = create_display_text(component_name)
+	local on_click_text = component.on_click and utils.create_on_click_text(component_name) or ''
+	local display_text = utils.create_display_text(component_name)
 	display_text = component.hl and utils.wrap_hl(display_text, component.hl) or display_text
 
 	return on_click_text .. display_text
@@ -182,7 +171,11 @@ for name, component in pairs(M) do
 		local on_click_fn = component.on_click
 
 		component.on_click = function(_, clicks, button, mods)
-			on_click_fn(clicks, button, mods, vim.fn.getmousepos())
+			local mousepos = vim.fn.getmousepos()
+			vim.api.nvim_set_current_win(mousepos.winid)
+			vim.api.nvim_win_set_cursor(0, { mousepos.line, 0 })
+
+			on_click_fn(clicks, button, mods, mousepos)
 		end
 	end
 

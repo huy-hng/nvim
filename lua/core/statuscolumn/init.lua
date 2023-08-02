@@ -33,8 +33,8 @@ end
 
 local filetype_filter = { alpha = true, noice = true }
 local buftype_filter = { diff = true }
-vim.o.statuscolumn =
-	[[%#NonText#%{&nu?v:lnum:""}%=%{&rnu&&(v:lnum%2)?"\ ".v:relnum:""}%#LineNr#%{&rnu&&!(v:lnum%2)?"\ ".v:relnum:""}]]
+-- vim.o.statuscolumn =
+-- 	[[%#NonText#%{&nu?v:lnum:""}%=%{&rnu&&(v:lnum%2)?"\ ".v:relnum:""}%#LineNr#%{&rnu&&!(v:lnum%2)?"\ ".v:relnum:""}]]
 
 Augroup('Statuscolumn', {
 	Autocmd('CmdwinEnter', function() statuscolumn.default_statuscolumn() end),

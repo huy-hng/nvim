@@ -27,12 +27,6 @@ function M.build(tbl)
 	return table.concat(statuscolumn)
 end
 
-local set_window = function(value)
-	vim.defer_fn(function() --
-		vim.api.nvim_win_set_option(vim.api.nvim_get_current_win(), 'statuscolumn', value)
-	end, 1)
-end
-
 function M.set_statuscolumn(winid, display_text)
 	local scope = winid and vim.wo[winid] or vim.o
 	M.active = true

@@ -22,7 +22,7 @@ function M.update_signs()
 	end
 end
 
-function M.get_sign(bufnr, group, lnum, id)
+function M.get_signs_in_line(bufnr, group, lnum, id)
 	bufnr = bufnr or vim.api.nvim_get_current_buf()
 	local sign = vim.fn.sign_getplaced(bufnr, { group = group, id = id, lnum = lnum })
 	sign = sign and sign[1]
@@ -30,10 +30,23 @@ function M.get_sign(bufnr, group, lnum, id)
 	return sign
 end
 
+function M.remove_sign_group(signs, group)
+	local filtered = {}
+	if not signs or #signs == 0 then return filtered end
+	for _, sign in ipairs(signs) do
+		if sign.group ~= group then
+			local defined = M.defined_signs[sign.name]
+			if defined then --
+				table.insert(filtered, { text = defined.text, hl = defined.texthl })
+			end
+		end
+	end
+	return filtered
+end
+
 function M.get_gitsigns(bufnr, lnum)
-	local sign = M.get_sign(bufnr, 'gitsigns_vimfn_signs_', lnum)
+	local sign = M.get_signs_in_line(bufnr, 'gitsigns_vimfn_signs_', lnum)
 	sign = sign and sign[1]
-	-- P(sign)
 	return sign
 end
 
@@ -43,11 +56,23 @@ function M.is_foldline(lnum) --
 	return vim.fn.foldlevel(lnum) > vim.fn.foldlevel(lnum - 1)
 end
 
+function M.get_fold_range(lnum) --
+	local start_line = vim.fn.foldclosed(lnum)
+	local end_line = vim.fn.foldclosedend(lnum)
+	return start_line, end_line
+end
+
 function M.wrap_hl(text, hl) --
 	if type(text) == 'table' then text = table.concat(text) end
 	text = text or ''
 	if not hl then return text end
 	return '%#' .. hl .. '#' .. text .. '%##'
 end
+
+local function wrap_text(prefix, text, suffix)
+	return prefix .. 'v:lua.Statuscolumn.components.' .. text .. suffix
+end
+function M.create_display_text(text) return wrap_text('%{%', text, '()%}') end
+function M.create_on_click_text(text) return wrap_text('%@', text, '.on_click@') end
 
 return M
