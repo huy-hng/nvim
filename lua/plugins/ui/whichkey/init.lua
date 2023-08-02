@@ -53,7 +53,7 @@ function M.config()
 			position = 'top', -- bottom, top
 			padding = { 1, 4, 1, 4 }, -- extra window padding [top, right, bottom, left]
 			margin = { 0, 0, 0, 0 }, -- extra window margin [top, right, bottom, left]
-			winblend = vim.o.winblend,
+			winblend = vim.o.pumblend,
 		},
 		layout = {
 			height = { min = 10, max = 20 }, -- min and max height of the columns

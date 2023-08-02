@@ -8,7 +8,8 @@ require('neodev').setup {
 		-- plugins = true, -- installed opt or start plugins in packpath
 		plugins = {
 			'edgy.nvim',
-			'noice.nvim'
+			'noice.nvim',
+			'gitsigns',
 		},
 	},
 	setup_jsonls = false, -- configures jsonls to provide completion for project specific .luarc.json files

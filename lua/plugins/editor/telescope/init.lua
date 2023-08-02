@@ -15,7 +15,6 @@ function M.config()
 		defaults = {
 			-- winblend = function() return vim.go.winblend end,
 			winblend = vim.o.winblend,
-			-- winblend = 75,
 			prompt_prefix = ' ',
 			cycle_layout_list = {},
 			selection_caret = ' ',

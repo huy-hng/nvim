@@ -6,10 +6,9 @@ local M = {
 Augroup('Alpha', {
 	Autocmd('User', 'AlphaReady', function(data)
 		vim.o.showtabline = 0
-		vim.wo.statuscolumn = ''
 		NestedAutocmd(data, 'BufUnload', nil, function()
 			vim.o.showtabline = 2
-			require('core.statuscolumn').custom_statuscolumn()
+			-- require('core.statuscolumn').custom_statuscolumn()
 		end, { buffer = 0 })
 	end),
 })
