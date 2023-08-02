@@ -110,7 +110,7 @@ return {
 			format = 'lsp_progress',
 			--- @type NoiceFormat|string
 			format_done = 'lsp_progress_done',
-			throttle = 10, -- frequency to update lsp progress message
+			throttle = 100, -- frequency to update lsp progress message
 			view = 'mini',
 		},
 		override = {
@@ -188,9 +188,9 @@ return {
 		inc_rename = false, -- enables an input dialog for inc-rename.nvim
 		lsp_doc_border = false, -- add a border to hover docs and signature help
 	},
-	throttle = 10, -- how frequently does Noice need to check for ui updates? This has no effect when in blocking mode.
-	views = R('plugins.ui.noice.views'),
-	routes = R('plugins.ui.noice.routes'),
+	throttle = 100, -- how frequently does Noice need to check for ui updates? This has no effect when in blocking mode.
+	views = require('plugins.ui.noice.views'),
+	routes = require('plugins.ui.noice.routes'),
 	status = {},
 	format = {
 		spinner = {

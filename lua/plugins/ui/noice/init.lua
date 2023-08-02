@@ -14,7 +14,8 @@ local function enable_messages(enable)
 	require('noice').setup(config)
 end
 
-local function test_spinners()
+local function test_spinners(config)
+	config.format.spinner.name = 'bounce'
 	local Progress = require('noice.lsp.progress')
 	Map.n('<localleader>e', function()
 		local msg = { token = 1, value = { kind = 'end' } }
@@ -31,14 +32,18 @@ local function test_spinners()
 		},
 	}
 	Progress.progress(_, msg, { client_id = 1 })
+	return config
 end
 
 function M.config()
 	if vim.g.started_by_firenvim == true then return end
 
 	local config = get_config()
+	-- config = test_spinners(config)
 
 	require('noice').setup(config)
+	-- Highlight(0, 'NoiceMini', {fg = '#cdd6f4', blend = 50})
+	vim.cmd('highlight NoiceMini blend=100')
 
 	Map.n('<leader>/', function()
 		if not vim.g.has_neovide then

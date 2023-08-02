@@ -12,7 +12,7 @@ function M.config()
 		-- animation = 'top_down',
 		lines_per_second = 100,
 		trail_length = 15,
-		fps = 60,
+		fps = 30,
 	}
 	-- require('anyline.column_line').setup()
 	-- require('anyline.column_line').setup { buftype_whitelist = { 'dts' } }

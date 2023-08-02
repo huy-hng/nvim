@@ -224,7 +224,6 @@ return {
 		},
 		zindex = 60,
 		win_options = {
-			winblend = 30,
 			winhighlight = {
 				Normal = 'NoiceMini',
 				IncSearch = '',
