@@ -56,7 +56,6 @@ function M.config()
 			-- 	col_offset = -3,
 			-- 	side_padding = 0,
 			-- },
-
 		},
 		formatting = {
 			fields = { 'kind', 'abbr', 'menu' },
@@ -81,6 +80,9 @@ function M.config()
 		view = {
 			entries = 'custom',
 			-- entries = { name = 'custom', selection_order = 'near_cursor' },
+		},
+		experimental = {
+			ghost_text = true,
 		},
 	}
 
