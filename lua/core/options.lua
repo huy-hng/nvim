@@ -10,8 +10,8 @@ vim.cmd([[ let maplocalleader="\<BS>" ]])
 
 ----------------------------------------------Appearance--------------------------------------------
 -- window transparency
-o.winblend = 10
-o.pumblend = 10
+o.winblend = 0
+o.pumblend = 0
 
 o.conceallevel = 2
 o.concealcursor = 'c'

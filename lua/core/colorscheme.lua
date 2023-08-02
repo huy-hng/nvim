@@ -1,10 +1,14 @@
 function SetColors(theme)
-	ColorTheme = theme or ColorTheme or 'default'
+	if type(theme) == 'string' then
+		ColorTheme = theme
+		vim.cmd.colorscheme(theme)
+	end
 
-	vim.cmd.colorscheme(ColorTheme)
+	-- update highlight instead of replacing it
+	vim.cmd('highlight Statusline guibg=none')
 
 	Highlight(0, 'Folded', { bg = '#1F1F2F' })
-	Highlight(0, 'Statusline', { fg = 'fg', bg=nil })
+	-- Highlight(0, 'Statusline', { fg = 'fg', bg=nil })
 	Highlight(0, 'IndentLine', { link = 'NonText' })
 	Highlight(0, 'ColumnLine', { link = 'NonText' })
 
@@ -13,12 +17,5 @@ function SetColors(theme)
 	-- Highlight(0, 'helpCommand', { link = 'markdownCode' })
 
 	if ColorTheme == 'default' then return end
-
 end
 
--- 'tokyonight' -- this is same as storm
--- 'tokyonight-day'
--- 'tokyonight-storm'
--- 'tokyonight-moon'
--- 'tokyonight-night'
--- SetColors('catppuccin')

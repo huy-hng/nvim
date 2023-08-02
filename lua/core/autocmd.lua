@@ -1,5 +1,9 @@
 local detect_indent = require('modules.detect_indentation.detect_indentation').detect
 
+Augroup('ColorSchemeSet', {
+	Autocmd('ColorScheme', SetColors),
+})
+
 Augroup('DetectIndent', {
 	Autocmd('OptionSet', { 'expandtab', 'tabstop', 'shiftwidth' }, detect_indent),
 	-- Autocmd('BufReadPost', detect_indent),
