@@ -1,5 +1,13 @@
 return {
 	root = vim.fn.stdpath('data') .. '/lazy', -- directory where plugins will be installed
+	defaults = {
+		lazy = true, -- should plugins be lazy-loaded?
+		version = nil,
+		-- default `cond` you can use to globally disable a lot of plugins
+		-- when running inside vscode for example
+		cond = nil, ---@type boolean|fun(self:LazyPlugin):boolean|nil
+		-- version = "", -- enable this to try installing the latest stable versions of plugins
+	},
 	lockfile = vim.fn.stdpath('config') .. '/lazy-lock.json', -- lockfile generated after running update.
 	dev = {
 		-- directory where you store your local plugin projects
