@@ -68,7 +68,7 @@ Map.n(Keys.yy, 'yy')
 -- Nmap('yk', keep_column('yk'))
 -- Nmap('yl', 'yl')
 
-Map.n(Keys.J, keep_column('J'), 'keep column when joining lines')
+Map.n(Keys.ctrl.join_lines, keep_column('J'), 'keep column when joining lines')
 
 ----------------------------------copy current line above / below-----------------------------------
 

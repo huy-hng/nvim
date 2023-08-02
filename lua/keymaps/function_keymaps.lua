@@ -10,7 +10,7 @@ Map.n('<leader>Z', vim.cmd.Twilight, 'Twilight')
 Map.n('<leader><CR>', { require('functions.flash_cursor'), 3 }, 'Flash Cursor')
 
 local has_notify, notify = pcall(require, 'notify')
-if has_notify then Map.n('\\1', notify.dismiss, 'Dismiss all notifications') end
+if has_notify then Map.n('<localleader>1', notify.dismiss, 'Dismiss all notifications') end
 
 local cleanup = require('modules.cleanup')
 
