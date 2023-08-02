@@ -14,11 +14,10 @@ require('core.colorscheme')
 require('core.statuscolumn')
 require('core.menus')
 require('config.native_keymaps')
-
-local colemak = require('keymaps.layout_changer.colemak')
-
 require('core.neovide')
+
 require('plugin_manager.lazy')
+SetColors('catppuccin-mocha')
 
 -- Map('QQ', '<cmd>qa!<cr>')
 Augroup('LazyLoad', {
@@ -27,7 +26,7 @@ Augroup('LazyLoad', {
 		local require_dir = require('modules.require_dir')
 		require_dir('lua/functions')
 		require_dir('lua/keymaps')
-		colemak.set_keymap()
+		require('keymaps.layout_changer.colemak').set_keymap()
 		require('core.autocmd')
 
 		return true

@@ -27,58 +27,44 @@ local cmp_kinds = {
 	TypeParameter = ' ',
 }
 
+--  looks like a little devil
 
 --stylua: ignore
 local settings = {
-	icons = {
-		diagnostics = {
-			Error = ' ',
-			Warn  = ' ',
-			Hint  = ' ',
-			Info  = ' ',
-		},
-		git = {
-			added    = ' ',
-			modified = ' ',
-			removed  = ' ',
-		},
-		kinds = {
-			Array         = ' ',
-			Boolean       = ' ',
-			Class         = ' ',
-			Color         = ' ',
-			Constant      = ' ',
-			Constructor   = ' ',
-			Enum          = ' ',
-			EnumMember    = ' ',
-			Event         = ' ',
-			Field         = ' ',
-			File          = ' ',
-			Folder        = ' ',
-			Function      = ' ',
-			Interface     = ' ',
-			Key           = ' ',
-			Keyword       = ' ',
-			Method        = ' ',
-			Module        = ' ',
-			Namespace     = ' ',
-			Null          = 'ﳠ ',
-			Number        = ' ',
-			Object        = ' ',
-			Operator      = ' ',
-			Package       = ' ',
-			Property      = ' ',
-			Reference     = ' ',
-			Snippet       = ' ',
-			String        = ' ',
-			Struct        = ' ',
-			Text          = ' ',
-			TypeParameter = ' ',
-			Unit          = ' ',
-			Value         = ' ',
-			Variable      = ' ',
-		},
-	},
+	Array         = ' ',
+	Boolean       = ' ',
+	Class         = ' ',
+	Color         = ' ',
+	Constant      = ' ',
+	Constructor   = ' ',
+	Enum          = ' ',
+	EnumMember    = ' ',
+	Event         = ' ',
+	Field         = ' ',
+	File          = ' ',
+	Folder        = ' ',
+	Function      = ' ',
+	Interface     = ' ',
+	Key           = ' ',
+	Keyword       = ' ',
+	Method        = ' ',
+	Module        = ' ',
+	Namespace     = ' ',
+	Null          = 'ﳠ ',
+	Number        = ' ',
+	Object        = ' ',
+	Operator      = ' ',
+	Package       = ' ',
+	Property      = ' ',
+	Reference     = ' ',
+	Snippet       = ' ',
+	String        = ' ',
+	Struct        = ' ',
+	Text          = ' ',
+	TypeParameter = ' ',
+	Unit          = ' ',
+	Value         = ' ',
+	Variable      = ' ',
 }
 --stylua: ignore
 return {
@@ -115,11 +101,9 @@ return {
 		tab      = '  ', --  ▏
 		trail    = '·', -- •
 		extends  = '…', -- ❯ Character to show in the last column, when 'wrap'  is off
-		precedes = '…', -- ❮
+		-- precedes = '❮', -- …
 		nbsp     = '␣',
 	},
-
-
 
 	lsp_kinds = {
 		Text          = '', --𝓐
@@ -150,19 +134,19 @@ return {
 	},
 
 	diagnostics = {
-		ERROR   = ' ',
-		WARNING = ' ',
-		INFO    = ' ',
-		HINT    = ' ',
-		DEBUG   = ' ',
-		TRACE   = ' ',
+		error   = ' ', -- 
+		warning = ' ', -- 
+		info    = ' ', -- 
+		hint    = ' ', --  
+		debug   = ' ', -- 
+		trace   = ' ', -- 
 	},
 
 	diagnostics_sign = {
 		error   = '', -- 
 		warning = '◉', -- 
-		info    = '', -- 
-		hint    = '·', -- 
+		info    = '', -- 
+		hint    = '·', -- 
 	},
 
 	dap = {
@@ -182,12 +166,12 @@ return {
 	},
 
 	git = {
-		status_added    = ' ',
-		status_removed  = ' ',
-		status_modified = ' ',
-		added           = ' ',
-		deleted         = ' ',
-		modified        = ' ',
+		status_added    = ' ', --  
+		status_removed  = ' ', --  
+		status_modified = ' ', --  
+		added           = ' ', --  
+		deleted         = ' ', --  
+		modified        = ' ', --  
 		renamed         = ' ',
 		untracked       = ' ',
 		ignored         = ' ',
@@ -214,8 +198,7 @@ return {
 
 	statuscolumn = {
 		fold_expanded  = '',
-		fold_collapsed = '❯', -- 
-		fold_empty     = ' ',
+		fold_collapsed = '┝', -- ❯⟩├┝
 		border         = '│', -- '│' '▎''▕''▐''▏'
 		thick_border   = '┃',
 		full_block     = '█',
