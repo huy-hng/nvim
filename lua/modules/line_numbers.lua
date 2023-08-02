@@ -23,6 +23,11 @@ local ft_ignore = {
 
 function M.renu_autocmd(on)
 	return function()
+		if vim.wo.foldmethod == 'diff' then
+			vim.o.relativenumber = false
+			return
+		end
+
 		if not vim.o.number then
 			if vim.o.relativenumber then vim.o.relativenumber = false end
 			return
