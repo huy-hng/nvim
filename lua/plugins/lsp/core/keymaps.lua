@@ -15,8 +15,10 @@ return function(bufnr)
 
 	local opts = { buffer = bufnr }
 
+	local no_prefix_map = Map.create('n', '', '[LSP]', opts)
 	local lsp_map = Map.create('n', '<leader>l', '[LSP]', opts)
 	local diag_map = Map.create('n', '<leader>l', '[Diagnostic]', opts)
+	local saga_map = Map.create('n', '<leader>l', '[Saga]', opts)
 
 	-- See `:help vim.diagnostic.*` for documentation on any of the below functions
 	diag_map('o', fns.diagnostic_float, 'open Float')
@@ -45,7 +47,8 @@ return function(bufnr)
 	lsp_map('l', fns.lsp_format, 'Format Document or Selection', { mode = { 'n', 'v' } })
 
 	if not nrequire('lspsaga') then return end
-	local saga_map = Map.create('n', '<leader>l', '[Saga]', opts)
+
+	no_prefix_map('N', { vim.cmd.Lspsaga, 'show_line_diagnostics', '++unfocus' }, 'open Float')
 
 	saga_map('o', { vim.cmd.Lspsaga, 'show_line_diagnostics', '++unfocus' }, 'open Float')
 	saga_map('O', { vim.cmd.Lspsaga, 'show_line_diagnostics' }, 'open Float')
