@@ -26,7 +26,7 @@ function M.config()
 
 	vim.o.laststatus = 0
 	vim.o.showtabline = 0
-	require('core.statuscolumn.utils').remove_statuscolumn()
+	require('core.statuscolumn.statuscolumn').remove_statuscolumn()
 
 	nvim.feedkeys('a')
 

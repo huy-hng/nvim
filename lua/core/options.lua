@@ -10,8 +10,8 @@ vim.cmd([[ let maplocalleader="\<BS>" ]])
 
 ----------------------------------------------Appearance--------------------------------------------
 -- window transparency
-o.winblend = 0
-o.pumblend = 0
+o.winblend = 10
+o.pumblend = 10
 
 o.conceallevel = 2
 o.concealcursor = 'c'
@@ -113,13 +113,12 @@ go.smarttab = true
 
 ---------------------------------------------Wrapping-----------------------------------------------
 o.wrap = false -- disable line wrapping
-go.wrap = false -- disable line wrapping
-o.showbreak = icons.misc.showbreak -- prefix for soft-wrapped lines
-o.linebreak = true -- soft-wrap lines only at certain characters (see :help breakat)
+o.showbreak = icons.misc.showbreak -- prefix for wrapped lines
+o.linebreak = true -- wrap lines only at certain characters (see :help breakat)
 o.breakindent = true -- indent wraps
-opt.cpoptions:append('n')
+-- opt.cpoptions:append('n') -- causes linewrap not to work with statuscolumn
 
-opt.whichwrap:append('<,>,h,l')
+opt.whichwrap:append('<,>,h,l') -- keys that wrap around line and go to next/prev line
 opt.matchpairs:append { '<:>' }
 
 -- search settings
@@ -158,8 +157,10 @@ go.updatetime = 2000 -- used for CursorHold
 -----------------------------------------------Mouse------------------------------------------------
 
 o.mouse = 'a'
-o.mousemodel = 'extend'
-o.selectmode = 'mouse'
+o.mousemodel = 'popup_setpos'
+-- o.mousemodel = 'extend'
+-- o.selectmode = 'mouse'
+o.selectmode = ''
 
 -- No annoying sound on errors
 go.errorbells = false
