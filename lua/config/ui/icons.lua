@@ -114,8 +114,8 @@ return {
 		-- space    = ' ',
 		tab      = '  ', --  ▏
 		trail    = '·', -- •
-		extends  = '❯', -- Character to show in the last column, when 'wrap'  is off
-		-- precedes = '❮',
+		extends  = '…', -- ❯ Character to show in the last column, when 'wrap'  is off
+		precedes = '…', -- ❮
 		nbsp     = '␣',
 	},
 
@@ -197,7 +197,7 @@ return {
 	},
 
 	misc = {
-		showbreak  = '  ❯ ', -- Character when indicating line wrap
+		showbreak     = '… ', -- ❯ Character when indicating line wrap
 		collapsed     = ' ',
 		expanded      = ' ',
 		current       = ' ',
@@ -214,7 +214,7 @@ return {
 
 	statuscolumn = {
 		fold_expanded  = '',
-		fold_collapsed = '',
+		fold_collapsed = '❯', -- 
 		fold_empty     = ' ',
 		border         = '│', -- '│' '▎''▕''▐''▏'
 		thick_border   = '┃',
