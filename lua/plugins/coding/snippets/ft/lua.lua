@@ -56,6 +56,13 @@ return {
 
 	--------------------------------------------One Liners------------------------------------------
 
+	-- stylua: ignore
+	snippet('for .. ipairs()', fmt([[
+		for {}, {} in ipairs({}) do
+			{}
+		end
+	]], { i(1, '_'), i(2, 'val'), i(3), i(0) })),
+
 	snippet('curfile', f(get_relative_path())),
 
 	snippet('continue', fmt('goto continue{}::continue::', { utils.newline() })),
@@ -95,21 +102,13 @@ return {
 	]], {})),
 
 	snippet('type', { c(1, type_choices) }),
-	snippet('asserttype', fmt('assert({})', { c(1, type_choices) })),
 
 	-- stylua: ignore
-	snippet('iftype', fmt([[
-		if {} then
-			{}
-		end
-	]], { c(1, type_choices), i(0)})),
-
-	-- stylua: ignore
-	snippet('for .. ipairs()', fmt([[
-		for {}, {} in ipairs({}) do
-			{}
-		end
-	]], { i(1, '_'), i(2, 'val'), i(3), i(0) })),
+	-- snippet('iftype', fmt([[
+	-- 	if {} then
+	-- 		{}
+	-- 	end
+	-- ]], { c(1, type_choices), i(0)})),
 
 	---------------------------------------------requires-------------------------------------------
 
