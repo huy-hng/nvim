@@ -90,6 +90,6 @@ return {
 	),
 
 	['<Tab>'] = cmp.mapping(change_choice_or_feedkeys(1, '<Tab>'), { 'i', 's' }),
-	['<S-Tab>'] = cmp.mapping(change_choice_or_feedkeys(-1), { 'i', 's' }),
+	['<S-Tab>'] = cmp.mapping(change_choice_or_feedkeys(-1, '<S-Tab>'), { 'i', 's' }),
 	-- ['<S-Tab>'] = cmp.config.disable,
 }

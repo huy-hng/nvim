@@ -2,19 +2,19 @@ local cmp = require('cmp')
 
 local M = {}
 
+-- stylua: ignore
 M.source_names = {
-	buffer = '[Buffer]',
-	cmdline_history = '[History]',
-	latex_symbols = '[LaTeX]',
-	luasnip = '[Snippet]',
-	neorg = '[Neorg]',
-	nvim_lsp = '[LSP]',
-	nvim_lua = '[Lua]',
-	omni = '[Omni]',
-	path = '[Path]',
-	tmux = '[Tmux]',
-	treesitter = '[Treesitter]',
-	orgmode = '[Org]',
+	buffer          = 'Buffer',
+	cmdline_history = 'History',
+	latex_symbols   = 'LaTeX',
+	-- luasnip         = 'Snippet',
+	neorg           = 'Neorg',
+	nvim_lsp        = 'LSP',
+	nvim_lua        = 'Lua',
+	omni            = 'Omni',
+	path            = 'Path',
+	tmux            = 'Tmux',
+	treesitter      = 'Treesitter',
 }
 
 M.sources = cmp.config.sources({
@@ -22,8 +22,9 @@ M.sources = cmp.config.sources({
 	{ name = 'nvim_lsp' },
 	{ name = 'nvim_lsp_signature_help' },
 	{ name = 'neorg' },
-	-- { name = 'cmdline_history' },
+	{ name = 'path', keyword_length = 3 },
 }, {
+	-- { name = 'cmdline_history' },
 	-- { name = 'treesitter' },
 	{ name = 'tmux' },
 	{
@@ -40,7 +41,6 @@ M.sources = cmp.config.sources({
 			end,
 		},
 	},
-	{ name = 'path', keyword_length = 3 },
 })
 
 return M

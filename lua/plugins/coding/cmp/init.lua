@@ -26,10 +26,9 @@ local M = {
 function M.config()
 	if vim.g.started_by_firenvim == true then return end
 
-	---@module cmp
 	local cmp = require('cmp')
 
-	local kind_icons = require('config.ui.icons').lsp_kinds
+	local icons = require('config.ui.icons').lsp_kinds
 	local mappings = require('plugins.coding.cmp.mappings')
 
 	local compare = cmp.config.compare
@@ -40,7 +39,7 @@ function M.config()
 	local sources = require('plugins.coding.cmp.sources')
 
 	cmp.setup {
-		mapping = mappings, -- cmp.mapping.preset.insert(mappings),
+		mapping = mappings,
 		sources = sources.sources,
 		-- completion = { autocomplete = false },
 		snippet = {
@@ -51,6 +50,9 @@ function M.config()
 		window = {
 			-- documentation = cmp.config.disable,
 			-- documentation = cmp.config.window.bordered( '╭', '─', '╮', '│', '╯', '─', '╰', '│'),
+			documentation = {
+				zindex = 44,
+			},
 			-- completion = {
 			-- 	-- winhighlight = 'Normal:Pmenu,FloatBorder:Pmenu,Search:None',
 			-- 	col_offset = -3,
@@ -60,8 +62,11 @@ function M.config()
 		formatting = {
 			fields = { 'kind', 'abbr', 'menu' },
 			format = function(entry, vim_item)
-				vim_item.kind = string.format('%s %s', kind_icons[vim_item.kind], vim_item.kind)
-				vim_item.menu = (sources.source_names)[entry.source.name]
+				-- vim_item.kind = string.format('%s %s', icons[vim_item.kind], vim_item.kind)
+				vim_item.menu = string.format('❨%s❩', vim_item.kind)
+				-- if entry.source.name == 'buffer' then P(entry.source) end
+				vim_item.kind = icons[vim_item.kind]
+				-- vim_item.menu = string.format('❨%s❩', sources.source_names[entry.source.name])
 				return vim_item
 			end,
 		},
@@ -82,7 +87,7 @@ function M.config()
 			-- entries = { name = 'custom', selection_order = 'near_cursor' },
 		},
 		experimental = {
-			ghost_text = true,
+			ghost_text = false,
 		},
 	}
 
@@ -122,9 +127,10 @@ function M.config()
 		-- completion = { autocomplete = false },
 		sources = cmp.config.sources({
 			{ name = 'cmdline' },
-			-- { name = 'cmdline_history' },
 			{ name = 'path' },
-		}, {}),
+		}, {
+			{ name = 'cmdline_history' },
+		}),
 		-- formatting = {
 		-- 	fields = { 'kind', 'abbr', 'menu' },
 		-- format = function(entry, vim_item)
