@@ -44,14 +44,14 @@ function M.config()
 
 		-- Events on which to leave the current snippet if the cursor is outside its' 'region'.
 		-- Disabled by default, 'CursorMoved', 'CursorHold' or 'InsertEnter' seem reasonable.
-		region_check_events = 'InsertEnter,InsertLeave',
+		region_check_events = 'InsertEnter,InsertLeave,CursorMoved,CursorHold',
 
 		-- When to check if the current snippet was deleted, and if so, remove it from the history.
 		-- Off by default, 'TextChanged' (perhaps 'InsertLeave', to react to changes done in Insert
 		-- mode) should work just fine (alternatively, this can also be mapped
 		-- using <Plug>luasnip-delete-check).
 		-- delete_check_events = 'User None',
-		delete_check_events = 'InsertLeave',
+		delete_check_events = 'InsertLeave,TextChanged',
 		-- Mapping for populating TM_SELECTED_TEXT and related variables (not set by default).
 		store_selection_keys = nil, -- Supossed to be the same as the expand shortcut
 

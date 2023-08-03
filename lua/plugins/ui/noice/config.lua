@@ -45,7 +45,7 @@ return {
 	-- You can add any custom commands below that will be available with `:Noice command`
 	commands = {
 		messages = {
-			view = 'split',
+			view = 'messages',
 			opts = { enter = true, lang = 'lua' },
 			filter = {
 				any = {

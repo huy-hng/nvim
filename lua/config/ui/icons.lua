@@ -1,71 +1,5 @@
---stylua: ignore
-local cmp_kinds = {
-	Text          = ' ',
-	Method        = ' ',
-	Function      = ' ',
-	Constructor   = ' ',
-	Field         = ' ',
-	Variable      = ' ',
-	Class         = ' ',
-	Interface     = ' ',
-	Module        = ' ',
-	Property      = ' ',
-	Unit          = ' ',
-	Value         = ' ',
-	Enum          = ' ',
-	Keyword       = ' ',
-	Snippet       = ' ',
-	Color         = ' ',
-	File          = ' ',
-	Reference     = ' ',
-	Folder        = ' ',
-	EnumMember    = ' ',
-	Constant      = ' ',
-	Struct        = ' ',
-	Event         = ' ',
-	Operator      = ' ',
-	TypeParameter = ' ',
-}
-
 --  looks like a little devil
 
---stylua: ignore
-local settings = {
-	Array         = ' ',
-	Boolean       = ' ',
-	Class         = ' ',
-	Color         = ' ',
-	Constant      = ' ',
-	Constructor   = ' ',
-	Enum          = ' ',
-	EnumMember    = ' ',
-	Event         = ' ',
-	Field         = ' ',
-	File          = ' ',
-	Folder        = ' ',
-	Function      = ' ',
-	Interface     = ' ',
-	Key           = ' ',
-	Keyword       = ' ',
-	Method        = ' ',
-	Module        = ' ',
-	Namespace     = ' ',
-	Null          = 'ﳠ ',
-	Number        = ' ',
-	Object        = ' ',
-	Operator      = ' ',
-	Package       = ' ',
-	Property      = ' ',
-	Reference     = ' ',
-	Snippet       = ' ',
-	String        = ' ',
-	Struct        = ' ',
-	Text          = ' ',
-	TypeParameter = ' ',
-	Unit          = ' ',
-	Value         = ' ',
-	Variable      = ' ',
-}
 --stylua: ignore
 return {
 	-- |│¦┆┇┊┋▕▔▏
@@ -106,31 +40,68 @@ return {
 	},
 
 	lsp_kinds = {
-		Text          = '', --𝓐
-		Method        = '',
-		Function      = '',
-		Constructor   = '', --  
-		Field         = '', -- ﰠ 
-		Variable      = '', -- 
+		Text          = '', --  𝓐
+		Method        = '', --
+		Function      = '', --   
+		Constructor   = '"', --  
+		Field         = '', --   ﰠ 
+		Variable      = '', --   
 		Class         = 'ﴯ', --  𝓒
 		Interface     = '', -- 
-		Module        = '',
-		Property      = 'ﰠ', --  
-		Unit          = '',
-		Value         = '',
+		Module        = '', -- 
+		Property      = 'ﰠ', --   
+		Unit          = '', -- 
+		Value         = '', --  
 		Enum          = '', -- ℰ
-		Keyword       = '',
-		Snippet       = '',
-		Color         = '',
-		File          = '', -- 
-		Reference     = '', -- 
-		Folder        = '',
-		EnumMember    = '',
-		Constant      = '', --  
-		Struct        = 'פּ', --  𝓢
-		Event         = '', -- 🗲
+		Keyword       = '', --  
+		Snippet       = '', --  
+		Color         = '', --  
+		File          = '', --   
+		Reference     = '', --   
+		Folder        = '', --  
+		EnumMember    = '', --  
+		Constant      = '', --    
+		Struct        = 'פּ', --    𝓢
+		Event         = '', --   🗲
 		Operator      = '', -- 
-		TypeParameter = '', --   𝙏
+		TypeParameter = '', --     𝙏
+	},
+
+	settings = {
+		Array         = ' ',
+		Boolean       = ' ',
+		Class         = ' ',
+		Color         = ' ',
+		Constant      = ' ',
+		Constructor   = ' ',
+		Enum          = ' ',
+		EnumMember    = ' ',
+		Event         = ' ',
+		Field         = ' ',
+		File          = ' ',
+		Folder        = ' ',
+		Function      = ' ',
+		Interface     = ' ',
+		Key           = ' ',
+		Keyword       = ' ',
+		Method        = ' ',
+		Module        = ' ',
+		Namespace     = ' ',
+		Null          = 'ﳠ ',
+		Number        = ' ',
+		Object        = ' ',
+		Operator      = ' ',
+		Package       = ' ',
+		Property      = ' ',
+		Reference     = ' ',
+		Snippet       = ' ',
+		String        = ' ',
+		Struct        = ' ',
+		Text          = ' ',
+		TypeParameter = ' ',
+		Unit          = ' ',
+		Value         = ' ',
+		Variable      = ' ',
 	},
 
 	diagnostics = {
@@ -169,9 +140,9 @@ return {
 		status_added    = ' ', --  
 		status_removed  = ' ', --  
 		status_modified = ' ', --  
-		added           = ' ', --  
-		deleted         = ' ', --  
-		modified        = ' ', --  
+		added           = ' ', --  
+		deleted         = ' ', --  
+		modified        = ' ', --  
 		renamed         = ' ',
 		untracked       = ' ',
 		ignored         = ' ',
