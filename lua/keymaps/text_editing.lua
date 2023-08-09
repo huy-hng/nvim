@@ -56,17 +56,20 @@ Map.v(Keys.y, keep_column('y', false))
 Map.v(Keys.Y, keep_column('Y', false))
 Map.v('<C-c>', keep_column('"+y'), 'Yank to clipboard')
 
--- Map.v(Keys.p, '"_c<C-r>"<esc>', 'keep yank register when pasting over visual selection')
-Map.v(Keys.p, '"_dP', 'keep yank register when pasting over visual selection')
+local mode_behavior = {
+	v = '"_c<C-r>"<esc>',
+	-- v = '"_dP',
+	V = '"_dP',
+	[''] = '"_dP',
+}
 
+local function paste_without_yank() --
+	return mode_behavior[vim.fn.visualmode()]
+end
+
+Map.v(Keys.p, '', 'keep yank when pasting over visual', { callback = paste_without_yank })
 Map.n(Keys.y, yank_operator, '', { expr = true })
--- Map(Keys.y, YankOperator, '', { expr = true })
 Map.n(Keys.yy, 'yy')
-
--- Nmap('yh', keep_column('yh'))
--- Nmap('yj', keep_column('yj'))
--- Nmap('yk', keep_column('yk'))
--- Nmap('yl', 'yl')
 
 Map.n(Keys.ctrl.join_lines, keep_column('J'), 'keep column when joining lines')
 
