@@ -123,7 +123,15 @@ local unique = {
 local upper_mod_letters = upper_mod(letters)
 local upper_mod_functions = upper_mod(functions)
 local upper_mod_unique = upper_mod(unique)
-Keys =
-	vim.tbl_deep_extend('keep', {}, unique, upper_mod_unique, letters, upper_mod_letters, functions, upper_mod_functions)
+Keys = vim.tbl_deep_extend(
+	'keep',
+	{},
+	unique,
+	upper_mod_unique,
+	letters,
+	upper_mod_letters,
+	functions,
+	upper_mod_functions
+)
 
 return Keys
