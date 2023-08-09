@@ -88,7 +88,7 @@ M.columns = {
 		Statuscolumn.space,
 	},
 
-	sparse_column = M.build {
+	sparse = M.build {
 		Statuscolumn.right_align,
 		Statuscolumn.sparse_line_number,
 		Statuscolumn.border,
