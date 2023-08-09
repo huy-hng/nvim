@@ -21,7 +21,7 @@ end
 
 local function arch_chromebook()
 	g.neovide_refresh_rate = 60
-	g.neovide_default_transparency = 0.75
+	g.neovide_default_transparency = 0.30
 	g.gui_font_default_size = 10
 
 	nvim.schedule(os_fn.toggle_blur_on_kde, true)
