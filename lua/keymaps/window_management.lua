@@ -103,8 +103,7 @@ local function center_two_windows(size)
 	end
 end
 
-Map.n('<leader>C', function() center_two_windows(120) end)
-
+Map.n('<leader>C', function() center_two_windows(120) end, 'Center two windows')
 win_prefix('<C-c>', center_two_windows, 'In two win setup, center right win')
 
 Augroup('WindowCenterer', {

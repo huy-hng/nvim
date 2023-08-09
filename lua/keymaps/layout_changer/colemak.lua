@@ -8,7 +8,8 @@ end
 function M.set_keymap()
 	Map('q', 's')
 
-	Map('<C-d>', '', '', { mode = { 'n', 'v' } })
+	-- Map('<C-d>', '', '', { mode = { 'n', 'v' } })
+	Map.v('<C-d>', '', '', { mode = { 'v' } })
 
 	Map('<C-u>', '<C-o>')
 	Map('<C-y>', '<C-i>')

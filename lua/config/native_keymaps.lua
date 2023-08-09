@@ -98,6 +98,12 @@ local functions = {
 	save_file = 'f',
 	comment = 'v',
 	join_lines = 'j',
+	-- cmdline_window = '<leader>:',
+	-- search_window = '<leader>/',
+	cmdline_window = '<C-:>',
+	search_window = '<C-/>',
+	message_history = '<leader>/',
+	plugin_manager = '<C-A-P>',
 }
 
 local special_keys = {
@@ -117,17 +123,7 @@ local unique = {
 local upper_mod_letters = upper_mod(letters)
 local upper_mod_functions = upper_mod(functions)
 local upper_mod_unique = upper_mod(unique)
-Keys = vim.tbl_deep_extend(
-	'keep',
-	{},
-	unique,
-	upper_mod_unique,
-
-	letters,
-	upper_mod_letters,
-
-	functions,
-	upper_mod_functions
-)
+Keys =
+	vim.tbl_deep_extend('keep', {}, unique, upper_mod_unique, letters, upper_mod_letters, functions, upper_mod_functions)
 
 return Keys

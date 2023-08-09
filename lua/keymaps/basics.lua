@@ -22,4 +22,5 @@ Map.n(
 	'Lazygit (cwd)'
 )
 
-Map.t('<C-c>', '<c-\\><c-n>', 'Enter Normal Mode')
+-- Map.t('<C-c>', '<c-\\><c-n>', 'Enter Normal Mode')
+Map.t('<C-f>', '<c-\\><c-n>', 'Enter Normal Mode')
