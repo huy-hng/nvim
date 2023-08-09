@@ -4,10 +4,10 @@ local M = {
 }
 
 local utils = require('plugins.ui.heirline.buffer_manager.utils')
-local tab_control = require('modules.tab_control')
+local winman = require('modules.window_manager')
 Augroup('Alpha', {
 	Autocmd('User', 'AlphaReady', function(data)
-		tab_control.hide_ui()
+		winman.hide_ui()
 		vim.o.showtabline = 0
 		vim.wo.statuscolumn = ''
 		-- vim.wo.cursorline = true
@@ -15,7 +15,7 @@ Augroup('Alpha', {
 		-- TODO: hide cursor and use cursorline instead
 		-- utils.hide_cursor()
 		NestedAutocmd(data, 'BufUnload', nil, function()
-			tab_control.show_ui()
+			winman.show_ui()
 			vim.o.showtabline = 2
 			-- utils.show_cursor()
 			-- require('core.statuscolumn').custom_statuscolumn()

@@ -21,6 +21,7 @@ end
 
 function M.show_ui()
 	vim.o.showtabline = 2
+	vim.o.laststatus = 3 -- global statusline
 	-- vim.o.tabline = prev_tabline ~= ' ' and prev_tabline or default_tabline
 	if nrequire('lualine') then --
 		require('lualine').hide { unhide = true }
@@ -55,10 +56,20 @@ function M.create_tab_background()
 	M.hide_ui()
 end
 
-function M.delete_tab_background(tab_id)
-	vim.api.nvim_set_current_tabpage(parent_tab)
-	local i = table.index(vim.api.nvim_list_tabpages(), tab_id)
+M.get_win = vim.api.nvim_get_current_win
+M.get_tab = vim.api.nvim_get_current_tabpage
+M.list_tabs = vim.api.nvim_list_tabpages
+M.set_tab = vim.api.nvim_set_current_tabpage
+
+function M.close_tab(tab_id)
+	local i = table.index(M.list_tabs(), tab_id)
 	if i then vim.cmd(i .. 'tabclose') end
+end
+
+function M.delete_tab_background(tab_id, prev_tab)
+	if prev_tab then M.set_tab(prev_tab) end
+	M.close_tab(tab_id)
+
 	M.show_ui()
 end
 

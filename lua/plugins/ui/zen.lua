@@ -14,54 +14,27 @@ local zen_tab
 local default_tabline = "%{%v:lua.require'heirline'.eval_tabline()%}"
 local prev_tabline = default_tabline
 
-local function hide_ui()
-	prev_tabline = vim.o.tabline
-	vim.o.tabline = ' '
-	vim.schedule(function()
-		vim.o.laststatus = 0 -- global statusline
-		if nrequire('lualine') then --
-			require('lualine').hide {
-				place = { 'statusline', 'tabline', 'winbar' }, -- The segment this change applies to.
-				unhide = false, -- whether to re-enable lualine again/
-			}
-		end
-	end)
-end
-
-local function show_ui()
-	vim.o.tabline = prev_tabline ~= ' ' and prev_tabline or default_tabline
-	if nrequire('lualine') then --
-		require('lualine').hide { unhide = true }
-	end
-end
-
 local line_numbers = require('modules.line_numbers')
-local tab_control = require('modules.tab_control')
-
-local function new_tab() end
+local winman = require('modules.window_manager')
 
 local function activate()
 	local view = require('zen-mode.view')
 
 	zenmode_active = true
-	-- local tab_id, cursor_pos = tab_control.open_current_file_in_new_tab()
-	local parent_win = vim.api.nvim_get_current_win()
-	local cursor = vim.api.nvim_win_get_cursor(0)
+	local parent_win = winman.get_win()
+	parent_tab = winman.get_tab()
 
-	parent_tab = vim.api.nvim_get_current_tabpage()
-	vim.cmd.tabedit('#' .. vim.api.nvim_get_current_buf())
-	zen_tab = vim.api.nvim_get_current_tabpage()
+	local tab_id, cursor_pos = winman.open_current_file_in_new_tab()
+	zen_tab = tab_id
 
-	local scratch_buf = vim.api.nvim_create_buf(false, true)
-	local tab_win = vim.api.nvim_get_current_win()
-
-	hide_ui()
+	winman.hide_ui()
+	local tab_win = winman.get_win()
 
 	require('zen-mode').open()
-	vim.api.nvim_win_set_buf(tab_win, scratch_buf)
+	winman.show_empty_buffer(tab_win)
 	view.parent = parent_win
 
-	vim.api.nvim_win_set_cursor(0, cursor)
+	vim.api.nvim_win_set_cursor(0, cursor_pos)
 	nvim.feedkeys('zz')
 	nvim.defer(0, function()
 		line_numbers.delete_autocmds()
@@ -74,19 +47,12 @@ end
 local function deactivate()
 	zenmode_active = false
 
-	vim.o.laststatus = 3 -- global statusline
+	winman.delete_tab_background(zen_tab, parent_tab)
 	line_numbers.create_autocmds()
-	show_ui()
+	vim.cmd.TwilightDisable()
 
-	vim.schedule(function()
-		-- nvim.feedkeys('``')
-		-- nvim.feedkeys('zz')
-		vim.api.nvim_set_current_tabpage(parent_tab)
-		local i = table.index(vim.api.nvim_list_tabpages(), zen_tab)
-		if i then vim.cmd(i .. 'tabclose') end
-
-		vim.cmd.TwilightDisable()
-	end)
+	-- nvim.feedkeys('``')
+	-- nvim.feedkeys('zz')
 end
 
 function M.config()
