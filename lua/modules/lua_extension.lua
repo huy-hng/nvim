@@ -35,9 +35,7 @@ end
 --- split string by separator (space by default)
 ---@param input table table to join
 ---@param sep string? separator to separate with
-function string.join(input, sep)
-	return table.concat(input, sep or ' ')
-end
+function string.join(input, sep) return table.concat(input, sep or ' ') end
 
 --- Check if a string starts with a substring
 function string.starts(str, start) return string.sub(str, 1, string.len(start)) == start end

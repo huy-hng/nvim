@@ -42,4 +42,16 @@ function M.renu_autocmd(on)
 	end
 end
 
+function M.create_autocmds()
+	Augroup('renu', {
+		Autocmd('CursorHold', M.renu_autocmd(true)),
+		Autocmd('CursorMoved', M.renu_autocmd(false)),
+		Autocmd('InsertEnter', M.renu_autocmd(false)),
+		Autocmd('InsertLeave', M.renu_autocmd(true)),
+		Autocmd('WinLeave', M.renu_autocmd(false)),
+	})
+end
+
+function M.delete_autocmds() DeleteAugroup('renu') end
+
 return M

@@ -9,8 +9,7 @@ local M = {}
 ---param command function | string | table
 ---param opts table|nil
 ---overload fun(events: string|string[], command: function|string): table
----param events autocmd-events | autocmd-events[]
---@param events autocmd_events | autocmd_events[]
+---@param events autocmd-events | autocmd-events[]
 function M.autocmd(events, pattern, command, opts)
 	-- group:    string | integer
 	-- callback: fn     | command: string

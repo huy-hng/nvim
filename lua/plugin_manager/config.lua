@@ -25,7 +25,7 @@ return {
 	},
 	ui = {
 		-- a number <1 is a percentage., >1 is a fixed size
-		size = { width = 0.67, height = 0.8 },
+		size = { width = 120, height = 0.8 },
 	},
 	custom_keys = {
 		-- open lazygit log
@@ -61,7 +61,7 @@ return {
 	change_detection = {
 		-- automatically check for config file changes and reload the ui
 		enabled = true,
-		notify = false, -- get a notification when changes are found
+		notify = true, -- get a notification when changes are found
 	},
 	performance = {
 		rtp = {
