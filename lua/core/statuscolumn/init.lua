@@ -30,11 +30,14 @@ Augroup('Statuscolumn', {
 	Autocmd({ 'WinEnter', 'WinNew' }, function()
 		vim.schedule(function()
 			local winid = vim.api.nvim_get_current_win()
+			if vim.w[winid].statuscolumn_ignore then return end
+
 			local wintype = Util.win_type(winid)
 			local buftype = vim.bo.buftype
 			local filetype = vim.bo.filetype
 
 			if win_ignore[wintype] then return end
+			-- print(winid, wintype, buftype, filetype)
 			local line_count = vim.api.nvim_buf_line_count(0)
 			if
 				not win_whitelist[wintype]

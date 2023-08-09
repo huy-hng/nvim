@@ -4,6 +4,7 @@ Map.n(Keys.ctrl.h, Util.wrap(vim.cmd.wincmd, 'h'))
 -- Map.n(Keys.ctrl.k, Util.wrap(vim.cmd.wincmd, 'k'))
 Map.n(Keys.ctrl.l, Util.wrap(vim.cmd.wincmd, 'l'))
 
+-- stylua: ignore start
 -- resize windows with arrow keys
 Map.n('<C-Up>',    { nvim.schedule, Util.wrap(vim.cmd.resize, '-4') })
 Map.n('<C-Down>',  { nvim.schedule, Util.wrap(vim.cmd.resize, '+4') })
@@ -19,8 +20,7 @@ Map.n('<S-up>',    'k', 'Move cursor up')
 Map.n('<S-down>',  'j', 'Move cursor down')
 Map.n('<S-left>',  'h', 'Move cursor left')
 Map.n('<S-right>', 'l', 'Move cursor right')
-
-
+-- stylua: ignore end
 
 local win_prefix = Map.create('n', '<C-w>', '[Window]')
 
