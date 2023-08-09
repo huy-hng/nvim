@@ -19,14 +19,18 @@ function M.config()
 
 	require('mason-null-ls').setup {
 		ensure_installed = {
-			'autopep8', -- python linter
+			-- formatting
+			'beautysh', -- bash and other shell languages
 			'prettier', -- ts/js formatter
 			'stylua', -- lua formatter
 			'yamlfmt',
 			'fixjson',
+
+			-- diagnostics
+			'autopep8', -- python linter
 			'vimls',
 		},
-		automatic_installation = false,
+		automatic_installation = true,
 	}
 end
 

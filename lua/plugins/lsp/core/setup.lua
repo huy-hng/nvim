@@ -46,7 +46,7 @@ null_ls.setup({
 		code_actions.ts_node_action,
 		formatting.autopep8.with({ extra_args = { '--ignore W191,E402' } }),
 		formatting.stylua,
-		formatting.yamlfmt,
+		formatting.beautysh.with({ extra_args = { '--tabs' } }),
 		formatting.fixjson,
 		formatting.prettier.with({ extra_args = { '--no-semi', '--single-quote', '--jsx-single-quote' } }),
 		formatting.clang_format,
