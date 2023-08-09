@@ -21,6 +21,17 @@ function M.config()
 	require('plugins.lsp.core.neodev')
 	require('plugins.lsp.core.setup')
 	require('plugins.lsp.core.handlers')
+	local fns = require('plugins.lsp.core.functions')
+
+	Map.n(Keys.K, function()
+		local peek_fold = require('plugins.ui.ufo.functions').peek_fold
+
+		-- if fns.diagnostic_float() then return end
+		if peek_fold() then return end
+		vim.lsp.buf.hover()
+	end, 'Hover')
+
+	Map.nv('<leader>ll', fns.lsp_format, 'Format Document or Selection')
 
 	local base_opts = require('plugins.lsp.core.server_opts')
 

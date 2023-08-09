@@ -2,14 +2,6 @@ local layout = require('plugins.editor.telescope.layouts').vert_list_normal
 local references = require('telescope.builtin').lsp_references
 local fns = require('plugins.lsp.core.functions')
 
-Map.n(Keys.K, function()
-	local peek_fold = require('plugins.ui.ufo.functions').peek_fold
-
-	-- if fns.diagnostic_float() then return end
-	if peek_fold() then return end
-	vim.lsp.buf.hover()
-end, 'Hover')
-
 return function(bufnr)
 	vim.api.nvim_buf_set_option(bufnr, 'omnifunc', 'v:lua.vim.lsp.omnifunc')
 
@@ -44,7 +36,6 @@ return function(bufnr)
 	lsp_map('r', vim.lsp.buf.rename, 'Rename')
 	lsp_map('a', vim.lsp.buf.code_action, 'Code Actions')
 	lsp_map('c', require('plugins.lsp.core.codelens').run, 'codelens')
-	lsp_map('l', fns.lsp_format, 'Format Document or Selection', { mode = { 'n', 'v' } })
 
 	if not nrequire('lspsaga') then return end
 
