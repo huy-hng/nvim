@@ -186,7 +186,7 @@ return {
 		backend = 'mini',
 		relative = 'editor',
 		align = 'message-left',
-		timeout = 2000,
+		timeout = 5000,
 		position = {
 			row = '100%',
 			col = '50%',
@@ -198,7 +198,6 @@ return {
 		},
 		zindex = 61,
 		win_options = {
-			winblend = 0,
 			winhighlight = {
 				Normal = 'NoiceMini',
 				IncSearch = '',
@@ -210,7 +209,7 @@ return {
 		backend = 'mini',
 		relative = 'editor',
 		align = 'message-right',
-		timeout = 2000,
+		timeout = 5000,
 		reverse = true,
 		focusable = false,
 		position = {

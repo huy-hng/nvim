@@ -42,19 +42,16 @@ function M.config()
 	-- config = test_spinners(config)
 
 	require('noice').setup(config)
-	-- Highlight(0, 'NoiceMini', {fg = '#cdd6f4', blend = 50})
-	vim.cmd('highlight NoiceMini blend=100')
+	vim.cmd('highlight NoiceMini blend=75')
 
-	Map.n('<leader>/', function()
-		if not vim.g.has_neovide then
+	Map.n(Keys.message_history, function()
+		if not vim.g.has_neovide or Util.is_cmdwin() then
 			vim.cmd.messages()
-			-- vim.cmd.Noice('messages')
 			return
 		end
 		enable_messages(true)
 		nvim.schedule(function()
 			vim.cmd.messages()
-			-- vim.cmd.Noice('messages')
 			nvim.defer(100, nvim.feedkeys, 'G')
 			enable_messages(false)
 		end)

@@ -4,14 +4,18 @@ return {
 	--      opts = Config.options.cmdline.opts,
 	--      filter = { event = "cmdline" },
 	--    },
-	-- {
-	-- 	view = false,
-	-- 	filter = { event = 'msg_show', find = 'E486' },
-	-- 	opts = { skip = true },
-	-- },
+	{
+		view = false,
+		filter = { event = 'msg_show', find = 'E486' },
+		opts = { skip = true },
+	},
 	{
 		view = 'split',
 		filter = { event = 'msg_show', min_height = 20 },
+	},
+	{
+		view = 'mini',
+		filter = { find = 'Config Change Detected' },
 	},
 	{
 		view = 'messages',
