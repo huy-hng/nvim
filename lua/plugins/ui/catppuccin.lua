@@ -64,8 +64,6 @@ function M.config()
 			shade = 'dark',
 			percentage = 0,
 		},
-		no_italic = false, -- Force no italic
-		no_bold = false, -- Force no bold
 		styles = {
 			comments = { 'italic' },
 			conditionals = {},
@@ -87,9 +85,11 @@ function M.config()
 			return {
 				Statusline = { fg = colors.text, bg = nil },
 				LineNr = { fg = colors.surface2 },
-				CursorLineNr = { fg = colors.lavender },
 				FoldColumn = { fg = colors.overlay1 },
-				['@comment'] = { fg = colors.overlay0, style = { 'italic' } },
+
+				-- default colors
+				-- CursorLineNr = { fg = colors.lavender },
+				-- Comment = { fg = colors.overlay0 },
 			}
 		end,
 		integrations = integrations,
