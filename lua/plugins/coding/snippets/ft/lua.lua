@@ -66,6 +66,22 @@ return {
 	snippet('curfile', f(get_relative_path())),
 
 	snippet('continue', fmt('goto continue{}::continue::', { utils.newline() })),
+
+	-- stylua: ignore
+	snippet('schedule', fmt([[
+		vim.schedule(function()
+			{}
+		end)
+		]],
+	{ i(0) })),
+
+	-- stylua: ignore
+	snippet('fm', fmt([[
+		function M.{}({})
+			{}
+		end
+	]], { i(1), i(2), i(0) })),
+
 	snippet('p', fmt("print('{}'){}{}", { i(1, ' '), utils.newline(), i(0) })),
 
 	--stylua: ignore

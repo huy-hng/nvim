@@ -22,7 +22,8 @@ M.sources = cmp.config.sources({
 	{ name = 'nvim_lsp' },
 	{ name = 'nvim_lsp_signature_help' },
 	{ name = 'neorg' },
-	{ name = 'path', keyword_length = 3 },
+	{ name = 'path' },
+	-- { name = 'path', keyword_length = 3 },
 }, {
 	-- { name = 'cmdline_history' },
 	-- { name = 'treesitter' },
