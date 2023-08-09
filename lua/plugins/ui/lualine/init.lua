@@ -58,7 +58,7 @@ function M.config()
 			lualine_c = {
 				comp.session_name,
 				-- comp.filepath,
-				'%{%v:lua.dropbar.get_dropbar_str()%}',
+				comp.dropbar,
 			},
 			lualine_x = {
 				'%B',
@@ -78,11 +78,12 @@ function M.config()
 		-- tabline = {
 		-- 	lualine_a = {},
 		-- 	lualine_b = {},
-		-- 	lualine_c = { comp.bufferline },
+		-- 	lualine_c = { "%{%v:lua.require'heirline'.eval_tabline()%}" },
 		-- 	-- lualine_c = {},
 		-- 	lualine_x = {},
 		-- 	lualine_y = {},
-		-- 	lualine_z = { comp.tabs },
+		-- 	lualine_z = {},
+		-- 	-- lualine_z = { comp.tabs },
 		-- },
 		winbar = {
 			lualine_a = {},
@@ -113,7 +114,7 @@ function M.config()
 			-- 'nvim-tree',
 			'quickfix',
 			-- 'symbols-outline',
-			-- 'toggleterm',
+			'toggleterm',
 		},
 	}
 

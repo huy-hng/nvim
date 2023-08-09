@@ -90,6 +90,11 @@ M.session_name = function()
 	return name
 end
 
+M.dropbar = function()
+	if vim.fn.has('nvim-0.10.0') == 0 then return M.filepath[1]() end
+	return '%{%v:lua.dropbar.get_dropbar_str()%}'
+end
+
 -----------------------------------------Statusline Right-------------------------------------------
 
 M.metamap = function()
