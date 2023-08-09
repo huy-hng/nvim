@@ -35,11 +35,11 @@ local function create_popup()
 		},
 		buf_options = {
 			modifiable = true,
-			filetype = 'DressingSelect',
+			filetype = 'norg',
 			readonly = false,
 		},
 		win_options = {
-			winblend = 50,
+			winblend = vim.o.winblend,
 			concealcursor = 'nc',
 			-- winhighlight = 'Normal:Normal,FloatBorder:FloatShadowThrough',
 			-- winhighlight = 'Normal:Normal,FloatBorder:FloatShadowOpaque',
