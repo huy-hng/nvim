@@ -7,7 +7,9 @@ local M = {}
 ---@param output? boolean whether to return output from command, defaults to true
 ---@return string | nil
 function M.exec(command, output) --
-	return vim.api.nvim_exec(command, Util.nil_or_true(output))
+	local opts = { output = Util.nil_or_true(output)}
+	local res = vim.api.nvim_exec2(command, opts)
+	return output and res.output
 end
 
 function M.normal(str) vim.api.nvim_command('normal! ' .. str) end
