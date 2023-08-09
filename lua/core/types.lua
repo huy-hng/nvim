@@ -39,7 +39,7 @@ M.win_types = {
 	unknown = 'unknown',
 }
 
----@alias autocmd_events
+---@alias autocmd-events
 ---| 'BufAdd'
 ---| 'BufDelete'
 ---| 'BufEnter'

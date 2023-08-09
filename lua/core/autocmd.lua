@@ -73,13 +73,7 @@ Augroup('NoComment', {
 if not vim.g.started_by_firenvim then
 	vim.o.updatetime = 200 -- used for CursorHold
 	local line_numbers = require('modules.line_numbers')
-	Augroup('renu', {
-		Autocmd('CursorHold', line_numbers.renu_autocmd(true)),
-		Autocmd('CursorMoved', line_numbers.renu_autocmd(false)),
-		Autocmd('InsertEnter', line_numbers.renu_autocmd(false)),
-		Autocmd('InsertLeave', line_numbers.renu_autocmd(true)),
-		Autocmd('WinLeave', line_numbers.renu_autocmd(false)),
-	})
+	line_numbers.create_autocmds()
 end
 
 Augroup('Misc', {
@@ -123,35 +117,40 @@ Augroup('CommandlineWindow', {
 	end),
 
 	Autocmd('CmdwinLeave', function()
-		vim.cmd.TSContextEnable()
-		-- RestoreAugroup('NoCmdWinHere')
-		-- RestoreAugroup('ColumnLine')
+		-- vim.cmd.TSContextEnable()
+
+		if nrequire('lualine') then
+			require('lualine').hide {
+				place = { 'winbar' },
+				unhide = true,
+			}
+		end
 	end),
 
-	Autocmd('CmdwinEnter', 'startinsert'),
+	-- Autocmd('CmdwinEnter', 'startinsert'),
 	Autocmd('CmdwinEnter', function()
-		-- DeleteAugroup('NoCmdWinHere')
-		-- DeleteAugroup('ColumnLine')
-
-		nvim.schedule(function()
-			-- P(data)
+		vim.schedule(function()
+			if nrequire('lualine') then
+				require('lualine').hide {
+					scope = 'window', -- scope of refresh all/tabpage/window
+					place = { 'winbar' },
+					unhide = false,
+				}
+			end
 			vim.o.cmdheight = 0
 			local scroll_length_before = vim.g.neovide_scroll_animation_length
 			vim.g.neovide_scroll_animation_length = 0
 
 			local opts = { buffer = true, silent = false }
-			Map.n(';', ':', '', opts)
 
-			Map.n('<C-k>', vim.cmd.quit, '', opts)
 			Map.n('q', vim.cmd.quit, '', opts)
-			Map.n('<C-;>', vim.cmd.quit, '', opts)
-			Map.n('<leader>;', vim.cmd.quit, '', opts)
-			Map.i('<C-;>', function()
+			Map.n(Keys.cmdline_window, vim.cmd.quit, '', opts)
+			Map.i(Keys.cmdline_window, function()
 				nvim.feedkeys('<Esc>')
 				vim.cmd.quit()
 			end, '', opts)
 
-			vim.cmd.TSContextDisable()
+			-- vim.cmd.TSContextDisable()
 			vim.cmd.TSBufDisable('highlight')
 
 			nvim.defer(200, function() --

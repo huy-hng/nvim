@@ -13,7 +13,7 @@ function SetColors(theme)
 	Highlight(0, 'ColumnLine', { link = 'NonText' })
 
 	-- Highlight(0, 'CursorLine', { link = 'Visual' })
-	-- Highlight(0, 'CursorColumn', { link = 'CursorLine' })
+	Highlight(0, 'CursorColumn', { link = 'CursorLine' })
 	-- Highlight(0, 'helpCommand', { link = 'markdownCode' })
 
 	if ColorTheme == 'default' then return end

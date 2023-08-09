@@ -12,6 +12,7 @@ vim.cmd([[ let maplocalleader="\<BS>" ]])
 -- window transparency
 o.winblend = 0
 o.pumblend = 0
+o.shell = '/bin/zsh'
 
 o.conceallevel = 2
 o.concealcursor = 'c'
