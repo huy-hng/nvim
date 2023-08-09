@@ -18,7 +18,6 @@ Augroup('Alpha', {
 			winman.show_ui()
 			vim.o.showtabline = 2
 			-- utils.show_cursor()
-			-- require('core.statuscolumn').custom_statuscolumn()
 		end, { buffer = 0 })
 	end),
 })

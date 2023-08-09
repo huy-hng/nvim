@@ -58,7 +58,6 @@ Map.v('<C-c>', keep_column('"+y'), 'Yank to clipboard')
 
 local mode_behavior = {
 	v = '"_c<C-r>"<esc>',
-	-- v = '"_dP',
 	V = '"_dP',
 	[''] = '"_dP',
 }
