@@ -3,7 +3,7 @@ local utils = require('core.statuscolumn.utils')
 
 local M = {}
 
-M.Statuscolumn = {
+_G.Statuscolumn = {
 	components = comp,
 
 	right_align = '%=',
@@ -35,32 +35,65 @@ local function get_scope(winid)
 	return vim.o
 end
 
-function M.set_statuscolumn(winid, display_text)
+function M.set_options(opts, winid)
 	local scope = get_scope(winid)
+	for opt, value in pairs(opts) do
+		scope[opt] = value
+	end
+end
+
+function M.remove_column(winid)
+	M.set_options({
+		statuscolumn = '',
+		number = false,
+		signcolumn = 'no',
+		foldcolumn = '0',
+	}, winid)
+end
+
+function M.stock_column(winid)
+	M.set_options({
+		number = true,
+		statuscolumn = '',
+		signcolumn = 'yes',
+		foldcolumn = '1',
+	}, winid)
+end
+
+function M.set_column(winid, display_text)
 	M.active = true
 	utils.update_sign_defined()
 
-	scope.number = true
-	scope.signcolumn = 'no'
-	scope.foldcolumn = '0'
-	scope.statuscolumn = display_text
+	M.set_options({
+		number = true,
+		statuscolumn = display_text,
+		signcolumn = 'no',
+		foldcolumn = '0',
+	}, winid)
 end
 
-function M.remove_statuscolumn(winid)
-	local scope = get_scope(winid)
+M.columns = {
+	default = M.build {
+		Statuscolumn.sign_column,
+		Statuscolumn.right_align,
+		Statuscolumn.line_number,
+		-- Statuscolumn.folds,
+		Statuscolumn.border,
+		Statuscolumn.space,
+	},
+	minimal = M.build {
+		Statuscolumn.right_align,
+		Statuscolumn.line_number,
+		Statuscolumn.border,
+		Statuscolumn.space,
+	},
 
-	scope.statuscolumn = ''
-	scope.number = false
-	scope.signcolumn = 'no'
-	scope.foldcolumn = '0'
-end
-
-function M.default_statuscolumn(winid)
-	local scope = get_scope(winid)
-	scope.number = true
-	scope.foldcolumn = '1'
-	scope.statuscolumn = ''
-	scope.signcolumn = 'yes'
-end
+	sparse_column = M.build {
+		Statuscolumn.right_align,
+		Statuscolumn.sparse_line_number,
+		Statuscolumn.border,
+		Statuscolumn.space,
+	},
+}
 
 return M

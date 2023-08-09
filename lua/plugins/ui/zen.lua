@@ -6,7 +6,7 @@ local M = {
 	event = 'VeryLazy',
 }
 
-local statuscolumn = require('core.statuscolumn.statuscolumn')
+local statuscolumn = require('core.statuscolumn')
 
 local zenmode_active = false
 local parent_tab = 1
@@ -40,7 +40,7 @@ local function activate()
 		line_numbers.delete_autocmds()
 		vim.wo.relativenumber = false
 		vim.wo.winbar = ''
-		statuscolumn.remove_statuscolumn(tab_win)
+		statuscolumn.remove_column(tab_win)
 	end)
 end
 
@@ -115,13 +115,7 @@ function M.config()
 			}
 			vim.api.nvim_win_close(bg_win, false)
 			nvim.defer(0, function()
-				local column = statuscolumn.build {
-					Statuscolumn.right_align,
-					Statuscolumn.sparse_line_number,
-					Statuscolumn.border,
-					Statuscolumn.space,
-				}
-				statuscolumn.set_statuscolumn(win, column)
+				statuscolumn.set_column(win, statuscolumn.columns.sparse)
 
 				vim.api.nvim_clear_autocmds {
 					event = { 'VimResized', 'CursorHold', 'CursorMoved' },
