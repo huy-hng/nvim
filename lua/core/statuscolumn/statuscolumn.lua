@@ -10,6 +10,7 @@ M.Statuscolumn = {
 	space = ' ',
 	sign_column = comp.sign_column.component_text,
 	line_number = comp.line_number.component_text,
+	sparse_line_number = comp.sparse_line_number.component_text,
 	border = comp.border.component_text,
 	folds = comp.fold.component_text,
 }
@@ -27,8 +28,15 @@ function M.build(tbl)
 	return table.concat(statuscolumn)
 end
 
+local function get_scope(winid)
+	if winid and vim.api.nvim_win_is_valid(winid) then --
+		return vim.wo[winid]
+	end
+	return vim.o
+end
+
 function M.set_statuscolumn(winid, display_text)
-	local scope = winid and vim.wo[winid] or vim.o
+	local scope = get_scope(winid)
 	M.active = true
 	utils.update_sign_defined()
 
@@ -39,7 +47,8 @@ function M.set_statuscolumn(winid, display_text)
 end
 
 function M.remove_statuscolumn(winid)
-	local scope = winid and vim.wo[winid] or vim.o
+	local scope = get_scope(winid)
+
 	scope.statuscolumn = ''
 	scope.number = false
 	scope.signcolumn = 'no'
@@ -47,11 +56,11 @@ function M.remove_statuscolumn(winid)
 end
 
 function M.default_statuscolumn(winid)
-	local scope = winid and vim.wo[winid] or vim.o
+	local scope = get_scope(winid)
+	scope.number = true
 	scope.foldcolumn = '1'
 	scope.statuscolumn = ''
 	scope.signcolumn = 'yes'
-	scope.number = true
 end
 
 return M

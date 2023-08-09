@@ -22,12 +22,34 @@ M.line_number = {
 			hl = 'FoldColumn'
 		end
 
-		if vim.o.relativenumber and vim.v.relnum % 10 == 0 then
+		-- if vim.o.relativenumber and vim.v.lnum % 10 == 0 then
+		-- 	lnum = vim.v.lnum
+		-- 	hl = 'CursorLineNr'
+		-- end
+		if vim.v.lnum % 10 == 0 then
 			lnum = vim.v.lnum
 			hl = 'CursorLineNr'
 		end
 
 		return utils.wrap_hl(lnum, hl)
+	end,
+	on_click = function(clicks, button, modifiers, mousepos)
+		-- print('lnum')
+	end,
+}
+
+M.sparse_line_number = {
+	function()
+		if vim.v.virtnum ~= 0 then
+			-- negative for virtual lines
+			-- positive for wrapped lines
+			return ''
+		end
+
+		local is_current_line = vim.v.relnum == 0
+		if is_current_line or vim.v.lnum % 10 == 0 then return vim.v.lnum end
+
+		return ''
 	end,
 	on_click = function(clicks, button, modifiers, mousepos)
 		-- print('lnum')
