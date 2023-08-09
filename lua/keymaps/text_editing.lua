@@ -74,14 +74,14 @@ Map.n(Keys.ctrl.join_lines, keep_column('J'), 'keep column when joining lines')
 
 ----------------------------------copy current line above / below-----------------------------------
 
-Map.i(Keys.alt.K, keep_column('yyPi', true), '')
-Map.i(Keys.alt.J, keep_column('yypi', true), '')
+-- Map.i(Keys.alt.K, keep_column('yyPi', true), '')
+-- Map.i(Keys.alt.J, keep_column('yypi', true), '')
 
-Map.n(Keys.alt.J, keep_column('yyp', true), '')
-Map.n(Keys.alt.K, keep_column('yyP', true), '')
+-- Map.n(Keys.alt.J, keep_column('yyp', true), '')
+-- Map.n(Keys.alt.K, keep_column('yyP', true), '')
 
-Map.v(Keys.alt.J, keep_column("Y'>p"), '')
-Map.v(Keys.alt.K, keep_column("Y'<P"), '')
+-- Map.v(Keys.alt.J, keep_column("Y'>p"), '')
+-- Map.v(Keys.alt.K, keep_column("Y'<P"), '')
 
 ------------------------------------move line(s) above / below--------------------------------------
 
@@ -141,11 +141,11 @@ end
 -- Map.n('<A-j>', move_line('+'), '')
 -- Map.n('<A-k>', move_line('-2'), '')
 
-Map.n(Keys.alt.j, fn1(1, true), '')
-Map.n(Keys.alt.k, fn1(-1, true), '')
+-- Map.n(Keys.alt.j, fn1(1, true), '')
+-- Map.n(Keys.alt.k, fn1(-1, true), '')
 
-Map.i(Keys.alt.j, fn1(1), '')
-Map.i(Keys.alt.k, fn1(-1), '')
+-- Map.i(Keys.alt.j, fn1(1), '')
+-- Map.i(Keys.alt.k, fn1(-1), '')
 -- this is a comment
 
 -- Nmap('<A-j>', counter(1))
@@ -154,8 +154,8 @@ Map.i(Keys.alt.k, fn1(-1), '')
 -- nmap('<A-j>', '<cmd>m+<cr>==')
 -- nmap('<A-k>', '<cmd>m-2<cr>==')
 
-Map.v(Keys.alt.j, ":m'>+<cr>`<my`>mzgv`yo`z=gv", '')
-Map.v(Keys.alt.k, ":m'<-2<cr>`>my`<mzgv`yo`z=gv", '')
+-- Map.v(Keys.alt.j, ":m'>+<cr>`<my`>mzgv`yo`z=gv", '')
+-- Map.v(Keys.alt.k, ":m'<-2<cr>`>my`<mzgv`yo`z=gv", '')
 
 -- nmap('<A-j>', 'mz<cmd>m+<cr>`z')
 -- nmap('<A-k>', 'mz<cmd>m-2<cr>`z')
@@ -180,7 +180,9 @@ Map.n('<S-Tab>', '<<')
 Map.n('<C-S-Tab>', '<<')
 
 Map.v('<Tab>', '>gv')
+Map.v('<C-Tab>', '>gv')
 Map.v('<S-Tab>', '<gv')
+Map.v('<C-S-Tab>', '<gv')
 
 ------------------------------------------Blackhole Register----------------------------------------
 -- Nmap('x', '"_x')
