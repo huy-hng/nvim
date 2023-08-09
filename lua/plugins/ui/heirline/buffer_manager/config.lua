@@ -12,7 +12,8 @@ local sorting_functions = {
 	alphabet = {
 		function(a, b)
 			if not a or not b then return false end
-			return filename.get_short_file_name(a.filename) < filename.get_short_file_name(b.filename)
+			-- return filename.get_short_file_name(a.filename) < filename.get_short_file_name(b.filename)
+			return a.filename < b.filename
 		end,
 		key = 'a',
 	},

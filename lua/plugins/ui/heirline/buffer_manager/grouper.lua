@@ -19,7 +19,6 @@ local function buffers_with_common_path(buffers, common_path)
 		if not string.starts(string.join(buffer_path, '/'), common_path_string) then break end
 
 		table.insert(matches, buffer)
-		-- print(buffer)
 	end
 	return matches
 end

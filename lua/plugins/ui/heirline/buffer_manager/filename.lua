@@ -52,7 +52,11 @@ function M.get_path_folders(filename, folder_amount, normalize)
 	folder_amount = folder_amount or 0
 
 	if Util.nil_or_true(normalize) then --
-		filename = M.normalize_path(filename)
+		-- filename = M.normalize_path(filename)
+		local normalized = M.normalize_path(filename)
+		if type(normalized) ~= 'table' then
+			filename = normalized
+		end
 	end
 
 	local path = vim.fn.fnamemodify(filename, ':h')
