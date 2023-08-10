@@ -4,6 +4,8 @@ local M = {
 }
 
 function M.config()
+	if vim.fn.has('nvim-0.10.0') == 0 then return end
+
 	require('dropbar').setup {
 		general = {
 			---@type boolean|fun(buf: integer, win: integer): boolean
