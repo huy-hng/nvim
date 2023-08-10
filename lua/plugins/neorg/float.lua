@@ -1,4 +1,5 @@
 local M = {}
+M.state = {}
 
 local popup = nil
 
@@ -63,6 +64,25 @@ local function create_popup()
 	return popup
 end
 
+local function disable_gitsigns(disable)
+	local gs = nrequire('gitsigns')
+	if not gs then return end
+	local config = nrequire('gitsigns.config').config
+	if disable then
+		M.state.signcolumn = config.signcolumn
+		M.state.numhl = config.numhl
+		M.state.linehl = config.linehl
+		config.signcolumn = false
+		config.numhl = false
+		config.linehl = false
+	else
+		config.signcolumn = M.state.signcolumn
+		config.numhl = M.state.numhl
+		config.linehl = M.state.linehl
+	end
+	gs.refresh()
+end
+
 local function open_popup(...)
 	local cmd = { ... }
 
@@ -78,14 +98,14 @@ local function open_popup(...)
 	if #cmd > 0 then vim.cmd.Neorg(unpack(cmd)) end
 
 	nvim.feedkeys('zz')
-
-	local gitsigns = nrequire('gitsigns')
-	if gitsigns then gitsigns.detach(popup.bufnr) end
+	disable_gitsigns(true)
 
 	Augroup('NeorgOpenPopup', {
 		Autocmd('WinLeave', '*', function(data)
+
 			local leave_winid = vim.api.nvim_get_current_win()
 			if leave_winid == popup.winid then
+				disable_gitsigns(false)
 				popup.bufnr = data.buf
 				popup:hide()
 			end
