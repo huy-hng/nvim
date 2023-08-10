@@ -104,6 +104,7 @@ local functions = {
 	search_window = '<C-/>',
 	message_history = '<leader>/',
 	plugin_manager = '<C-A-P>',
+	start_screen = '<leader>s'
 }
 
 local special_keys = {
