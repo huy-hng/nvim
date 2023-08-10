@@ -48,6 +48,8 @@ local type_choices = {
 
 return {
 	--------------------------------------------Shortcuts-------------------------------------------
+	snippet('notify', fmt("vim.notify('{}')", i(0))),
+	snippet('insert', fmt('table.insert({})', i(0))),
 	snippet('api', t('vim.api.')),
 	snippet('fn', t('vim.fn.')),
 	snippet('@', t('---@')),
