@@ -28,7 +28,7 @@ function M.load_menu_from_file(filename)
 		table.insert(lines, line)
 	end
 	file:close()
-	list_manager.update_marks_list(lines)
+	list_manager.update_marks_list()
 	list_manager.update_buffers()
 end
 return M

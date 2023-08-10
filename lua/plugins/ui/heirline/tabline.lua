@@ -5,26 +5,26 @@ local filename = require('plugins.ui.heirline.buffer_manager.filename')
 local spacing = { provider = ' ' }
 
 local file_icon = {
-	init = function(self)
-		local path = vim.api.nvim_buf_get_name(0)
-		local icon = filename.get_icon(path, { hexcode = true })
+	-- init = function(self) end,
+	update = { 'WinNew', 'WinClosed', 'BufEnter' },
+	provider = function(self)
+		local label = vim.t[self.tabpage].tablabel
+		self.icon = label and label.icon
 
-		if icon then
-			self.icon, self.icon_color = unpack(icon)
-		end
+		return self.icon and self.icon
 	end,
-	provider = function(self) return self.icon and self.icon end,
 	hl = function(self)
-		return { fg = self.icon_color }
-		-- if self.is_active then return { fg = self.icon_color } end
-		-- return 'Comment'
+		local label = vim.t[self.tabpage].tablabel
+		if not label then return end
+
+		return { fg = label.icon_hl }
 	end,
 }
 
 local tabpage = {
 	provider = function(self)
 		local label = vim.t[self.tabpage].tablabel
-		label = label or self.tabpage
+		label = label and label.filename or self.tabpage
 		return '%' .. self.tabnr .. 'T' .. label .. ' %T'
 	end,
 	hl = function(self)
@@ -47,7 +47,7 @@ local tabpage_block = utils.surround({ '', '' }, function(self)
 	else
 		return utils.get_highlight('TabLine').bg
 	end
-end, {  file_icon, tabpage })
+end, { file_icon, tabpage })
 
 return {
 	-- only show this component if there's 2 or more tabpages

@@ -136,7 +136,7 @@ local function set_options()
 		vim.api.nvim_win_set_option(M.win_id, 'cursorlineopt', 'both')
 	end
 
-	vim.api.nvim_buf_set_name(M.bufnr, 'buffer_manager-menu')
+	vim.api.nvim_buf_set_name(M.bufnr, 'Buffer Manager')
 
 	vim.api.nvim_win_set_option(M.win_id, 'wrap', false)
 	vim.api.nvim_win_set_option(M.win_id, 'number', true)

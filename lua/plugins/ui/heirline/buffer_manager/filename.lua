@@ -35,17 +35,28 @@ function M.normalize_path(item)
 	-- return Path:new(Path:new(item):absolute()):make_relative(vim.loop.cwd())
 end
 
-function M.get_icon(filename)
-	local f_icon = ''
-	local f_hl
+function M.get_icon(filename, opts)
+	opts = vim.tbl_extend('force', {
+		padding = 1,
+		hexcode = false,
+		default = true,
+	}, opts or {})
+
+	local icon = ' '
+	local hl = ''
 	local devicons = nrequire('nvim-web-devicons')
 
 	if devicons then
 		local extension = vim.fn.fnamemodify(filename, ':e')
-		f_icon, f_hl = devicons.get_icon(filename, extension, { default = true })
-		f_icon = f_icon .. ' '
+		local icon_fn = opts.hexcode and devicons.get_icon_color or devicons.get_icon
+
+		local f_icon, f_hl = icon_fn(filename, extension, { default = opts.default })
+		if f_icon and opts.padding > 0 then --
+			icon = f_icon .. vim.fn['repeat'](' ', opts.padding)
+		end
+		hl = f_hl and f_hl or hl
 	end
-	return { f_icon, f_hl }
+	return { icon, hl }
 end
 
 function M.get_path_folders(filename, folder_amount, normalize)
@@ -54,9 +65,7 @@ function M.get_path_folders(filename, folder_amount, normalize)
 	if Util.nil_or_true(normalize) then --
 		-- filename = M.normalize_path(filename)
 		local normalized = M.normalize_path(filename)
-		if type(normalized) ~= 'table' then
-			filename = normalized
-		end
+		if type(normalized) ~= 'table' then filename = normalized end
 	end
 
 	local path = vim.fn.fnamemodify(filename, ':h')
@@ -76,9 +85,9 @@ function M.get_path_folders(filename, folder_amount, normalize)
 	return folders, truncated
 end
 
-function M.get_filename(filename, extension)
+function M.get_filename(filename, remove_extension)
 	local mods = ':t'
-	if extension then mods = mods .. ':r' end
+	if remove_extension then mods = mods .. ':r' end
 	return filename == '' and '[No Name]' or vim.fn.fnamemodify(filename, mods)
 end
 

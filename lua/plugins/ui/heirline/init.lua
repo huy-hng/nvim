@@ -27,9 +27,37 @@ function M.config()
 	end
 
 	setup()
+	local filename = require('plugins.ui.heirline.buffer_manager.filename')
 
 	Augroup('Heirline', {
 		Autocmd('ColorScheme', setup),
+		Autocmd(
+			{
+				'WinNew',
+				'WinClosed',
+				'BufEnter',
+				'TabEnter',
+				'TabNew',
+				'TabClosed',
+				'TabLeave',
+			},
+			'*',
+			function()
+				local tab = vim.api.nvim_get_current_tabpage()
+
+				local bufname = vim.api.nvim_buf_get_name(0)
+				local icon = filename.get_icon(bufname, { hexcode = true, default = false })
+				icon = icon or {}
+
+				bufname = bufname or vim.bo.filetype
+
+				vim.t[tab].tablabel = {
+					filename = filename.get_filename(bufname, true),
+					icon = icon[1],
+					icon_hl = icon[2],
+				}
+			end
+		),
 	})
 end
 
