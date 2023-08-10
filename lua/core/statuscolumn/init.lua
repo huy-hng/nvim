@@ -13,6 +13,7 @@ M.set_minimal_column = statuscolumn.set_minimal_column
 function M.set_default_column(winid) statuscolumn.set_column(winid, M.columns.default) end
 
 local filetype_blacklist = { alpha = true, noice = true, toggleterm = true }
+local filetype_ignore = { bufman = true }
 local buf_blacklist = { diff = true }
 local win_whitelist = { [''] = true }
 local win_ignore = { command = true }
@@ -36,8 +37,8 @@ Augroup('Statuscolumn', {
 			local buftype = vim.bo.buftype
 			local filetype = vim.bo.filetype
 
-			if win_ignore[wintype] then return end
-			-- print(winid, wintype, buftype, filetype)
+			-- print(winid, wintype, buftype, filetype, filetype_ignore[filetype])
+			if win_ignore[wintype] or filetype_ignore[filetype] then return end
 			local line_count = vim.api.nvim_buf_line_count(0)
 			if
 				not win_whitelist[wintype]
