@@ -1,7 +1,7 @@
 local M = {}
 
 local utils = require('heirline.utils')
-local filename = require('plugins.ui.heirline.buffer_manager.filename')
+local filename = require('bufman.filename')
 local spacing = { provider = ' ' }
 
 local file_icon = {

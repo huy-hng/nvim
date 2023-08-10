@@ -1,3 +1,6 @@
 [submodule "anyline"]
 	path = plugins/anyline.nvim
 	url = git@github.com:huy-hng/anyline.nvim.git
+[submodule "bufman.nvim"]
+	path = plugins/bufman.nvim
+	url = git@github.com:huy-hng/bufman.nvim.git

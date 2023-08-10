@@ -1,19 +1,15 @@
 local M = {
 	'rebelot/heirline.nvim',
+	-- dependencies = { 'huy-hng/bufman.nvim' },
 	event = 'VeryLazy',
 }
 
-require('plugins.ui.heirline.buffer_manager').setup()
 function M.config()
+	require('bufman').setup()
 	if vim.g.started_by_firenvim == true then return end
 
-	local window = require('plugins.ui.heirline.buffer_manager.window')
-	local nmap = Map.create('n', '', '[Buffer Manager]')
-	nmap('<leader>b', window.toggle_quick_menu, 'Toggle quick menu')
-	nmap('<C-b>', window.toggle_quick_menu, 'Toggle quick menu')
-
-	local tabline = R('plugins.ui.heirline.tabline')
-	local bufferline = R('plugins.ui.heirline.bufferline')
+	local tabline = require('plugins.ui.heirline.tabline')
+	local bufferline = require('plugins.ui.heirline.bufferline')
 	vim.o.showtabline = 2
 
 	local function setup()
@@ -27,7 +23,7 @@ function M.config()
 	end
 
 	setup()
-	local filename = require('plugins.ui.heirline.buffer_manager.filename')
+	local filename = require('bufman.filename')
 
 	Augroup('Heirline', {
 		Autocmd('ColorScheme', setup),

@@ -1,6 +1,5 @@
 local utils = require('heirline.utils')
 local conditions = require('heirline.conditions')
-local filename = require('plugins.ui.heirline.buffer_manager.filename')
 
 local FileNameBlock = {
 	-- let's first set up some attributes needed by this component and it's children

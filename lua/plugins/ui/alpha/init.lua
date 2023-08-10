@@ -3,7 +3,6 @@ local M = {
 	lazy = false,
 }
 
-local utils = require('plugins.ui.heirline.buffer_manager.utils')
 local winman = require('modules.window_manager')
 Augroup('Alpha', {
 	Autocmd('User', 'AlphaReady', function(data)

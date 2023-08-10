@@ -1,8 +1,8 @@
 local devicons = nrequire('nvim-web-devicons')
 
 local utils = require('heirline.utils')
-local list_manager = require('plugins.ui.heirline.buffer_manager.list_manager')
-local filename = require('plugins.ui.heirline.buffer_manager.filename')
+local list_manager = require('bufman.list_manager')
+local filename = require('bufman.filename')
 local C = require('catppuccin.palettes').get_palette()
 
 local file_icon = {
