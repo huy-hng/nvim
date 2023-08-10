@@ -41,8 +41,7 @@ function M.config()
 		options = {
 			icons_enabled = true,
 			theme = cat,
-			-- section_separators = { left = '', right = '' },
-			-- component_separators = { left = '', right = '' },
+			--          
 			section_separators = { left = '', right = '' },
 			-- section_separators = { left = '', right = '' },
 			component_separators = { left = '', right = '' },
@@ -78,8 +77,8 @@ function M.config()
 		-- tabline = {
 		-- 	lualine_a = {},
 		-- 	lualine_b = {},
-		-- 	lualine_c = { "%{%v:lua.require'heirline'.eval_tabline()%}" },
-		-- 	-- lualine_c = {},
+		-- lualine_c = { "%{%v:lua.require'heirline'.eval_tabline()%}" },
+		-- lualine_c = {},
 		-- 	lualine_x = {},
 		-- 	lualine_y = {},
 		-- 	lualine_z = {},

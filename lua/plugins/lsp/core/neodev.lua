@@ -10,6 +10,9 @@ require('neodev').setup {
 			'edgy.nvim',
 			'noice.nvim',
 			'toggleterm.nvim',
+			'nvim-gomove',
+			'anyline.nvim',
+			'bufman.nvim',
 		},
 	},
 	setup_jsonls = false, -- configures jsonls to provide completion for project specific .luarc.json files

@@ -5,7 +5,6 @@ local M = {
 }
 
 function M.config()
-	require('bufman').setup()
 	if vim.g.started_by_firenvim == true then return end
 
 	local tabline = require('plugins.ui.heirline.tabline')

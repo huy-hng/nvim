@@ -32,6 +32,7 @@ local function activate()
 
 	require('zen-mode').open()
 	winman.show_empty_buffer(tab_win)
+
 	view.parent = parent_win
 
 	vim.api.nvim_win_set_cursor(0, cursor_pos)
@@ -55,15 +56,18 @@ local function deactivate()
 	-- nvim.feedkeys('zz')
 end
 
+local function toggle()
+	-- TODO: use view.is_open()
+	if zenmode_active then --
+		return deactivate()
+	end
+	activate()
+end
+
 function M.config()
 	Map.n('<leader>Z', vim.cmd.Twilight, 'Twilight')
-	Map.n('<leader>z', function()
-		-- TODO: use view.is_open()
-		if zenmode_active then --
-			return deactivate()
-		end
-		activate()
-	end, 'Zen Mode')
+	Map.n('<leader>z', toggle, 'Zen Mode')
+	Map.n('Z', toggle, 'Zen Mode')
 
 	require('zen-mode').setup {
 		window = {
@@ -94,7 +98,7 @@ function M.config()
 		-- callback where you can add custom code when the Zen window opens
 		on_open = function(win)
 			local bg_win = win - 1
-			vim.wo[win].winblend = 100
+			vim.wo[win].winblend = 80
 
 			local conf = {
 				anchor = 'NW',
@@ -115,6 +119,7 @@ function M.config()
 			}
 			vim.api.nvim_win_close(bg_win, false)
 			nvim.defer(0, function()
+				vim.w[win].statuscolumn_ignore = true
 				statuscolumn.set_column(win, statuscolumn.columns.sparse)
 
 				vim.api.nvim_clear_autocmds {

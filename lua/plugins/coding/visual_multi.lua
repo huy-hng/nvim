@@ -2,6 +2,7 @@ local M = {
 	'mg979/vim-visual-multi',
 	branch = 'master',
 	keys = { Keys.ctrl.n },
+	event = 'VeryLazy',
 	-- lazy = false,
 }
 

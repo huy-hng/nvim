@@ -48,7 +48,7 @@ tele_map('k', { builtin.keymaps, layouts.vert_list_insert }, 'Find Keymaps')
 local command = require('telescope.command')
 tele_map('T', command.load_command, 'Telescope')
 -- tele_map('T', vim.cmd.Telescope, 'Telescope')
-tele_map('r', builtin.resume, 'Resume')
+tele_map('r', { builtin.resume, layouts.vert_list_normal }, 'Resume')
 tele_map('t', builtin.treesitter, 'Treesitter')
 
 ------------------------------------Different Working Directory-------------------------------------

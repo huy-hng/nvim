@@ -66,7 +66,7 @@ function M.config()
 			end
 		end,
 		direction = 'vertical',
-		open_mapping = '<c-d>',
+		-- open_mapping = '<c-d>',
 		-- open_mapping = '<c-.>',
 		close_on_exit = true,
 		float_opts = {
@@ -127,7 +127,7 @@ function M.config()
 
 	local Terminal = require('toggleterm.terminal').Terminal
 	local lazygit = Terminal:new { cmd = 'lazygit', hidden = true }
-	local kyria_build_map = '<leader>pn'
+	local kyria_build_map = '<leader>bk'
 	local kyria_build = Terminal:new(build_config)
 
 	-- Map.n('<c-d>', wrap_open_term())

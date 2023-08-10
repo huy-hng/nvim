@@ -41,7 +41,7 @@ function M.config()
 	utils.change_native_keymap_fn()
 
 	local alpha = require('alpha')
-	Map.n('<leader>S', open_alpha_in_tab, 'Open Start Screen')
+	Map.n(Keys.start_screen, open_alpha_in_tab, 'Open Start Screen')
 
 	local layout = require('plugins.ui.alpha.layout')
 	alpha.setup(layout)
