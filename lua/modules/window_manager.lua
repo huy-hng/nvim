@@ -5,18 +5,11 @@ local parent_tab = 1
 -- local prev_tabline = default_tabline
 
 function M.hide_ui()
-	-- prev_tabline = vim.o.tabline
-	-- vim.o.tabline = ' '
-	vim.schedule(function()
-		vim.o.showtabline = 0
-		vim.o.laststatus = 0 -- global statusline
-		if nrequire('lualine') then --
-			require('lualine').hide {
-				place = { 'statusline', 'tabline', 'winbar' }, -- The segment this change applies to.
-				unhide = false, -- whether to re-enable lualine again/
-			}
-		end
-	end)
+	vim.o.showtabline = 0
+	vim.o.laststatus = 0 -- global statusline
+	if nrequire('lualine') then --
+		require('lualine').hide { place = { 'winbar' }, unhide = false }
+	end
 end
 
 function M.show_ui()
@@ -50,10 +43,10 @@ function M.show_empty_buffer(winid)
 end
 
 function M.create_tab_background()
+	M.hide_ui()
+
 	M.open_current_file_in_new_tab()
 	M.show_empty_buffer(0)
-
-	M.hide_ui()
 end
 
 M.get_win = vim.api.nvim_get_current_win
