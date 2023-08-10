@@ -12,12 +12,14 @@ function M.config()
 	nmap('<leader>b', window.toggle_quick_menu, 'Toggle quick menu')
 	nmap('<C-b>', window.toggle_quick_menu, 'Toggle quick menu')
 
-	local tabline = require('plugins.ui.heirline.tabline')
+	local tabline = R('plugins.ui.heirline.tabline')
+	local bufferline = R('plugins.ui.heirline.bufferline')
 	vim.o.showtabline = 2
 
 	local function setup()
+		local spacing = { provider = ' ' }
 		require('heirline').setup {
-			tabline = { tabline.BufferLine, tabline.TabPages },
+			tabline = { spacing, bufferline, tabline, spacing },
 			-- winbar = require('plugins.ui.heirline.winbar'),
 			-- statusline = { ... },
 			-- statuscolumn = { ... },
