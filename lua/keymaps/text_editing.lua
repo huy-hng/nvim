@@ -164,11 +164,10 @@ end
 
 ---------------------------------------------Substitution-------------------------------------------
 
-Map.n(
-	'<leader>ss',
-	[[:%s/\<<C-r><C-w>\>/<C-r><C-w>/gI<Left><Left><Left>]],
-	'Substitute word under cursor'
-)
+Map.n('<leader>r', function()
+	nvim.feedkeys(':')
+	nvim.schedule(nvim.feedkeys, [[%s/\<<C-r><C-w>\>/<C-r><C-w>/gI<Left><Left><Left>]])
+end, 'Substitute word under cursor', { silent = false })
 --------------------------------------------Indentation---------------------------------------------
 
 Map.i('<C-Tab>', '<C-t>')

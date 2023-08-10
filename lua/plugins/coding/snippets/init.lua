@@ -16,9 +16,9 @@ function M.config()
 	local ft_functions = require('luasnip.extras.filetype_functions')
 	local loaders = require('luasnip.loaders')
 
-	-- uses vim.ui.select to select a choice
 	Map.n('<leader>se', loaders.edit_snippet_files, '[Snippet] edit snippet files')
-	Map.i('<c-u>', require('luasnip.extras.select_choice'))
+	-- uses vim.ui.select to select a choice
+	-- Map.i('<c-u>', require('luasnip.extras.select_choice'))
 
 	-- interesting methods
 	-- in_snippet()

@@ -2,7 +2,6 @@ Map.n('<F1>', '')
 
 Map.n('<S-SPACE>', '')
 Map.n('<C-SPACE>', '')
-Map.n('ZZ', '')
 
 Map.nv(Keys.cmdline_window, 'q:')
 Map.c(Keys.cmdline_window, 'q:')
@@ -42,8 +41,7 @@ Map.i('.', '.<c-g>u')
 Map.i(';', ';<c-g>u')
 Map.i('<C-r>', '<C-g>u<C-r>')
 Map.i('<C-d>', '<C-g>u<C-r>+')
-
-Map.c('<C-v>', '<C-r>+', 'Paste from clipboard', { silent = false })
+Map.c('<C-d>', '<C-r>+', 'Paste from clipboard', { silent = false })
 
 local function direction(next)
 	return function()
