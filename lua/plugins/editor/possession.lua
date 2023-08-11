@@ -100,7 +100,7 @@ function M.config()
 		autosave = {
 			current = true, -- or fun(name): boolean, save current session if it exists
 			tmp = true, -- or fun(): boolean, save a tmp session if no session has been loaded yet
-			tmp_name = 'No Name',
+			tmp_name = 'tmp session',
 			on_load = true, -- when loading another session
 			on_quit = true,
 		},

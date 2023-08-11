@@ -103,6 +103,9 @@ return {
 	n = vim.tbl_extend('force', maps, {
 		['<esc>'] = actions.close,
 
+		[Keys.J] = actions.preview_scrolling_down,
+		[Keys.K] = actions.preview_scrolling_up,
+
 		[Keys.j] = actions.move_selection_next,
 		[Keys.k] = actions.move_selection_previous,
 
