@@ -4,17 +4,8 @@ local M = {
 	event = 'VeryLazy',
 }
 
-local function get_buffer_elements()
-	---@module bufferline
-	local bufferline = nrequire('bufferline')
-	if not bufferline then return end
-	P(bufferline)
-
-	local elements = bufferline.get_elements().elements
-end
-
 local function print_messages(...)
-	if PRINT_SESSION_ACTIONS then Notify(unpack { ... }) end
+	-- Notify(unpack { ... })
 end
 
 function M.config()
@@ -24,7 +15,6 @@ function M.config()
 	-- require('telescope').load_extension('possession')
 
 	SHOULD_AUTOSAVE_SESSION = true
-	PRINT_SESSION_ACTIONS = false
 	MAX_SAVE_INTERVAL = 5 -- in seconds
 	local last_save = os.time()
 
@@ -96,12 +86,22 @@ function M.config()
 		silent = true,
 		load_silent = true,
 		debug = false,
-		prompt_no_cr = true, -- pressing y/n suffices
+		prompt_no_cr = false, -- pressing y/n suffices
 		autosave = {
 			current = true, -- or fun(name): boolean, save current session if it exists
-			tmp = true, -- or fun(): boolean, save a tmp session if no session has been loaded yet
-			tmp_name = 'tmp session',
-			on_load = true, -- when loading another session
+			tmp = function()
+				local valid_bufs = 0
+				for _, bufnr in ipairs(vim.api.nvim_list_bufs()) do
+					local bufname = vim.api.nvim_buf_get_name(bufnr)
+					if vim.fn.buflisted(bufnr) and bufname ~= '' then
+						valid_bufs = valid_bufs + 1
+					end
+					if valid_bufs > 2 then return true end
+				end
+				return false
+			end,
+			tmp_name = 'tmp',
+			on_load = false, -- when loading another session
 			on_quit = true,
 		},
 		commands = {
@@ -112,13 +112,6 @@ function M.config()
 			close = 'SClose',
 			show = 'SShow',
 			migrate = 'SMigrate',
-			-- save = 'PossessionSave',
-			-- load = 'PossessionLoad',
-			-- delete = 'PossessionDelete',
-			-- list = 'PossessionList',
-			-- close = 'PossessionClose',
-			-- show = 'PossessionShow',
-			-- migrate = 'PossessionMigrate',
 		},
 		hooks = {
 			before_save = function(name)
@@ -149,55 +142,43 @@ function M.config()
 					vim.api.nvim_list_bufs()
 				)
 
-				for _, buf in ipairs(buffers) do
-					local filename = vim.api.nvim_buf_get_name(buf)
-					local ft = vim.bo[buf].ft
+				for _, bufnr in ipairs(buffers) do
+					local bufname = vim.api.nvim_buf_get_name(bufnr)
+					local ft = vim.bo[bufnr].ft
 
-					local extension = vim.fn.fnamemodify(filename, ':t:e')
+					local extension = vim.fn.fnamemodify(bufname, ':t:e')
 
-					if extension == 'wiki' then
-						-- vim.api.nvim_buf_set_option(buf, 'buflisted', false)
-						-- vim.bo[buf].buflisted = false
-						vim.api.nvim_buf_delete(buf, {})
+					-- delete tabs when they contain empty buffers
+					if bufname == '' then
+						-- vim.cmd.Bdelete('#' .. bufnr)
+						vim.api.nvim_buf_delete(bufnr, {})
 					end
 				end
 			end,
 		},
 		plugins = {
 			close_windows = {
-				hooks = { 'before_load', 'after_load' },
+				hooks = { 'before_load' },
+				-- hooks = {},
 				preserve_layout = true, -- or fun(win): boolean
 				match = {
-					-- buftype = { 'nofile', 'help' },
+					-- floating = true,
 					-- buftype = { 'nofile' },
-					-- filetype = { 'vimwiki' },
-					-- custom = function(win)
-					-- 	local win_conf = vim.api.nvim_win_get_config(win)
-					-- 	local buf = vim.api.nvim_win_get_buf(win)
-
-					-- 	local filename = vim.api.nvim_buf_get_name(buf)
-					-- 	local extension = vim.fn.fnamemodify(filename, ':t:e')
-					-- 	print(extension, filename)
-					-- 	if extension == 'wiki' then
-					-- 		print('removed!!')
-					-- 		vim.api.nvim_buf_set_option(buf, 'buflisted', false)
-					-- 		-- vim.bo[buf].buflisted = false
-					-- 		-- vim.api.nvim_buf_delete(buf, {})
-					-- 		return true
-					-- 	end
-
-					-- 	return false
-					-- end,
+					-- filetype = { },
+					custom = function(win) -- delete buffers before load from previous session
+						-- local win_conf = vim.api.nvim_win_get_config(win)
+						-- local bufnr = vim.api.nvim_win_get_buf(win)
+						-- local bufname = vim.api.nvim_buf_get_name(bufnr)
+						return true
+					end,
 				},
 			},
 			delete_hidden_buffers = {
 				hooks = { 'before_load' },
 				force = function(bufnr) --
-					local name = vim.api.nvim_buf_get_name(bufnr)
-					-- print(name)
+					if vim.bo[bufnr].buftype == 'terminal' then return true end
 
-					-- if name:match('wiki') then return true end
-					return true
+					return false
 				end,
 			},
 			nvim_tree = false,
