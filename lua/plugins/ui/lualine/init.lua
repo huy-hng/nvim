@@ -56,12 +56,10 @@ function M.config()
 			lualine_b = { comp.branch },
 			lualine_c = {
 				comp.session_name,
-				-- comp.filepath,
-				comp.dropbar,
+				comp.filepath,
 			},
 			lualine_x = {
 				'%B',
-				'searchcount',
 				comp.metamap,
 				comp.indentation,
 				comp.filetype,
@@ -87,16 +85,18 @@ function M.config()
 		winbar = {
 			lualine_a = {},
 			lualine_b = {},
-			lualine_c = { comp.diff, 'diagnostics', comp.filename },
-			-- lualine_c = { '%{%v:lua.dropbar.get_dropbar_str()%}' },
-			-- lualine_x = { comp.symbols },
+			lualine_c = { 'diagnostics',  comp.filename },
+			lualine_x = { comp.diff },
+			lualine_y = { comp.searchcount },
 			lualine_z = {},
 		},
 		inactive_winbar = {
+			lualine_a = {},
 			lualine_b = {},
-			-- lualine_c = { '%{%v:lua.dropbar.get_dropbar_str()%}' },
-			lualine_c = { comp.diff, 'diagnostics', comp.filename },
-			lualine_x = {},
+			lualine_c = { 'diagnostics', comp.filename },
+			lualine_x = { comp.diff },
+			lualine_y = { comp.searchcount },
+			lualine_z = {},
 		},
 		extensions = {
 			comp.ranger,

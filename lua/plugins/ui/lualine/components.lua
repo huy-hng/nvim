@@ -1,25 +1,6 @@
 local M = {}
 
-local available_components = {
-	'branch', -- git branch
-	'buffers', -- shows currently available buffers
-	'diagnostics', -- diagnostics count from your preferred source
-	'diff', -- git diff status
-	'encoding', -- file encoding
-	'fileformat', -- file format
-	'filename',
-	'filesize',
-	'filetype',
-	'hostname',
-	'location', -- location in file in line:column format
-	'mode', -- vim mode
-	'progress', -- %progress in file
-	'searchcount', -- number of search matches when hlsearch is active
-	'tabs', -- shows currently available tabs
-	'windows', -- shows currently available windows
-}
-
-M.seperator = { '%=' }
+M.separator = { '%=' }
 
 ------------------------------------------Statusline Left-------------------------------------------
 
@@ -90,10 +71,7 @@ M.session_name = function()
 	return name
 end
 
-M.dropbar = function()
-	if vim.fn.has('nvim-0.10.0') == 0 then return M.filepath[1]() end
-	return '%{%v:lua.dropbar.get_dropbar_str()%}'
-end
+M.dropbar = function() end
 
 -----------------------------------------Statusline Right-------------------------------------------
 
@@ -175,8 +153,6 @@ M.tabs = {
 	mode = 1, -- 0-2: tab_nr, tab_name, both
 	-- color = { fg = '#ff0000', bg = 'grey', gui = 'italic,bold' },
 
-	-- separator = { left = 'a', right = 'b' },
-	-- separator = 'a',
 	fmt = function(name) return name end,
 	cond = function() return vim.bo.filetype ~= 'alpha' end,
 	tabs_color = {
@@ -209,6 +185,10 @@ end
 M.filepath = {
 	-- color = { bg = 'red' },
 	function()
+		if vim.fn.has('nvim-0.10.0') == 1 then --
+			return '%{%v:lua.dropbar.get_dropbar_str()%}'
+		end
+
 		---@diagnostic disable-next-line: param-type-mismatch
 		if vim.fn.bufname('%') == '' then return '' end
 
@@ -288,6 +268,11 @@ M.ranger = {
 	filetypes = { 'rnvimr' },
 }
 
+M.searchcount = {
+	'searchcount',
+	color = { fg = '#ff9e64' },
+}
+
 ----------------------------------------------Unused------------------------------------------------
 
 M.buffer = {
@@ -351,6 +336,25 @@ M.windows = {
 		active = 'lualine_{section}_normal', -- Color for active window.
 		inactive = 'lualine_{section}_inactive', -- Color for inactive window.
 	},
+}
+
+local available_components = {
+	'branch', -- git branch
+	'buffers', -- shows currently available buffers
+	'diagnostics', -- diagnostics count from your preferred source
+	'diff', -- git diff status
+	'encoding', -- file encoding
+	'fileformat', -- file format
+	'filename',
+	'filesize',
+	'filetype',
+	'hostname',
+	'location', -- location in file in line:column format
+	'mode', -- vim mode
+	'progress', -- %progress in file
+	'searchcount', -- number of search matches when hlsearch is active
+	'tabs', -- shows currently available tabs
+	'windows', -- shows currently available windows
 }
 
 return M
