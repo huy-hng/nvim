@@ -5,7 +5,7 @@ local options = require('plugins.ui.alpha.options')
 function M.pad(text, width)
 	width = width or options.width
 	local needed_spaces = width - string.len(text)
-	local padded_name = text .. Repeat(' ', needed_spaces)
+	local padded_name = text .. nvim.Repeat(' ', needed_spaces)
 	return padded_name
 end
 
@@ -39,6 +39,7 @@ function M.colorizer(header, text_arr)
 end
 
 function M.change_native_keymap_fn()
+	---@diagnostic disable-next-line: duplicate-set-field
 	require('alpha').keymaps_element.button = function(el, conf, state)
 		if el.opts and el.opts.keymap then
 			local map = el.opts.keymap

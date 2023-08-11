@@ -1,4 +1,5 @@
-local comp = require('plugins.ui.alpha.components')
+local comp = require('plugins.ui.alpha.base_components')
+local file = require('bufman.filename')
 
 local if_nil = vim.F.if_nil
 local fnamemodify = vim.fn.fnamemodify
@@ -21,23 +22,9 @@ local default_header = {
 	},
 }
 
-
-local function get_extension(fn)
-	local match = fn:match('^.+(%..+)$')
-	local ext = ''
-	if match ~= nil then ext = match:sub(2) end
-	return ext
-end
-
-local function icon(fn)
-	local nwd = require('nvim-web-devicons')
-	local ext = get_extension(fn)
-	return nwd.get_icon(fn, ext, { default = true })
-end
-
 local function get_file_icon(filename)
 	local fb_hl = {}
-	local ico, hl = icon(filename)
+	local ico, hl = unpack(file.get_icon(filename))
 	local hl_option_type = type(true)
 	if hl_option_type == 'boolean' then
 		if hl then table.insert(fb_hl, { hl, 0, 1 }) end
@@ -57,9 +44,6 @@ local function file_button(filename, lhs, short_filename, autocd)
 	local opts = {
 		position = 'center',
 		shortcut = '[' .. lhs .. '] ',
-		cursor = 1,
-		width = 50,
-		align_shortcut = 'left',
 		hl_shortcut = {
 			{ 'Operator', 0, 1 },
 			{ 'Number', 1, #lhs + 1 },
@@ -68,7 +52,7 @@ local function file_button(filename, lhs, short_filename, autocd)
 		wrap = 'overflow',
 		shrink_margin = false,
 	}
-	local file_button_el = comp.button(
+	local file_button_el = comp.keymap(
 		icon .. short_filename,
 		lhs,
 		Util.wrap(nvim.exec, 'e' .. filename .. cd_cmd),
@@ -108,7 +92,7 @@ local function mru(start, cwd, items_number, opts)
 		else
 			cwd_cond = vim.startswith(v, cwd)
 		end
-		local ignore = (opts.ignore and opts.ignore(v, get_extension(v))) or false
+		local ignore = (opts.ignore and opts.ignore(v, file.get_extension(v))) or false
 		if (filereadable(v) == 1) and cwd_cond and not ignore then oldfiles[#oldfiles + 1] = v end
 	end
 
@@ -130,21 +114,20 @@ local function mru(start, cwd, items_number, opts)
 	}
 end
 
-local function mru_title() return 'MRU ' .. vim.fn.getcwd() end
+local function mru_title() return 'MRU' end
 
-local short = comp.group {
+
+return {
 	comp.group {
 		comp.padding(1),
-		comp.text(mru_title, 'SpecialComment'),
+		comp.divider('Recent Files'),
 		comp.padding(1),
 		comp.group(function() return { mru(0, vim.fn.getcwd()) } end, { shrink_margin = false }),
 	},
-	comp.group {
-		comp.padding(1),
-		comp.text('MRU', 'SpecialComment'),
-		comp.padding(1),
-		comp.group(function() return { mru(10) } end, { shrink_margin = false }),
-	},
+	-- comp.group {
+	-- 	comp.padding(1),
+	-- 	comp.divider('Recent Files'),
+	-- 	comp.padding(1),
+	-- 	-- comp.group(function() return { mru(10) } end, { shrink_margin = false }),
+	-- },
 }
-
-return short

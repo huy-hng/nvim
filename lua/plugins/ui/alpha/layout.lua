@@ -1,4 +1,7 @@
-local comp = require('plugins.ui.alpha.components')
+local comp = require('plugins.ui.alpha.base_components')
+local sessions = require('plugins.ui.alpha.session_manager')
+local recent_files = require('plugins.ui.alpha.recent_files')
+-- P(recent_files)
 
 local terminal = {
 	type = 'terminal',
@@ -43,17 +46,18 @@ return {
 
 			comp.padding(1),
 
-			require('plugins.ui.alpha.session_manager'),
+			comp.group(sessions),
 			comp.padding(1),
 
 			comp.divider(' Actions '),
 			comp.padding(1),
-			-- comp.group_name('Actions'),
+
 			comp.group({
-				comp.button('  New file', 'w', vim.cmd.enew, nil, { cursor = 3 }),
-				comp.button('  Quit', 'q', Util.quit_last_buffer, nil, { cursor = 3 }),
+				comp.keymap('  New file', 'w', vim.cmd.enew, nil, { cursor = 3 }),
+				comp.keymap('  Quit', 'q', Util.quit_last_buffer, nil, { cursor = 3 }),
 			}, 1),
 
+			-- comp.group(recent_files),
 			comp.padding(1),
 
 			comp.divider(' Stats ', nil, 'Comment'),
@@ -61,7 +65,6 @@ return {
 
 			comp.group(lazy_stats),
 
-			-- require('plugins.ui.alpha.recent_files'),
 			comp.padding(2),
 			comp.footer(),
 		},
