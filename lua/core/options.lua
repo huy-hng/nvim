@@ -176,3 +176,4 @@ opt_g.path:append('**')
 
 -- opt.sessionoptions:remove { 'buffers', 'terminal', 'blank', 'folds' }
 opt.sessionoptions:remove { 'terminal', 'blank', 'folds', 'help' }
+opt.sessionoptions:append { 'winpos' }

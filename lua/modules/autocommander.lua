@@ -47,7 +47,7 @@ function M.createAutocmd(events, pattern, command, opts)
 end
 
 ---@param data table
----@param events autocmd_events
+---@param events autocmd-events
 ---@param pattern string | nil
 ---@param command any
 ---@param opts any

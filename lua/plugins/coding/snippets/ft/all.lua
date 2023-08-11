@@ -16,7 +16,7 @@ end
 local function divider(args, parent, side, char, divider_len)
 	-- P(side, char, divider_len)
 	local length = calc_length(args, divider_len)
-	return Repeat(char, side(length))
+	return nvim.Repeat(char, side(length))
 end
 
 local sides = {

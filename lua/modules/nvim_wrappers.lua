@@ -1,6 +1,13 @@
 local M = {}
 ---@alias Callback function
 
+Highlight = vim.api.nvim_set_hl -- TODO: remove
+M.hl = vim.api.nvim_set_hl -- TODO: rename to set_hl
+M.get_win = vim.api.nvim_get_current_win
+M.get_tab = vim.api.nvim_get_current_tabpage
+M.list_tabs = vim.api.nvim_list_tabpages
+M.set_tab = vim.api.nvim_set_current_tabpage
+
 ----------------------------------------------Executors---------------------------------------------
 
 ---@param command string command to execute
@@ -60,7 +67,7 @@ function M.schedule_return(fn, ...)
 	return res
 end
 
-function Repeat(expr, count)
+function M.Repeat(expr, count)
 	assert(type(count) == 'number')
 	count = math.round(count)
 	return vim.fn['repeat'](expr, count)
@@ -112,9 +119,6 @@ function M.visual_text()
 end
 
 -----------------------------------------------Creators---------------------------------------------
-
-Highlight = vim.api.nvim_set_hl
-M.hl = vim.api.nvim_set_hl
 
 function M.command(name, command, opts)
 	if type(command) == 'table' then command = Util.extract_fn_from_table(command, 2) end

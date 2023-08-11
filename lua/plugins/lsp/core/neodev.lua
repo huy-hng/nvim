@@ -13,6 +13,8 @@ require('neodev').setup {
 			'nvim-gomove',
 			'anyline.nvim',
 			'bufman.nvim',
+			'alpha-nvim',
+			'possession.nvim',
 		},
 	},
 	setup_jsonls = false, -- configures jsonls to provide completion for project specific .luarc.json files

@@ -25,7 +25,7 @@ local function get_relative_path(modifier)
 		local path = vim.fn.expand('%' .. modifier)
 		-- vim.fn.fnamemodify()
 		path = vim.fn.substitute(path, '^lua/', '', '')
-		print(path)
+		-- print(path)
 		return path
 	end
 end

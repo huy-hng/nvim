@@ -43,14 +43,17 @@ function M.show_empty_buffer(winid)
 end
 
 function M.create_tab_background()
+	local current_tab = vim.api.nvim_get_current_tabpage()
 	M.hide_ui()
 
-	M.open_current_file_in_new_tab()
+	local tab_id, _ = M.open_current_file_in_new_tab()
 	M.show_empty_buffer(0)
+	return tab_id, current_tab
 end
 
 M.get_win = vim.api.nvim_get_current_win
 M.get_tab = vim.api.nvim_get_current_tabpage
+M.list_wins = vim.api.nvim_list_wins
 M.list_tabs = vim.api.nvim_list_tabpages
 M.set_tab = vim.api.nvim_set_current_tabpage
 
@@ -60,8 +63,8 @@ function M.close_tab(tab_id)
 end
 
 function M.delete_tab_background(tab_id, prev_tab)
-	if prev_tab then M.set_tab(prev_tab) end
-	M.close_tab(tab_id)
+	if prev_tab and vim.api.nvim_tabpage_is_valid(prev_tab) then M.set_tab(prev_tab) end
+	if #M.list_tabs() > 1 then M.close_tab(tab_id) end
 
 	M.show_ui()
 end

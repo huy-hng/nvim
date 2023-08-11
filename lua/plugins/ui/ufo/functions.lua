@@ -47,7 +47,8 @@ M.set_keymaps = function(bufnr)
 	-- ufomap('K', M.peekOrHover, 'peek or hover')
 
 	-- ufomap('z;', ufo.goPreviousStartFold, 'inspect')
-	ufomap('zX', { M.applyFoldsAndThenCloseAllFolds, 'lsp' }, 'Apply and close folds')
+	ufomap('zx', { M.applyFoldsAndThenCloseAllFolds, 'lsp' }, 'Apply and close folds')
+	Map.n('zX', 'zx')
 
 	-- ufomap('zr', ufo.openFoldsExceptKinds, 'open folds except kinds')
 	-- ufomap('zm', ufo.closeFoldsWith, 'close folds with') -- closeAllFolds == closeFoldsWith(0)

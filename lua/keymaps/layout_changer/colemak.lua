@@ -6,8 +6,6 @@ local function uppermap(lhs, rhs)
 end
 
 function M.set_keymap()
-	Map('q', 's')
-
 	-- Map('<C-d>', '', '', { mode = { 'n', 'v' } })
 	Map.v('<C-d>', '', '', { mode = { 'v' } })
 
@@ -83,7 +81,9 @@ function M.set_keymap()
 	uppermap(Keys.u, 'u')
 	Map(Keys.redo, '<C-r>')
 
-	uppermap(Keys.r, 'r')
+	Map(Keys.r, 'r')
+	Map(Keys.s, 's')
+
 	uppermap(Keys.i, 'i')
 	-- uppermap(Keys.a, 'a')
 end

@@ -30,7 +30,7 @@ local function move_to_indent()
 
 	local indent_width = vim.bo.expandtab and vim.bo.shiftwidth or vim.bo.tabstop
 
-	local tabs = Repeat('<tab>', total_indent / indent_width)
+	local tabs = nvim.Repeat('<tab>', total_indent / indent_width)
 	return string.format('A%s', tabs)
 end
 

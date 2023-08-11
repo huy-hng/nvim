@@ -25,7 +25,7 @@ local function notify_error(trace, errors)
 	-- errors = ''
 	local message = string.format('%s\n%s', trace, errors)
 
-	local divider = '\n' .. Repeat('-', 80) .. '\n'
+	local divider = '\n' .. nvim.Repeat('-', 80) .. '\n'
 	local print_message = divider .. message .. divider
 
 	print(print_message)

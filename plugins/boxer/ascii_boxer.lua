@@ -1,7 +1,7 @@
 -----------------------------------------------Both-------------------------------------------------
 local function create_line(line, char)
 	local width = vim.fn.strdisplaywidth(line)
-	return Repeat(char, width)
+	return nvim.Repeat(char, width)
 end
 
 local function len(str)
@@ -19,7 +19,7 @@ end
 
 local function add_side(lines, char, amount)
 	for i, line in ipairs(lines) do
-		local side = Repeat(char, amount)
+		local side = nvim.Repeat(char, amount)
 		line = side .. line .. side
 		lines[i] = line
 	end
@@ -63,8 +63,8 @@ local function default_borderer(lines, borders)
 	end
 
 	-- could be create line function
-	local top_border = borders[1] .. Repeat(borders[2], orig_len) .. borders[3]
-	local bot_border = borders[7] .. Repeat(borders[6], orig_len) .. borders[5]
+	local top_border = borders[1] .. nvim.Repeat(borders[2], orig_len) .. borders[3]
+	local bot_border = borders[7] .. nvim.Repeat(borders[6], orig_len) .. borders[5]
 	table.insert(lines, 1, top_border)
 	table.insert(lines, #lines + 1, bot_border)
 	return lines

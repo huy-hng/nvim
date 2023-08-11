@@ -1,3 +1,4 @@
+local winman = require('modules.window_manager')
 if vim.fn.has('nvim-0.9.0') == 0 then return end
 
 local M = {}
@@ -28,7 +29,14 @@ Augroup('Statuscolumn', {
 		end)
 	end),
 
-	Autocmd({ 'WinEnter', 'WinNew' }, function()
+	Autocmd('SessionLoadPost', function()
+		local wins = winman.list_wins()
+		for _, win in ipairs(wins) do
+			M.set_default_column(win)
+		end
+	end),
+
+	Autocmd({ 'WinEnter', 'WinNew', 'TabEnter', 'VimEnter' }, function()
 		vim.schedule(function()
 			local winid = vim.api.nvim_get_current_win()
 			if vim.w[winid].statuscolumn_ignore then return end

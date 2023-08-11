@@ -62,10 +62,12 @@ local letters = {
 	i = 'u',
 	a = 'y',
 	o = 'o',
-	r = 'w',
 	v = 's',
 	p = 'p',
 	y = 'f',
+
+	r = 'w',
+	s = 'W',
 
 	d = 'd',
 	c = 'c',

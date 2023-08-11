@@ -11,7 +11,7 @@ if not status then return end
 local create_divider = function(size, divider)
 	comment.toggle.linewise.current(nil, {})
 	local comment_len = vim.fn.strlen(vim.fn.getline('.'))
-	local cmd = 'A' .. Repeat(divider, size - comment_len)
+	local cmd = 'A' .. nvim.Repeat(divider, size - comment_len)
 	-- Schedule(Feedkeys, cmd)
 	nvim.normal(cmd)
 end
@@ -33,7 +33,7 @@ local function sectionize(size, location, divider, surround)
 	spaces = spaces - 2
 
 	vim.fn.cursor { vim.fn.line('.'), 2 }
-	nvim.normal('wi' .. Repeat(' ', vim.fn.float2nr(spaces)))
+	nvim.normal('wi' .. nvim.Repeat(' ', vim.fn.float2nr(spaces)))
 	nvim.normal('o')
 	create_divider(size, divider)
 end
@@ -65,8 +65,8 @@ local function sectionize_oneline(size, location, divider, surround)
 	left_dividers = vim.fn.float2nr(left_dividers)
 
 	set_cursor_col(comment_len)
-	nvim.normal('a' .. Repeat(divider, left_dividers))
-	nvim.normal('A' .. Repeat(divider, right_dividers))
+	nvim.normal('a' .. nvim.Repeat(divider, left_dividers))
+	nvim.normal('A' .. nvim.Repeat(divider, right_dividers))
 end
 
 nvim.command('SmallSection', { sectionize, 80, 0.5, '-', { '-> ', ' <-' } })
