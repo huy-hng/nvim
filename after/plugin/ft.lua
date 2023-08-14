@@ -14,7 +14,7 @@ Augroup('FileTypes', {
 	Autocmd({ 'BufNewFile', 'BufRead' }, '*.ron', 'setlocal filetype=rust'),
 	Autocmd(
 		{ 'BufNewFile', 'BufRead' },
-		{ '*.overlay', '*.keymap', '*.dts', '*.dtsi' },
+		{ '*.overlay', '*.keymap', '*.dts', '*.dtsi', '*.combo' },
 		function(data)
 			vim.bo[data.buf].filetype = 'dts'
 			vim.bo[data.buf].commentstring = '// %s'
@@ -24,7 +24,6 @@ Augroup('FileTypes', {
 			Map.n('<leader>ll', require('qmk').format, { buffer = true })
 		end
 	),
-
 
 	-- Autocmd('BufEnter', '*', function(data)
 	-- 	if vim.bo[data.buf].filetype == 'help' then

@@ -76,9 +76,12 @@ local function disable_gitsigns(disable)
 		config.numhl = false
 		config.linehl = false
 	else
-		config.signcolumn = M.state.signcolumn
-		config.numhl = M.state.numhl
-		config.linehl = M.state.linehl
+		-- config.signcolumn = M.state.signcolumn
+		-- config.numhl = M.state.numhl
+		-- config.linehl = M.state.linehl
+		config.signcolumn = true
+		config.numhl = false
+		config.linehl = false
 	end
 	gs.refresh()
 end

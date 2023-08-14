@@ -1,4 +1,5 @@
-Map.n(Keys.leader.save_file, nvim.save, 'Write File')
+-- Map.n(Keys.leader.save_file, nvim.save, 'Write File')
+Map.n(Keys.leader.save_file, vim.cmd.write, 'Write File')
 Map.n(Keys.leader.SAVE_FILE, Util.save_and_source, 'Save and reload File')
 
 Map.n('<leader>q', Util.quit_last_buffer, 'Close Buffer')

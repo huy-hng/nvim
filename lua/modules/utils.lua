@@ -78,16 +78,6 @@ function M.quit_last_buffer()
 end
 
 function M.save_and_source()
-	-- vim.cmd([[
-	-- :silent! wa
-	-- :silent! write
-	-- if &filetype == 'vim'
-	-- 	:source %
-	-- elseif &filetype == 'lua'
-	-- 	:luafile %
-	-- endif
-	-- ]])
-
 	pcall(vim.cmd.wa)
 	if vim.bo.filetype == 'vim' then
 		vim.cmd.source('%')

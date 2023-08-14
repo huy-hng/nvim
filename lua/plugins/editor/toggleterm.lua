@@ -4,27 +4,19 @@ local M = {
 }
 
 function M.config()
-	local build_cmd = '/home/huy/repositories/kyria/build.sh -s -b right'
+	-- local build_cmd = '/home/huy/repositories/kyria/build.sh -s -b right'
+	local build_cmd = '/home/huy/repositories/kyria/build.sh right'
 	local build_config = {
 		cmd = build_cmd,
 		hidden = false,
 		close_on_exit = false,
 		count = 1,
-		start_in_insert = false,
+		direction = 'tab',
 		on_create = function(term)
 			-- function to run when the terminal is first created
 			-- term:__add()
 			Map.t('<esc>', [[<C-\><C-n>]], '', { buffer = term.bufnr })
 			vim.notify('Building Kyria in background')
-		end,
-		on_open = function(term) -- function to run when the terminal opens
-		end,
-		on_close = function(term) -- function to run when the terminal closes
-		end,
-		on_stdout = function(term, job, data, name) -- callback for processing output on stdout
-		end,
-		on_stderr = function(term, job, data, name) -- callback for processing output on stderr
-			P('toggleterm stderr', data)
 		end,
 		on_exit = function(term, job, exit_code, name) -- function to run when terminal process exits
 			local bufnr = term.bufnr
@@ -56,18 +48,17 @@ function M.config()
 	}
 
 	local term_config = {
-		start_in_insert = true,
+		start_in_insert = false,
 		size = function(term)
 			if term.direction == 'vertical' then
 				return 80
 				-- return vim.o.columns * 0.4
 			elseif term.direction == 'horizontal' then
-				return 15
+				return 20
 			end
 		end,
 		direction = 'vertical',
 		-- open_mapping = '<c-d>',
-		-- open_mapping = '<c-.>',
 		close_on_exit = true,
 		float_opts = {
 			border = 'none', -- 'single' | 'double' | 'shadow' | 'curved' | ... other options supported by win open
@@ -100,13 +91,6 @@ function M.config()
 		},
 	}
 
-	-- Augroup('ToggleTermm2', {
-	-- 	Autocmd({ 'BufDelete', 'BufHidden' }, nil, function(data) --
-	-- 		if data.file ~= '' then P(data) end
-	-- 	end),
-	-- })
-
-	-- require('toggleterm').setup(vim.tbl_extend('force', term_config, build_config))
 	require('toggleterm').setup(term_config)
 
 	local function wrap_spawn(terminal)
@@ -131,16 +115,16 @@ function M.config()
 	local kyria_build = Terminal:new(build_config)
 
 	-- Map.n('<c-d>', wrap_open_term())
-	Map.n('<c-d>', function()
+	Map.n('<c-.>', function()
 		-- P(kyria_build)
-		if kyria_build:is_open() then vim.notify('is open') end
+		-- if kyria_build:is_open() then vim.notify('is open') end
 		if kyria_build.bufnr then
 			kyria_build:__add()
 			wrap_open_term(kyria_build)()
-			nvim.schedule(function() print('cur buf', vim.api.nvim_get_current_buf()) end)
+			-- nvim.schedule(function() print('cur buf', vim.api.nvim_get_current_buf()) end)
 			return
 		end
-		nvim.schedule(function() print('cur buf', vim.api.nvim_get_current_buf()) end)
+		-- nvim.schedule(function() print('cur buf', vim.api.nvim_get_current_buf()) end)
 		wrap_open_term()()
 	end)
 
@@ -148,10 +132,9 @@ function M.config()
 		kyria_build:shutdown()
 
 		kyria_build = Terminal:new(build_config)
+		-- kyria_build:toggle()
 		local ok = pcall(wrap_spawn(kyria_build))
-		if ok then return end
-		-- pcall(wrap_spawn(kyria_build))
-
+		-- if ok then return end
 		-- kyria_build:open()
 	end, 'build kyria')
 

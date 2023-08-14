@@ -3,9 +3,9 @@
 local icons = require('config.ui.icons').diagnostics_sign
 local signs = {
 	{ name = 'DiagnosticSignError', text = icons.error },
-	{ name = 'DiagnosticSignWarn',  text = icons.warning },
-	{ name = 'DiagnosticSignInfo',  text = icons.info },
-	{ name = 'DiagnosticSignHint',  text = icons.hint },
+	{ name = 'DiagnosticSignWarn', text = icons.warning },
+	{ name = 'DiagnosticSignInfo', text = icons.info },
+	{ name = 'DiagnosticSignHint', text = icons.hint },
 }
 
 for _, sign in ipairs(signs) do
@@ -40,17 +40,22 @@ local formatting = null_ls.builtins.formatting
 -- local hover = null_ls.builtins.hover
 -- local completion = null_ls.builtins.completion
 
-null_ls.setup({
+null_ls.setup {
 	-- debug = true,
 	sources = {
 		code_actions.ts_node_action,
-		formatting.autopep8.with({ extra_args = { '--ignore W191,E402' } }),
+		formatting.autopep8.with {
+			extra_args = { '--ignore W191,E402', '--max-line-length 100', '--experimental' },
+		},
+		formatting.autopep8,
 		formatting.stylua,
-		formatting.beautysh.with({ extra_args = { '--tabs' } }),
+		formatting.beautysh.with { extra_args = { '--tabs' } },
 		formatting.fixjson,
-		formatting.prettier.with({ extra_args = { '--no-semi', '--single-quote', '--jsx-single-quote' } }),
+		formatting.prettier.with {
+			extra_args = { '--no-semi', '--single-quote', '--jsx-single-quote' },
+		},
 		formatting.clang_format,
 		-- diagnostics.clang_check
 		-- diagnostics.flake8
 	},
-})
+}

@@ -12,6 +12,11 @@ local cmd_abbrevs = {
 
 	-- h = 'vertical h',
 	kirbs = [[\(.*\)]],
+	converttab = [[%s/    /\t/g]],
+	-- works as well but doesent account for multiple indentations
+	-- %s/^\(\(    \)*\)/\t\1
+
+
 
 	vimdict = [[s/'\(.*\)':/\1 =/g]],
 	substitutesubmatch = [[s/\(, \|{\)\zs'\(.\{-}\)': \ze/\2 = /g]],

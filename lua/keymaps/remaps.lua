@@ -4,7 +4,6 @@ Map.n('<S-SPACE>', '')
 Map.n('<C-SPACE>', '')
 
 Map.nv(Keys.cmdline_window, 'q:')
-Map.c(Keys.cmdline_window, 'q:')
 Map.nv(Keys.search_window, 'q/')
 
 -- Remap 0 to first non-blank character

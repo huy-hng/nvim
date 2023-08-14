@@ -25,12 +25,12 @@ function M.config()
 			'stylua', -- lua formatter
 			'yamlfmt',
 			'fixjson',
+			'autopep8', -- python
 
 			-- diagnostics
-			'autopep8', -- python linter
 			'vimls',
 		},
-		automatic_installation = true,
+		automatic_installation = false,
 	}
 end
 

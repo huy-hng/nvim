@@ -6,8 +6,7 @@ local function uppermap(lhs, rhs)
 end
 
 function M.set_keymap()
-	-- Map('<C-d>', '', '', { mode = { 'n', 'v' } })
-	Map.v('<C-d>', '', '', { mode = { 'v' } })
+	Map('<C-d>', '', '', { mode = { 'n', 'v' } })
 
 	Map('<C-u>', '<C-o>')
 	Map('<C-y>', '<C-i>')

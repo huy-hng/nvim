@@ -14,7 +14,7 @@ M.set_tab = vim.api.nvim_set_current_tabpage
 ---@param output? boolean whether to return output from command, defaults to true
 ---@return string | nil
 function M.exec(command, output) --
-	local opts = { output = Util.nil_or_true(output)}
+	local opts = { output = Util.nil_or_true(output) }
 	local res = vim.api.nvim_exec2(command, opts)
 	return output and res.output
 end
@@ -27,7 +27,7 @@ function M.defer(timeout, fn, ...) --
 end
 
 ---@diagnostic disable-next-line: undefined-field
-function M.save() pcall(vim.api.nvim_exec, 'silent w', false) end
+function M.save() pcall(M.exec, 'silent w', false) end
 
 function M.sleep(timeout, fn, ...) --
 	local args = { ... }
@@ -84,7 +84,9 @@ end
 
 function M.feedkeys(key, remap)
 	local escaped = vim.api.nvim_replace_termcodes(key, true, true, true)
-	vim.api.nvim_feedkeys(escaped, remap and 'm' or 'n', false)
+	local mode = remap and 'm' or 'n'
+	if type(remap) == 'string' then mode = remap end
+	vim.api.nvim_feedkeys(escaped, mode, false)
 end
 
 -- from https://github.com/neovim/neovim/pull/13896

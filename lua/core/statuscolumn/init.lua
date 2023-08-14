@@ -76,6 +76,6 @@ local function toggle()
 	vim.notify('statuscolumn on')
 end
 
-vim.keymap.set('n', "<c-'>", toggle)
+-- vim.keymap.set('n', "<c-'>", toggle)
 
 return M

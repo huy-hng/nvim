@@ -45,7 +45,10 @@ function M.config()
 			section_separators = { left = '', right = '' },
 			-- section_separators = { left = '', right = '' },
 			component_separators = { left = '', right = '' },
-			disabled_filetypes = { 'alpha' },
+			disabled_filetypes = {
+				statusline = { 'alpha' },
+				winbar = { 'alpha', 'noice' },
+			},
 			ignore_focus = {},
 			always_divide_middle = true,
 			globalstatus = true,
@@ -85,7 +88,7 @@ function M.config()
 		winbar = {
 			lualine_a = {},
 			lualine_b = {},
-			lualine_c = { 'diagnostics',  comp.filename },
+			lualine_c = { 'diagnostics', comp.filename },
 			lualine_x = { comp.diff },
 			lualine_y = { comp.searchcount },
 			lualine_z = {},
