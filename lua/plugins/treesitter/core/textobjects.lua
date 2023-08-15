@@ -34,7 +34,7 @@ local select = {
 	-- * query_string: eg '@function.inner'
 	-- * selection_mode: eg 'v'
 	-- and should return true of false
-	include_surrounding_whitespace = true,
+	include_surrounding_whitespace = false,
 }
 
 local swap = {
@@ -77,11 +77,11 @@ local move = {
 }
 
 local lsp_interop = {
-	enable = true,
-	border = 'solid',
+	enable = false,
+	floating_preview_opts = {border = 'solid'},
 	peek_definition_code = {
-		['<leader>df'] = '@function.outer',
-		['<leader>dF'] = '@class.outer',
+		['<leader>ldf'] = '@function.outer',
+		['<leader>ldF'] = '@class.outer',
 	},
 }
 
