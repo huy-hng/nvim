@@ -8,24 +8,24 @@ function M.config()
 
 	Comment.setup {
 		padding = true,
-		sticky = false,
+		sticky = true,
 		ignore = '^$',
+		mappings = {
+			basic = false,
+			extra = false,
+		},
 		toggler = {
-			line = '', -- gcc
-			block = '', -- gbc
+			line = Keys.ctrl.comment .. Keys.ctrl.comment, -- gcc
+			block = Keys.alt.comment .. Keys.alt.comment, -- gbc
 		},
 		opleader = {
-			line = '', -- gc
-			block = '', -- gb
+			line = Keys.ctrl.comment, -- gc
+			block = Keys.alt.comment, -- gb
 		},
 		extra = {
 			above = '', -- gcO
 			below = '', -- gco
 			eol = '', -- gcA
-		},
-		mappings = {
-			basic = false,
-			extra = false,
 		},
 		pre_hook = nil,
 		post_hook = nil,
@@ -35,26 +35,24 @@ function M.config()
 	local ft = require('Comment.ft')
 	-- ft.set('vimwiki', '- %s')
 
-
 	local comment_empty = {
 		padding = true,
 		sticky = true,
 		ignore = nil,
 	}
 
-	local function toggle_current() api.toggle.linewise.current(nil, comment_empty) end
-
-	local function locked(mode, blockwise)
-		local cmd = 'toggle.' .. (blockwise and 'blockwise' or 'linewise')
-		return function() api.locked(cmd)(mode) end
+	local function wrapper(fn, ...)
+		local args = { ... }
+		return function() fn(unpack(args)) end
 	end
 
+	-- stylua: ignore
 	local mode_behavior = {
-		i = toggle_current,
-		n = toggle_current,
-		v = locked('v'),
-		V = locked('V'),
-		[''] = locked('', true),
+		i      = wrapper(api.toggle.linewise.current, nil, comment_empty),
+		n      = wrapper(api.toggle.linewise.current, nil, comment_empty),
+		v      = wrapper(api.toggle.linewise, 'V'),
+		V      = wrapper(api.toggle.linewise, 'V'),
+		[''] = wrapper(api.toggle.blockwise, ''),
 	}
 	local toggle_comment = function()
 		local mode = vim.fn.mode()
@@ -62,12 +60,10 @@ function M.config()
 		mode_behavior[mode]()
 	end
 
-	Map.map(
-		{ 'n', 'v', 'i' },
-		Keys.ctrl.comment,
-		vim.schedule_wrap(toggle_comment),
-		'Toggle Comment'
-	)
+	Map.map({ 'n', 'v', 'i' }, Keys.ctrl.comment, toggle_comment, 'Toggle Comment')
+
+	Map.nv(Keys.ctrl.o, api.call('toggle.linewise', 'g@'), 'comment op', { expr = true })
+	Map.o(Keys.ctrl.o, 'g@')
 end
 
 return M
