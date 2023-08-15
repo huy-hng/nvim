@@ -28,7 +28,7 @@ Map("'", '`', 'Jump to mark in column', { remap = remap })
 -- Map('g0', 'g^')
 -- Map('g^', 'g0')
 
-Map.nv(Keys.v, 'v', 'Visual')
+Map(Keys.v, 'v', 'Visual')
 Map.nv(Map.ctrl(Keys.v), Map.ctrl('v'))
 Map.n(Keys.vv, 'V', 'V-line')
 Map.n(Keys.V, 'vg_')

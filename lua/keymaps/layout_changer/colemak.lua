@@ -36,18 +36,24 @@ function M.set_keymap()
 	uppermap(Keys.b, 'b')
 	uppermap(Keys.w, 'w')
 	uppermap(Keys.e, 'e')
+	Map.o(Keys.b, 'vb', 'operator back includes char under cursor')
 
 	-- bound by flash
 	-- uppermap(Keys.t, 't')
 	-- uppermap(Keys.f, 'f')
 
-	Map(Keys.m, 'm')
+	Map.nv(Keys.m, 'm')
 
 	-- text objects
-	Map.vo(Keys.i .. Keys.w, 'iw')
-	Map.vo(Keys.i .. Keys.W, 'iW')
-	Map.vo(Keys.a .. Keys.w, 'aw')
-	Map.vo(Keys.a .. Keys.W, 'aW')
+	Map.vo(Keys.i .. Keys.w, 'iw', 'inner word')
+	Map.vo(Keys.i .. Keys.W, 'iW', 'inner WORD')
+	Map.vo(Keys.a .. Keys.w, 'aw', 'outer word')
+	Map.vo(Keys.a .. Keys.W, 'aW', 'outer WORD')
+
+	Map.vo(Keys.i .. Keys.b, 'ib', 'inner ()')
+	Map.vo(Keys.i .. Keys.B, 'iB', 'inner {}')
+	Map.vo(Keys.a .. Keys.b, 'ab', 'outer ()')
+	Map.vo(Keys.a .. Keys.B, 'aB', 'outer {}')
 
 	Map.unmap('', 'g%')
 	Map.unmap('', 'gx')
