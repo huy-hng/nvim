@@ -38,8 +38,8 @@ local function yank_operator()
 	return 'g@'
 end
 
-Map.n(Keys.y, yank_operator, 'yank', { expr = true })
-Map.o(Keys.y, { nvim.feedkeys, 'yy' })
+Map.n(Keys.y, yank_operator, 'yank op', { expr = true })
+Map.o(Keys.y, 'g@')
 
 Map.n(Keys.Y, keep_column('y$', false))
 Map.v(Keys.y, keep_column('y', false))
@@ -68,10 +68,12 @@ Map.n(Keys.ctrl.join_lines, keep_column('J'), 'keep column when joining lines')
 
 ---------------------------------------------Substitution-------------------------------------------
 
-Map.n('<leader>r', function()
-	nvim.feedkeys(':')
-	return [[%s/\<<C-r><C-w>\>/<C-r><C-w>/gI<Left><Left><Left>]]
-end, 'Substitute word under cursor', { silent = false, expr = true })
+Map.n(
+	'<leader>r',
+	function() return [[:%s/\<<C-r><C-w>\>/<C-r><C-w>/gI<Left><Left><Left>]] end,
+	'Substitute word under cursor',
+	{ silent = false, expr = true }
+)
 
 --------------------------------------------Indentation---------------------------------------------
 
