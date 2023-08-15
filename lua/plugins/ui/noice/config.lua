@@ -1,7 +1,8 @@
 return {
 	cmdline = {
-		enabled = not vim.g.has_neovide, -- enables the Noice cmdline UI
-		view = 'cmdline_popup', -- `cmdline` to get a classic cmdline at the bottom
+		-- enabled = not vim.g.has_neovide, -- enables the Noice cmdline UI
+		enabled = true,
+		view = 'cmdline_popup',
 		opts = {},
 		--@type table<string, CmdlineFormat>
 		format = {
@@ -22,11 +23,12 @@ return {
 		},
 	},
 	messages = {
-		enabled = not vim.g.has_neovide,
-		-- enabled = true,
-		view = 'mini_center', -- default view
-		view_warn = 'notify',
-		view_error = 'notify',
+		-- enabled = not vim.g.has_neovide,
+		enabled = true,
+		-- view = 'mini_center', -- default view
+		view = 'mini_left', -- default view
+		view_warn = 'mini_center',
+		view_error = 'mini_center',
 		view_history = 'messages', -- view for :messages
 		view_search = 'virtualtext', -- view for search count messages. Set to `false` to disable
 	},
@@ -39,20 +41,29 @@ return {
 	-- default options for require('noice').redirect
 	-- see the section on Command Redirection
 	redirect = {
-		view = 'popup',
+		view = 'messages',
 		filter = { event = 'msg_show' },
 	},
 	-- You can add any custom commands below that will be available with `:Noice command`
 	commands = {
-		messages = {
+		output = {
+			view = 'messages',
+			opts = { enter = true },
+			filter = {
+				event = 'msg_show',
+				kind = { '' },
+			},
+			-- filter_opts = { count = 1 },
+		},
+		editor = {
 			view = 'messages',
 			opts = { enter = true, lang = 'lua' },
 			filter = {
-				any = {
-					{ event = 'msg_show', kind = { '', 'echo', 'echomsg' } },
-					{ event = 'msg_show' },
-				},
+				event = 'msg_show',
+				kind = { 'echo', 'echomsg' },
+				-- kind = { '' },
 			},
+			-- filter_opts = { count = 1 },
 		},
 		history = {
 			-- options for the message history that you get with `:Noice`
@@ -155,7 +166,7 @@ return {
 				replace = true,
 				render = 'plain',
 				format = { '{message}' },
-				win_options = { concealcursor = 'n', conceallevel = 3 },
+				win_options = { concealcursor = 'n', conceallevel = 1 },
 			},
 		},
 	},

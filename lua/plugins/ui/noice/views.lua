@@ -1,79 +1,61 @@
+-- NOTE: see file below for more info
+-- /home/huy/.local/share/nvim/lazy/noice.nvim/lua/noice/config/views.lua
+
 return {
-	popupmenu = {
-		relative = 'editor',
-		zindex = 65,
-		position = 'auto', -- when auto, then it will be positioned to the cmdline or cursor
-		size = {
-			width = 'auto',
-			height = 'auto',
-			max_height = 20,
-			-- min_width = 10,
-		},
-		win_options = {
-			cursorline = true,
-			cursorlineopt = 'line',
-			winhighlight = {
-				Normal = 'NoicePopupmenu', -- change to NormalFloat to make it look like other floats
-				FloatBorder = 'NoicePopupmenuBorder', -- border highlight
-				CursorLine = 'NoicePopupmenuSelected', -- used for highlighting the selected item
-				PmenuMatch = 'NoicePopupmenuMatch', -- used to highlight the part of the item that matches the input
-			},
-		},
-		border = {
-			padding = { 0, 1 },
-		},
+	notify = { view = 'notify', replace = true },
+	cmdline_popup = { view = 'cmdline_popup', position = { row = '33%', col = '45%' } },
+	cmdline = {
+		view = 'cmdline',
+		position = { row = '100%', col = '50%' },
+		size = { height = 'auto', width = '33%' },
 	},
-	virtualtext = {
-		backend = 'virtualtext',
-		format = { '{message}' },
-		hl_group = 'NoiceVirtualText',
-	},
-	notify = {
-		backend = 'notify',
-		fallback = 'mini',
-		format = 'notify',
+
+	-----------------------------------------------mini---------------------------------------------
+
+	mini_left = {
+		view = 'mini',
+		position = { row = -1, col = 0 },
+		align = 'message-left',
+		reverse = false,
 		replace = true,
-		merge = false,
+		timeout = 4000,
 	},
+	mini_center = {
+		view = 'mini_left',
+		position = { row = '100%', col = '50%' },
+		timeout = 8000,
+	},
+
+	----------------------------------------------Split---------------------------------------------
+
+	hsplit = { view = 'split', position = 'bottom', size = '20%' },
+	vsplit_left = { view = 'split', position = 'left' },
 	split = {
-		backend = 'split',
-		enter = false,
-		relative = 'editor',
-		position = 'right',
-		size = '30%',
-		close = {
-			keys = { 'q' },
-		},
-		win_options = {
-			winhighlight = { Normal = 'NoiceSplit', FloatBorder = 'NoiceSplitBorder' },
-			wrap = true,
-		},
-	},
-	cmdline_output = {
-		format = 'details',
 		view = 'split',
+		position = 'right',
+		size = '40%',
+		win_options = { wrap = false },
 	},
 	messages = {
 		view = 'split',
 		relative = 'editor',
-		position = 'right',
 		enter = true,
-		-- size = 'auto',
-		max_size = '40%',
+		size = { width = 'auto', max_width = '40%' },
+		close = {
+			keys = { 'q', '<esc>' },
+		},
+	},
+
+	----------------------------------------------popup---------------------------------------------
+
+	popup = {
+		view = 'popup',
+		border = { style = 'none' },
 	},
 	popup_ = {
-		backend = 'popup',
-		relative = 'editor',
-		close = {
-			events = { 'BufLeave' },
-			keys = { 'q' },
-		},
+		view = 'popup',
 		enter = false,
-		timeout = 5000,
-		border = {
-			-- style = 'rounded',
-			style = 'none',
-		},
+		timeout = 4000,
 		-- position = { row = '50%', col = '50%' },
 		position = { row = '100%', col = '50%' },
 		size = {
@@ -88,30 +70,6 @@ return {
 				-- Normal = 'NoicePopupmenu',
 				-- FloatBorder = 'NoicePopupmenuBorder'
 			},
-			-- winbar = '',
-			-- foldenable = false,
-		},
-	},
-	popup = {
-		backend = 'popup',
-		relative = 'editor',
-		close = {
-			events = { 'BufLeave' },
-			keys = { 'q' },
-		},
-		enter = true,
-		border = {
-			style = 'none',
-		},
-		position = '50%',
-		size = {
-			width = 'auto',
-			height = 'auto',
-			-- max_height = '50',
-			max_width = 40,
-		},
-		win_options = {
-			winhighlight = { Normal = 'NoicePopup', FloatBorder = 'NoicePopupBorder' },
 		},
 	},
 	hover = {
@@ -119,7 +77,7 @@ return {
 		relative = 'cursor',
 		zindex = 45,
 		enter = false,
-		anchor = 'auto',
+		anchor = 'NE', -- fix for neovide putting window offscreen
 		size = {
 			width = 'auto',
 			height = 'auto',
@@ -135,154 +93,6 @@ return {
 		win_options = {
 			wrap = true,
 			linebreak = true,
-		},
-	},
-	cmdline = {
-		backend = 'popup',
-		relative = 'editor',
-		position = {
-			row = '100%',
-			col = '50%',
-		},
-		size = {
-			height = 'auto',
-			width = '33%',
-		},
-		border = {
-			style = 'none',
-		},
-		win_options = {
-			winhighlight = {
-				Normal = 'NoiceCmdline',
-				IncSearch = '',
-				Search = '',
-			},
-		},
-	},
-	cursor_text = {
-		backend = 'popup',
-		relative = 'cursor',
-		position = {
-			row = 0,
-			col = 0,
-		},
-		size = {
-			height = 'auto',
-			width = '100%',
-		},
-		border = {
-			style = 'none',
-		},
-		win_options = {
-			winblend = 50,
-			winhighlight = {
-				Normal = '',
-				IncSearch = '',
-				Search = '',
-			},
-		},
-	},
-	mini_center = {
-		backend = 'mini',
-		relative = 'editor',
-		align = 'message-left',
-		timeout = 5000,
-		position = {
-			row = '100%',
-			col = '50%',
-		},
-		size = {
-			width = 'auto',
-			height = 'auto',
-			-- max_height = 20,
-		},
-		zindex = 61,
-		win_options = {
-			winhighlight = {
-				Normal = 'NoiceMini',
-				IncSearch = '',
-				Search = '',
-			},
-		},
-	},
-	mini = {
-		backend = 'mini',
-		relative = 'editor',
-		align = 'message-right',
-		timeout = 5000,
-		reverse = true,
-		focusable = false,
-		position = {
-			row = -1,
-			col = '100%',
-			-- col = 0,
-		},
-		size = 'auto',
-		border = {
-			style = 'none',
-		},
-		zindex = 60,
-		win_options = {
-			winhighlight = {
-				Normal = 'NoiceMini',
-				IncSearch = '',
-				Search = '',
-			},
-		},
-	},
-	cmdline_popup = {
-		backend = 'popup',
-		relative = 'editor',
-		focusable = false,
-		enter = false,
-		zindex = 60,
-		position = {
-			row = '33%',
-			col = '45%',
-		},
-		size = {
-			width = 60,
-			height = 'auto',
-		},
-		border = {
-			style = 'rounded',
-			padding = { 0, 1 },
-		},
-		win_options = {
-			winhighlight = {
-				Normal = 'NoiceCmdlinePopup',
-				FloatBorder = 'NoiceCmdlinePopupBorder',
-				IncSearch = '',
-				Search = '',
-			},
-			cursorline = false,
-		},
-	},
-	confirm = {
-		backend = 'popup',
-		relative = 'editor',
-		focusable = false,
-		align = 'center',
-		enter = false,
-		zindex = 60,
-		format = { '{confirm}' },
-		position = {
-			row = '50%',
-			col = '50%',
-		},
-		size = 'auto',
-		border = {
-			style = 'rounded',
-			padding = { 0, 1 },
-			text = {
-				top = ' Confirm ',
-			},
-		},
-		win_options = {
-			winhighlight = {
-				Normal = 'NoiceConfirm',
-				FloatBorder = 'NoiceConfirmBorder',
-			},
 		},
 	},
 }
