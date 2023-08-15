@@ -1,8 +1,14 @@
 -- Move between windows
-Map.n(Keys.ctrl.h, Util.wrap(vim.cmd.wincmd, 'h'))
+Map.n(Keys.ctrl.h, { vim.cmd.wincmd, 'h' }, 'Go to left window')
+Map.n(Keys.ctrl.l, { vim.cmd.wincmd, 'l' }, 'Go to right window')
+
 -- Map.n(Keys.ctrl.j, Util.wrap(vim.cmd.wincmd, 'j'))
 -- Map.n(Keys.ctrl.k, Util.wrap(vim.cmd.wincmd, 'k'))
-Map.n(Keys.ctrl.l, Util.wrap(vim.cmd.wincmd, 'l'))
+
+Map.n('<S-left>',  { vim.cmd.wincmd, 'h' }, 'Go to left window')
+Map.n('<S-down>',  { vim.cmd.wincmd, 'j' }, 'Go to down window')
+Map.n('<S-up>',    { vim.cmd.wincmd, 'k' }, 'Go to up window')
+Map.n('<S-right>', { vim.cmd.wincmd, 'l' }, 'Go to right window')
 
 -- stylua: ignore start
 -- resize windows with arrow keys
@@ -16,10 +22,6 @@ Map.n('<down>', '4<C-e>', 'Scroll down')
 Map.n('<left>',  '4zh', 'Scroll left')
 Map.n('<right>', '4zl', 'Scroll right')
 
-Map.n('<S-up>',    'k', 'Move cursor up')
-Map.n('<S-down>',  'j', 'Move cursor down')
-Map.n('<S-left>',  'h', 'Move cursor left')
-Map.n('<S-right>', 'l', 'Move cursor right')
 -- stylua: ignore end
 
 local win_prefix = Map.create('n', '<C-w>', '[Window]')
@@ -121,4 +123,3 @@ Map.n('<leader>wl', Util.wrap(vim.cmd.tabmove, '+'), 'Move Tab right')
 
 Map.n(Keys.leader.h, vim.cmd.tabprevious, 'Previous Tab')
 Map.n(Keys.leader.l, vim.cmd.tabnext, 'Next Tab')
-

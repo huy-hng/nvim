@@ -1,7 +1,7 @@
 local function upper_mod(keys)
 	local modified = {
 		leader = {},
-		localleader = {},
+		lleader = {},
 		ctrl = {},
 		alt = {},
 	}
@@ -12,14 +12,15 @@ local function upper_mod(keys)
 		modified[up_native] = up_translated
 
 		modified.ctrl[native] = string.format('<C-%s>', translated)
+		-- modified.ctrl[up_native] = string.format('<C-%s>', up_translated)
 		modified.alt[native] = string.format('<A-%s>', translated)
 		modified.alt[up_native] = string.format('<A-%s>', up_translated)
 
 		modified.leader[native] = string.format('<leader>%s', translated)
 		modified.leader[up_native] = string.format('<leader>%s', up_translated)
 
-		modified.localleader[native] = string.format('<localleader>%s', translated)
-		modified.localleader[up_native] = string.format('<localleader>%s', up_translated)
+		modified.lleader[native] = string.format('<localleader>%s', translated)
+		modified.lleader[up_native] = string.format('<localleader>%s', up_translated)
 	end
 	return modified
 end
@@ -99,19 +100,23 @@ local functions = {
 	fold_navigation = 'f',
 	save_file = 'f',
 	comment = 'v',
+
 	join_lines = 'j',
-	-- cmdline_window = '<leader>:',
-	-- search_window = '<leader>/',
-	cmdline_window = '<C-:>',
-	search_window = '<C-/>',
-	message_history = '<leader>/',
+	cmdline_window = '<leader>:',
+	search_window = '<leader>/',
+	-- cmdline_window = '<C-:>',
+	-- search_window = '<C-/>',
+	-- message_history = '<leader>/',
+	message_history = '<C-/>',
 	plugin_manager = '<C-A-P>',
 	start_screen = '<leader>s',
 }
 
 local special_keys = {
-	enter = '<CR>',
-	backspace = '<BS>',
+	enter = '<cr>',
+	backspace = '<bs>',
+	esc = '<esc>',
+	space = '<space>',
 }
 
 local unique = {
@@ -123,18 +128,19 @@ local unique = {
 	redo = '<C-h>',
 }
 
-local upper_mod_letters = upper_mod(letters)
-local upper_mod_functions = upper_mod(functions)
-local upper_mod_unique = upper_mod(unique)
+local letters_upper_mod = upper_mod(letters)
+local functions_upper_mod = upper_mod(functions)
+local unique_upper_mod = upper_mod(unique)
 Keys = vim.tbl_deep_extend(
 	'keep',
 	{},
 	unique,
-	upper_mod_unique,
+	unique_upper_mod,
 	letters,
-	upper_mod_letters,
+	letters_upper_mod,
 	functions,
-	upper_mod_functions
+	functions_upper_mod,
+	special_keys
 )
 
 return Keys
