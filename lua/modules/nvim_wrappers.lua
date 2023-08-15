@@ -19,7 +19,8 @@ function M.exec(command, output) --
 	return output and res.output
 end
 
-function M.normal(str) vim.api.nvim_command('normal! ' .. str) end
+-- function M.normal(str) vim.api.nvim_command('normal! ' .. str) end
+function M.normal(str) M.exec('normal! ' .. str, false) end
 
 function M.defer(timeout, fn, ...) --
 	local args = { ... }
