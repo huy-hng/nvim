@@ -4,6 +4,10 @@ function SetColors(theme)
 		vim.cmd.colorscheme(theme)
 	end
 
+	for name, hex in pairs(Colors) do
+		vim.api.nvim_set_hl(0, name, { fg = hex })
+	end
+
 	-- update highlight instead of replacing it
 	vim.cmd('highlight Statusline guibg=none')
 
@@ -18,4 +22,3 @@ function SetColors(theme)
 
 	if ColorTheme == 'default' then return end
 end
-

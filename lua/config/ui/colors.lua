@@ -1,4 +1,5 @@
-return {
+-- stylua: ignore
+local colors = {
 	none        = "NONE",
 	black       = "#181a1b",
 	bg0         = "#22252A",
@@ -49,3 +50,38 @@ return {
 	info_bg     = "#27344d",
 }
 
+-- local colors = nrequire('catppuccin.palettes').get_palette()
+
+-- stylua: ignore
+local catppuccin_mocha = {
+	none      = "NONE",
+	black0 	  = '#11111b',
+	black1 	  = '#181825',
+	base      = '#1e1e2e',
+	gray0     = '#313244',
+	gray1     = '#45475a',
+	gray2     = '#585b70',
+	gray3     = '#6c7086',
+	white0    = '#7f849c',
+	white1    = '#9399b2',
+	white2    = '#a6adc8',
+	white3    = '#bac2de',
+	text 	  = '#cdd6f4',
+	lavender  = '#b4befe',
+	blue 	  = '#89b4fa',
+	sapphire  = '#74c7ec',
+	sky 	  = '#89dceb',
+	teal 	  = '#94e2d5',
+	green 	  = '#a6e3a1',
+	yellow 	  = '#f9e2af',
+	peach 	  = '#fab387',
+	maroon 	  = '#eba0ac',
+	red 	  = '#f38ba8',
+	mauve 	  = '#cba6f7',
+	pink 	  = '#f5c2e7',
+	flamingo  = '#f2cdcd',
+	rosewater = '#f5e0dc',
+}
+
+Colors = catppuccin_mocha
+return Colors
