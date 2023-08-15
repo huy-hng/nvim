@@ -2,7 +2,7 @@ local possession_utils = require('possession.utils')
 local query = require('possession.query')
 local commands = require('possession.commands')
 
-local comp = require('plugins.ui.alpha.base_components')
+local comp = require('plugins.ui.alpha.components')
 
 local workspace_specs = {
 	{

@@ -1,14 +1,18 @@
-return {
-	width = 50,
-	title_width = 50,
-	divider_width = 52,
-	header_hl = 'Type',
-	footer_hl = 'Comment',
-	divider_hl = '@text.reference',
-	-- divider_hl = 'TodoBgTEST',
+local opts = {
+	width = 40,
+	-- title_width = 40,
+	-- divider_width = 44,
+	header_hl = 'sapphire',
+	divider_hl = 'lavender',
+	footer_hl = 'white2',
+	quote_hl = 'white3',
 	text_hl = 'Comment',
 }
 
+opts.title_width = opts.title_width or opts.width
+opts.divider_width = opts.divider_width or opts.width + 4
+
+return opts
 
 -- '@text.title',
 -- '@text.strong',

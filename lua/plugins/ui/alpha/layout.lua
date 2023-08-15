@@ -1,4 +1,6 @@
-local comp = require('plugins.ui.alpha.base_components')
+local recent_files = require('plugins.ui.alpha.components')
+local comp = require('plugins.ui.alpha.components')
+local custom = require('plugins.ui.alpha.customization.components')
 local sessions = require('plugins.ui.alpha.session_manager')
 local recent_files = require('plugins.ui.alpha.recent_files')
 -- P(recent_files)
@@ -41,7 +43,7 @@ return {
 		comp.group {
 			comp.padding(1),
 
-			comp.header(),
+			custom.header(),
 			comp.padding(2),
 
 			comp.padding(1),
@@ -60,19 +62,22 @@ return {
 			-- comp.group(recent_files),
 			comp.padding(1),
 
-			comp.divider(' Stats ', nil, 'Comment'),
+			comp.divider(' Stats ', nil, 'NonText'),
 			comp.padding(1),
 
-			comp.group(lazy_stats),
+			comp.group(custom.plugin_stats),
 
 			comp.padding(2),
-			comp.footer(),
+			custom.footer(),
 		},
 	},
 	opts = {
 		margin = 0,
-		-- setup = function()
-		-- end,
 		noautocmd = true,
+
+		-- nil | string | string[]: key combinations used to press an item.
+		press = '<CR>',
+		-- nil | string | string[]: key combination used to select an item to press later.
+		press_queue = '<M-CR>',
 	},
 }

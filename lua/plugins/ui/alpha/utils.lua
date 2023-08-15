@@ -1,12 +1,20 @@
 local M = {}
 
-local options = require('plugins.ui.alpha.options')
+local config = require('plugins.ui.alpha.config')
 
 function M.pad(text, width)
-	width = width or options.width
+	width = width or config.width
 	local needed_spaces = width - string.len(text)
 	local padded_name = text .. nvim.Repeat(' ', needed_spaces)
 	return padded_name
+end
+
+-- TODO:
+function M.pad3(text_segments, width)
+	local total_length = #string.join(text_segments)
+	local space_needed = width - total_length
+	local space_between_segments = math.round(space_needed / (#text_segments - 1), 0)
+	return string.join(text_segments, nvim.Repeat(' ', space_between_segments))
 end
 
 function M.pad_text(val, width)
@@ -14,6 +22,8 @@ function M.pad_text(val, width)
 		return function() M.pad(val(), width) end
 	elseif type(val) == 'string' then
 		return M.pad(val, width)
+	elseif type(val) == 'table' then
+		return table.map(function(elem) return M.pad(elem, width) end, val)
 	end
 	return val
 end
@@ -36,6 +46,29 @@ function M.colorizer(header, text_arr)
 			handle:close()
 		end
 	end
+end
+
+-- similar style how extmarks does highlighting
+function M.hl_arr(tbl)
+	local lines, all_hls = {}, {}
+
+	for _, line in ipairs(tbl) do
+		local line_str = ''
+
+		local hls = {}
+		for _, segment in ipairs(line) do
+			local hl_start = #line_str
+			line_str = line_str .. (segment[1] or '')
+			local hl_end = #line_str
+
+			local hl = { segment[2], hl_start, hl_end }
+
+			table.insert(hls, hl)
+		end
+		table.insert(all_hls, hls)
+		table.insert(lines, line_str)
+	end
+	return lines, all_hls
 end
 
 function M.change_native_keymap_fn()

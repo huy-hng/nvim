@@ -10,11 +10,11 @@ Augroup('Alpha', {
 
 		-- TODO: hide cursor and use cursorline instead
 		-- utils.hide_cursor()
-		NestedAutocmd(data, 'BufUnload', nil, function()
+		NestedAutocmd(data, 'User', 'AlphaClosed', function()
 			winman.show_ui()
 			-- utils.show_cursor()
 			return true
-		end, { buffer = 0 })
+		end)
 	end),
 })
 
