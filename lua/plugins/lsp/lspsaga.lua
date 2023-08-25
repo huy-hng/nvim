@@ -21,7 +21,7 @@ function M.config()
 			diagnostic_only_current = false,
 		},
 		code_action = {
-			extend_gitsigns = true,
+			extend_gitsigns = false,
 			keys = {
 				quit = { 'q', '<ESC>' },
 				exec = '<CR>',
@@ -62,6 +62,7 @@ function M.config()
 			-- border type can be single,double,rounded,solid,shadow.
 			border = 'solid',
 			winblend = 0,
+			anchor = 'NE',
 			code_action = ' ',
 			-- colors = {
 			-- 	--float window normal bakcground color

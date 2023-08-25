@@ -27,10 +27,10 @@ return {
 		enabled = true,
 		-- view = 'mini_center', -- default view
 		view = 'mini_left', -- default view
-		view_warn = 'mini_center',
-		view_error = 'mini_center',
+		view_warn = 'notify',
+		view_error = 'notify',
 		view_history = 'messages', -- view for :messages
-		view_search = 'virtualtext', -- view for search count messages. Set to `false` to disable
+		view_search = false, -- view for search count messages. Set to `false` to disable
 	},
 	popupmenu = {
 		enabled = true, -- enables the Noice popupmenu UI

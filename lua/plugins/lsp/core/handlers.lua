@@ -121,14 +121,12 @@ end
 -- vim.lsp.handlers['window/showMessage'] = require('plugins.lsp.core.show_message')
 
 -- handler('textDocument/publishDiagnostics', vim.lsp.diagnostic.on_publish_diagnostics, {
--- 	update_in_insert = true,
+-- 	update_in_insert = false,
 -- 	signs = {
 -- 		severity_limit = 'Error',
 -- 	},
--- 	underline = {
--- 		severity_limit = 'Warning',
--- 	},
--- 	virtual_text = true,
+-- 	underline = { severity_limit = 'Warning',  },
+-- 	virtual_text = false,
 -- })
 
 -- local function lsp_highlight_document(client)

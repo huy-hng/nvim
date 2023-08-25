@@ -22,7 +22,7 @@ return {
 	},
 
 	rainbow = {
-		enable = true,
+		enable = false,
 		query = 'rainbow-parens',
 		-- Highlight the entire buffer all at once
 		strategy = require('ts-rainbow.strategy.global'),

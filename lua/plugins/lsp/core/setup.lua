@@ -13,20 +13,33 @@ for _, sign in ipairs(signs) do
 end
 
 vim.diagnostic.config {
-	-- disable virtual text
-	-- virtual_text = { severity = { min = vim.diagnostic.severity.ERROR } },
 	virtual_text = false,
 	signs = { severity = { min = vim.diagnostic.severity.HINT } },
 	update_in_insert = false,
 	underline = { severity = { min = vim.diagnostic.severity.WARN } },
 	severity_sort = true,
 	float = {
+		max_height = 20,
+		max_width = 120,
+
+		severity_sort = true,
+		pad_bottom = 1,
+		-- pad_top = 1, -- creates weird bug with highlighting
 		focusable = true,
 		style = 'minimal',
-		border = 'rounded',
-		source = 'always',
-		header = '',
-		prefix = '',
+		border = 'none',
+		source = 'if_many',
+		header = ' ',
+
+		-- header = '  Diagnostics',
+		prefix = function(diagnostic, i, total)
+			local prefix = '  '
+			if total > 1 then prefix = prefix .. i .. ': ' end
+			return prefix
+		end,
+		suffix = '  ',
+		relative = 'editor',
+		position = { row = -2, col = '55%' },
 	},
 }
 
@@ -44,10 +57,10 @@ null_ls.setup {
 	-- debug = true,
 	sources = {
 		code_actions.ts_node_action,
+		-- formatting.autopep8,
 		formatting.autopep8.with {
 			extra_args = { '--ignore W191,E402', '--max-line-length 100', '--experimental' },
 		},
-		formatting.autopep8,
 		formatting.stylua,
 		formatting.beautysh.with { extra_args = { '--tabs' } },
 		formatting.fixjson,
