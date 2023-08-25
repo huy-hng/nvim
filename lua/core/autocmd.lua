@@ -1,25 +1,24 @@
-local detect_indent = require('modules.detect_indentation.detect_indentation').detect
-
 Augroup('ColorSchemeSet', {
 	Autocmd('ColorScheme', SetColors),
 })
 
-Augroup('DetectIndent', {
-	Autocmd('OptionSet', { 'expandtab', 'tabstop', 'shiftwidth' }, detect_indent),
-	-- Autocmd('BufReadPost', detect_indent),
-	Autocmd('BufReadPost', function(data)
-		if detect_indent(data) then return end
+-- local detect_indent = require('modules.detect_indentation.detect_indentation').detect
+-- Augroup('DetectIndent', {
+-- 	Autocmd('OptionSet', { 'expandtab', 'tabstop', 'shiftwidth' }, detect_indent),
+-- 	-- Autocmd('BufReadPost', detect_indent),
+-- 	Autocmd('BufReadPost', function(data)
+-- 		if detect_indent(data) then return end
 
-		-- FIX: doesnt work with leader f save mapping for some reason
-		NestedAutocmd(data, 'BufWritePost', '*', function()
-			if detect_indent(data) then return true end
-		end)
-	end),
+-- 		-- FIX: doesnt work with leader f save mapping for some reason
+-- 		NestedAutocmd(data, 'BufWritePost', '*', function()
+-- 			if detect_indent(data) then return true end
+-- 		end)
+-- 	end),
 
-	Autocmd('BufNew', function(data) --
-		NestedAutocmd(data, 'BufWritePost', '*', detect_indent, { once = true })
-	end),
-})
+-- 	Autocmd('BufNew', function(data) --
+-- 		NestedAutocmd(data, 'BufWritePost', '*', detect_indent, { once = true })
+-- 	end),
+-- })
 
 Augroup('WindowManagement', {
 	Autocmd('FileType', {
