@@ -1,10 +1,23 @@
 local M = {}
 
 local function parse_mode(mode)
-	if not mode or mode == '' or mode == 'nvo' then --
+	if type(mode) == 'table' then return mode end
+
+	if not mode or mode == '' then --
 		return { 'n', 'x', 'o' }
 	end
-	return mode
+
+	local modes = {}
+	for i = 1, #mode do
+		local m = mode:sub(i, i)
+		if m == 'v' then
+			m = 'x'
+		elseif m == 'x' then
+			m = 'v'
+		end
+		table.insert(modes, m)
+	end
+	return modes
 end
 
 function M.parse_map(mode, lhs, rhs, desc, opts)
@@ -88,13 +101,7 @@ function M.map_creator(mode, lhs_prefix, desc_prefix, outer_opts)
 	outer_opts = outer_opts or { remap = false, silent = true, langmap = false, fast = true }
 
 	return function(lhs, rhs, desc, opts)
-		-- lhs = lhs_prefix .. (lhs or '')
-		local status, res = pcall(function() lhs = lhs_prefix .. lhs end)
-
-		if not status then 
-			print(status,res)
-			print(lhs_prefix, lhs)
-		end
+		lhs = lhs_prefix .. (lhs or '')
 
 		if type(desc) == 'table' and not opts then
 			opts = desc
@@ -109,13 +116,5 @@ function M.map_creator(mode, lhs_prefix, desc_prefix, outer_opts)
 end
 
 -- map, n, v, s, x, o, !, i, l, c, t
-
---- Maps so that <Space>lhs is the same as <S-Space>lhs
---- where lhs should be come capitalized letter
-M.map_space_capital = function(mode, lhs, rhs, desc, opts)
-	local map = M.map_creator(mode)
-	map('<Space>' .. lhs, rhs, desc, opts)
-	map('<S-Space>' .. lhs, rhs, desc, opts)
-end
 
 return M
