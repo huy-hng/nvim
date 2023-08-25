@@ -59,7 +59,7 @@ function M.config()
 	end
 
 	-- check out 'shortmess' to remove hit-enter prompt
-	local buf_map = Map.create('n', '', '[DB (Buffer)]', { remap = true, buffer = true })
+	local buf_map = Map.new('', '', '[DB (Buffer)]', { remap = true, buffer = true })
 
 	local function db_completion()
 		require('cmp').setup.buffer { sources = { { name = 'vim-dadbod-completion' } } }
@@ -67,10 +67,10 @@ function M.config()
 
 	Augroup('DBUIMappings', {
 		Autocmd('FileType', 'dbui', function()
-			buf_map('j', 'j^')
-			buf_map('k', 'k^')
-			buf_map('l', '<Plug>(DBUI_SelectLine)<CR>', 'toggle / open')
-			-- buf_map('l', '<Plug>(DBUI_SelectLine)', 'toggle / open')
+			buf_map.n('j', 'j^')
+			buf_map.n('k', 'k^')
+			buf_map.n('l', '<Plug>(DBUI_SelectLine)<CR>', 'toggle / open')
+			-- buf_map.n('l', '<Plug>(DBUI_SelectLine)', 'toggle / open')
 		end),
 		Autocmd('FileType', 'sql', 'setlocal omnifunc=vim_dadbod_completion#omni'),
 		Autocmd('FileType', { 'sql', 'mysql', 'plsql' }, function() --
@@ -78,13 +78,13 @@ function M.config()
 		end),
 	})
 
-	local db_map = Map.create('n', '<leader>D', '[DB]')
+	local db_map = Map.new('<leader>D', '', '[DB]')
 	Map.n('<C-S-D>', focus_drawer, 'Toggle Drawer')
-	db_map('u', vim.cmd.DBUIToggle, 'Toggle Drawer')
-	db_map('f', vim.cmd.DBUIFindBuffer, 'Find buffer in DBUI drawer')
-	db_map('r', vim.cmd.DBUIRenameBuffer, 'Rename buffer or saved query')
-	db_map('q', vim.cmd.DBUILastQueryInfo, 'Print last query and time')
-	db_map('q', vim.cmd.DBUIHideNotifications, 'Hide all visible notifications')
+	db_map.n('u', vim.cmd.DBUIToggle, 'Toggle Drawer')
+	db_map.n('f', vim.cmd.DBUIFindBuffer, 'Find buffer in DBUI drawer')
+	db_map.n('r', vim.cmd.DBUIRenameBuffer, 'Rename buffer or saved query')
+	db_map.n('q', vim.cmd.DBUILastQueryInfo, 'Print last query and time')
+	db_map.n('q', vim.cmd.DBUIHideNotifications, 'Hide all visible notifications')
 end
 
 return M

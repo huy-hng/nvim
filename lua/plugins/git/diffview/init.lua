@@ -10,8 +10,8 @@ function M.config()
 	-- Map.n('<C-S-g>', vim.cmd.DiffviewOpen, '[Diffview] Open')
 	-- Map.v('<leader>gf', ":'<,'>DiffviewFileHistory<CR>", '[Diffview] File History Visual Selection')
 
-	local map = Map.create('n', '<leader>g', '[Diffview]')
-	map('f', { vim.cmd.DiffviewFileHistory, '%' }, 'Open')
+	local map = Map.new('<leader>g', '', '[Diffview]')
+	map.n('f', { vim.cmd.DiffviewFileHistory, '%' }, 'Open')
 
 	diffview.setup {
 		-- diff_binaries = false, -- Show diffs for binaries

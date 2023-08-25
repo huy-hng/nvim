@@ -6,7 +6,7 @@ local function uppermap(lhs, rhs)
 end
 
 function M.set_keymap()
-	Map('<C-d>', '', '', { mode = { 'n', 'v' } })
+	Map.nv('<C-d>', '', '')
 
 	Map('<C-u>', '<C-o>')
 	Map('<C-y>', '<C-i>')
@@ -21,7 +21,7 @@ function M.set_keymap()
 	uppermap(Keys.g, 'g')
 	Map(Keys.gg, 'gg', 'First line')
 	Map(Keys.g .. '<C-a>', 'g<C-a>', 'Increment cumulatively')
-	Map(Keys.g .. Keys.v, 'gv', 'Switch to VISUAL using last selection', { mode = 'n' })
+	Map.n(Keys.g .. Keys.v, 'gv', 'Switch to VISUAL using last selection')
 	Map(Keys.g .. Keys.n, 'gn', 'Search forward and select')
 	Map(Keys.g .. Keys.N, 'gN', 'Search backward and select')
 	Map(Keys.g .. Keys.i, 'gi', 'Move to last insertion and INSERT')

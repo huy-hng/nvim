@@ -6,8 +6,8 @@ local M = {
 function M.config()
 	local outline = require('symbols-outline')
 
-	local outlinemap = Map.create('n', '<localleader>', '[Symbols Outline]')
-	outlinemap('o', outline.toggle_outline, 'Toggle Symbols Outline')
+	local outlinemap = Map.new('<localleader>', '', '[Symbols Outline]')
+	outlinemap.n('o', outline.toggle_outline, 'Toggle Symbols Outline')
 	-- outlinemap('o', outline.open_outline, 'Toggle Symbols Outline')
 	-- outlinemap('c', outline.close_outline, 'Toggle Symbols Outline')
 

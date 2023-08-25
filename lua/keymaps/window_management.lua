@@ -24,20 +24,20 @@ Map.n('<right>', '4zl', 'Scroll right')
 
 -- stylua: ignore end
 
-local win_prefix = Map.create('n', '<C-w>', '[Window]')
+local win_prefix = Map.new('<C-w>', '', '[Window]')
 
-win_prefix(Keys.ctrl.h, '<C-w>R', 'Move current window to the left')
-win_prefix(Keys.ctrl.l, '<C-w>r', 'Move current window to the right')
+win_prefix.n(Keys.ctrl.h, '<C-w>R', 'Move current window to the left')
+win_prefix.n(Keys.ctrl.l, '<C-w>r', 'Move current window to the right')
 
-win_prefix(Keys.h, '<C-w>h', 'Go to left window')
-win_prefix(Keys.j, '<C-w>j', 'Go to below window')
-win_prefix(Keys.k, '<C-w>k', 'Go to above window')
-win_prefix(Keys.l, '<C-w>l', 'Go to right window')
+win_prefix.n(Keys.h, '<C-w>h', 'Go to left window')
+win_prefix.n(Keys.j, '<C-w>j', 'Go to below window')
+win_prefix.n(Keys.k, '<C-w>k', 'Go to above window')
+win_prefix.n(Keys.l, '<C-w>l', 'Go to right window')
 
-win_prefix(Keys.H, '<C-w>H', 'Move current window to the leftest')
-win_prefix(Keys.J, '<C-w>J', 'Move current window to the downest')
-win_prefix(Keys.K, '<C-w>K', 'Move current window to the uppest')
-win_prefix(Keys.L, '<C-w>L', 'Move current window to the rightest')
+win_prefix.n(Keys.H, '<C-w>H', 'Move current window to the leftest')
+win_prefix.n(Keys.J, '<C-w>J', 'Move current window to the downest')
+win_prefix.n(Keys.K, '<C-w>K', 'Move current window to the uppest')
+win_prefix.n(Keys.L, '<C-w>L', 'Move current window to the rightest')
 
 local function has_vertical_wins()
 	local wins = vim.api.nvim_tabpage_list_wins(0)
@@ -106,7 +106,7 @@ local function center_two_windows(size)
 end
 
 Map.n('<leader>C', function() center_two_windows(120) end, 'Center two windows')
-win_prefix('<C-c>', center_two_windows, 'In two win setup, center right win')
+win_prefix.n('<C-c>', center_two_windows, 'In two win setup, center right win')
 
 Augroup('WindowCenterer', {
 	-- Autocmd('WinEnter', function(data) vim.notify(tostring(vim.api.nvim_get_current_win())) end),

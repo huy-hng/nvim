@@ -36,27 +36,27 @@ M.customizeBufFoldText = function()
 end
 
 M.set_keymaps = function(bufnr)
-	local ufomap = Map.create('n', '', '[UFO]', { buffer = bufnr })
+	local ufomap = Map.new('', '', '[UFO]', { buffer = bufnr })
 
-	ufomap('[f', M.goPreviousClosedAndPeek, 'go to previous fold and peek')
-	ufomap(']f', M.goNextClosedAndPeek, 'go to next fold and peek')
+	ufomap.n('[f', M.goPreviousClosedAndPeek, 'go to previous fold and peek')
+	ufomap.n(']f', M.goNextClosedAndPeek, 'go to next fold and peek')
 
-	ufomap('zR', ufo.openAllFolds, 'open all folds')
-	ufomap('zM', ufo.closeAllFolds, 'close all folds')
+	ufomap.n('zR', ufo.openAllFolds, 'open all folds')
+	ufomap.n('zM', ufo.closeAllFolds, 'close all folds')
 
-	-- ufomap('K', M.peekOrHover, 'peek or hover')
+	-- ufomap.n('K', M.peekOrHover, 'peek or hover')
 
-	-- ufomap('z;', ufo.goPreviousStartFold, 'inspect')
-	ufomap('zx', { M.applyFoldsAndThenCloseAllFolds, 'lsp' }, 'Apply and close folds')
+	-- ufomap.n('z;', ufo.goPreviousStartFold, 'inspect')
+	ufomap.n('zx', { M.applyFoldsAndThenCloseAllFolds, 'lsp' }, 'Apply and close folds')
 	Map.n('zX', 'zx')
 
-	-- ufomap('zr', ufo.openFoldsExceptKinds, 'open folds except kinds')
-	-- ufomap('zm', ufo.closeFoldsWith, 'close folds with') -- closeAllFolds == closeFoldsWith(0)
+	-- ufomap.n('zr', ufo.openFoldsExceptKinds, 'open folds except kinds')
+	-- ufomap.n('zm', ufo.closeFoldsWith, 'close folds with') -- closeAllFolds == closeFoldsWith(0)
 
 	-- calls the function below. If it there is nothing to peek, then lsp.hover will be executed
 	-- which is defined in lsp.handlers. If the lsp doesnt provide anything, regular 'K' will be executed
 	-- which is the keywordprg option, defined in options.lua.
-	-- ufomap('K', M.peekOrHover, 'peek or hover')
+	-- ufomap.n('K', M.peekOrHover, 'peek or hover')
 end
 
 -----------------------------------------providerSelector-------------------------------------------

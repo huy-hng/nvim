@@ -54,40 +54,40 @@ local output_opts = {
 
 local neotest = require('neotest')
 
-local neomap = Map.create('n', '<localleader>t', '[Neotest]')
+local neomap = Map.new('<localleader>t', '', '[Neotest]')
 
-neomap('s', neotest.run.stop, 'Stop test')
-neomap('a', neotest.run.attach, 'Attach to nearest test')
+neomap.n('s', neotest.run.stop, 'Stop test')
+neomap.n('a', neotest.run.attach, 'Attach to nearest test')
 
 -- last test
-neomap('t', neotest.run.run_last, 'Run last test')
-neomap('T', { neotest.run.run_last, { strategy = 'dap' } }, 'Debug last test')
+neomap.n('t', neotest.run.run_last, 'Run last test')
+neomap.n('T', { neotest.run.run_last, { strategy = 'dap' } }, 'Debug last test')
 
 -- nearest test
-neomap('n', neotest.run.run, 'Run nearest test')
-neomap('N', { neotest.run.run, { strategy = 'dap' } }, 'Debug nearest test')
+neomap.n('n', neotest.run.run, 'Run nearest test')
+neomap.n('N', { neotest.run.run, { strategy = 'dap' } }, 'Debug nearest test')
 
 -- test entire file
-neomap('f', { neotest.run.run, TryWrap(vim.fn.expand, '%') }, 'Run current file')
-neomap(
+neomap.n('f', { neotest.run.run, TryWrap(vim.fn.expand, '%') }, 'Run current file')
+neomap.n(
 	'fd',
 	{ neotest.run.run, { TryWrap(vim.fn.expand, '%'), strategy = 'dap' } },
 	'Debug current file'
 )
 
 -- adapters
-neomap('ga', neotest.run.adapters, 'Get the list of all known adapter IDs')
-neomap('gl', neotest.run.get_last_run, 'Get last test run tree and adapter id')
+neomap.n('ga', neotest.run.adapters, 'Get the list of all known adapter IDs')
+neomap.n('gl', neotest.run.get_last_run, 'Get last test run tree and adapter id')
 
 -- details
-neomap('o', { neotest.output.open, output_opts }, 'Show test output')
--- neomap('o', neotest.output.open, 'Show test output')
-neomap('p', neotest.output_panel.toggle, 'Toggle test output panel')
-neomap('u', neotest.summary.toggle, 'Show summary')
+neomap.n('o', { neotest.output.open, output_opts }, 'Show test output')
+-- neomap.n('o', neotest.output.open, 'Show test output')
+neomap.n('p', neotest.output_panel.toggle, 'Toggle test output panel')
+neomap.n('u', neotest.summary.toggle, 'Show summary')
 
 -- jump
-neomap('[n', { { neotest.jump.prev, { status = 'failed' } }, 'Jump to prev failed test' })
-neomap(']n', { { neotest.jump.next, { status = 'failed' } }, 'Jump to next failed test' })
+neomap.n('[n', { { neotest.jump.prev, { status = 'failed' } }, 'Jump to prev failed test' })
+neomap.n(']n', { { neotest.jump.next, { status = 'failed' } }, 'Jump to next failed test' })
 
--- neomap('di', neotest.diagnostic, 'Show diagnostics' )
--- neomap('st', neotest.status, 'Show Status' )
+-- neomap.n('di', neotest.diagnostic, 'Show diagnostics' )
+-- neomap.n('st', neotest.status, 'Show Status' )

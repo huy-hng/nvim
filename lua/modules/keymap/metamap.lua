@@ -12,7 +12,7 @@ local Metamap = {}
 ---@param name string?
 ---@param opts table?
 ---@return Metamap
-function Metamap:new(name, opts)
+function Metamap:new(_, name, opts)
 	local self_ = setmetatable({}, self)
 	self_.has_exit_map = false
 	self_.has_enter_map = false

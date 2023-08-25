@@ -1,58 +1,114 @@
 ---@diagnostic disable: duplicate-set-field
 
----@class map
-local map = {}
+---@class Map
+---@field lhs_prefix string
+---@field rhs_prefix string
+---@field desc_prefix string
+---@field opts table
+---@operator call:function
+local Map = {}
 
-local mappers = require('modules.keymap.mappers')
+local function parse_mode(mode)
+	if type(mode) == 'table' then return mode end
 
-map.create = mappers.map_creator
-map.parse = mappers.parse_map
-map.map = mappers.map
+	if not mode or mode == '' then --
+		return { 'n', 'x', 'o' }
+	end
 
-map.nv = mappers.map_creator { 'n', 'x' }
-map.nvo = mappers.map_creator { 'n', 'x', 'o' }
-map.n = mappers.map_creator('n')
-map.v = mappers.map_creator('x')
-map.i = mappers.map_creator('i')
-map.s = mappers.map_creator('s')
-map.x = mappers.map_creator('v')
-map.o = mappers.map_creator('o')
-map.vo = mappers.map_creator { 'o', 'x' }
-map.ov = mappers.map_creator { 'o', 'x' }
-map.ic = mappers.map_creator('!')
-map.c = mappers.map_creator('c')
-map.t = mappers.map_creator('t')
+	local modes = {}
+	for i = 1, #mode do
+		local m = mode:sub(i, i)
+		if m == 'v' then
+			m = 'x'
+		elseif m == 'x' then
+			m = 'v'
+		end
+		table.insert(modes, m)
+	end
+	return modes
+end
 
-map.unmap = mappers.unmap
-map.del = mappers.unmap
+function Map.parse(self, mode, lhs, rhs, desc, opts)
+	if type(desc) == 'table' and not opts then
+		opts = desc
+		desc = nil
+	end
+	opts = opts or {}
+	desc = self.desc_prefix .. (desc or '')
+	opts = vim.tbl_extend('force', self.opts, { desc = desc }, opts or {})
 
-map.ctrl = function(key) return string.format('<C-%s>', key) end
-map.alt = function(key) return string.format('<A-%s>', key) end
+	-- remove extra opts
+	local extra_opts = vim.tbl_extend('force', { fast = true }, opts)
+	opts.fast = nil
 
-map.meta = require('modules.keymap.metamap')
+	if type(rhs) == 'table' then --
+		rhs = Util.extract_fn_from_table(rhs, extra_opts.fast)
+	end
 
-function map:call(...) self.nvo(...) end
+	if opts.callback then
+		opts.expr = Util.nil_or_true(opts.expr)
 
-return setmetatable(map, {
-	__call = map.call,
-	-- __index = function(self, name)
-	-- 	P(self, name)
+		local fn = opts.callback
+		opts.callback = function() return fn() or rhs end
+	end
 
-	-- 	local index_fn = getmetatable(self).__index
-	-- 	getmetatable(self).__index = nil
-	-- 	local method = Map[name]
-	-- 	local index_fn = getmetatable(self).__index
+	return mode, lhs, rhs, opts
+end
 
-	-- 	return method or 'oien'
-	-- end,
-	-- __newindex = function(self, key, value)
-	-- 	getmetatable(self).__newindex = nil
+function Map.map(self, mode, lhs, rhs, desc, opts)
+	mode = parse_mode(mode)
+	mode, lhs, rhs, opts = Map.parse(self, mode, lhs, rhs, desc, opts)
 
-	-- 	local newindex_fn = getmetatable(self).__newindex
-	-- 	-- self[key] = function(lhs, rhs, desc) P(lhs, rhs, desc) end
-	-- 	local mode, lhs_prefix, desc_prefix, outer_opts = unpack(value)
-	-- 	self[key] = mappers.map_creator(mode, lhs_prefix, desc_prefix, outer_opts)
+	if type(rhs) == 'string' then --
+		rhs = self.rhs_prefix .. rhs
+	end
 
-	-- 	getmetatable(self).__newindex = newindex_fn
-	-- end,
-})
+	if type(lhs) == 'string' then lhs = { lhs } end
+
+	for _, l in ipairs(lhs) do
+		l = self.lhs_prefix .. (l or '')
+		Try(1, vim.keymap.set, mode, l, rhs, opts)
+	end
+end
+
+function Map.unmap(_, mode, lhs, opts) --
+	pcall(vim.keymap.del, parse_mode(mode), lhs, opts)
+end
+
+---@param lhs_prefix string?
+---@param rhs_prefix string?
+---@param desc_prefix string?
+---@param opts table?
+---@nodiscard
+---@return Map
+function Map.new(_, lhs_prefix, rhs_prefix, desc_prefix, opts)
+	local this = setmetatable({}, Map)
+	this.lhs_prefix = lhs_prefix or ''
+	this.rhs_prefix = rhs_prefix or ''
+	this.desc_prefix = desc_prefix or ''
+	this.opts = vim.tbl_extend('force', {
+		remap = false,
+		silent = true,
+	}, opts or {})
+	return this
+end
+
+Map.__call = function(self, ...) Map.map(self, 'nvo', ...) end
+
+Map.__index = function(self, name)
+	return function(...)
+		local fn = Map[name]
+		if fn then return fn(self, ...) end
+		Map.map(self, name, ...)
+	end
+end
+
+Map.meta = require('modules.keymap.metamap')
+-----------------------------------------------testing----------------------------------------------
+
+return setmetatable({
+	lhs_prefix = '',
+	rhs_prefix = '',
+	desc_prefix = '',
+	opts = { remap = false, silent = true },
+}, Map)

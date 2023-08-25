@@ -8,10 +8,10 @@ local M = {
 function M.config()
 	require('bufman').setup()
 	local window = require('bufman.window')
-	local nmap = Map.create('n', '', '[Bufman]')
+	local map = Map.new('', '', '[Bufman]')
 	-- nmap('<leader>b', window.toggle_menu, 'Toggle menu')
 	-- nmap('<C-r>', window.toggle_menu, 'Toggle menu')
-	nmap('<C-b>', window.toggle_menu, 'Toggle menu')
+	map.n('<C-b>', window.toggle_menu, 'Toggle menu')
 end
 
 return M

@@ -38,33 +38,33 @@ function M.config()
 
 	gs.setup {
 		on_attach = function(bufnr)
-			local map = Map.create('n', '<leader>g', '[Gitsigns]', { buffer = bufnr })
+			local map = Map.new('<leader>g', '', '[Gitsigns]', { buffer = bufnr })
 
-			map(Keys.v, gs.select_hunk, 'Select hunk')
+			map.n(Keys.v, gs.select_hunk, 'Select hunk')
 
-			map('td', gs.toggle_deleted, 'Show deleted lines')
-			map('tw', gs.toggle_word_diff, 'Show word diff')
-			map('tb', gs.toggle_current_line_blame, 'Show word diff')
-			map('l', gs.setloclist, 'set qf list')
+			map.n('td', gs.toggle_deleted, 'Show deleted lines')
+			map.n('tw', gs.toggle_word_diff, 'Show word diff')
+			map.n('tb', gs.toggle_current_line_blame, 'Show word diff')
+			map.n('l', gs.setloclist, 'set qf list')
 
-			map(Keys.j, gs.next_hunk, 'Next hunk')
-			map(Keys.k, gs.prev_hunk, 'Previous hunk')
-			map(Keys.b, gs.blame_line, 'git Blame')
+			map.n(Keys.j, gs.next_hunk, 'Next hunk')
+			map.n(Keys.k, gs.prev_hunk, 'Previous hunk')
+			map.n(Keys.b, gs.blame_line, 'git Blame')
 
-			map(Keys.K, gs.preview_hunk_inline, 'Preview hunk')
-			map(Keys.c, gs.diffthis, 'Diff file')
+			map.n(Keys.K, gs.preview_hunk_inline, 'Preview hunk')
+			map.n(Keys.c, gs.diffthis, 'Diff file')
 
-			map(Keys.y, gs.stage_hunk, 'Stage hunk')
-			map(Keys.Y, gs.stage_buffer, 'Stage buffer')
-			map(Keys.u, gs.undo_stage_hunk, 'Undo last stage hunk')
+			map.n(Keys.y, gs.stage_hunk, 'Stage hunk')
+			map.n(Keys.Y, gs.stage_buffer, 'Stage buffer')
+			map.n(Keys.u, gs.undo_stage_hunk, 'Undo last stage hunk')
 
-			map('dh', gs.reset_hunk, 'reset hunk')
-			map('db', gs.reset_buffer, 'reset buffer')
-			map('dB', gs.reset_buffer_index, 'reset buffer')
+			map.n('dh', gs.reset_hunk, 'reset hunk')
+			map.n('db', gs.reset_buffer, 'reset buffer')
+			map.n('dB', gs.reset_buffer_index, 'reset buffer')
 
-			-- -- visual mode
-			-- -- map( 's', function() gs.stage_hunk { vim.fn.line('.'), vim.fn.line('v') } end)
-			-- -- map( 'r', function() gs.reset_hunk { vim.fn.line('.'), vim.fn.line('v') } end)
+			-- visual mode
+			-- map.n( 's', function() gs.stage_hunk { vim.fn.line('.'), vim.fn.line('v') } end)
+			-- map.n( 'r', function() gs.reset_hunk { vim.fn.line('.'), vim.fn.line('v') } end)
 		end,
 		--stylua: ignore
 		signs = {
