@@ -12,6 +12,7 @@ function M.config()
 	local mappings = require('plugins.editor.telescope.keymaps')
 	telescope.load_extension('notify')
 	telescope.load_extension('possession')
+	telescope.load_extension('git_worktree')
 
 	local config = {
 		defaults = {
