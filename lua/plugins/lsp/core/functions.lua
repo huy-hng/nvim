@@ -11,9 +11,35 @@ function M.close_with_esc(win_id, bufnr)
 	end, 'close diagnostic float', { buffer = bufnr })
 end
 
+local function get_diagnostics(opts, bufnr, line_nr, client_id)
+	bufnr = bufnr or 0
+	line_nr = line_nr or (vim.api.nvim_win_get_cursor(0)[1] - 1)
+	opts = opts or { ['lnum'] = line_nr }
+
+	local line_diagnostics = vim.diagnostic.get(bufnr, opts)
+	if vim.tbl_isempty(line_diagnostics) then return end
+
+	local messages = {}
+	for i, diagnostic in ipairs(line_diagnostics) do
+		P(line_diagnostics)
+		local message = string.format('%d: %s', i, diagnostic.message or '')
+		-- if i ~= #line_diagnostics then message = message .. '\n' end
+		table.insert(messages, message)
+	end
+	-- vim.api.nvim_echo({ { diagnostic_message, 'Normal' } }, false, {})
+	return messages
+end
+
 function M.diagnostic_float()
 	local bufnr, win_id = vim.diagnostic.open_float()
 	if not win_id then return end
+
+	local config = vim.api.nvim_win_get_config(win_id)
+	-- P(config)
+	config.col[false] = 0
+	-- config.anchor = 'NE'
+	vim.api.nvim_win_set_config(win_id, config)
+
 	M.close_with_esc(win_id, bufnr)
 end
 
