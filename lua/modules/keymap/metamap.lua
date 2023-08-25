@@ -75,7 +75,7 @@ function Metamap.map_wrap(mode)
 	return function(self, lhs, rhs, desc, opts) self:map(mode, lhs, rhs, desc, opts) end
 end
 
-(function()
+do
 	Metamap.n = Metamap.map_wrap('n')
 	Metamap.o = Metamap.map_wrap('o')
 
@@ -87,7 +87,7 @@ end
 	Metamap.ic = Metamap.map_wrap('!')
 	Metamap.c = Metamap.map_wrap('c')
 	Metamap.t = Metamap.map_wrap('t')
-end)()
+end
 
 ----------------------------------------------Save Maps---------------------------------------------
 
