@@ -43,12 +43,21 @@ function M.renu_autocmd(on)
 end
 
 function M.create_autocmds()
+	if vim.g.has_neovide then
+		Augroup('renu', {
+			Autocmd('CursorHold', M.renu_autocmd(true)),
+			Autocmd('CursorMoved', M.renu_autocmd(false)),
+			Autocmd('InsertEnter', M.renu_autocmd(false)),
+			Autocmd('InsertLeave', M.renu_autocmd(true)),
+			Autocmd('WinLeave', M.renu_autocmd(false)),
+		})
+		return
+	end
 	Augroup('renu', {
-		Autocmd('CursorHold', M.renu_autocmd(true)),
-		Autocmd('CursorMoved', M.renu_autocmd(false)),
 		Autocmd('InsertEnter', M.renu_autocmd(false)),
 		Autocmd('InsertLeave', M.renu_autocmd(true)),
 		Autocmd('WinLeave', M.renu_autocmd(false)),
+		Autocmd('WinEnter', M.renu_autocmd(true)),
 	})
 end
 
