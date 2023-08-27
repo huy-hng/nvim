@@ -17,10 +17,9 @@ local prev_tabline = default_tabline
 local line_numbers = require('modules.line_numbers')
 local winman = require('modules.window_manager')
 
-local function activate()
+local function activate_neovide()
 	local view = require('zen-mode.view')
 
-	zenmode_active = true
 	local parent_win = winman.get_win()
 	parent_tab = winman.get_tab()
 
@@ -45,20 +44,37 @@ local function activate()
 	end)
 end
 
-local function deactivate()
-	zenmode_active = false
-
+local function deactivate_neovide()
 	winman.delete_tab_background(zen_tab, parent_tab)
 	line_numbers.create_autocmds()
-	vim.cmd.TwilightDisable()
 
 	-- nvim.feedkeys('``')
 	-- nvim.feedkeys('zz')
 end
 
+local function activate()
+	zenmode_active = true
+
+	if vim.g.has_neovide then --
+		return activate_neovide()
+	end
+
+	return vim.cmd.ZenMode()
+end
+
+local function deactivate()
+	zenmode_active = false
+
+	vim.cmd.TwilightDisable()
+	if vim.g.has_neovide then --
+		return deactivate_neovide()
+	end
+end
+
 local function toggle()
-	-- TODO: use view.is_open()
-	if zenmode_active then --
+	local view = require('zen-mode.view')
+	if view.is_open() then --
+		vim.cmd.ZenMode()
 		return deactivate()
 	end
 	activate()
@@ -87,20 +103,30 @@ function M.config()
 			gitsigns = { enabled = true }, -- disables git signs
 			tmux = { enabled = false }, -- disables the tmux statusline
 			kitty = {
-				-- this will change the font size on kitty when in zen mode
-				-- to make this work, you need to set the following kitty options:
-				-- - allow_remote_control socket-only
-				-- - listen_on unix:/tmp/kitty
 				enabled = false,
-				font = '+4', -- font size increment
+				font = '+1', -- font size increment
 			},
 		},
-		-- callback where you can add custom code when the Zen window opens
 		on_open = function(win)
-			local bg_win = win - 1
-			vim.wo[win].winblend = 80
+			if vim.g.has_neovide then
+				vim.api.nvim_win_close(win - 1, false) -- close background window
+				vim.wo[win].winblend = 80
+			end
 
-			local conf = {
+			nvim.defer(0, function()
+				vim.w[win].statuscolumn_ignore = true
+				statuscolumn.set_column(win, statuscolumn.columns.sparse)
+
+				vim.api.nvim_clear_autocmds {
+					event = { 'VimResized', 'CursorHold', 'CursorMoved' },
+					group = 'Zen',
+					pattern = '*',
+				}
+				local win_conf = vim.api.nvim_win_get_config(win)
+				win_conf.col = win_conf.col[false] + 15
+				vim.api.nvim_win_set_config(win, win_conf)
+			end)
+			local reference = {
 				anchor = 'NW',
 				col = {
 					[false] = 54,
@@ -117,23 +143,7 @@ function M.config()
 				width = 105,
 				zindex = 40,
 			}
-			vim.api.nvim_win_close(bg_win, false)
-			nvim.defer(0, function()
-				vim.w[win].statuscolumn_ignore = true
-				statuscolumn.set_column(win, statuscolumn.columns.sparse)
-
-				vim.api.nvim_clear_autocmds {
-					event = { 'VimResized', 'CursorHold', 'CursorMoved' },
-					group = 'Zen',
-					pattern = '*',
-				}
-				local win_conf = vim.api.nvim_win_get_config(win)
-				win_conf.col = win_conf.col[false] + 15
-				vim.api.nvim_win_set_config(win, win_conf)
-				-- vim.wo[win].winhl = 'NormalFloat:NoiceMini'
-			end)
 		end,
-		-- callback where you can add custom code when the Zen window closes
 		on_close = function(win) deactivate() end,
 	}
 
