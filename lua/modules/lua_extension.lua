@@ -1,3 +1,5 @@
+---@diagnostic disable: duplicate-set-field
+
 ---[Convenient Lua]
 ---@param x number number to clamp
 ---@param lower number lower bound
@@ -59,14 +61,14 @@ end
 
 --- Filter a table using a predicate function
 ---
----@param func function|table Function or callable table
+---@param func function Function or callable table
 ---@param t table Table
 ---@return table Table of filtered values
 function table.filter(func, t) return vim.tbl_filter(func, t) end
 
 --- Apply a function to all values of a table.
 ---
----@param func function|table Function or callable table
+---@param func function Function or callable table
 ---@param t table Table
 ---@return table Table of transformed values
 function table.map(func, t) return vim.tbl_map(func, t) end
