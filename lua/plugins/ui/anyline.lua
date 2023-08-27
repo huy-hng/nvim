@@ -16,7 +16,15 @@ function M.config()
 	}
 	-- require('anyline.column_line').setup()
 	-- require('anyline.column_line').setup { buftype_whitelist = { 'dts' } }
-	require('anyline.column_line').setup { buftype_blacklist = { 'dts' } }
+	require('anyline.column_line').setup {
+		buftype_blacklist = { 'dts' },
+		-- wintype_whitelist = { '', 'popup' },
+		filetype_blacklist = {
+			'buffer_manager',
+			'harpoon',
+			'TelescopePrompt',
+		},
+	}
 end
 
 return M
