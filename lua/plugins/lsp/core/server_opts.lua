@@ -10,8 +10,12 @@ capabilities.textDocument.foldingRange = {
 }
 
 local function on_attach(client, bufnr)
-	if vim.lsp.semantic_tokens then vim.lsp.semantic_tokens.stop(bufnr, client.id) end
+	-- if vim.lsp.semantic_tokens then vim.lsp.semantic_tokens.stop(bufnr, client.id) end
 	require('plugins.lsp.core.keymaps')(bufnr)
+	if client.name == 'clangd' then
+		require('clangd_extensions.inlay_hints').setup_autocmd()
+		require('clangd_extensions.inlay_hints').set_inlay_hints()
+	end
 end
 
 return {

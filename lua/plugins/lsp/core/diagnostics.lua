@@ -1,5 +1,3 @@
----------------------------------------------Diagnostics--------------------------------------------
-
 local icons = require('config.ui.icons').diagnostics_sign
 local signs = {
 	{ name = 'DiagnosticSignError', text = icons.error },
@@ -40,35 +38,5 @@ vim.diagnostic.config {
 		suffix = '  ',
 		relative = 'editor',
 		position = { row = -2, col = '55%' },
-	},
-}
-
------------------------------------------------Null-ls----------------------------------------------
-local null_ls = nrequire('null-ls')
-if not null_ls then return end
-
-local code_actions = null_ls.builtins.code_actions
--- local diagnostics = null_ls.builtins.diagnostics
-local formatting = null_ls.builtins.formatting
--- local hover = null_ls.builtins.hover
--- local completion = null_ls.builtins.completion
-
-null_ls.setup {
-	-- debug = true,
-	sources = {
-		code_actions.ts_node_action,
-		-- formatting.autopep8,
-		formatting.autopep8.with {
-			extra_args = { '--ignore W191,E402', '--max-line-length 100', '--experimental' },
-		},
-		formatting.stylua,
-		formatting.beautysh.with { extra_args = { '--tabs' } },
-		formatting.fixjson,
-		formatting.prettier.with {
-			extra_args = { '--no-semi', '--single-quote', '--jsx-single-quote' },
-		},
-		formatting.clang_format,
-		-- diagnostics.clang_check
-		-- diagnostics.flake8
 	},
 }

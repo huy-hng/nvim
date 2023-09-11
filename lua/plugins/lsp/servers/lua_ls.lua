@@ -1,5 +1,5 @@
 return {
-	name = 'lua-language-server',
+	name = 'Lua',
 	cmd = { 'lua-language-server' },
 	before_init = require('neodev.lsp').before_init,
 	settings = {
