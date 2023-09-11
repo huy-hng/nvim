@@ -1,6 +1,16 @@
 ---@diagnostic disable: undefined-field
 
+local a = require('diffview.actions')
+
 local M = {}
+
+-- keeps cursor at same line when unstaging instead of going to top
+function M.toggle_stage_entry()
+	local cursor = vim.api.nvim_win_get_cursor(0)
+	a.toggle_stage_entry()
+	vim.api.nvim_win_set_cursor(0, cursor)
+end
+
 local function get_panel()
 	local lib = require('diffview.lib')
 	local view = lib.get_current_view()
