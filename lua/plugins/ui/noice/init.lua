@@ -98,7 +98,9 @@ function M.config()
 	-- config = test_spinners(config)
 
 	require('noice').setup(config)
-	vim.cmd('highlight NoiceMini blend=75')
+	if vim.g.has_neovide == true then --
+		vim.cmd('highlight NoiceMini blend=75')
+	end
 
 	Map.c('<A-Enter>', function()
 		-- if vim.g.has_neovide then enable_messages(true) end

@@ -5,7 +5,10 @@ local M = {
 
 function M.config()
 	-- local build_cmd = '/home/huy/repositories/kyria/build.sh -s -b right'
-	local build_cmd = '/home/huy/repositories/kyria/build.sh right'
+
+	local build_cmd = '$(pwd)/build.sh right'
+	local build_cmd = '$(pwd)/build.sh left'
+	-- local build_cmd = '~/worktrees/kyria/refactor_rgb_underglow/build.sh right'
 	local build_config = {
 		cmd = build_cmd,
 		hidden = false,

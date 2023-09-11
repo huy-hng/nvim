@@ -84,6 +84,7 @@ function M.config()
 				FoldColumn = { fg = colors.overlay1 },
 				TabLine = { fg = colors.surface2 },
 				TabLineSel = { bg = colors.surface0 },
+				Float = { fg = colors.text },
 
 				-- default colors
 				-- CursorLineNr = { fg = colors.lavender },
