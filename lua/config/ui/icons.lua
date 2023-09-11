@@ -38,12 +38,15 @@ return {
 		-- precedes = '❮', -- …
 		nbsp     = '␣',
 	},
+	cmp_sources = {
+		cmdline_history= '',
+	},
 
 	lsp_kinds = {
 		Text          = '', --  𝓐
-		Method        = '', --
+		Method        = '',
 		Function      = '', --   
-		Constructor   = '"', --  
+		Constructor   = '', --  
 		Field         = '', --   ﰠ 
 		Variable      = '', --   
 		Class         = 'ﴯ', --  𝓒
@@ -51,17 +54,17 @@ return {
 		Module        = '', -- 
 		Property      = 'ﰠ', --   
 		Unit          = '', -- 
-		Value         = '', --  
+		Value         = '', -- 
 		Enum          = '', -- ℰ
-		Keyword       = '', --  
-		Snippet       = '', --  
-		Color         = '', --  
+		Keyword       = '', -- 
+		Snippet       = '',
+		Color         = '', --  
 		File          = '', --   
 		Reference     = '', --   
-		Folder        = '', --  
-		EnumMember    = '', --  
-		Constant      = '', --    
-		Struct        = 'פּ', --    𝓢
+		Folder        = '', -- 
+		EnumMember    = '', -- 
+		Constant      = '', --     
+		Struct        = 'פּ', --     𝓢
 		Event         = '', --   🗲
 		Operator      = '', -- 
 		TypeParameter = '', --     𝙏
@@ -203,6 +206,5 @@ return {
 		delete =       '│',
 		topdelete =    '│',
 		changedelete = '│',
-
 	},
 }

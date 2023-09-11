@@ -13,7 +13,8 @@ M.set_minimal_column = statuscolumn.set_minimal_column
 
 function M.set_default_column(winid) statuscolumn.set_column(winid, M.columns.default) end
 
-local filetype_blacklist = { alpha = true, noice = true, toggleterm = true }
+local filetype_blacklist =
+	{ alpha = true, noice = true, toggleterm = true, NvimTree = true, DiffviewFiles = true }
 local filetype_ignore = { bufman = true }
 local buf_blacklist = { diff = true }
 local win_whitelist = { [''] = true }

@@ -30,6 +30,7 @@ function M.set_keymap()
 	Map(Keys.g .. 'x', 'gx', 'Open the file under the cursor with system app')
 	Map(Keys.g .. 'u', 'gu', 'Lower Case')
 	Map(Keys.g .. 'U', 'gU', 'Upper Case')
+	Map(Keys.g .. 'w', 'gw', 'Format line or selection')
 
 	Map(Keys.gE, 'gE')
 	Map(Keys.ge, 'ge')

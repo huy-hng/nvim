@@ -117,6 +117,8 @@ o.wrap = false -- disable line wrapping
 o.showbreak = icons.misc.showbreak -- prefix for wrapped lines
 o.linebreak = true -- wrap lines only at certain characters (see :help breakat)
 o.breakindent = true -- indent wraps
+-- vim.cmd('set breakindentopt=shift:4')
+
 -- opt.cpoptions:append('n') -- causes linewrap not to work with statuscolumn
 
 opt.whichwrap:append('<,>,h,l') -- keys that wrap around line and go to next/prev line

@@ -110,16 +110,23 @@ local functions = {
 	message_history = '<C-/>',
 	plugin_manager = '<C-A-P>',
 	start_screen = '<leader>s',
+	open_fold = '<A-i>',
+	close_fold = '<A-m>',
 }
 
-local special_keys = {
-	enter = '<cr>',
-	backspace = '<bs>',
+Keys = {
+	-- special keys
 	esc = '<esc>',
+	enter = '<cr>',
 	space = '<space>',
-}
+	backspace = '<bs>',
 
-local unique = {
+	up = '<up>',
+	down = '<down>',
+	left = '<left>',
+	right = '<right>',
+
+	-- unique
 	yy = 'ff',
 	vv = 'ss',
 	gg = 'jj',
@@ -130,17 +137,14 @@ local unique = {
 
 local letters_upper_mod = upper_mod(letters)
 local functions_upper_mod = upper_mod(functions)
-local unique_upper_mod = upper_mod(unique)
 Keys = vim.tbl_deep_extend(
 	'keep',
-	{},
-	unique,
-	unique_upper_mod,
+	Keys,
 	letters,
 	letters_upper_mod,
 	functions,
-	functions_upper_mod,
-	special_keys
+	functions_upper_mod
 )
+Keys.ctrl.enter = '<C-CR>'
 
 return Keys
