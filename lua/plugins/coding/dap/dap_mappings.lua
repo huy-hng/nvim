@@ -7,18 +7,18 @@ local function get_input(msg)
 	return function() vim.fn.input { msg } end
 end
 
-dap_map.n('b', dap.toggle_breakpoint, 'toggle breakpoint')
-dap_map.n(
-	'B',
-	{ dap.toggle_breakpoint, get_input('[DAP] Breakpoint Condition: ') },
-	'breakpoint condition'
-)
--- dap_map.n('p', { dap.set_breakpoint, nil, nil, get_input('Log point message: ') }, 'set log point')
-dap_map.n('r', dap.repl.open, 'repl open')
-dap_map.n('l', dap.run_last, 'Run Last')
+-- dap_map.n('b', dap.toggle_breakpoint, 'toggle breakpoint')
+-- dap_map.n(
+-- 	'B',
+-- 	{ dap.toggle_breakpoint, get_input('[DAP] Breakpoint Condition: ') },
+-- 	'breakpoint condition'
+-- )
+-- -- dap_map.n('p', { dap.set_breakpoint, nil, nil, get_input('Log point message: ') }, 'set log point')
+-- dap_map.n('r', dap.repl.open, 'repl open')
+-- dap_map.n('l', dap.run_last, 'Run Last')
 
-dap_map.n('E', { dapui.eval, get_input('[DAP] Expression > ') }, 'evaluate expression')
-dap_map.nv('e', dapui.eval, 'evaluate expression under cursor')
+-- dap_map.n('E', { dapui.eval, get_input('[DAP] Expression > ') }, 'evaluate expression')
+-- dap_map.nv('e', dapui.eval, 'evaluate expression under cursor')
 
 local MetaMap = require('modules.keymap.metamap')
 local map = MetaMap('Debugging')
