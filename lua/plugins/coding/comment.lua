@@ -34,6 +34,7 @@ function M.config()
 	local api = require('Comment.api')
 	local ft = require('Comment.ft')
 	-- ft.set('vimwiki', '- %s')
+	-- ft.set('c', '//%s')
 
 	local comment_empty = {
 		padding = true,
