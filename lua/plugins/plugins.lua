@@ -1,8 +1,6 @@
 -- checkout link below for organizing plugins
 -- https://github.com/folke/LazyVim/blob/main/lua/lazyvim/plugins/coding.lua
 return {
-	-- full on features
-	'jceb/vim-orgmode',
 
 	-- extra features
 	-- plugins below mess up key maps
@@ -13,20 +11,6 @@ return {
 
 	{ 'moll/vim-bbye', lazy = false }, -- stop fucking closing my shit
 	-- { 'tiagovla/scope.nvim', config = function() require('scope').setup() end }, -- scope buffers to tabs
-
-	-- test startup times
-	{
-		'dstein64/vim-startuptime',
-		cmd = 'StartupTime',
-		config = function()
-			vim.g.startuptime_event_width = 40
-			vim.g.startuptime_tries = 10
-			vim.g.startuptime_sourced = 0
-			vim.g.startuptime_exe_args = { '--noplugin' }
-			vim.g.startuptime_exe_args = {}
-		end,
-	},
-	'lewis6991/impatient.nvim',
 
 	-- movement
 	{ 'phaazon/hop.nvim', branch = 'v2' },
@@ -40,10 +24,8 @@ return {
 
 	-- dependencies
 	'nvim-lua/plenary.nvim',
-	'nvim-tree/nvim-web-devicons',
 
-	-- etrxa ui
-	'akinsho/toggleterm.nvim',
+	-- etxra ui
 	{
 		'ziontee113/icon-picker.nvim',
 		config = function()

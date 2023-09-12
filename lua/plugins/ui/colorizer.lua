@@ -5,7 +5,7 @@ return {
 		filetypes = { '*', '!lazy' },
 		buftype = { '*', '!prompt', '!nofile' },
 		user_default_options = {
-			RGB = true, -- #RGB hex codes
+			RGB = false, -- #RGB hex codes
 			RRGGBB = true, -- #RRGGBB hex codes
 			names = false, -- "Name" codes like Blue
 			RRGGBBAA = true, -- #RRGGBBAA hex codes
