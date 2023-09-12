@@ -115,33 +115,25 @@ function M.config()
 		},
 		hooks = {
 			before_save = function(name)
-				print_messages('Saving Session ' .. name)
-				-- AutosaveSession(false)
-				return { timestamp = os.time() }
-				-- return false
+				return {
+					timestamp = os.time(),
+					bufman = require('bufman.save_menu').encode_state(),
+				}
 			end,
 
-			after_save = function(name, user_data, aborted)
-				print_messages('Session ' .. name .. ' saved')
-				-- AutosaveSession()
-			end,
+			after_save = function(name, user_data, aborted) end,
 
 			before_load = function(name, user_data)
-				print_messages('Loading Session ' .. name)
-				-- if vim.bo.filetype == 'alpha' then Exec('Bwipeout') end
 				AutosaveSession(false)
 				return user_data
 			end,
 
 			after_load = function(name, user_data)
-				print_messages('Session ' .. name .. ' loaded')
 				AutosaveSession()
-
 				local buffers = vim.tbl_filter(
 					function(bufnr) return vim.api.nvim_buf_get_option(bufnr, 'buflisted') end,
 					vim.api.nvim_list_bufs()
 				)
-
 				for _, bufnr in ipairs(buffers) do
 					local bufname = vim.api.nvim_buf_get_name(bufnr)
 					local ft = vim.bo[bufnr].ft
@@ -149,17 +141,19 @@ function M.config()
 					local extension = vim.fn.fnamemodify(bufname, ':t:e')
 
 					-- delete tabs when they contain empty buffers
-					if bufname == '' then
-						-- vim.cmd.Bdelete('#' .. bufnr)
+					if bufname == '' then --
 						vim.api.nvim_buf_delete(bufnr, {})
 					end
+				end
+
+				if user_data.bufman then
+					require('bufman.save_menu').decode_state(user_data.bufman)
 				end
 			end,
 		},
 		plugins = {
 			close_windows = {
 				hooks = { 'before_load' },
-				-- hooks = {},
 				preserve_layout = true, -- or fun(win): boolean
 				match = {
 					-- floating = true,
@@ -177,7 +171,6 @@ function M.config()
 				hooks = { 'before_load' },
 				force = function(bufnr) --
 					if vim.bo[bufnr].buftype == 'terminal' then return true end
-
 					return false
 				end,
 			},
