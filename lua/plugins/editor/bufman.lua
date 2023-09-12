@@ -6,12 +6,12 @@ local M = {
 }
 
 function M.config()
-	require('bufman').setup()
-	local window = require('bufman.window')
+	local bufman = require('bufman')
+	bufman.setup()
 	local map = Map.new('', '', '[Bufman]')
-	-- nmap('<leader>b', window.toggle_menu, 'Toggle menu')
-	-- nmap('<C-r>', window.toggle_menu, 'Toggle menu')
-	map.n('<C-b>', window.toggle_menu, 'Toggle menu')
+	-- nmap('<leader>b', bufman.toggle_menu, 'Toggle menu')
+	-- nmap('<C-r>', bufman.toggle_menu, 'Toggle menu')
+	map.n('<C-b>', bufman.toggle_menu, 'Toggle menu')
 end
 
 return M

@@ -46,11 +46,11 @@ function M.createAutocmd(events, pattern, command, opts)
 	vim.api.nvim_create_autocmd(cmd[1], cmd[2])
 end
 
----@param data table
----@param events autocmd-events
----@param pattern string | nil
----@param command any
----@param opts any
+--@param data table
+--@param events autocmd-events | autocmd-events[]
+--@param pattern string | nil
+--@param command any
+--@param opts any
 function M.nestedAutocmd(data, events, pattern, command, opts)
 	opts = opts or {}
 	opts.group = data.group
