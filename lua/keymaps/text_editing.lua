@@ -51,6 +51,7 @@ Map.n(Keys.P, keep_column('P==', true), 'paste, keep column and indent')
 
 local function paste_without_yank()
 	local mode_behavior = {
+		[''] = '"_c<C-r>"<esc>',
 		v = '"_c<C-r>"<esc>',
 		V = '"_dP',
 		[''] = '"_dP',
