@@ -190,8 +190,8 @@ end
 	--------------------------------------------Implementation------------------------------------------
 
 	local global = true
+	local this_is_a_property_of_Inherit = true
 	Parent = class(function()
-		this_is_a_property_of_Inherit = true
 
 		function __init()
 			print('Parent().__init()')
