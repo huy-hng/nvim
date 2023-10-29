@@ -3,7 +3,17 @@ local M = {}
 local icons = require('config.ui.icons').statuscolumn
 local utils = require('core.statuscolumn.utils')
 
--- TODO: different highlights for odd and even relative numbers
+nvim.command('Statussign', function(data)
+	local lnum = vim.api.nvim_win_get_cursor(0)[1]
+	local lines = vim.api.nvim_buf_line_count(0)
+	local bufnr = vim.api.nvim_get_current_buf()
+
+	for i = 1, lines do
+		local sign = vim.fn.sign_getplaced(bufnr, { group = '*', id = nil, lnum = i })
+		if #sign[1].signs > 0 then P(i, sign) end
+	end
+end)
+
 M.line_number = {
 	function()
 		if vim.v.virtnum ~= 0 then
@@ -12,30 +22,20 @@ M.line_number = {
 			return ''
 		end
 
-		local is_current_line = vim.v.relnum == 0
-		if is_current_line then return vim.v.lnum end
+		-- return current line number
+		if vim.v.relnum == 0 then return vim.v.lnum end
 
 		local lnum = vim.o.relativenumber and vim.v.relnum or vim.v.lnum
-		local hl
+		local hl = 'LineNr'
 
-		if utils.is_foldline(vim.v.lnum) and utils.is_collapsed(vim.v.lnum) then
-			hl = 'FoldColumn'
-		end
-
-		-- if vim.o.relativenumber and vim.v.lnum % 10 == 0 then
-		-- 	lnum = vim.v.lnum
-		-- 	hl = 'CursorLineNr'
-		-- end
-		if vim.v.lnum % 10 == 0 then
+		if vim.v.lnum % 10 == 0 or utils.is_collapsed_fold(vim.v.lnum) then
 			lnum = vim.v.lnum
-			hl = 'CursorLineNr'
+			hl = utils.is_collapsed_fold(vim.v.lnum) and 'LineNrHighlightFold' or 'LineNrHighlight'
 		end
 
 		return utils.wrap_hl(lnum, hl)
 	end,
-	on_click = function(clicks, button, modifiers, mousepos)
-		-- print('lnum')
-	end,
+	-- on_click = function(clicks, button, modifiers, mousepos) end,
 }
 
 M.sparse_line_number = {
@@ -46,17 +46,14 @@ M.sparse_line_number = {
 			return ''
 		end
 
-		local is_current_line = vim.v.relnum == 0
-		if is_current_line or vim.v.lnum % 10 == 0 then return vim.v.lnum end
+		if vim.v.relnum == 0 or vim.v.lnum % 10 == 0 or utils.is_collapsed_fold(vim.v.lnum) then
+			return vim.v.lnum
+		end
 
 		return ''
 	end,
-	on_click = function(clicks, button, modifiers, mousepos)
-		-- print('lnum')
-	end,
+	-- on_click = function(clicks, button, modifiers, mousepos) end,
 }
-
-local function get_git_sign() end
 
 M.sign_column = {
 	function()
@@ -100,10 +97,10 @@ M.border = {
 		local hl = 'NonText'
 		local lnum = vim.v.lnum
 
-		local sign = utils.get_gitsigns(nil, lnum)
+		local gitsigns = utils.get_gitsigns(nil, lnum)
 
-		if sign and sign.group == 'gitsigns_vimfn_signs_' then --
-			hl = sign.name
+		if gitsigns and gitsigns.group == 'gitsigns_vimfn_signs_' then --
+			hl = gitsigns.name
 		end
 
 		-- fold indicator
@@ -111,9 +108,9 @@ M.border = {
 			-- use first found gitsign for hl
 			local start_line, end_line = utils.get_fold_range(lnum)
 			for i = start_line, end_line do
-				sign = utils.get_gitsigns(nil, i)
-				if sign then
-					hl = sign.name
+				gitsigns = utils.get_gitsigns(nil, i)
+				if gitsigns then
+					hl = gitsigns.name
 					break
 				end
 			end
