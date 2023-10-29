@@ -1,4 +1,4 @@
-function Group_bufferline_tabs()
+local function Group_bufferline_tabs()
 	local windows = vim.fn.getwininfo()
 	for _, win in ipairs(windows) do
 		local tabnr = win.tabnr
@@ -23,10 +23,11 @@ end
 -- Nmap('H', { buffer_cycle, -1 }, 'Prev Buffer')
 -- Nmap('L', { buffer_cycle, 1 }, 'Next Buffer')
 
-local bufman = require('bufman.navigation')
-
-Map.n(Keys.H, {bufman.goto, -1}, 'Prev Buffer')
-Map.n(Keys.L, {bufman.goto, 1}, 'Next Buffer')
+local bufman = nrequire('bufman.navigation')
+if bufman then
+	Map.n(Keys.H, { bufman.goto, -1 }, 'Prev Buffer')
+	Map.n(Keys.L, { bufman.goto, 1 }, 'Next Buffer')
+end
 
 Map.n('<leader>0', { buffer_switch, -1 }, '')
 for i in ipairs(vim.fn.range(1, 9)) do

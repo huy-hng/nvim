@@ -46,14 +46,17 @@ end
 
 function M.get_gitsigns(bufnr, lnum)
 	local sign = M.get_signs_in_line(bufnr, 'gitsigns_vimfn_signs_', lnum)
-	sign = sign and sign[1]
-	return sign
+	return sign and sign[1]
 end
 
 function M.is_collapsed(lnum) return vim.fn.foldclosed(lnum) ~= -1 end
 
 function M.is_foldline(lnum) --
 	return vim.fn.foldlevel(lnum) > vim.fn.foldlevel(lnum - 1)
+end
+
+function M.is_collapsed_fold(lnum)
+	return M.is_foldline(lnum) and M.is_collapsed(lnum)
 end
 
 function M.get_fold_range(lnum) --

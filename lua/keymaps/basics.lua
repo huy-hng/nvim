@@ -3,7 +3,10 @@ Map.n('<C-CR>', { nvim.normal, 'o' })
 
 Map.n('<leader><leader>', '')
 Map.n('<localleader><localleader>', '')
+
 Map.n('<localleader>', '')
+
+Map.n('QQ', '<cmd>qa<cr>', 'Quick exit vim')
 
 Map.v(Keys.esc, 'o<esc>')
 Map.n(Keys.esc, function()

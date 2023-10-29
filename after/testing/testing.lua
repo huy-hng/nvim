@@ -105,7 +105,7 @@ local function vim_api()
 end
 
 local function vim_functions()
-	vim.loop.now() -- to measure time
+	vim.loop.now() -- to measure time #timer
 	vim.fn.winlayout(1) -- get layout of tab
 	local cols = vim.o.columns -- to get the total columns of the editor
 	local lines = vim.o.lines -- to get the total lines of the editor
