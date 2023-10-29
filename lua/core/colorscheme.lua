@@ -1,7 +1,10 @@
 function SetColors(theme)
 	if type(theme) == 'string' then
+		local backup_theme = 'desert'
 		ColorTheme = theme
-		vim.cmd.colorscheme(theme)
+		if not pcall(vim.cmd.colorscheme, theme) then
+			vim.cmd.colorscheme(backup_theme)
+		end
 	end
 
 	for name, hex in pairs(Colors) do
@@ -19,6 +22,4 @@ function SetColors(theme)
 	-- Highlight(0, 'CursorLine', { link = 'Visual' })
 	Highlight(0, 'CursorColumn', { link = 'CursorLine' })
 	-- Highlight(0, 'helpCommand', { link = 'markdownCode' })
-
-	if ColorTheme == 'default' then return end
 end
