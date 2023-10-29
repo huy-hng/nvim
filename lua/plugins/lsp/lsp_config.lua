@@ -2,8 +2,8 @@ local M = {
 	'neovim/nvim-lspconfig',
 	-- ft = { 'python', 'lua', 'c', 'json' },
 	-- event = 'BufReadPre',
-	event = 'VeryLazy',
-	-- lazy = true,
+	-- event = 'VeryLazy',
+	lazy = false,
 	dependencies = { 'folke/neodev.nvim' },
 }
 

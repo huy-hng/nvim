@@ -3,7 +3,7 @@ local M = {
 	event = 'VeryLazy',
 	dependencies = {
 		'nvim-treesitter/playground',
-		'nvim-treesitter/nvim-treesitter-context',
+		-- 'nvim-treesitter/nvim-treesitter-context', -- slow in big files
 		'nvim-treesitter/nvim-treesitter-textobjects',
 		'RRethy/nvim-treesitter-textsubjects',
 		'HiPhish/nvim-ts-rainbow2', -- highlight parentheses in different colors
@@ -58,4 +58,5 @@ function M.config()
 	-- local ft_to_parser = parsers.filetype_to_parsername
 	-- ft_to_parser.someft = "python" -- the someft filetype will use the python parser and queries.
 end
+
 return M

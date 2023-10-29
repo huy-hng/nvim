@@ -1,8 +1,8 @@
 local M = {
 	'nvim-tree/nvim-tree.lua',
 	dependencies = { 'nvim-tree/nvim-web-devicons' },
-	event = 'VeryLazy',
-	-- keys = { '<C-S-e>', '<C-p>' },
+	-- event = 'VeryLazy',
+	keys = { Keys.alt.file_explorer },
 }
 
 function M.config()

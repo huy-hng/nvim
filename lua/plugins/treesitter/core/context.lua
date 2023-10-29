@@ -1,7 +1,7 @@
 -- vim.cmd "hi TreesitterContextLineNumber gui=bold"
 return {
 	enable = true, -- Enable this plugin (Can be enabled/disabled later via commands)
-	max_lines = 0, -- How many lines the window should span. Values <= 0 mean no limit.
+	max_lines = 1024, -- How many lines the window should span. Values <= 0 mean no limit.
 	trim_scope = 'outer', -- Which context lines to discard if `max_lines` is exceeded. Choices: 'inner', 'outer'
 	min_window_height = 30, -- Minimum editor window height to enable context. Values <= 0 mean no limit.
 	patterns = { -- Match patterns for TS nodes. These get wrapped to match at word boundaries.
