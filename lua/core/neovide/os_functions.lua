@@ -4,6 +4,7 @@ local g = vim.g
 
 local M = {}
 
+-- DEPRECATED: use `vim.fn.trim(vim.fn.system('hostname'))` instead
 M.get_hostname = function()
 	local handle = io.popen('hostname')
 	local result

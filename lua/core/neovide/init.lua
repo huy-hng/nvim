@@ -46,7 +46,7 @@ local function override_list_ui_function()
 end
 
 local function post_init()
-	local hostname = os_fn.get_hostname()
+	local hostname = vim.fn.trim(vim.fn.system('hostname'))
 
 	-- print(jit.os) -- prints Linux
 	if hostname == 'huystower' then
