@@ -1,8 +1,10 @@
 local M = {}
 
 local path = require('lspconfig.util').path
+local job = require('plenary.job')
 
 -- TODO:
+
 -- https://github.com/neovim/nvim-lspconfig/wiki/Project-local-settings
 -- nvim_lsp.rust_analyzer.setup {
 --   on_init = function(client)
@@ -12,83 +14,89 @@ local path = require('lspconfig.util').path
 --   end
 -- }
 
-local function get_pipenv_dir()
-	-- return vim.fn.trim(vim.fn.system 'pipenv --venv')
-	return vim.fn.trim(vim.fn.system 'pipenv --venv -q')
-end
+local pipenv_venv_cmd = { 'pipenv', '--venv', '--quiet' }
+local poetry_venv_cmd = { 'poetry', 'env', 'info', '-p' }
+local pdm_venv_cmd = { 'pdm', 'info', '--packages' }
 
+local function set_env_vars(venv)
+	vim.env.VIRTUAL_ENV = venv
+	vim.env.PATH = path.join(venv, 'bin:') .. vim.env.PATH
+	vim.env.PYTHONPATH = venv .. '/bin/python'
 
-local function get_poetry_dir()
-	return vim.fn.trim(vim.fn.system 'poetry env info -p')
-end
-
-
-local function get_pdm_package()
-	return vim.fn.trim(vim.fn.system 'pdm info --packages')
-end
-
-
-local function get_python_dir(workspace)
-	local poetry_match = vim.fn.glob(path.join(workspace, 'poetry.lock'))
-	if poetry_match ~= '' then
-		return get_poetry_dir()
-	end
-
-	local pipenv_match = vim.fn.glob(path.join(workspace, 'Pipfile.lock'))
-	if pipenv_match ~= '' then
-		return get_pipenv_dir()
-	end
-
-	-- Find and use virtualenv in workspace directory.
-	for _, pattern in ipairs { '*', '.*' } do
-		local match = vim.fn.glob(path.join(workspace, pattern, 'pyvenv.cfg'))
-		if match ~= '' then
-			return path.dirname(match)
-		end
-	end
-
-	return ''
-end
-
-
-local _virtual_env = ''
-local _package = ''
-
-
-local function py_bin_dir()
-	return path.join(_virtual_env, 'bin:')
-end
-
-
-M.env = function(root_dir)
-	if not vim.env.VIRTUAL_ENV or vim.env.VIRTUAL_ENV == '' then
-		_virtual_env = get_python_dir(root_dir)
-	end
-
-	if _virtual_env ~= '' then
-		vim.env.VIRTUAL_ENV = _virtual_env
-		vim.env.PATH = py_bin_dir() .. vim.env.PATH
-		vim.env.PYTHONPATH = _virtual_env..'/bin/python'
-	end
-
-	if _virtual_env ~= '' and vim.env.PYTHONHOME then
+	if vim.env.PYTHONHOME then
 		vim.env.old_PYTHONHOME = vim.env.PYTHONHOME
 		vim.env.PYTHONHOME = ''
 	end
 
-	return _virtual_env ~= '' and _virtual_env or ''
-	-- return _virtual_env ~= '' and py_bin_dir() or ''
+	M.set_python_path(vim.env.PYTHONPATH)
+end
+
+M.init = function(config, root_dir)
+	vim.env.PYTHONPATH = 'python'
+
+	if vim.env.VIRTUAL_ENV and vim.env.VIRTUAL_ENV == '' then return end
+
+	local match = function(...) return vim.fn.glob(path.join(root_dir, ...)) end
+
+	local cmd
+	if match('Pipfile.lock') ~= '' then cmd = pipenv_venv_cmd end
+	if match('poetry.lock') ~= '' then cmd = poetry_venv_cmd end
+
+	if cmd then
+		job:new({
+			command = cmd[1],
+			args = table.slice(cmd, 2),
+			on_exit = function(j, exit_code)
+				if exit_code ~= 0 then return end
+
+				-- local res = table.concat(j:result(), '\n')
+				local venv = j:result()[1]
+				nvim.schedule(set_env_vars, venv)
+			end,
+		}):start()
+		return
+	end
+
+	-- Find and use virtualenv in root_dir directory.
+	for _, pattern in ipairs { '*', '.*' } do
+		local matched = match(root_dir, pattern, 'pyvenv.cfg')
+		if matched ~= '' then return path.dirname(matched) end
+	end
+
+	-- return vim.fn.trim(vim.fn.system(cmd))
 end
 
 -- PEP 582 support
 M.pep582 = function(root_dir)
+	local package_ = ''
 	local pdm_match = vim.fn.glob(path.join(root_dir, 'pdm.lock'))
-	if pdm_match ~= '' then
-		_package = get_pdm_package()
-	end
+	if pdm_match ~= '' then package_ = set_venv_dir(pdm_venv_cmd) end
 
-	if _package ~= '' then
-		return path.join(_package, 'lib')
+	if package_ ~= '' then return path.join(package_, 'lib') end
+end
+
+function M.organize_imports()
+	local params = {
+		command = 'pyright.organizeimports',
+		arguments = { vim.uri_from_bufnr(0) },
+	}
+	vim.lsp.buf.execute_command(params)
+end
+
+function M.set_python_path(py_path)
+	py_path = py_path or '.'
+	local clients = vim.lsp.get_active_clients {
+		bufnr = vim.api.nvim_get_current_buf(),
+		name = 'pyright',
+	}
+	for _, client in ipairs(clients) do
+		client.config.settings.python.pythonPath = py_path
+		-- client.config.settings = vim.tbl_deep_extend(
+		-- 	'force',
+		-- 	client.config.settings,
+		-- 	{ python = { pythonPath = py_path } }
+		-- )
+		client.notify('workspace/didChangeConfiguration', { settings = nil })
 	end
 end
 
