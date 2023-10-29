@@ -2,23 +2,27 @@ local winman = require('modules.window_manager')
 if vim.fn.has('nvim-0.9.0') == 0 then return end
 
 local M = {}
-local utils = require('core.statuscolumn.utils')
-local statuscolumn = R('core.statuscolumn.statuscolumn')
+local statuscolumn = require('core.statuscolumn.statuscolumn')
 
 M.set_column = statuscolumn.set_column
 M.remove_column = statuscolumn.remove_column
 M.columns = statuscolumn.columns
-M.set_default_column = statuscolumn.set_default_column
-M.set_minimal_column = statuscolumn.set_minimal_column
 
 function M.set_default_column(winid) statuscolumn.set_column(winid, M.columns.default) end
+function M.set_minimal_column(winid) statuscolumn.set_column(winid, M.columns.minimal) end
 
-local filetype_blacklist =
-	{ alpha = true, noice = true, toggleterm = true, NvimTree = true, DiffviewFiles = true }
+local filetype_blacklist = {
+	alpha = true,
+	noice = true,
+	toggleterm = true,
+	NvimTree = true,
+	DiffviewFiles = true,
+}
 local filetype_ignore = { bufman = true }
-local buf_blacklist = { diff = true }
+local buftype_blacklist = { diff = true }
 local win_whitelist = { [''] = true }
 local win_ignore = { command = true }
+
 -- vim.o.statuscolumn =
 -- 	[[%#NonText#%{&nu?v:lnum:""}%=%{&rnu&&(v:lnum%2)?"\ ".v:relnum:""}%#LineNr#%{&rnu&&!(v:lnum%2)?"\ ".v:relnum:""}]]
 
@@ -48,35 +52,22 @@ Augroup('Statuscolumn', {
 
 			-- print(winid, wintype, buftype, filetype, filetype_ignore[filetype])
 			if win_ignore[wintype] or filetype_ignore[filetype] then return end
-			local line_count = vim.api.nvim_buf_line_count(0)
 			if
 				not win_whitelist[wintype]
-				or buf_blacklist[buftype]
+				or buftype_blacklist[buftype]
 				or filetype_blacklist[filetype]
-				or line_count <= 1
+				-- or vim.api.nvim_buf_line_count(0) <= 1
 			then
 				statuscolumn.remove_column(winid)
-			else
-				M.set_default_column(winid)
+				return
 			end
+
+			M.set_default_column(winid)
 		end)
 	end),
 })
 
-local function toggle()
-	if M.active then
-		statuscolumn.stock_column()
-
-		vim.notify('statuscolumn off')
-		M.active = false
-		return
-	end
-	M.default_statuscolumn()
-
-	M.active = true
-	vim.notify('statuscolumn on')
-end
-
--- vim.keymap.set('n', "<c-'>", toggle)
+nvim.command('StatuscolumnStock', function(_) statuscolumn.stock_column() end)
+nvim.command('StatuscolumnDefault', function(_) M.set_default_column() end)
 
 return M
