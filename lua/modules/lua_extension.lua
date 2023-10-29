@@ -91,6 +91,7 @@ local function adjust_and_assert(i, len)
 	return i > 0 and i or len + i + 1
 end
 
+--- Slice a table python style
 ---@param list any[]
 ---@param i integer
 ---@param j integer
@@ -99,10 +100,7 @@ end
 function table.slice(list, i, j)
 	assert(type(list) == 'table')
 
-	if not j then
-		local val = select(i, unpack(list))
-		return val
-	end
+	j = j or -1
 
 	i = adjust_and_assert(i, #list)
 	j = adjust_and_assert(j, #list)
