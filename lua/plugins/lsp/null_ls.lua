@@ -17,9 +17,10 @@ function M.config()
 		sources = {
 			completion.luasnip,
 			code_actions.ts_node_action,
-			formatting.autopep8.with {
-				extra_args = { '--ignore W191,E402', '--max-line-length 100', '--experimental' },
-			},
+			formatting.autopep8, -- changes tabs to spaces
+			-- formatting.autopep8.with {
+			-- 	extra_args = { '--ignore W191,E402', '--max-line-length 100', '--experimental' },
+			-- },
 			formatting.stylua,
 			formatting.beautysh.with { extra_args = { '--tabs' } },
 			formatting.fixjson,
