@@ -1,8 +1,6 @@
-local recent_files = require('plugins.ui.alpha.components')
-local comp = require('plugins.ui.alpha.components')
-local custom = require('plugins.ui.alpha.customization.components')
-local sessions = require('plugins.ui.alpha.session_manager')
-local recent_files = require('plugins.ui.alpha.recent_files')
+local comp = require('plugins.editor.alpha.components')
+local custom = require('plugins.editor.alpha.customization.components')
+local sessions = require('plugins.editor.alpha.session_manager')
 -- P(recent_files)
 
 local terminal = {

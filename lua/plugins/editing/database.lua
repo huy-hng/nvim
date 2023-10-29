@@ -5,7 +5,8 @@ local M = {
 		{ 'hrsh7th/nvim-cmp', lazy = true },
 		'nvim-lua/plenary.nvim',
 	},
-	event = 'VeryLazy',
+	-- event = 'VeryLazy',
+	command = { 'DB' },
 }
 
 function M.config()

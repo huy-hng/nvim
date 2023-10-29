@@ -175,7 +175,7 @@ function M.config()
 		},
 	}
 
-	require('plugins.coding.neotest.neotest_maps')
+	require('plugins.editing.neotest.neotest_maps')
 
 end
 

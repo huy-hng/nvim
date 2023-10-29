@@ -32,7 +32,7 @@ local function open_alpha_in_tab()
 end
 
 function M.config()
-	local utils = require('plugins.ui.alpha.utils')
+	local utils = require('plugins.editor.alpha.utils')
 	-- if not utils.should_show() and not vim.g.has_neovide then return end
 
 	utils.change_native_keymap_fn()
@@ -40,7 +40,7 @@ function M.config()
 	local alpha = require('alpha')
 	Map.n(Keys.start_screen, open_alpha_in_tab, 'Open Start Screen')
 
-	local layout = require('plugins.ui.alpha.layout')
+	local layout = require('plugins.editor.alpha.layout')
 	alpha.setup(layout)
 end
 

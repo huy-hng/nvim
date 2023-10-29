@@ -9,8 +9,8 @@ local M = {
 }
 
 function M.config()
-	require('plugins.coding.dap.dap_mappings')
-	require('plugins.coding.dap.dapui')
+	require('plugins.editing.dap.dap_mappings')
+	require('plugins.editing.dap.dapui')
 
 	vim.fn.sign_define('DapBreakpointCondition', { text = '', texthl = 'Error' })
 	vim.fn.sign_define('DapBreakpointRejected', { text = '', texthl = 'Error' })

@@ -1,9 +1,9 @@
-local utils = require('plugins.ui.alpha.utils')
-local config = require('plugins.ui.alpha.config')
-local comp = require('plugins.ui.alpha.components')
-local headers = require('plugins.ui.alpha.customization.headers')
+local utils = require('plugins.editor.alpha.utils')
+local config = require('plugins.editor.alpha.config')
+local comp = require('plugins.editor.alpha.components')
+local headers = require('plugins.editor.alpha.customization.headers')
 local fortune = require('alpha.fortune')
-local ascii_art = require('plugins.ui.alpha.customization.ascii_art')
+local ascii_art = require('plugins.editor.alpha.customization.ascii_art')
 
 local M = {}
 

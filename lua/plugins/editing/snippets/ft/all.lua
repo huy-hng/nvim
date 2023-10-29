@@ -1,6 +1,6 @@
 ---@diagnostic disable: undefined-global
 
-local utils = require('plugins.coding.snippets.utils')
+local utils = require('plugins.editing.snippets.utils')
 
 local function comment() return vim.bo.commentstring:gsub(' %%s', '') end
 

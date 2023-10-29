@@ -1,7 +1,7 @@
+
 -- checkout link below for organizing plugins
 -- https://github.com/folke/LazyVim/blob/main/lua/lazyvim/plugins/coding.lua
 return {
-
 	-- extra features
 	-- plugins below mess up key maps
 	-- 'tpope/vim-obsession',

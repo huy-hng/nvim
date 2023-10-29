@@ -1,6 +1,6 @@
 local M = {}
 
-local config = require('plugins.ui.alpha.config')
+local config = require('plugins.editor.alpha.config')
 
 function M.pad(text, width)
 	width = width or config.width

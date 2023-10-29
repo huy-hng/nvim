@@ -43,17 +43,14 @@ local CompletionItemKind = {
 
 local reverse = vim.tbl_add_reverse_lookup(CompletionItemKind)
 
+-- snippets at the end
 local kind_mapper =
-	{ 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25 }
+	{ 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 15 }
 
-local function redir(data)
-	return vim.schedule(function()
-		local path = '/home/huy/.dotfiles/vim/.config/nvim/lua/plugins/cmp/'
-		local file_name = 'comparisons.txt'
-		vim.cmd.redir('>> ' .. path .. file_name)
-		vim.pretty_print(data)
-		vim.cmd.redir('END')
-	end)
+M.kind = function(entry1, entry2)
+	local kind1 = kind_mapper[entry1:get_kind()]
+	local kind2 = kind_mapper[entry2:get_kind()]
+	if kind1 < kind2 then return true end
 end
 
 M.order = function(entry1, entry2)
@@ -133,5 +130,15 @@ M.underscore = function(entry1, entry2)
 	if not better and not normal1 and normal2 then return end
 	if not better and not normal1 and not normal2 then return end
 end
+
+local compare = require('cmp').config.compare
+M.comparators = {
+	compare.score, -- sorts by priority set in sources
+	compare.exact,
+	compare.locality,
+	compare.kind,
+	M.underscore,
+	compare.order,
+}
 
 return M

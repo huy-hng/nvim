@@ -1,4 +1,4 @@
-local comp = require('plugins.ui.alpha.components')
+local comp = require('plugins.editor.alpha.components')
 local file = require('bufman.filename')
 
 local if_nil = vim.F.if_nil

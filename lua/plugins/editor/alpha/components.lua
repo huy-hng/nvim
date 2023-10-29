@@ -1,7 +1,7 @@
 local M = {}
 
-local utils = require('plugins.ui.alpha.utils')
-local config = require('plugins.ui.alpha.config')
+local utils = require('plugins.editor.alpha.utils')
+local config = require('plugins.editor.alpha.config')
 
 -- TODO: left, center and right align text
 -- text({
