@@ -1,8 +1,38 @@
 local M = {}
 
-M.separator = { '%=' }
+M.spacing = {
+	function()
+		local line_parts = vim.split(vim.o.statusline, '%%=')
+
+		local left = vim.api.nvim_eval_statusline(line_parts[1], {})
+		local right = vim.api.nvim_eval_statusline(line_parts[#line_parts], {})
+		return ' ' .. nvim.Repeat(' ', math.abs(right.width - left.width))
+	end,
+	separator = { left = '', right = '' },
+}
+
+M.separator = {
+	'%=',
+	separator = { left = '', right = '' },
+}
 
 ------------------------------------------Statusline Left-------------------------------------------
+
+M.endpiece_left = function(separator)
+	return {
+		' ',
+		draw_empty = true,
+		separator = { left = separator },
+	}
+end
+
+M.endpiece_right = function(separator)
+	return {
+		' ',
+		draw_empty = true,
+		separator = { left = ' ', right = separator },
+	}
+end
 
 --stylua: ignore
 local mode_map = {
@@ -45,16 +75,16 @@ local mode_map = {
 
 M.mode = {
 	function() return mode_map[vim.api.nvim_get_mode().mode] or '__' end,
-	-- padding = { left = 1 },
-	-- padding = 0,
+	padding = 0,
 }
+
 M.branch = {
 	'branch',
-	on_click = function(clicks, button, modifiers)
-		-- P(clicks)
-		-- P(button)
-		-- P(modifiers)
-	end,
+	-- on_click = function(clicks, button, modifiers)
+	-- P(clicks)
+	-- P(button)
+	-- P(modifiers)
+	-- end,
 	-- the function receives several arguments
 	-- - number of clicks incase of multiple clicks
 	-- - mouse button used (l(left)/r(right)/m(middle)/...)
@@ -70,8 +100,6 @@ M.session_name = function()
 
 	return name
 end
-
-M.dropbar = function() end
 
 -----------------------------------------Statusline Right-------------------------------------------
 
@@ -139,28 +167,6 @@ M.clock = {
 	icons_enabled = true,
 	icon = '',
 }
-
-----------------------------------------------Tabline-----------------------------------------------
-M.bufferline = {
-	'%{%v:lua.nvim_bufferline()%}',
-	padding = 0,
-}
-
-M.tabs = {
-	'tabs',
-
-	max_length = vim.o.columns / 3, -- Maximum width of tabs component.
-	mode = 1, -- 0-2: tab_nr, tab_name, both
-	-- color = { fg = '#ff0000', bg = 'grey', gui = 'italic,bold' },
-
-	fmt = function(name) return name end,
-	cond = function() return vim.bo.filetype ~= 'alpha' end,
-	tabs_color = {
-		active = 'lualine_c_normal',
-		inactive = 'lualine_c_inactive',
-	},
-}
-
 ----------------------------------------------Winbar------------------------------------------------
 
 M.filename = function()
@@ -176,39 +182,43 @@ M.filename = function()
 	-- if filetype doesn't match devicon will set f_icon to nil so add a patch
 	f_icon = not f_icon and '' or (f_icon .. ' ')
 	f_hl = f_hl or ''
-	-- local ns_prefix = '%#SagaWinbar'
-	-- return '%#' .. f_hl .. '#' .. f_icon .. '%*' .. ns_prefix .. 'File#' .. file_name .. '%*'
 	-- return '%#' .. f_hl .. '#' .. f_icon .. '%*%#Tag#' .. file_name .. '%*'
 	return '%#' .. f_hl .. '#' .. f_icon .. '%*%#Tag#' .. file_name
 end
 
-M.filepath = {
-	-- color = { bg = 'red' },
-	function()
-		if vim.fn.has('nvim-0.10.0') == 1 then --
-			return '%{%v:lua.dropbar.get_dropbar_str()%}'
-		end
+local function format_hl(hl_name) return string.format('%%#%s#', hl_name) end
 
+local function prettify_path(path_string, add_end_connection, sep_icon, hls)
+	hls = vim.tbl_extend('force', { sep = 'Operator', text = 'text' }, hls or {})
+
+	local sep = vim.loop.os_uname().sysname == 'Windows' and '\\' or '/'
+	local path_list = vim.split(path_string, sep, {})
+
+	sep_icon = sep_icon or '  '
+	-- local separator = '%#Operator#  %*'
+	local separator = format_hl(hls.sep) .. sep_icon .. format_hl(hls.text)
+	local file_path = format_hl(hls.text) .. table.concat(path_list, separator) .. '%*'
+
+	return file_path .. (add_end_connection and separator or '')
+end
+
+M.filepath = {
+	function()
 		---@diagnostic disable-next-line: param-type-mismatch
 		if vim.fn.bufname('%') == '' then return '' end
 
 		local file_name = M.filename()
 
-		local sep = vim.loop.os_uname().sysname == 'Windows' and '\\' or '/'
 		-- local path_list = vim.split(string.gsub(vim.fn.expand '%:~:.:h', '%%', ''), sep, {})
-		local path_list = vim.split(vim.fn.expand('%:~:.:h'), sep, {})
+		local path_string = vim.fn.expand('%:h') -- '%:~:.:h'
+		return prettify_path(path_string, true, nil, { sep = 'NonText', text = 'Comment' })
+			.. file_name
+	end,
+}
 
-		local file_path = '%*' -- start with correct highlight group
-		-- local file_path = '' -- start with correct highlight group
-
-		for _, cur in ipairs(path_list) do
-			if cur == '.' or cur == '~' then
-				-- file_path = ''
-			else
-				file_path = file_path .. cur .. '%#Operator#  %*'
-			end
-		end
-		return file_path .. file_name
+M.pwd = {
+	function()
+		return prettify_path(vim.fn.fnamemodify('', ':~'), false, '  ', { sep = 'NonText' })
 	end,
 }
 

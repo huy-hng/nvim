@@ -1,9 +1,8 @@
 local M = {
 	'nvim-lualine/lualine.nvim',
 	dependencies = { 'nvim-tree/nvim-web-devicons' },
-	-- lazy = false,
 	event = 'VeryLazy',
-	-- ft = 'alpha',
+	-- lazy = false,
 }
 
 -- TODO: truncate date when window is small
@@ -26,8 +25,6 @@ function M.config()
 	cat.inactive.b.bg = 'bg'
 	cat.inactive.c.bg = 'bg'
 
-	local count = 0
-
 	Augroup('UpdateLualine', {
 		Autocmd('ModeChanged', '*:no', function()
 			lualine.refresh {
@@ -37,14 +34,29 @@ function M.config()
 		end),
 	})
 
+	--        
+	--        
+	local slanted_out = {
+		section = { left = '', right = '' },
+		component = { left = '', right = '' },
+		endpiece_left = '',
+		endpiece_right = '',
+	}
+	local slanted_in = {
+		section = { left = '', right = '' },
+		component = { left = '', right = '' },
+		endpiece_left = '',
+		endpiece_right = '',
+	}
+
+	local separators = slanted_in
+
 	lualine.setup {
 		options = {
 			icons_enabled = true,
 			theme = cat,
-			--          
-			section_separators = { left = '', right = '' },
-			-- section_separators = { left = '', right = '' },
-			component_separators = { left = '', right = '' },
+			section_separators = separators.section,
+			component_separators = separators.component,
 			disabled_filetypes = {
 				statusline = { 'alpha' },
 				winbar = { 'alpha', 'noice' },
@@ -54,17 +66,17 @@ function M.config()
 			globalstatus = true,
 		},
 		sections = {
-			-- lualine_a = { 'mode', function() return count end },
-			lualine_a = { comp.mode },
-			lualine_b = { comp.branch },
+			lualine_a = { comp.endpiece_left(separators.endpiece_left), comp.mode },
+			lualine_b = { 'branch', comp.session_name },
 			lualine_c = {
-				comp.session_name,
-				comp.filepath,
+				-- comp.separator,
+				-- comp.spacing,
+				comp.pwd,
 			},
 			lualine_x = {
 				'%B',
-				comp.metamap,
 				comp.indentation,
+				comp.metamap,
 				comp.filetype,
 				comp.plugin_info,
 			},
@@ -72,23 +84,13 @@ function M.config()
 				'progress',
 				'location',
 			},
-			lualine_z = { comp.date, comp.clock },
+			lualine_z = { comp.date, comp.clock, comp.endpiece_right(separators.endpiece_right) },
 		},
 		inactive_sections = {},
-		-- tabline = {
-		-- 	lualine_a = {},
-		-- 	lualine_b = {},
-		-- lualine_c = { "%{%v:lua.require'heirline'.eval_tabline()%}" },
-		-- lualine_c = {},
-		-- 	lualine_x = {},
-		-- 	lualine_y = {},
-		-- 	lualine_z = {},
-		-- 	-- lualine_z = { comp.tabs },
-		-- },
 		winbar = {
 			lualine_a = {},
 			lualine_b = {},
-			lualine_c = { 'diagnostics', comp.filename },
+			lualine_c = { 'diagnostics', comp.filepath },
 			lualine_x = { comp.diff },
 			lualine_y = { comp.searchcount },
 			lualine_z = {},
