@@ -60,6 +60,7 @@ end
 
 function M.format_range_operator()
 	local old_func = vim.go.operatorfunc
+	---@diagnostic disable-next-line: duplicate-set-field
 	_G.op_func_formatting = function()
 		local start = vim.api.nvim_buf_get_mark(0, '[')
 		local finish = vim.api.nvim_buf_get_mark(0, ']')
@@ -89,5 +90,17 @@ function M.implementation()
 		vim.cmd([[normal! zz]])
 	end)
 end
+
+-- peek definition
+local function preview_location_callback(_, result)
+	if result == nil or vim.tbl_isempty(result) then return nil end
+	vim.lsp.util.preview_location(result[1])
+end
+
+function M.PeekDefinition()
+	local params = vim.lsp.util.make_position_params()
+	return vim.lsp.buf_request(0, 'textDocument/definition', params, preview_location_callback)
+end
+
 
 return M

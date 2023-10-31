@@ -2,16 +2,6 @@ local layout = require('plugins.editor.telescope.layouts').vert_list_normal
 local references = require('telescope.builtin').lsp_references
 local fns = require('plugins.lsp.core.functions')
 
-local function preview_location_callback(_, result)
-	if result == nil or vim.tbl_isempty(result) then return nil end
-	vim.lsp.util.preview_location(result[1])
-end
-
-function PeekDefinition()
-	local params = vim.lsp.util.make_position_params()
-	return vim.lsp.buf_request(0, 'textDocument/definition', params, preview_location_callback)
-end
-
 return function(bufnr)
 	vim.api.nvim_buf_set_option(bufnr, 'omnifunc', 'v:lua.vim.lsp.omnifunc')
 
@@ -30,7 +20,7 @@ return function(bufnr)
 	diag_map.n('e', vim.diagnostic.goto_next, 'Go to next Diagnostic')
 
 	lsp_map.n('gl', vim.diagnostic.setloclist)
-	lsp_map.n('P', PeekDefinition)
+	lsp_map.n('P', fns.PeekDefinition)
 
 	-- lsp_map.n('m', fns.format_range_operator, 'Format Motion')
 	lsp_map.n('D', vim.lsp.buf.declaration, 'Declaration')
