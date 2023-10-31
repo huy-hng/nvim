@@ -19,8 +19,9 @@ function M.config()
 	require('plugins.lsp.core.diagnostics')
 	require('plugins.lsp.null_ls')
 	require('plugins.lsp.core.handlers')
-	local fns = require('plugins.lsp.core.functions')
 
+	-- TODO: put these key maps somewhere else
+	local fns = require('plugins.lsp.core.functions')
 	Map.nv('<leader>ll', fns.lsp_format, 'Format Document or Selection')
 	Map.n(Keys.K, function()
 		local peek_fold = require('plugins.ui.ufo.functions').peek_fold
@@ -30,22 +31,8 @@ function M.config()
 		vim.lsp.buf.hover()
 	end, 'Hover')
 
-	local base_opts = require('plugins.lsp.core.server_opts')
-
-	local language_servers = {
-		'jsonls',
-		'lua_ls',
-		'pyright',
-		'clangd',
-		'vimls',
-	}
-
-	local lspconfig = require('lspconfig')
-	for _, server in ipairs(language_servers) do
-		local server_opts = nrequire('plugins.lsp.servers.' .. server)
-		local opts = vim.tbl_deep_extend('force', base_opts, server_opts or {})
-		lspconfig[server].setup(opts)
-	end
+	local server_setup = require('plugins.lsp.core.server_setup')
+	server_setup.setup()
 end
 
 return M
