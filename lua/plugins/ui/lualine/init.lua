@@ -34,29 +34,12 @@ function M.config()
 		end),
 	})
 
-	--        
-	--        
-	local slanted_out = {
-		section = { left = '', right = '' },
-		component = { left = '', right = '' },
-		endpiece_left = '',
-		endpiece_right = '',
-	}
-	local slanted_in = {
-		section = { left = '', right = '' },
-		component = { left = '', right = '' },
-		endpiece_left = '',
-		endpiece_right = '',
-	}
-
-	local separators = slanted_in
-
 	lualine.setup {
 		options = {
 			icons_enabled = true,
 			theme = cat,
-			section_separators = separators.section,
-			component_separators = separators.component,
+			section_separators = comp.separators.section,
+			component_separators = comp.separators.component,
 			disabled_filetypes = {
 				statusline = { 'alpha' },
 				winbar = { 'alpha', 'noice' },
@@ -66,10 +49,10 @@ function M.config()
 			globalstatus = true,
 		},
 		sections = {
-			lualine_a = { comp.endpiece_left(separators.endpiece_left), comp.mode },
+			lualine_a = { comp.endpiece_left(comp.separators.endpiece_left), comp.mode },
 			lualine_b = { 'branch', comp.session_name },
 			lualine_c = {
-				-- comp.separator,
+				-- comp.divider,
 				-- comp.spacing,
 				comp.pwd,
 			},
@@ -84,7 +67,11 @@ function M.config()
 				'progress',
 				'location',
 			},
-			lualine_z = { comp.date, comp.clock, comp.endpiece_right(separators.endpiece_right) },
+			lualine_z = {
+				comp.date,
+				comp.clock,
+				comp.endpiece_right(comp.separators.endpiece_right),
+			},
 		},
 		inactive_sections = {},
 		winbar = {

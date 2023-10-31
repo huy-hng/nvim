@@ -11,10 +11,27 @@ M.spacing = {
 	separator = { left = '', right = '' },
 }
 
-M.separator = {
+M.divider = {
 	'%=',
 	separator = { left = '', right = '' },
 }
+
+--        
+--        
+local slanted_out = {
+	section = { left = '', right = '' },
+	component = { left = '', right = '' },
+	endpiece_left = '',
+	endpiece_right = '',
+}
+local slanted_in = {
+	section = { left = '', right = '' },
+	component = { left = '', right = '' },
+	endpiece_left = '',
+	endpiece_right = '',
+}
+
+M.separators = slanted_in
 
 ------------------------------------------Statusline Left-------------------------------------------
 
@@ -271,9 +288,11 @@ end
 
 M.ranger = {
 	sections = {
-		lualine_a = { { 'mode', fmt = function(_) return 'Ranger' end } },
-		-- lualine_y = { 'progress', 'location' },
-		lualine_z = { M.date, M.clock },
+		lualine_a = {
+			M.endpiece_left(M.separators.endpiece_left),
+			{ 'mode', fmt = function(_) return 'Ranger' end },
+		},
+		lualine_z = { M.date, M.clock, M.endpiece_right(M.separators.endpiece_right) },
 	},
 	filetypes = { 'rnvimr' },
 }
