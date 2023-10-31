@@ -4,9 +4,12 @@ local M = {}
 -- enum has no completion when doing
 -- if myenum == '...'
 -- but alias does
--- 
+--
 -- they both however provide completion when use as a type for a function param
 -- i personally like alias more for completion and readability
+
+---@alias autocmd_data
+---| { buf: number, event: string, file: string, group: number, id: number, match: string }
 
 ---@alias win_type
 ---| '' normal window
@@ -21,7 +24,7 @@ local M = {}
 ---@alias buftype
 ---| '' normal buffer
 ---| 'acwrite'
----| 'help'	
+---| 'help'
 ---| 'nofile'
 ---| 'nowrite'
 ---| 'quickfix'
@@ -280,6 +283,5 @@ M.events = {
 	WinNew = 'WinNew',
 	WinScrolled = 'WinScrolled',
 }
-
 
 return M

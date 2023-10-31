@@ -6,12 +6,12 @@ local M = {
 			require('luasnip.loaders.from_vscode').lazy_load()
 		end,
 	},
-	event = 'VeryLazy',
+	-- event = 'VeryLazy',
+	event = 'InsertEnter',
+	-- lazy = false,
 }
 
 function M.config()
-	local ls = require('luasnip')
-
 	-- require('plugins.editing.snippets.mappings')
 	local ft_functions = require('luasnip.extras.filetype_functions')
 	local loaders = require('luasnip.loaders')
@@ -27,7 +27,7 @@ function M.config()
 	-- unlink_current_if_deleted()
 	-- available() -- for debugging
 
-	ls.config.set_config {
+	require('luasnip').config.set_config {
 		-- This tells LuaSnip to remember to keep around the last snippet.
 		-- You can jump back into it even if you move outside of the selection
 

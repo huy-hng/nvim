@@ -2,6 +2,8 @@ local M = {
 	'nvim-treesitter/nvim-treesitter',
 	event = 'VeryLazy',
 	dependencies = {
+		-- TODO: refactor into own plugin files to be lazyloaded better
+		-- playground for example can be loaded with command `TSPlaygroundToggle`
 		'nvim-treesitter/playground',
 		-- 'nvim-treesitter/nvim-treesitter-context', -- slow in big files
 		'nvim-treesitter/nvim-treesitter-textobjects',
