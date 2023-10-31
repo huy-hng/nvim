@@ -14,65 +14,80 @@ local job = require('plenary.job')
 --   end
 -- }
 
+local util = require('lspconfig.util')
+
+local root_files = {
+	'pyproject.toml',
+	'setup.py',
+	'setup.cfg',
+	'requirements.txt',
+	'Pipfile',
+	'Pipfile.lock',
+	'poetry.lock',
+	'pyrightconfig.json',
+	'.git',
+}
+
+function M.get_root_dir(fname) --
+	return util.root_pattern(unpack(root_files))(fname)
+end
+
 local pipenv_venv_cmd = { 'pipenv', '--venv', '--quiet' }
 local poetry_venv_cmd = { 'poetry', 'env', 'info', '-p' }
 local pdm_venv_cmd = { 'pdm', 'info', '--packages' }
 
-local function set_env_vars(venv)
-	vim.env.VIRTUAL_ENV = venv
-	vim.env.PATH = path.join(venv, 'bin:') .. vim.env.PATH
-	vim.env.PYTHONPATH = venv .. '/bin/python'
+local function match(root_dir, ...) return vim.fn.glob(path.join(root_dir, ...)) end
+
+local function get_package_manager_cmd(root_dir)
+	local cmd
+	if match(root_dir, 'Pipfile.lock') ~= '' then cmd = pipenv_venv_cmd end
+	if match(root_dir, 'poetry.lock') ~= '' then cmd = poetry_venv_cmd end
+	return cmd
+end
+
+local function set_env_vars(venv_path)
+	local python_path = venv_path .. '/bin/python'
+
+	vim.env.PYTHONPATH = python_path
+
+	vim.env.VIRTUAL_ENV = venv_path
+	vim.env.PATH = path.join(venv_path, 'bin:') .. vim.env.PATH
 
 	if vim.env.PYTHONHOME then
 		vim.env.old_PYTHONHOME = vim.env.PYTHONHOME
 		vim.env.PYTHONHOME = ''
 	end
-
-	M.set_python_path(vim.env.PYTHONPATH)
 end
 
-M.init = function(config, root_dir)
-	vim.env.PYTHONPATH = 'python'
-
-	if vim.env.VIRTUAL_ENV and vim.env.VIRTUAL_ENV == '' then return end
-
-	local match = function(...) return vim.fn.glob(path.join(root_dir, ...)) end
-
-	local cmd
-	if match('Pipfile.lock') ~= '' then cmd = pipenv_venv_cmd end
-	if match('poetry.lock') ~= '' then cmd = poetry_venv_cmd end
-
-	if cmd then
-		job:new({
-			command = cmd[1],
-			args = table.slice(cmd, 2),
-			on_exit = function(j, exit_code)
-				if exit_code ~= 0 then return end
-
-				-- local res = table.concat(j:result(), '\n')
-				local venv = j:result()[1]
-				nvim.schedule(set_env_vars, venv)
-			end,
-		}):start()
+---@param root_dir string
+---@param callback function takes pythonPath as param (usually sets python path)
+function M.get_venv_path(root_dir, callback)
+	local cmd = get_package_manager_cmd(root_dir)
+	if not cmd then
+		print('Pyright: No Virtual Environment found.')
+		callback(vim.fn.exepath('python'))
 		return
 	end
+	job:new({
+		command = cmd[1],
+		args = table.slice(cmd, 2),
+		cwd = root_dir,
+		on_exit = function(j, exit_code)
+			if exit_code ~= 0 then return end
 
-	-- Find and use virtualenv in root_dir directory.
+			-- local res = table.concat(j:result(), '\n')
+			local venv_path = j:result()[1]
+			nvim.schedule(callback, venv_path)
+		end,
+	}):start()
+end
+
+-- Find and use virtualenv in root_dir directory.
+local function use_virtualenv_in_root_dir(root_dir)
 	for _, pattern in ipairs { '*', '.*' } do
 		local matched = match(root_dir, pattern, 'pyvenv.cfg')
 		if matched ~= '' then return path.dirname(matched) end
 	end
-
-	-- return vim.fn.trim(vim.fn.system(cmd))
-end
-
--- PEP 582 support
-M.pep582 = function(root_dir)
-	local package_ = ''
-	local pdm_match = vim.fn.glob(path.join(root_dir, 'pdm.lock'))
-	if pdm_match ~= '' then package_ = set_venv_dir(pdm_venv_cmd) end
-
-	if package_ ~= '' then return path.join(package_, 'lib') end
 end
 
 function M.organize_imports()
@@ -83,21 +98,57 @@ function M.organize_imports()
 	vim.lsp.buf.execute_command(params)
 end
 
-function M.set_python_path(py_path)
-	py_path = py_path or '.'
+function M.set_python_path(python_path, bufnr)
+	if not string.match(python_path, '/bin/python') then
+		python_path = python_path .. '/bin/python'
+	end
+
+	bufnr = bufnr or vim.api.nvim_get_current_buf()
+
 	local clients = vim.lsp.get_active_clients {
-		bufnr = vim.api.nvim_get_current_buf(),
+		bufnr = bufnr,
 		name = 'pyright',
 	}
 	for _, client in ipairs(clients) do
-		client.config.settings.python.pythonPath = py_path
+		if client.config.settings.python.pythonPath == python_path then return end
+
+		client.config.settings.python.pythonPath = python_path
 		-- client.config.settings = vim.tbl_deep_extend(
 		-- 	'force',
 		-- 	client.config.settings,
 		-- 	{ python = { pythonPath = py_path } }
 		-- )
+		-- NOTE: below line is needed to update lsp
 		client.notify('workspace/didChangeConfiguration', { settings = nil })
 	end
+end
+
+Augroup('PythonVenv', {
+	Autocmd('BufEnter', '*.py', function(data)
+		---@cast data autocmd_data
+
+		local bufnr = data.buf
+
+		if vim.b[bufnr].pythonPath then
+			M.set_python_path(vim.b[bufnr].pythonPath, bufnr)
+			return
+		end
+
+		local root_dir = M.get_root_dir(data.file)
+		M.get_venv_path(root_dir, function(python_path) --
+			vim.b[bufnr].pythonPath = python_path
+			M.set_python_path(python_path, bufnr)
+		end)
+	end),
+})
+
+-- PEP 582 support
+M.pep582 = function(root_dir)
+	local package_ = ''
+	local pdm_match = vim.fn.glob(path.join(root_dir, 'pdm.lock'))
+	if pdm_match ~= '' then package_ = set_venv_dir(pdm_venv_cmd) end
+
+	if package_ ~= '' then return path.join(package_, 'lib') end
 end
 
 return M

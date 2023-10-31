@@ -4,7 +4,13 @@ local noice = nrequire('noice')
 
 local function execute()
 	vim.cmd.write()
-	vim.cmd('!$PYTHONPATH %')
+
+	local bufnr = vim.api.nvim_get_current_buf()
+
+	local python_path = vim.b[bufnr].pythonPath
+	python_path = python_path or '$PYTHONPATH'
+
+	vim.cmd(string.format('!%s %%', python_path))
 end
 
 local function pretty_print_output()
