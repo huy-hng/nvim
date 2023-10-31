@@ -4,6 +4,7 @@ local M = {
 		'folke/twilight.nvim',
 	},
 	event = 'VeryLazy',
+	-- keys = { '<leader>Z', '<leader>z', 'Z' },
 }
 
 local statuscolumn = require('core.statuscolumn')

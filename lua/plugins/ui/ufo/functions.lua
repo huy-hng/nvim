@@ -66,7 +66,7 @@ end
 M.selectProviderWithFt = function()
 	local ftMap = {
 		vim = 'indent',
-		python = { 'indent' },
+		python = { 'treesitter' },
 		git = '',
 	}
 	ufo.setup {

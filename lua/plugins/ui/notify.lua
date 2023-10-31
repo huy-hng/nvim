@@ -54,7 +54,7 @@ function M.config()
 		-- max_height = 20,
 		minimum_width = 20,
 		stages = 'fade_in_slide_out',
-		background_colour = 'Normal',
+		background_colour = "#1e1e2e",
 		icons = {
 			DEBUG = '',
 			ERROR = '',
