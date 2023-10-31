@@ -1,3 +1,5 @@
+-- https://github.com/hinell/lsp-timeout.nvim to restart lsp in order to prevent memory over usage
+
 local function switch_source_header_splitcmd(bufnr, splitcmd)
 	bufnr = require('lspconfig').util.validate_bufnr(bufnr)
 	local clangd_client = require('lspconfig').util.get_active_client_by_name(bufnr, 'clangd')
@@ -12,7 +14,9 @@ local function switch_source_header_splitcmd(bufnr, splitcmd)
 			vim.api.nvim_command(splitcmd .. ' ' .. vim.uri_to_fname(result))
 		end, bufnr)
 	else
-		print('textDocument/switchSourceHeader is not supported by the clangd server active on the current buffer')
+		print(
+			'textDocument/switchSourceHeader is not supported by the clangd server active on the current buffer'
+		)
 	end
 end
 
@@ -49,6 +53,12 @@ return {
 			description = 'Open source/header in a new split',
 		},
 	},
+
+	on_attach = function(client, bufnr)
+		require('clangd_extensions.inlay_hints').setup_autocmd()
+		require('clangd_extensions.inlay_hints').set_inlay_hints()
+	end,
+
 	settings = {
 		clangd = {
 			inactiveRegions = {
