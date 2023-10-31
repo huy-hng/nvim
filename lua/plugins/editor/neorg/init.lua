@@ -10,20 +10,19 @@ local M = {
 	},
 }
 
-local requirer = require
-requirer('plugins.neorg.keymaps')
+require('plugins.editor.neorg.keymaps')
 
 function M.config()
-	requirer('neorg').setup {
+	require('neorg').setup {
 		load = {
 			['core.defaults'] = {},
-			['core.journal'] = requirer('plugins.neorg.modules.journal'),
+			['core.journal'] = require('plugins.editor.neorg.modules.journal'),
 			-- ['core.concealer'] = { config = { performance = { timeout = 200 } } },
 			['core.concealer'] = {},
 			['core.summary'] = { config = { strategy = 'default' }, },
-			['core.esupports.indent'] = requirer('plugins.neorg.modules.indent'),
-			-- ['core.norg.concealer'] = { config = requirer('plugins.neorg.modules.concealer') },
-			-- ['core.norg.esupports.indent'] = { config = requirer('plugins.neorg.modules.indent') },
+			['core.esupports.indent'] = require('plugins.editor.neorg.modules.indent'),
+			-- ['core.norg.concealer'] = { config = require('plugins.editor.neorg.modules.concealer') },
+			-- ['core.norg.esupports.indent'] = { config = require('plugins.editor.neorg.modules.indent') },
 			['core.completion'] = {
 				config = {
 					engine = 'nvim-cmp',

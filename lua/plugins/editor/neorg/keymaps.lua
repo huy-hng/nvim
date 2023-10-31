@@ -1,5 +1,5 @@
 local map = Map.new('<leader>n', '', '[Neorg]')
-local open_popup = R('plugins.neorg.float').open_popup
+local open_popup = R('plugins.editor.neorg.float').open_popup
 
 map.n('n', vim.cmd.Neorg, 'Main Menu')
 map.n('e', open_popup(), 'Open last view')
