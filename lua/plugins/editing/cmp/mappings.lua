@@ -3,20 +3,28 @@ local view = require('cmp.view')
 
 local ls = require('luasnip')
 
+local function if_visible(fn)
+	return function(_)
+		if cmp.visible() then
+			fn()
+		else
+			cmp.complete()
+		end
+	end
+end
+
+local function complete_or_confirm()
+	if cmp.visible() then
+		cmp.confirm { select = true, behavior = cmp.ConfirmBehavior.Replace }
+	else
+		cmp.complete()
+	end
+end
+
 local function jump(jumpdir)
 	return function(_)
 		ls.unlink_current_if_deleted()
 		if ls.locally_jumpable(jumpdir) then ls.jump(jumpdir) end
-	end
-end
-
-local function confirm_or_jump_forward()
-	return function(_)
-		if ls.locally_jumpable(1) then
-			ls.jump(1)
-		elseif cmp.visible() then
-			cmp.confirm { select = true }
-		end
 	end
 end
 
@@ -61,25 +69,19 @@ local function if_not_visible_feedkeys(fn, keys)
 	end
 end
 
-local function if_visible(fn)
-	return function(_)
-		if cmp.visible() then
-			fn()
-		else
-			cmp.complete()
-		end
-	end
-end
-
 return {
 	['<C-c>'] = ls.unlink_current,
-	[Keys.up] = cmp.mapping(if_visible(cmp.select_prev_item), { 'i', 's' }),
-	[Keys.down] = cmp.mapping(if_visible(cmp.select_next_item), { 'i', 's' }),
+	[Keys.up] = cmp.mapping {
+		i = if_visible(cmp.select_prev_item),
+		s = if_visible(cmp.select_prev_item),
+		c = cmp.config.disable,
+	},
 
-	[Keys.ctrl.l] = cmp.mapping(
-		cmp.mapping.confirm { select = true, behavior = cmp.ConfirmBehavior.Replace },
-		{ 'i', 's', 'c' }
-	),
+	[Keys.down] = cmp.mapping {
+		i = if_visible(cmp.select_next_item),
+		s = if_visible(cmp.select_next_item),
+		c = cmp.config.disable,
+	},
 
 	[Keys.ctrl.j] = cmp.mapping {
 		i = if_visible(cmp.select_next_item),
@@ -92,6 +94,9 @@ return {
 		s = if_visible(cmp.select_prev_item),
 		c = if_not_visible_feedkeys(cmp.select_prev_item, '<Up>'),
 	},
+
+	[Keys.ctrl.m] = cmp.config.disable,
+	[Keys.ctrl.l] = complete_or_confirm,
 
 	[Keys.alt.h] = cmp.mapping(jump(-1), { 'i', 's' }),
 	[Keys.alt.l] = cmp.mapping(jump(1), { 'i', 's' }),
