@@ -22,11 +22,6 @@ end
 -- function M.normal(str) vim.api.nvim_command('normal! ' .. str) end
 function M.normal(str) M.exec('normal! ' .. str, false) end
 
-function M.defer(timeout, fn, ...) --
-	local args = { ... }
-	return vim.defer_fn(function() fn(unpack(args)) end, timeout)
-end
-
 ---@diagnostic disable-next-line: undefined-field
 function M.save() pcall(M.exec, 'silent w', false) end
 
@@ -66,6 +61,18 @@ function M.schedule_return(fn, ...)
 		if res then return true end
 	end)
 	return res
+end
+
+function M.defer(timeout, fn, ...) --
+	local args = { ... }
+	return vim.defer_fn(function() fn(unpack(args)) end, timeout)
+end
+
+function M.defer_wrap(timeout, fn, ...) --
+	local args = { ... }
+	return function()
+		return vim.defer_fn(function() fn(unpack(args)) end, timeout)
+	end
 end
 
 function M.Repeat(expr, count)
