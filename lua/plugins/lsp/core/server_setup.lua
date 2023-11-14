@@ -4,21 +4,16 @@ local lspconfig = require('lspconfig')
 
 local capabilities = vim.lsp.protocol.make_client_capabilities()
 
----@module 'cmp_nvim_lsp'
-local cmp_nvim_lsp = nrequire('cmp_nvim_lsp')
-if cmp_nvim_lsp then --
-	cmp_nvim_lsp.default_capabilities(capabilities)
-end
-
 capabilities.textDocument.foldingRange = {
 	dynamicRegistration = false,
 	lineFoldingOnly = true,
 }
+-- capabilities.textDocument.completion.completionItem.snippetSupport = true
 
-local function on_attach(client, bufnr)
-	-- if vim.lsp.semantic_tokens then vim.lsp.semantic_tokens.stop(bufnr, client.id) end
-	require('plugins.lsp.core.keymaps')(bufnr)
-end
+
+-- /home/huy/.local/share/nvim/lazy/cmp-nvim-lsp/lua/cmp_nvim_lsp/init.lua
+-- capabilities = require('cmp_nvim_lsp').default_capabilities(capabilities)
+-- P(capabilities)
 
 -- TODO: vim.fn.glob the files instead of manually listing them here
 -- requires moving the python helper file somewhere else
@@ -38,6 +33,7 @@ local function merge_opts(server_opts)
 		autostart = true,
 		capabilities = capabilities,
 		on_attach = function(client, bufnr)
+			-- if vim.lsp.semantic_tokens then vim.lsp.semantic_tokens.stop(bufnr, client.id) end
 			require('plugins.lsp.core.keymaps')(bufnr)
 			if server_opts.on_attach then server_opts.on_attach(client, bufnr) end
 		end,
