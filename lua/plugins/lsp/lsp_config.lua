@@ -4,7 +4,10 @@ local M = {
 	-- event = 'BufReadPre',
 	-- event = 'VeryLazy',
 	lazy = false,
-	dependencies = { 'folke/neodev.nvim' },
+	dependencies = {
+		'hrsh7th/cmp-nvim-lsp',
+		'folke/neodev.nvim',
+	},
 }
 
 -- package.path = "../?.lua;" .. package.path
@@ -31,8 +34,7 @@ function M.config()
 		vim.lsp.buf.hover()
 	end, 'Hover')
 
-	local server_setup = require('plugins.lsp.core.server_setup')
-	server_setup.setup()
+	require('plugins.lsp.core.server_setup').setup()
 end
 
 return M

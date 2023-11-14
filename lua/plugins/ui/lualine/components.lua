@@ -1,21 +1,5 @@
 local M = {}
 
-M.spacing = {
-	function()
-		local line_parts = vim.split(vim.o.statusline, '%%=')
-
-		local left = vim.api.nvim_eval_statusline(line_parts[1], {})
-		local right = vim.api.nvim_eval_statusline(line_parts[#line_parts], {})
-		return ' ' .. nvim.Repeat(' ', math.abs(right.width - left.width))
-	end,
-	separator = { left = '', right = '' },
-}
-
-M.divider = {
-	'%=',
-	separator = { left = '', right = '' },
-}
-
 --        
 --        
 local slanted_out = {
@@ -32,6 +16,33 @@ local slanted_in = {
 }
 
 M.separators = slanted_in
+
+M.show_macro_recording = {
+	function()
+		local recording = vim.fn.reg_recording()
+		if recording ~= '' then
+			recording = '󰻂 Recording @' .. recording
+		end
+		return recording
+	end,
+	color = { fg = Colors.red },
+}
+
+M.spacing = {
+	function()
+		local line_parts = vim.split(vim.o.statusline, '%%=')
+
+		local left = vim.api.nvim_eval_statusline(line_parts[1], {})
+		local right = vim.api.nvim_eval_statusline(line_parts[#line_parts], {})
+		return ' ' .. nvim.Repeat(' ', math.abs(right.width - left.width))
+	end,
+	separator = { left = '', right = '' },
+}
+
+M.divider = {
+	'%=',
+	separator = { left = '', right = '' },
+}
 
 ------------------------------------------Statusline Left-------------------------------------------
 
@@ -233,7 +244,7 @@ M.filepath = {
 	end,
 }
 
-M.pwd = {
+M.cwd = {
 	function()
 		return prettify_path(vim.fn.fnamemodify('', ':~'), false, '  ', { sep = 'NonText' })
 	end,

@@ -15,6 +15,7 @@ Map('-', '^')
 Map('+', '$')
 
 Map('Q', '')
+Map(Keys.alt.q, 'q')
 
 local remap = true
 if not nrequire('which-key') then

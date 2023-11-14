@@ -24,14 +24,16 @@ function M.config()
 	cat.inactive.a.bg = 'bg'
 	cat.inactive.b.bg = 'bg'
 	cat.inactive.c.bg = 'bg'
+	local function refresh_statusline() lualine.refresh { place = { 'statusline' } } end
+	local function force_refresh_statusline()
+		refresh_statusline()
+		vim.cmd.redrawstatus()
+	end
 
 	Augroup('UpdateLualine', {
-		Autocmd('ModeChanged', '*:no', function()
-			lualine.refresh {
-				place = { 'statusline' },
-			}
-			vim.cmd.redrawstatus()
-		end),
+		-- Autocmd('ModeChanged', '*:no', force_refresh_statusline), -- apparently not needed anymore?
+		Autocmd('RecordingEnter', '', refresh_statusline),
+		Autocmd('RecordingLeave', '', nvim.schedule_wrap(refresh_statusline)),
 	})
 
 	lualine.setup {
@@ -54,7 +56,8 @@ function M.config()
 			lualine_c = {
 				-- comp.divider,
 				-- comp.spacing,
-				comp.pwd,
+				comp.show_macro_recording,
+				comp.cwd,
 			},
 			lualine_x = {
 				'%B',
