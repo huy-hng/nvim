@@ -46,11 +46,18 @@ M.kind_names = {
 	TypeParameter = '  Type',
 }
 
+local function truncate_text(text, max_length)
+	if #text > max_length then
+		text = string.sub(text, 1, max_length) .. '…'
+	end
+	return text
+end
+
+--@param entry cmp.Entry
+--@param vim_item vim.CompletedItem
+--@return vim.comp
 function M.format(entry, vim_item)
-	-- truncate completion text
-	local max_length = 30
-	if #vim_item.abbr > max_length then
-		vim_item.abbr = string.sub(vim_item.abbr, 1, max_length) .. '…'
+	vim_item.abbr = truncate_text(vim_item.abbr, 30)
 	end
 
 	local icon = lsp_kind_icons[entry.source.name] or lsp_kind_icons[vim_item.kind]
@@ -67,11 +74,7 @@ function M.format(entry, vim_item)
 end
 
 function M.cmdline_format(entry, vim_item)
-	-- truncate completion text
-	local max_length = 50
-	if #vim_item.abbr > max_length then
-		vim_item.abbr = string.sub(vim_item.abbr, 1, max_length) .. '…'
-	end
+	vim_item.abbr = truncate_text(vim_item.abbr, 50)
 
 	local icon = cmp_icons[entry.source.name] or lsp_kind_icons[vim_item.kind]
 	icon = vim_item.kind == 'Variable' and lsp_kind_icons.Constructor or icon
