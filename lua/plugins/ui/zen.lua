@@ -9,19 +9,32 @@ local M = {
 
 local statuscolumn = require('core.statuscolumn')
 
-local zenmode_active = false
 local parent_tab = 1
 local zen_tab
-local default_tabline = "%{%v:lua.require'heirline'.eval_tabline()%}"
-local prev_tabline = default_tabline
+
+-- local default_tabline = "%{%v:lua.require'heirline'.eval_tabline()%}"
 
 local line_numbers = require('modules.line_numbers')
 local winman = require('modules.window_manager')
+
+local function deactivate_neovide()
+	winman.delete_tab_background(zen_tab, parent_tab)
+	line_numbers.create_autocmds()
+
+	-- nvim.feedkeys('``')
+	-- nvim.feedkeys('zz')
+end
 
 local function activate_neovide()
 	local view = require('zen-mode.view')
 
 	local parent_win = winman.get_win()
+
+	if winman.is_float(parent_win) then
+		vim.notify("We don't Zen floating windows here >:(")
+		return
+	end
+
 	parent_tab = winman.get_tab()
 
 	local tab_id, cursor_pos = winman.open_current_file_in_new_tab()
@@ -30,7 +43,9 @@ local function activate_neovide()
 	winman.hide_ui()
 	local tab_win = winman.get_win()
 
-	require('zen-mode').open()
+	local success = pcall(require('zen-mode').open)
+	if not success then return end
+
 	winman.show_empty_buffer(tab_win)
 
 	view.parent = parent_win
@@ -45,27 +60,15 @@ local function activate_neovide()
 	end)
 end
 
-local function deactivate_neovide()
-	winman.delete_tab_background(zen_tab, parent_tab)
-	line_numbers.create_autocmds()
-
-	-- nvim.feedkeys('``')
-	-- nvim.feedkeys('zz')
-end
-
 local function activate()
-	zenmode_active = true
-
 	if vim.g.has_neovide then --
 		return activate_neovide()
 	end
 
-	return vim.cmd.ZenMode()
+	pcall(require('zen-mode').open)
 end
 
-local function deactivate()
-	zenmode_active = false
-
+local function deactivate_callback()
 	vim.cmd.TwilightDisable()
 	if vim.g.has_neovide then --
 		return deactivate_neovide()
@@ -75,8 +78,9 @@ end
 local function toggle()
 	local view = require('zen-mode.view')
 	if view.is_open() then --
-		vim.cmd.ZenMode()
-		return deactivate()
+		-- cant put close inside deactivate_callback, otherwise infinite recursion
+		pcall(require('zen-mode').close)
+		return deactivate_callback()
 	end
 	activate()
 end
@@ -111,7 +115,7 @@ function M.config()
 		on_open = function(win)
 			if vim.g.has_neovide then
 				vim.api.nvim_win_close(win - 1, false) -- close background window
-				vim.wo[win].winblend = 80
+				vim.wo[win].winblend = 50
 			end
 
 			nvim.defer(0, function()
@@ -145,7 +149,7 @@ function M.config()
 				zindex = 40,
 			}
 		end,
-		on_close = function(win) deactivate() end,
+		on_close = function(win) deactivate_callback() end,
 	}
 
 	require('twilight').setup {
