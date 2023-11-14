@@ -95,7 +95,9 @@ M._underscore = function(entry1, entry2)
 	-- if not normal1 then return end
 	-- if not normal2 then return true end
 
-	local function printer() P(better, entry1:get_word(), entry2:get_word()) end
+	local function printer()
+		-- P(better, entry1:get_word(), entry2:get_word())
+	end
 	-- if entry1:get_word() == '__doc__' or entry2:get_word() == '__doc__' then
 	-- 	print('=====================================')
 	-- 	printer()
@@ -139,6 +141,23 @@ M.comparators = {
 	compare.kind,
 	M.underscore,
 	compare.order,
+}
+
+-- default
+local sorting = {
+	priority_weight = 2,
+	comparators = {
+		compare.offset,
+		compare.exact,
+		-- compare.scopes,
+		compare.score,
+		compare.recently_used,
+		compare.locality,
+		compare.kind,
+		-- compare.sort_text,
+		compare.length,
+		compare.order,
+	},
 }
 
 return M
