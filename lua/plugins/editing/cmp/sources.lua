@@ -4,15 +4,15 @@ local M = {}
 
 M.sources = cmp.config.sources({
 	{ name = 'nvim_lsp_signature_help' }, -- shows function signature with current param emphasized
+	{ name = 'luasnip' }, -- put luasnip before lsp so that lsp snippets can be deduped
 	{
 		name = 'nvim_lsp',
 		-- remove Snippets kind from lsp since its already covered by luasnip
 		-- entry_filter = function(entry, ctx)
-		-- 	local completion_item_kind = require('cmp.types').lsp.CompletionItemKind
-		-- 	return completion_item_kind[entry:get_kind()] ~= 'Snippet'
+		-- 	local completion_item_kind_name = require('cmp.types').lsp.CompletionItemKind
+		-- 	return completion_item_kind_name[entry:get_kind()] ~= 'Snippet'
 		-- end,
 	},
-	{ name = 'luasnip' },
 	{ name = 'neorg' },
 	{ name = 'path' },
 }, {

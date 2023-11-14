@@ -58,6 +58,11 @@ end
 --@return vim.comp
 function M.format(entry, vim_item)
 	vim_item.abbr = truncate_text(vim_item.abbr, 30)
+
+	-- remove lsp snippet duplicates
+	-- see https://github.com/hrsh7th/nvim-cmp/issues/511 for reference
+	if vim_item.kind == 'Snippet' then
+		vim_item.dup = { nvim_lsp = 0 }
 	end
 
 	local icon = lsp_kind_icons[entry.source.name] or lsp_kind_icons[vim_item.kind]
