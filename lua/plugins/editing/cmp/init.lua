@@ -1,3 +1,4 @@
+---@diagnostic disable: missing-fields
 local M = {
 	'hrsh7th/nvim-cmp',
 	event = 'InsertEnter',
@@ -19,7 +20,7 @@ local M = {
 	},
 }
 
--- for config reference /home/huy/.local/share/nvim/lazy/nvim-cmp/lua/cmp/config/default.lua
+-- NOTE: for config reference /home/huy/.local/share/nvim/lazy/nvim-cmp/lua/cmp/config/default.lua
 function M.config()
 	if vim.g.started_by_firenvim == true then return end
 
@@ -33,6 +34,7 @@ function M.config()
 	require('plugins.editing.snippets.init')
 
 	cmp.setup {
+		-- enabled = false,
 		mapping = mappings,
 		sources = sources.sources,
 		snippet = { expand = function(args) require('luasnip').lsp_expand(args.body) end },
@@ -42,8 +44,7 @@ function M.config()
 			format = formatting.format,
 		},
 		matching = { disallow_partial_fuzzy_matching = true },
-		sorting = { comparators = compare.comparators },
-		confirm_opts = { behavior = cmp.ConfirmBehavior.Replace, select = false },
+		sorting = { priority_weight = 2, comparators = compare.comparators,  },
 		view = { entries = 'custom', docs = { auto_open = false } },
 		window = {
 			-- documentation = cmp.config.disable,
@@ -58,6 +59,14 @@ function M.config()
 				scrollbar = true,
 				scrolloff = 4,
 			},
+		},
+		performance = { -- all defaults below (delete this if changes are made)
+			-- debounce = 60,
+			-- throttle = 30,
+			-- fetching_timeout = 500,
+			-- confirm_resolve_timeout = 80,
+			-- async_budget = 1,
+			-- max_view_entries = 200,
 		},
 		experimental = { ghost_text = false },
 	}
