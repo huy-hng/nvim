@@ -43,10 +43,8 @@ local function div_choices(char_vars, len_vars)
 end
 
 return {
-	snippet('---', {
+	snippet('___', {
 		f(comment),
 		c(1, div_choices({ '-', '=' }, { 100, 50 })),
-		utils.newline(),
-		i(0, ''),
 	}),
 }
