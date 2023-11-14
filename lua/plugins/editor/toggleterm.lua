@@ -5,12 +5,12 @@ local M = {
 
 function M.config()
 	-- local build_cmd = '/home/huy/repositories/kyria/build.sh -s -b right'
-
-	local build_cmd = '$(pwd)/build.sh right'
-	local build_cmd = '$(pwd)/build.sh left'
 	-- local build_cmd = '~/worktrees/kyria/refactor_rgb_underglow/build.sh right'
+	local build_cmd_right = '$(pwd)/build.sh right'
+	local build_cmd_left = '$(pwd)/build.sh left'
+
 	local build_config = {
-		cmd = build_cmd,
+		cmd = nil,
 		hidden = false,
 		close_on_exit = false,
 		count = 1,
@@ -19,7 +19,6 @@ function M.config()
 			-- function to run when the terminal is first created
 			-- term:__add()
 			Map.t('<esc>', [[<C-\><C-n>]], '', { buffer = term.bufnr })
-			vim.notify('Building Kyria in background')
 		end,
 		on_exit = function(term, job, exit_code, name) -- function to run when terminal process exits
 			local bufnr = term.bufnr
@@ -116,31 +115,44 @@ function M.config()
 	local Terminal = require('toggleterm.terminal').Terminal
 	local lazygit = Terminal:new { cmd = 'lazygit', hidden = true }
 	local kyria_build_map = '<leader>bk'
+	local kyria_build_map_right = '<leader>bkv'
+	local kyria_build_map_left = '<leader>bkl'
+
 	local kyria_build = Terminal:new(build_config)
 
-	-- Map.n('<c-d>', wrap_open_term())
 	Map.n('<c-.>', function()
-		-- P(kyria_build)
-		-- if kyria_build:is_open() then vim.notify('is open') end
 		if kyria_build.bufnr then
 			kyria_build:__add()
 			wrap_open_term(kyria_build)()
-			-- nvim.schedule(function() print('cur buf', vim.api.nvim_get_current_buf()) end)
 			return
 		end
-		-- nvim.schedule(function() print('cur buf', vim.api.nvim_get_current_buf()) end)
 		wrap_open_term()()
 	end)
 
-	Map.n(kyria_build_map, function()
-		kyria_build:shutdown()
+	local function build_side(side_cmd)
+		return function()
+			kyria_build:shutdown()
 
-		kyria_build = Terminal:new(build_config)
-		-- kyria_build:toggle()
-		local ok = pcall(wrap_spawn(kyria_build))
-		-- if ok then return end
-		-- kyria_build:open()
-	end, 'build kyria')
+			if not side_cmd and build_config.cmd == nil then
+				vim.notify('No last build cmd, please choose a side to build.', vim.log.levels.ERROR)
+				return
+			end
+
+			if side_cmd then build_config.cmd = side_cmd end
+
+			local side = build_config.cmd == build_cmd_left and 'left' or 'right'
+			vim.notify('Building Kyria in background (' .. side .. ')')
+			kyria_build = Terminal:new(build_config)
+			-- kyria_build:toggle()
+			local ok = pcall(wrap_spawn(kyria_build))
+			-- if ok then return end
+			-- kyria_build:open()
+		end
+	end
+
+	Map.n(kyria_build_map, build_side(), 'build last kyria')
+	Map.n(kyria_build_map_right, build_side(build_cmd_right), 'build right kyria')
+	Map.n(kyria_build_map_left, build_side(build_cmd_left), 'build left kyria')
 
 	Map.n('<leader>gG', function() --
 		lazygit:toggle()
