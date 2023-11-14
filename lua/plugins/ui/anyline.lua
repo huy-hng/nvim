@@ -2,8 +2,7 @@ local M = {
 	'huy-hng/anyline.nvim',
 	dev = true,
 	-- dependencies = { 'nvim-treesitter/nvim-treesitter' },
-	-- event = 'VeryLazy',
-	event = 'BufReadPost',
+	event = 'VeryLazy', -- 'BufReadPost'
 }
 
 function M.config()

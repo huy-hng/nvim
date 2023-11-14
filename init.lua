@@ -11,7 +11,7 @@ vim.g.neovide = nil
 -- vim.cmd('let $PATH="/home/huy/.local/bin/:" .. $PATH')
 vim.env.PATH = '/home/huy/.local/bin/:' .. vim.env.PATH
 
--- these shouldnt depend on anything except for vim itself
+-- these should not depend on anything except for vim itself
 require('config.keymaps')
 require('config.ui.colors')
 
@@ -41,5 +41,4 @@ local function lazy_load()
 	return true
 end
 
--- lazy_load()
 Augroup('LazyLoad', { Autocmd('User', 'VeryLazy', lazy_load) })

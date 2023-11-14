@@ -23,8 +23,8 @@ o.cursorlineopt = 'number'
 -- o.cursorlineopt = 'line,number'
 
 -- colors
--- o.background = "dark" -- colorschemes that can be light or dark will be made dark
-o.termguicolors = true -- true color
+-- o.background = "dark" -- for colorschemes that can be light or dark
+o.termguicolors = true -- richer color (also causes ugly colors when using no colorscheme)
 
 ---------------------------------------------Statuscolumn-------------------------------------------
 

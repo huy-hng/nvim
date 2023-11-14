@@ -7,6 +7,7 @@ require('neodev').setup {
 		types = true, -- full signature, docs and completion of vim.api, vim.treesitter, vim.lsp and others
 		-- plugins = true, -- installed opt or start plugins in packpath
 		plugins = {
+			'nvim-cmp',
 			'plenary.nvim',
 			'noice.nvim',
 			'toggleterm.nvim',

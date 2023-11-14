@@ -25,7 +25,7 @@ function M.config()
 			border = true,
 			initial_mode = 'insert', -- normal
 			layout_strategy = 'vertical',
-			scroll_strategy = 'limit',
+			scroll_strategy = 'cycle',
 			mappings = mappings,
 			layout_config = {
 				width = { 0.6, max = 180 },

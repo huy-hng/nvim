@@ -22,7 +22,7 @@ Map.n('<leader>gt', Util.float_term, 'Terminal (cwd)')
 -- Map.n('<leader>tt', Util.float_term, 'Terminal (root dir)')
 Map.n(
 	'<leader>gg',
-	{ Util.float_term, 'lazygit', { size = { width = 0.6, height = 0.9 } } },
+	{ Util.float_term, 'lazygit', { size = { width = 0.8, height = 0.9 } } },
 	'Lazygit (cwd)'
 )
 
