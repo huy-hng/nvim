@@ -56,6 +56,7 @@ local og_letters = {
 	u = 'u',
 	n = 'n',
 	x = 'x',
+	q = 'q',
 }
 
 local letters = {
@@ -91,6 +92,7 @@ local letters = {
 	u = 'h',
 	n = 'l',
 	x = 'x',
+	q = 'q',
 }
 
 local functions = {
