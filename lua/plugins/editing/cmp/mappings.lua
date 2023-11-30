@@ -71,17 +71,18 @@ end
 
 return {
 	['<C-c>'] = ls.unlink_current,
-	[Keys.up] = cmp.mapping {
-		i = if_visible(cmp.select_prev_item),
-		s = if_visible(cmp.select_prev_item),
-		c = cmp.config.disable,
-	},
 
-	[Keys.down] = cmp.mapping {
-		i = if_visible(cmp.select_next_item),
-		s = if_visible(cmp.select_next_item),
-		c = cmp.config.disable,
-	},
+	-- [Keys.up] = cmp.mapping {
+	-- 	i = if_visible(cmp.select_prev_item),
+	-- 	s = if_visible(cmp.select_prev_item),
+	-- 	c = cmp.config.disable,
+	-- },
+
+	-- [Keys.down] = cmp.mapping {
+	-- 	i = if_visible(cmp.select_next_item),
+	-- 	s = if_visible(cmp.select_next_item),
+	-- 	c = cmp.config.disable,
+	-- },
 
 	[Keys.ctrl.j] = cmp.mapping {
 		i = if_visible(cmp.select_next_item),
@@ -96,7 +97,7 @@ return {
 	},
 
 	[Keys.ctrl.m] = cmp.config.disable,
-	[Keys.ctrl.l] = complete_or_confirm,
+	[Keys.ctrl.l] = cmp.mapping.confirm { select = true, behavior = cmp.ConfirmBehavior.Replace },
 
 	[Keys.alt.h] = cmp.mapping(jump(-1), { 'i', 's' }),
 	[Keys.alt.l] = cmp.mapping(jump(1), { 'i', 's' }),
