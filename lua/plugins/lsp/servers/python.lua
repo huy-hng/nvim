@@ -3,7 +3,7 @@ local M = {}
 local path = require('lspconfig.util').path
 local job = require('plenary.job')
 
--- TODO:
+-- FIX: if pipfile is found but the venv is not installed: silent bug
 
 -- https://github.com/neovim/nvim-lspconfig/wiki/Project-local-settings
 -- nvim_lsp.rust_analyzer.setup {
@@ -38,6 +38,13 @@ local pdm_venv_cmd = { 'pdm', 'info', '--packages' }
 
 local function match(root_dir, ...) return vim.fn.glob(path.join(root_dir, ...)) end
 
+-- necessary for debian based distros because of 'python3'
+local function get_system_python_path()
+	local system_path = vim.fn.exepath('/bin/python')
+	if system_path == '' then system_path = vim.fn.exepath('/bin/python3') end
+	return system_path
+end
+
 local function get_package_manager_cmd(root_dir)
 	local cmd
 	if match(root_dir, 'Pipfile.lock') ~= '' then cmd = pipenv_venv_cmd end
@@ -46,7 +53,7 @@ local function get_package_manager_cmd(root_dir)
 end
 
 local function set_env_vars(venv_path)
-	local python_path = venv_path .. '/bin/python'
+	local python_path = venv_path .. get_system_python_path()
 
 	vim.env.PYTHONPATH = python_path
 
@@ -65,7 +72,7 @@ function M.get_venv_path(root_dir, callback)
 	local cmd = get_package_manager_cmd(root_dir)
 	if not cmd then
 		print('Pyright: No Virtual Environment found.')
-		callback(vim.fn.exepath('python'))
+		callback(get_system_python_path())
 		return
 	end
 	job:new({
@@ -99,8 +106,11 @@ function M.organize_imports()
 end
 
 function M.set_python_path(python_path, bufnr)
-	if not string.match(python_path, '/bin/python') then
-		python_path = python_path .. '/bin/python'
+	local system_path = get_system_python_path()
+
+	-- appends /bin/python at the end, just in case
+	if not string.match(python_path, system_path) then --
+		python_path = python_path .. system_path
 	end
 
 	bufnr = bufnr or vim.api.nvim_get_current_buf()
