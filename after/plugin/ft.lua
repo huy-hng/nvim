@@ -8,6 +8,7 @@ Augroup('FileTypes', {
 		function(data) vim.bo[data.buf].filetype = 'bash' end
 	),
 
+	Autocmd({ 'BufNewFile', 'BufRead' }, '*.djm', 'setlocal filetype=xml'),
 	Autocmd({ 'BufNewFile', 'BufRead' }, '*.conf', 'setlocal filetype=config'),
 	Autocmd({ 'BufNewFile', 'BufRead' }, '*.tmux', 'setlocal filetype=tmux'),
 	Autocmd({ 'BufNewFile', 'BufRead' }, '*.vim', 'setlocal filetype=vim'),
