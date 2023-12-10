@@ -29,7 +29,6 @@ function M.config()
 	Map.n(Keys.K, function()
 		local peek_fold = require('plugins.ui.ufo.functions').peek_fold
 
-		-- if fns.diagnostic_float() then return end
 		if peek_fold() then return end
 		vim.lsp.buf.hover()
 	end, 'Hover')
