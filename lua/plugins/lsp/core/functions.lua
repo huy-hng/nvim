@@ -48,14 +48,16 @@ end
 function M.lsp_format(outer_opts)
 	local opts = {
 		async = true,
-		-- filter = function(client)
-		-- 	-- return client.name == "sumneko_lua"
-		-- 	return client.name == 'null-ls'
-		-- end,
+		-- filter = function(client) return client.name == "sumneko_lua" end,
 		name = 'null-ls',
 	}
 	opts = vim.tbl_extend('force', opts, outer_opts or {})
-	vim.lsp.buf.format(opts)
+
+	vim.lsp.buf_request(0, 'textDocument/formatting', nil, function(err, result, ctx, config)
+		local ft = vim.api.nvim_buf_get_option(ctx.bufnr, 'filetype')
+		if ft == 'xml' then opts.name = nil end
+		vim.lsp.buf.format(opts)
+	end)
 end
 
 function M.format_range_operator()
@@ -101,6 +103,5 @@ function M.PeekDefinition()
 	local params = vim.lsp.util.make_position_params()
 	return vim.lsp.buf_request(0, 'textDocument/definition', params, preview_location_callback)
 end
-
 
 return M
