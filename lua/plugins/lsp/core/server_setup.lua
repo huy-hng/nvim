@@ -24,6 +24,7 @@ local language_servers = {
 	'pyright',
 	'clangd',
 	'vimls',
+	'lemminx', --xml
 }
 
 local function merge_opts(server_opts)
