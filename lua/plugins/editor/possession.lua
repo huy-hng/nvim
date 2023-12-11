@@ -117,7 +117,8 @@ function M.config()
 			before_save = function(name)
 				return {
 					timestamp = os.time(),
-					bufman = require('bufman.save_menu').encode_state(),
+					-- bufman = require('bufman.save_menu').encode_state(),
+					bufman = { buffer_list = require('bufman.list_manager').buffer_list, },
 				}
 			end,
 
