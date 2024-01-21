@@ -33,8 +33,11 @@ function M.config()
 
 	local api = require('Comment.api')
 	local ft = require('Comment.ft')
+	-- NOTE: set commentstring in ./after/plugin/ft.lua
+
 	-- ft.set('vimwiki', '- %s')
 	-- ft.set('c', '//%s')
+	-- ft.set('openscad', '//%s')
 
 	local comment_empty = {
 		padding = true,
