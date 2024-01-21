@@ -1,5 +1,8 @@
 Augroup('FileTypes', {
-	Autocmd('FileType', 'kdl', 'set commentstring=//%s'),
+	-- backslash is required since it doesnt understand the space between
+	Autocmd('FileType', 'kdl', 'set commentstring=//\\ %s'),
+	Autocmd('FileType', 'openscad', 'set commentstring=//\\ %s'),
+	Autocmd('FileType', 'gcode', 'set commentstring=;\\ %s'),
 
 	-- zsh files
 	Autocmd(
