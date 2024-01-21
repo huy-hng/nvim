@@ -20,9 +20,9 @@ function M.config()
 	nvim.command('ColumnLineEnable', column_line.start)
 
 	column_line.setup {
-		buftype_blacklist = { 'dts', 'csv' },
 		-- wintype_whitelist = { '', 'popup' },
-		filetype_blacklist = {
+		filetype_blacklist = { 'dts', 'csv' },
+		buftype_blacklist = {
 			'buffer_manager',
 			'harpoon',
 			'TelescopePrompt',
