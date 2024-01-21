@@ -2,11 +2,10 @@
 
 local g = vim.g
 local go = vim.go
-local o = vim.o
 
 --------------------------------------------Appearence----------------------------------------------
 
-g.neovide_fullscreen = true
+g.neovide_fullscreen = false
 
 -- g.neovide_refresh_rate = 60
 g.neovide_refresh_rate_idle = 15
@@ -37,8 +36,7 @@ g.neovide_underline_automatic_scaling = false
 g.neovide_no_idle = false -- not sure if this helps with anything
 g.neovide_confirm_quit = true
 g.neovide_remember_window_size = true
--- g.neovide_scroll_animation_length = 0.5 -- has been 0.4 most of the time
-g.neovide_scroll_animation_length = 0.3
+g.neovide_scroll_animation_length = 0.2
 
 g.neovide_hide_mouse_when_typing = true
 
