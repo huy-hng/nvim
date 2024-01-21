@@ -75,7 +75,12 @@ function M.config()
 			types = {},
 			operators = {},
 		},
-		color_overrides = {},
+		color_overrides = {
+			-- mocha = {
+				-- base = '#1E1E2E',
+				-- base = '#1E1E4E',
+			-- }
+		},
 		-- :h catppuccin-overwriting-colors
 		custom_highlights = function(colors)
 			return {
