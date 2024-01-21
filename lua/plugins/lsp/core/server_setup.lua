@@ -10,7 +10,6 @@ capabilities.textDocument.foldingRange = {
 }
 -- capabilities.textDocument.completion.completionItem.snippetSupport = true
 
-
 -- /home/huy/.local/share/nvim/lazy/cmp-nvim-lsp/lua/cmp_nvim_lsp/init.lua
 -- capabilities = require('cmp_nvim_lsp').default_capabilities(capabilities)
 -- P(capabilities)
@@ -25,6 +24,7 @@ local language_servers = {
 	'clangd',
 	'vimls',
 	'lemminx', --xml
+	'openscad_lsp',
 }
 
 local function merge_opts(server_opts)
