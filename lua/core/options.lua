@@ -128,6 +128,7 @@ opt.matchpairs:append { '<:>' }
 o.ignorecase = true -- ignore case when searching
 o.smartcase = true -- if you include mixed case in your search, assumes you want case-sensitive
 o.incsearch = true
+o.inccommand = 'split' -- show substitutes collected in a split
 
 o.hidden = true
 o.lazyredraw = false
