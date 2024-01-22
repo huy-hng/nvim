@@ -37,6 +37,7 @@ function M.config()
 	-- local map = Map.create('n', '<leader>g', '[Gitsigns]')
 
 	gs.setup {
+		-- _extmark_signs = false,
 		on_attach = function(bufnr)
 			local map = Map.new('<leader>g', '', '[Gitsigns]', { buffer = bufnr })
 

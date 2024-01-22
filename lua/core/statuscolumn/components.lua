@@ -94,23 +94,21 @@ M.sign_column = {
 M.border = {
 	function()
 		local border = icons.border
-		local hl = 'NonText'
 		local lnum = vim.v.lnum
 
-		local gitsigns = utils.get_gitsigns(nil, lnum)
+		-- local gitsigns = utils.get_gitsigns(nil, lnum)
+		local gitsigns_hl = utils.get_gitsign_hl(nil, lnum)
 
-		if gitsigns and gitsigns.group == 'gitsigns_vimfn_signs_' then --
-			hl = gitsigns.name
-		end
+		local hl = gitsigns_hl and gitsigns_hl or 'NonText'
 
 		-- fold indicator
 		if utils.is_collapsed(lnum) and utils.is_foldline(lnum) then
 			-- use first found gitsign for hl
 			local start_line, end_line = utils.get_fold_range(lnum)
 			for i = start_line, end_line do
-				gitsigns = utils.get_gitsigns(nil, i)
-				if gitsigns then
-					hl = gitsigns.name
+				local gitsigns_hl = utils.get_gitsign_hl(nil, lnum)
+				if gitsigns_hl then
+					hl = gitsigns_hl
 					break
 				end
 			end
