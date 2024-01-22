@@ -1,6 +1,7 @@
 Map.ic('<C-BS>', { nvim.feedkeys, '<C-w>' }, 'Delete Word')
 Map.n('<C-CR>', { nvim.normal, 'o' })
 
+Map.n('<del>', '')
 Map.n('<leader><leader>', '')
 Map.n('<localleader><localleader>', '')
 
