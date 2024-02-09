@@ -55,8 +55,8 @@ function M.get_gitsign_hl(bufnr, lnum)
 	local mark = vim.api.nvim_buf_get_extmarks(
 		bufnr or 0,
 		ns,
-		{ lnum, 0 },
-		{ lnum, -1 },
+		{ lnum-1, 0 },
+		{ lnum-1, -1 },
 		{ details = true }
 	)
 
