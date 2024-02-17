@@ -52,6 +52,8 @@ end
 
 function M.get_gitsign_hl(bufnr, lnum)
 	local ns = vim.api.nvim_get_namespaces()['gitsigns_extmark_signs_']
+	if not lnum or not ns then return end
+
 	local mark = vim.api.nvim_buf_get_extmarks(
 		bufnr or 0,
 		ns,
