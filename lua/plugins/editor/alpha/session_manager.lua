@@ -5,11 +5,11 @@ local commands = require('possession.commands')
 local comp = require('plugins.editor.alpha.components')
 
 local workspace_specs = {
-	{
-		'Neovim', -- title
-		'v', -- shortcuts prefix
-		{ '~/.dotfiles/nvim/.config/nvim/' },
-	},
+	-- {
+	-- 	'Neovim', -- title
+	-- 	'v', -- shortcuts prefix
+	-- 	{ '~/.dotfiles/nvim/.config/nvim/' },
+	-- },
 	{
 		'Repositories',
 		'r',
