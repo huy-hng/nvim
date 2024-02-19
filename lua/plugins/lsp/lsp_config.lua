@@ -23,9 +23,6 @@ function M.config()
 	require('plugins.lsp.null_ls')
 	require('plugins.lsp.core.handlers')
 
-	-- TODO: put these key maps somewhere else
-	local fns = require('plugins.lsp.core.functions')
-	Map.nv('<leader>ll', fns.lsp_format, 'Format Document or Selection')
 	Map.n(Keys.K, function()
 		local peek_fold = require('plugins.ui.ufo.functions').peek_fold
 

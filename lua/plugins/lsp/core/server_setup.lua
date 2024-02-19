@@ -27,6 +27,8 @@ local language_servers = {
 	'openscad_lsp',
 }
 
+local set_keymaps = require('plugins.lsp.core.keymaps')
+
 local function merge_opts(server_opts)
 	server_opts = server_opts or {}
 
@@ -35,7 +37,7 @@ local function merge_opts(server_opts)
 		capabilities = capabilities,
 		on_attach = function(client, bufnr)
 			-- if vim.lsp.semantic_tokens then vim.lsp.semantic_tokens.stop(bufnr, client.id) end
-			require('plugins.lsp.core.keymaps')(bufnr)
+			set_keymaps(bufnr)
 			if server_opts.on_attach then server_opts.on_attach(client, bufnr) end
 		end,
 		on_new_config = function(new_config, new_root_dir)

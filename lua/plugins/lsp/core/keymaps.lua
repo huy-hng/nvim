@@ -2,6 +2,8 @@ local layout = require('plugins.editor.telescope.layouts').vert_list_normal
 local references = require('telescope.builtin').lsp_references
 local fns = require('plugins.lsp.core.functions')
 
+Map.nv('<leader>ll', fns.lsp_format, 'Format Document or Selection')
+
 return function(bufnr)
 	vim.api.nvim_buf_set_option(bufnr, 'omnifunc', 'v:lua.vim.lsp.omnifunc')
 
