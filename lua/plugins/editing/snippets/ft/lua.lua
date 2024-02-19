@@ -9,8 +9,6 @@ local require_var = function(args, _)
 	local options = {}
 	for len = 0, #split - 1 do
 		local sliced = vim.list_slice(split, #split - len, #split)
-		P(sliced)
-		P(table.concat(sliced, '_'))
 		table.insert(options, t(table.concat(sliced, '_')))
 	end
 
