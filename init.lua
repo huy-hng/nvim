@@ -1,4 +1,5 @@
 -- if true then require('clean') return end
+DEBUG_PRINT = true
 
 NVIM_CONFIG_PATH = vim.fn.stdpath('config')
 package.path = NVIM_CONFIG_PATH .. '?.lua;' .. package.path
@@ -6,7 +7,6 @@ package.path = NVIM_CONFIG_PATH .. '?.lua;' .. package.path
 vim.g.neovide_fullscreen = true
 vim.g.has_neovide = vim.g.neovide
 vim.g.neovide = nil
-
 
 -- vim.cmd('let $PATH="/home/huy/.local/bin/:" .. $PATH')
 vim.env.PATH = '/home/huy/.local/bin/:' .. vim.env.PATH

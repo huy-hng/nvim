@@ -5,7 +5,14 @@ require_dir = require('modules.require_dir')
 nrequire = dev.nrequire
 npcall = dev.npcall
 I = vim.inspect
-P = vim.print
+P = function (...)
+	vim.print(...)
+	if not DEBUG_PRINT then
+		local trace = debug.traceback('Attempted print from', 2)
+		print(trace:gsub('	', '    '))
+	end
+end
+
 PrintKeys = dev.print_keys
 R = dev.reload_require
 LOADED = dev.loaded
