@@ -13,7 +13,7 @@ local workspace_specs = {
 	{
 		'Repositories',
 		'r',
-		{ '~/repositories/' },
+		{ '~/repositories/', '~/worktrees/' },
 	},
 	{
 		'Dotfiles',
