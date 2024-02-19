@@ -93,7 +93,7 @@ function M.config()
 	require('zen-mode').setup {
 		window = {
 			backdrop = 1, -- shade the backdrop of the Zen window. Set to 1 to keep the same as Normal
-			width = 105,
+			width = 125,
 			height = 1,
 		},
 		plugins = {
