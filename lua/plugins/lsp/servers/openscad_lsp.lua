@@ -4,7 +4,7 @@ return {
 	settings = {
 		openscad = {
 			search_paths = '/libs',
-			fmt_exe = '/usr/bin/clang-format',
+			fmt_exe = '/home/huy/.local/bin/clang-format',
 			fmt_style = 'file',
 			default_param = true,
 		},
