@@ -46,7 +46,13 @@ Map.n('<F4>', { Util.toggle, 'concealcursor', false, { 'c', 'nc' } }, '[Toggle] 
 
 Map.n('<F8>', toggle_wrap, '[Toggle] Wrap')
 Map.n('<F7>', toggle_commenting, '[Toggle] Auto Comment')
-Map.n('<F10>', 'gg=G<C-o>zz')
+Map.n('<F10>', function ()
+	local cursor_pos = vim.api.nvim_win_get_cursor(0)
+	nvim.feedkeys('gg=G')
+	vim.schedule(function()
+		vim.api.nvim_win_set_cursor(0, cursor_pos)
+	end)
+end)
 -- Nmap('<F10>', 'gg=G')
 
 -- Nmap('<leader>tf', require('lazyvim.plugins.lsp.format').toggle, 'Toggle format on Save')
