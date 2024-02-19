@@ -1,11 +1,9 @@
 _G.PopupMenu = {
 	mousepos = function()
 		local mousepos = vim.fn.getmousepos()
-		P(mousepos)
 	end,
 	cursorpos = function()
 		local cursorpos = vim.fn.getcurpos()
-		P(cursorpos)
 	end,
 }
 -- vim.cmd('call v:lua.PopupMenu.pos()')
