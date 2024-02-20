@@ -21,7 +21,6 @@ local function get_diagnostics(opts, bufnr, line_nr, client_id)
 
 	local messages = {}
 	for i, diagnostic in ipairs(line_diagnostics) do
-		P(line_diagnostics)
 		local message = string.format('%d: %s', i, diagnostic.message or '')
 		-- if i ~= #line_diagnostics then message = message .. '\n' end
 		table.insert(messages, message)
@@ -35,7 +34,6 @@ function M.diagnostic_float()
 	if not win_id then return end
 
 	local config = vim.api.nvim_win_get_config(win_id)
-	-- P(config)
 	config.col[false] = 0
 	-- config.anchor = 'NE'
 	vim.api.nvim_win_set_config(win_id, config)
@@ -46,18 +44,22 @@ end
 ----------------------------------------------Formatting--------------------------------------------
 
 function M.lsp_format(outer_opts)
+	local ft_ignore = {
+		xml = true,
+		openscad = true,
+	}
+
 	local opts = {
 		async = true,
-		-- filter = function(client) return client.name == "sumneko_lua" end,
-		name = 'null-ls',
+		filter = function(client) return client.name == 'null-ls' end,
 	}
 	opts = vim.tbl_extend('force', opts, outer_opts or {})
 
-	vim.lsp.buf_request(0, 'textDocument/formatting', nil, function(err, result, ctx, config)
-		local ft = vim.api.nvim_buf_get_option(ctx.bufnr, 'filetype')
-		if ft == 'xml' then opts.name = nil end
-		vim.lsp.buf.format(opts)
-	end)
+	local bufnr = opts.bufnr or vim.api.nvim_get_current_buf()
+	local ft = vim.api.nvim_buf_get_option(bufnr, 'filetype')
+
+	if ft_ignore[ft] then opts.filter = nil end
+	vim.lsp.buf.format(opts)
 end
 
 function M.format_range_operator()
@@ -66,7 +68,6 @@ function M.format_range_operator()
 	_G.op_func_formatting = function()
 		local start = vim.api.nvim_buf_get_mark(0, '[')
 		local finish = vim.api.nvim_buf_get_mark(0, ']')
-		-- P(start, finish)
 		-- vim.lsp.buf.range_formatting({}, start, finish)
 		M.lsp_format { range = { start, finish } }
 
