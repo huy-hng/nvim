@@ -63,10 +63,6 @@ Map.v(Keys.p, paste_without_yank, 'keep yank when pasting over visual', { expr =
 
 Map.n(Keys.ctrl.join_lines, keep_column('J'), 'keep column when joining lines')
 
-----------------------------------copy current line above / below-----------------------------------
-
-------------------------------------move line(s) above / below--------------------------------------
-
 ---------------------------------------------Substitution-------------------------------------------
 
 Map.n(
