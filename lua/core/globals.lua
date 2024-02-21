@@ -13,6 +13,8 @@ P = function (...)
 	end
 end
 
+Keys = require('config.keymaps')
+
 PrintKeys = dev.print_keys
 R = dev.reload_require
 LOADED = dev.loaded

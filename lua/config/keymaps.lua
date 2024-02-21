@@ -116,7 +116,7 @@ local functions = {
 	close_fold = '<A-m>',
 }
 
-Keys = {
+local keys = {
 	-- special keys
 	esc = '<esc>',
 	enter = '<cr>',
@@ -139,14 +139,14 @@ Keys = {
 
 local letters_upper_mod = upper_mod(letters)
 local functions_upper_mod = upper_mod(functions)
-Keys = vim.tbl_deep_extend(
+keys = vim.tbl_deep_extend(
 	'keep',
-	Keys,
+	keys,
 	letters,
 	letters_upper_mod,
 	functions,
 	functions_upper_mod
 )
-Keys.ctrl.enter = '<C-CR>'
+keys.ctrl.enter = '<C-CR>'
 
-return Keys
+return keys
