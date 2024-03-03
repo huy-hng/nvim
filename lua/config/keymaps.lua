@@ -101,7 +101,8 @@ local functions = {
 	telescope = 't',
 	fold_navigation = 'f',
 	save_file = 'f',
-	comment = 'v',
+	comment = '<C-v>',
+	comment_op = '<C-o>',
 
 	join_lines = 'j',
 	cmdline_window = '<leader>:',
@@ -116,7 +117,7 @@ local functions = {
 	close_fold = '<A-m>',
 }
 
-local keys = {
+Keys = {
 	-- special keys
 	esc = '<esc>',
 	enter = '<cr>',
@@ -139,14 +140,14 @@ local keys = {
 
 local letters_upper_mod = upper_mod(letters)
 local functions_upper_mod = upper_mod(functions)
-keys = vim.tbl_deep_extend(
+Keys = vim.tbl_deep_extend(
 	'keep',
-	keys,
+	Keys,
 	letters,
 	letters_upper_mod,
 	functions,
 	functions_upper_mod
 )
-keys.ctrl.enter = '<C-CR>'
+Keys.ctrl.enter = '<C-CR>'
 
-return keys
+return Keys

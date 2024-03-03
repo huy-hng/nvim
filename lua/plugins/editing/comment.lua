@@ -15,12 +15,12 @@ function M.config()
 			extra = false,
 		},
 		toggler = {
-			line = Keys.ctrl.comment .. Keys.ctrl.comment, -- gcc
-			block = Keys.alt.comment .. Keys.alt.comment, -- gbc
+			line = Keys.comment .. Keys.comment, -- gcc
+			block = '', -- gbc
 		},
 		opleader = {
-			line = Keys.ctrl.comment, -- gc
-			block = Keys.alt.comment, -- gb
+			line = Keys.comment, -- gc
+			block = '', -- gb
 		},
 		extra = {
 			above = '', -- gcO
@@ -32,12 +32,12 @@ function M.config()
 	}
 
 	local api = require('Comment.api')
+	local extra = require('Comment.extra')
+	local utils = require('Comment.utils')
 	local ft = require('Comment.ft')
 	-- NOTE: set commentstring in ./after/plugin/ft.lua
 
-	-- ft.set('vimwiki', '- %s')
 	-- ft.set('c', '//%s')
-	-- ft.set('openscad', '//%s')
 
 	local comment_empty = {
 		padding = true,
@@ -64,10 +64,13 @@ function M.config()
 		mode_behavior[mode]()
 	end
 
-	Map.nvi(Keys.ctrl.comment, toggle_comment, 'Toggle Comment')
+	Map.nvi(Keys.comment, toggle_comment, 'Toggle Comment')
 
-	Map.nv(Keys.ctrl.o, api.call('toggle.linewise', 'g@'), 'comment op', { expr = true })
-	Map.o(Keys.ctrl.o, 'g@')
+	Map.nv(Keys.comment_op, api.call('toggle.linewise', 'g@'), 'comment op', { expr = true })
+	Map.o(Keys.comment_op, 'g@')
+	Map.n(Keys.comment_op .. Keys.A, { extra.insert_eol, utils.ctype.linewise, comment_empty })
+	Map.n(Keys.comment_op .. Keys.o, { extra.insert_below, utils.ctype.linewise, comment_empty })
+	Map.n(Keys.comment_op .. Keys.O, { extra.insert_above, utils.ctype.linewise, comment_empty })
 end
 
 return M
