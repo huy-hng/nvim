@@ -68,7 +68,7 @@ end
 
 ---@param root_dir string
 ---@param callback function takes pythonPath as param (usually sets python path)
-function M.get_venv_path(root_dir, callback)
+function M.get_python_path(root_dir, callback)
 	local cmd = get_package_manager_cmd(root_dir)
 	if not cmd then
 		print('Pyright: No Virtual Environment found.')
@@ -84,7 +84,8 @@ function M.get_venv_path(root_dir, callback)
 
 			-- local res = table.concat(j:result(), '\n')
 			local venv_path = j:result()[1]
-			nvim.schedule(callback, venv_path)
+			local python_path = venv_path .. '/bin/python'
+			nvim.schedule(callback, python_path)
 		end,
 	}):start()
 end
@@ -145,9 +146,9 @@ Augroup('PythonVenv', {
 		end
 
 		local root_dir = M.get_root_dir(data.file)
-		M.get_venv_path(root_dir, function(python_path) --
+		M.get_python_path(root_dir, function(python_path) --
 			vim.b[bufnr].pythonPath = python_path
-			M.set_python_path(python_path, bufnr)
+			M.set_python_path(vim.b[bufnr].pythonPath, bufnr)
 		end)
 	end),
 })
