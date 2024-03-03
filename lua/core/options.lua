@@ -133,12 +133,6 @@ o.inccommand = 'split' -- show substitutes collected in a split
 o.hidden = true
 o.lazyredraw = false
 
--- backspace
--- o.backspace = 'indent,eol,start' -- allow backspace on indent, end of line or insert mode start position
-
--- clipboard
--- g.clipboard:append("unnamedplus") -- use system clipboard as default registier
-
 -- split windows
 o.splitright = true -- split vertical window to the right
 o.splitbelow = true -- split horizontal window to the bottom

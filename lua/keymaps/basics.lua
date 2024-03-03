@@ -12,7 +12,7 @@ Map.n('QQ', '<cmd>qa<cr>', 'Quick exit vim')
 Map.v(Keys.esc, 'o<esc>')
 Map.n(Keys.esc, function()
 	nvim.feedkeys('<esc>')
-	vim.cmd.noh()
+	vim.cmd.nohlsearch()
 end, 'Escape / no highlight')
 
 if vim.fn.has('nvim-0.9.0') == 1 then
