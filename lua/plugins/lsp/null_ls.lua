@@ -1,5 +1,6 @@
 local M = {
-	'nvimtools/none-ls.nvim',
+	-- 'nvimtools/none-ls.nvim',
+	'jose-elias-alvarez/null-ls.nvim',
 	event = 'VeryLazy',
 }
 
