@@ -4,6 +4,15 @@ DEBUG_PRINT = true
 NVIM_CONFIG_PATH = vim.fn.stdpath('config')
 package.path = NVIM_CONFIG_PATH .. '?.lua;' .. package.path
 
+-- traceback where an option has been set
+-- vim.api.nvim_create_autocmd('OptionSet', {
+-- 	pattern = 'foldmethod',
+-- 	callback = function(ev)
+-- 		local traceback = debug.traceback('foldmethod', 1)
+-- 		P(ev, traceback)
+-- 	end,
+-- })
+
 vim.g.neovide_fullscreen = true
 vim.g.has_neovide = vim.g.neovide
 vim.g.neovide = nil
