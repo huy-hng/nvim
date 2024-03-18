@@ -12,6 +12,12 @@ function M.config()
 		lines_per_second = 100,
 		trail_length = 15,
 		fps = 30,
+		ft_ignore = {
+			'NvimTree',
+			'TelescopePrompt',
+			'alpha',
+			'markdown',
+		},
 	}
 
 	local column_line = require('anyline.column_line')
