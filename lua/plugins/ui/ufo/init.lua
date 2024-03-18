@@ -42,7 +42,7 @@ function M.config()
 		end,
 
 		open_fold_hl_timeout = 150,
-		close_fold_kinds = { 'imports', 'comment' },
+		-- close_fold_kinds = { 'imports', 'comment' },
 		-- fold_virt_text_handler = fold_text.mark_copier,
 		fold_virt_text_handler = fold_text.fold_text_handler,
 		enable_get_fold_virt_text = true,
