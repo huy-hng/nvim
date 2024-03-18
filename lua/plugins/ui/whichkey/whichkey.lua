@@ -6,7 +6,7 @@ wk.register { ['<leader>w'] = { name = '[Vimwiki]' } }
 wk.register { ['<leader>b'] = { name = '[Buffers]' } }
 wk.register { [Keys.leader.telescope] = { name = 'Telescope]' } }
 wk.register { ['<leader>D'] = { name = '[Database]' } }
-wk.register { ['<leader>d'] = { name = '[NeoTest]' } }
+wk.register { ['<leader>d'] = { name = '[DAP]' } }
 wk.register { ['<leader>h'] = { name = '[Harpon]' } }
 wk.register { ['<leader>w'] = { name = '[Tabs]' } }
 wk.register { ['<leader>n'] = { name = '[Neorg]' } }

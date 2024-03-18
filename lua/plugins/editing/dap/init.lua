@@ -114,6 +114,7 @@ function M.config()
 			name = 'Launch file',
 			program = '${file}',
 			pythonPath = function() return vim.env.PYTHONPATH end,
+			justMyCode = false
 		},
 		-- {
 		-- 	type = 'python',

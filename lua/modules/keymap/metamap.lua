@@ -109,8 +109,8 @@ end
 
 function Metamap:enter_event()
 	if not self.has_enter_map and not self.has_exit_map then
-		vim.notify('You have not set an exit map. The <ESC> will be used to exit.', 3)
-		self:map_exit('n', '<esc>')
+		vim.notify('You have not set an exit map. The <C-c> will be used to exit.', 3)
+		self:map_exit('n', '<C-c>')
 	end
 
 	if self.bufnr then
