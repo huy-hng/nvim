@@ -8,7 +8,7 @@ function M.config()
 	-- Map.n('<C-S-g>', vim.cmd.DiffviewOpen, '[Diffview] Open')
 	-- Map.v('<leader>gf', ":'<,'>DiffviewFileHistory<CR>", '[Diffview] File History Visual Selection')
 
-	local map = Map.new('<leader>d', '', '[Diffview]')
+	local map = Map.new('<leader>g', '', '[Diffview]')
 	map.n('d', vim.cmd.DiffviewOpen, 'Open Diffview')
 	map.n('f', { vim.cmd.DiffviewFileHistory, '%' }, 'Open File History')
 
