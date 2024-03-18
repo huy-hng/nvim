@@ -25,11 +25,13 @@ function M.config()
 
 	require('ufo').setup {
 		provider_selector = function(bufnr, filetype, buftype)
+			-- set to empty string to leave foldmethod as is
 			local ftMap = {
 				help = '',
 				Outline = '',
 				norg = '',
 				c = 'treesitter',
+				markdown = '',
 			}
 			if ftMap[filetype] ~= '' then --
 				fn.set_keymaps(bufnr)

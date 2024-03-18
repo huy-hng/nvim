@@ -25,6 +25,7 @@ local language_servers = {
 	'vimls',
 	'lemminx', --xml
 	'openscad_lsp',
+	'markdown_oxide',
 }
 
 local set_keymaps = require('plugins.lsp.core.keymaps')
