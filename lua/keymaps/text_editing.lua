@@ -61,7 +61,8 @@ end
 
 Map.v(Keys.p, paste_without_yank, 'keep yank when pasting over visual', { expr = true })
 
-Map.n(Keys.ctrl.join_lines, keep_column('J'), 'keep column when joining lines')
+Map.n(Keys.join_lines, keep_column('J'), 'keep column when joining lines')
+Map.n(Keys.g .. Keys.join_lines, keep_column('gJ'), 'keep column when joining lines without space')
 
 ---------------------------------------------Substitution-------------------------------------------
 

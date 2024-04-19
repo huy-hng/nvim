@@ -104,7 +104,7 @@ local functions = {
 	comment = '<C-v>',
 	comment_op = '<C-o>',
 
-	join_lines = 'j',
+	join_lines = '<C-j>',
 	cmdline_window = '<leader>:',
 	search_window = '<leader>/',
 	-- cmdline_window = '<C-:>',
