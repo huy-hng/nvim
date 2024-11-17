@@ -2,7 +2,7 @@ local M = {}
 ---@alias Callback function
 
 Highlight = vim.api.nvim_set_hl -- TODO: remove
-M.hl = vim.api.nvim_set_hl -- TODO: rename to set_hl
+M.set_hl = vim.api.nvim_set_hl
 M.get_win = vim.api.nvim_get_current_win
 M.get_tab = vim.api.nvim_get_current_tabpage
 M.list_tabs = vim.api.nvim_list_tabpages
