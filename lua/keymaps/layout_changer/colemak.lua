@@ -57,6 +57,7 @@ function M.set_keymap()
 	Map.vo(Keys.a .. Keys.B, 'aB', 'outer {}')
 
 	Map.unmap('', 'g%')
+	Map.unmap('', 'gc')
 	Map.unmap('', 'gx')
 	Map.unmap('', 'gO')
 
