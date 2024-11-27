@@ -124,7 +124,8 @@ M.session_name = function()
 	if not has_session then return '' end
 
 	local name = '%#Error#NO SESSION'
-	if session.session_name then name = ' ' .. session.session_name end
+	local session_name = session.get_session_name()
+	if session_name then name = ' ' .. session_name end
 
 	return name
 end
