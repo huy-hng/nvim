@@ -1,2 +1,0 @@
-( (codespan) @lua)
-( (codeblock) @lua)
