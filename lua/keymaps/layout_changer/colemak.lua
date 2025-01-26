@@ -58,6 +58,7 @@ function M.set_keymap()
 
 	Map.unmap('', 'g%')
 	Map.unmap('', 'gc')
+	Map.unmap('', 'gcc')
 	Map.unmap('', 'gx')
 	Map.unmap('', 'gO')
 
