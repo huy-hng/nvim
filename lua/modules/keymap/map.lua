@@ -104,7 +104,6 @@ Map.__index = function(self, name)
 end
 
 Map.meta = require('modules.keymap.metamap')
------------------------------------------------testing----------------------------------------------
 
 return setmetatable({
 	lhs_prefix = '',
