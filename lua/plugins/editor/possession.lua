@@ -31,7 +31,8 @@ function M.config()
 	--- BufWinLeave before buffer is removed from a window
 	local function save(data)
 		local session = require('possession.session')
-		if not session.session_name then return end
+		P(session)
+		if not session.get_session_name() then return end
 
 		print_messages(data.event)
 		if data.event == 'CmdWinEnter' or vim.fn.mode() == 'c' then return end
