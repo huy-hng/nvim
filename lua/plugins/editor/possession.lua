@@ -31,7 +31,6 @@ function M.config()
 	--- BufWinLeave before buffer is removed from a window
 	local function save(data)
 		local session = require('possession.session')
-		P(session)
 		if not session.get_session_name() then return end
 
 		print_messages(data.event)

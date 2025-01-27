@@ -1,7 +1,8 @@
 local M = {
 	'kevinhwang91/rnvimr', -- ranger
 	-- event = 'VeryLazy',
-	keys = Keys.ctrl.file_explorer,
+	-- keys = Keys.ctrl.file_explorer,
+	keys = Keys.alt.file_explorer,
 }
 
 local g = vim.g
@@ -149,7 +150,8 @@ end
 
 function M.config()
 	config()
-	Map.n(Keys.ctrl.file_explorer, vim.cmd.RnvimrToggle, 'Open Ranger')
+	-- Map.n(Keys.ctrl.file_explorer, vim.cmd.RnvimrToggle, 'Open Ranger')
+	Map.n(Keys.alt.file_explorer, vim.cmd.RnvimrToggle, 'Open Ranger')
 	-- Map.n(Map.ctrl(native.file_explorer), vim.cmd.RnvimrToggle, 'Open Ranger')
 
 	g.rnvimr_presets = {
@@ -192,18 +194,19 @@ function M.config()
 
 			-- tmap('<esc>', vim.cmd.RnvimrToggle, 'Close Ranger')
 
-			map.t(Keys.ctrl.file_explorer, vim.cmd.RnvimrToggle, 'Close Ranger')
+			-- map.t(Keys.ctrl.file_explorer, vim.cmd.RnvimrToggle, 'Close Ranger')
+			map.t(Keys.alt.file_explorer, vim.cmd.RnvimrToggle, 'Close Ranger')
 
 			map.t('<C-Up>', { nvim.schedule, Util.wrap(vim.cmd.resize, '-4') }, 'Resize window')
 			map.t('<C-Down>', { nvim.schedule, Util.wrap(vim.cmd.resize, '+4') }, 'Resize window')
 			map.t('<C-Left>', { nvim.schedule, Util.wrap(vim.cmd.wincmd, '4>') }, 'Resize window')
 			map.t('<C-Right>', { nvim.schedule, Util.wrap(vim.cmd.wincmd, '4<') }, 'Resize window')
 
-			map.t(Keys.alt.file_explorer, function()
-				vim.cmd.RnvimrResize('0,7,8')
-				vim.cmd.RnvimrToggle()
-				vim.cmd.RnvimrToggle()
-			end, 'Resize Ranger')
+			-- map.t(Keys.alt.file_explorer, function()
+			-- 	vim.cmd.RnvimrResize('0,7,8')
+			-- 	vim.cmd.RnvimrToggle()
+			-- 	vim.cmd.RnvimrToggle()
+			-- end, 'Resize Ranger')
 		end),
 	})
 end

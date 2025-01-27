@@ -1,6 +1,5 @@
 require('plugin_manager.ensure_lazy')
 local spec = {
-	{ import = 'plugins.basics' },
 	{ import = 'plugins.ui' },
 
 	{ import = 'plugins.editing' },
