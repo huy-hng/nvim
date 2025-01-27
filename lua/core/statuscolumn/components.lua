@@ -96,8 +96,11 @@ M.border = {
 		local border = icons.border
 		local lnum = vim.v.lnum
 
-		-- local gitsigns = utils.get_gitsigns(nil, lnum)
-		local gitsigns_hl = utils.get_gitsign_hl(nil, lnum)
+		local status, gitsigns_hl = pcall(utils.get_gitsign_hl, nil, lnum)
+		if not status then
+			P(lnum, gitsigns_hl)
+			return
+		end
 
 		local hl = gitsigns_hl and gitsigns_hl or 'NonText'
 

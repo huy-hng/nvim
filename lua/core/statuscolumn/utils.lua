@@ -44,25 +44,33 @@ function M.remove_sign_group(signs, group)
 	return filtered
 end
 
--- DEPRECATED:
-function M.get_gitsigns(bufnr, lnum)
-	local sign = M.get_signs_in_line(bufnr, 'gitsigns_vimfn_signs_', lnum)
-	return sign and sign[1]
-end
-
 function M.get_gitsign_hl(bufnr, lnum)
-	local ns = vim.api.nvim_get_namespaces()['gitsigns_extmark_signs_']
-	if not lnum or not ns then return end
+	local gitsigns = nrequire('gitsigns')
+	if not gitsigns then return end
 
-	local mark = vim.api.nvim_buf_get_extmarks(
-		bufnr or 0,
-		ns,
-		{ lnum-1, 0 },
-		{ lnum-1, -1 },
-		{ details = true }
-	)
+	local hunks = gitsigns.get_hunks(bufnr)
 
-	return mark[1] and mark[1][4].sign_hl_group
+	-- local types = {'add', 'delete', 'change'}
+	local types = {
+		add = 'added',
+		delete = 'removed',
+		change = 'added',
+	}
+
+	local hl_lookup = {
+		add = 'GitSignsAdd',
+		delete = 'GitSignsDelete',
+		change = 'GitSignsChange',
+	}
+
+	if not hunks then return end
+
+	for _, hunk in pairs(hunks) do
+		-- P(types[hunk.type], hunk)
+		local val = hunk[types[hunk.type]]
+		-- P(val)
+		if lnum >= val.start and lnum < val.start + val.count then return hl_lookup[hunk.type] end
+	end
 end
 
 function M.is_collapsed(lnum) return vim.fn.foldclosed(lnum) ~= -1 end
@@ -94,5 +102,18 @@ end
 
 function M.create_display_text(text) return wrap_text('%{%', text, '()%}') end
 function M.create_on_click_text(text) return wrap_text('%@', text, '.on_click@') end
+
+local function test_gitsigns()
+	local bufnr = vim.api.nvim_get_current_buf()
+	local lnum = vim.api.nvim_win_get_cursor(0)[1]
+
+	local res = M.get_git_line(bufnr, lnum)
+	print(res)
+
+	local mark = vim.api.nvim_buf_get_extmarks(bufnr or 0, -1, 0, -1, { details = true })
+	-- P(mark[1])
+end
+
+-- Map.n('|', test_gitsigns)
 
 return M
