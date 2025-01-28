@@ -7,7 +7,13 @@ Map.n('<localleader><localleader>', '')
 
 Map.n('<localleader>', '')
 
+-- Map.n(Keys.leader.save_file, nvim.save, 'Write File')
+Map.n(Keys.leader.save_file, vim.cmd.write, 'Write File')
+Map.n(Keys.leader.SAVE_FILE, Util.save_and_source, 'Save and reload File')
+
 Map.n('QQ', '<cmd>qa<cr>', 'Quick exit vim')
+Map.n('<leader>q', Util.quit_last_buffer, 'Close Buffer')
+Map.n('<leader>x', { nvim.exec, '!chmod u+x %' }, 'Make current file executable')
 
 Map.v(Keys.esc, 'o<esc>')
 Map.n(Keys.esc, function()
