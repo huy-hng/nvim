@@ -118,7 +118,7 @@ function M.config()
 				return {
 					timestamp = os.time(),
 					-- bufman = require('bufman.save_menu').encode_state(),
-					bufman = { buffer_list = require('bufman.list_manager').buffer_list, },
+					bufman = { buffer_list = require('bufman.list_manager').buffer_list },
 				}
 			end,
 
@@ -132,7 +132,9 @@ function M.config()
 			after_load = function(name, user_data)
 				AutosaveSession()
 				local buffers = vim.tbl_filter(
-					function(bufnr) return vim.api.nvim_buf_get_option(bufnr, 'buflisted') end,
+					function(bufnr)
+						return vim.api.nvim_get_option_value('buflisted', { buf = bufnr })
+					end,
 					vim.api.nvim_list_bufs()
 				)
 				for _, bufnr in ipairs(buffers) do
