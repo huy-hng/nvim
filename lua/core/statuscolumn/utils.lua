@@ -50,7 +50,6 @@ function M.get_gitsign_hl(bufnr, lnum)
 
 	local hunks = gitsigns.get_hunks(bufnr)
 
-	-- local types = {'add', 'delete', 'change'}
 	local types = {
 		add = 'added',
 		delete = 'removed',
@@ -69,7 +68,12 @@ function M.get_gitsign_hl(bufnr, lnum)
 		-- P(types[hunk.type], hunk)
 		local val = hunk[types[hunk.type]]
 		-- P(val)
-		if lnum >= val.start and lnum < val.start + val.count then return hl_lookup[hunk.type] end
+
+		if hunk.type == 'delete' and lnum == val.start - 1 then return 'GitSignsDelete' end
+
+		if hunk.type ~= 'delete' and lnum >= val.start and lnum < val.start + val.count then
+			return hl_lookup[hunk.type]
+		end
 	end
 end
 
@@ -107,13 +111,12 @@ local function test_gitsigns()
 	local bufnr = vim.api.nvim_get_current_buf()
 	local lnum = vim.api.nvim_win_get_cursor(0)[1]
 
-	local res = M.get_git_line(bufnr, lnum)
-	print(res)
+	local res = M.get_gitsign_hl(bufnr, lnum)
 
-	local mark = vim.api.nvim_buf_get_extmarks(bufnr or 0, -1, 0, -1, { details = true })
+	-- local mark = vim.api.nvim_buf_get_extmarks(bufnr or 0, -1, 0, -1, { details = true })
 	-- P(mark[1])
 end
 
--- Map.n('|', test_gitsigns)
+Map.n('|', test_gitsigns)
 
 return M
