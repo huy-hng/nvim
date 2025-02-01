@@ -53,6 +53,7 @@ function M.config()
 			map.n(Keys.b, gs.blame_line, 'git Blame')
 
 			map.n(Keys.K, gs.preview_hunk_inline, 'Preview hunk')
+			map.n('p', gs.preview_hunk, 'Preview hunk')
 			map.n(Keys.c, gs.diffthis, 'Diff file')
 
 			map.n(Keys.y, gs.stage_hunk, 'Stage hunk')

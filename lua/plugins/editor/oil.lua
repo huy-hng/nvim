@@ -31,11 +31,17 @@ function M.config()
 		keymaps = {
 			['<C-c>'] = { 'actions.close', mode = 'n' },
 			['<C-p>'] = { 'actions.close', mode = 'n' },
-			-- ['<esc>'] = { 'actions.close', mode = 'n' },
+			['<esc>'] = { 'actions.close', mode = 'n' },
 			['q'] = { 'actions.close', mode = 'n' },
 
+			[Keys.alt.h] = { 'actions.parent', mode = 'n' },
+			[Keys.alt.j] = { 'j', mode = 'n' },
+			[Keys.alt.k] = { 'k', mode = 'n' },
+			[Keys.alt.l] = { 'actions.select', mode = 'n' },
+
 			[Keys.ctrl.h] = { 'actions.parent', mode = 'n' },
-			[Keys.ctrl.l] = { 'actions.select' },
+			[Keys.ctrl.l] = { 'actions.select', mode = 'n' },
+
 			['<CR>'] = 'actions.select',
 
 			['N'] = { 'actions.preview_scroll_down', mode = 'n' },
