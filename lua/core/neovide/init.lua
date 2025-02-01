@@ -20,12 +20,20 @@ local function tower_pc()
 	nvim.defer(1000, os_fn.toggle_blur_on_kde, true)
 end
 
+local function nix_steamdeck()
+	g.neovide_refresh_rate = 90
+	g.neovide_default_transparency = 0.80
+	g.gui_font_default_size = 11
+
+	nvim.defer(1000, os_fn.toggle_blur_on_kde, true)
+
+end
+
 local function arch_chromebook()
 	g.neovide_refresh_rate = 60
 	g.neovide_default_transparency = 0.30
 	g.gui_font_default_size = 10.5
 
-	-- nvim.schedule(os_fn.toggle_blur_on_kde, true)
 	nvim.defer(1000, os_fn.toggle_blur_on_kde, true)
 
 end
@@ -52,10 +60,15 @@ local function set_machine_setup()
 	local lookup = {
 		ASRock = tower_pc,
 		Google = arch_chromebook,
+		Valve = nix_steamdeck,
 	}
 
 	-- local hostname = vim.fn.trim(vim.fn.system('hostname'))
-	local hostname = vim.json.decode(vim.fn.system('hostnamectl --json=pretty'))
+	local status, hostname = pcall(vim.json.decode,vim.fn.system('hostnamectl --json=pretty'))
+	if not status then
+		nix_steamdeck()
+		return
+	end
 	if not hostname then return end
 
 	lookup[hostname.HardwareVendor]()
@@ -63,15 +76,6 @@ end
 
 local function post_init()
 	set_machine_setup()
-
-	-- print(jit.os) -- prints Linux
-	-- if hostname == 'huystower' then
-	-- 	tower_pc()
-	-- elseif hostname == 'arch' then
-	-- 	arch_chromebook()
-	-- else
-	-- 	chromebook()
-	-- end
 
 	g.neovide_transparency = g.neovide_default_transparency
 	functions.reset_gui_font()
