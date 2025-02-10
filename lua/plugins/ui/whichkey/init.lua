@@ -1,7 +1,7 @@
 local M = {
 	'folke/which-key.nvim',
-	-- event = 'VeryLazy',
-	lazy = false,
+	event = 'VeryLazy',
+	-- lazy = false,
 }
 
 function M.config()
@@ -24,7 +24,7 @@ function M.config()
 			{ '<auto>', mode = 'nxso' },
 		},
 		plugins = {
-			marks = true, -- shows a list of your marks on ' and `
+			marks = false, -- shows a list of your marks on ' and `
 			registers = true, -- shows your registers on " in NORMAL or <C-r> in INSERT mode
 			-- the presets plugin, adds help for a bunch of default keybindings in Neovim
 			-- No actual key bindings are created
@@ -39,7 +39,7 @@ function M.config()
 				windows = true, -- default bindings on <c-w>
 				nav = true, -- misc bindings to work with windows
 				z = true, -- bindings for folds, spelling and others prefixed with z
-				g = true, -- bindings for prefixed with g
+				g = false, -- bindings for prefixed with g
 			},
 		},
 		---@type wk.Win.opts
@@ -161,6 +161,5 @@ function M.config()
 		debug = false, -- enable wk.log in the current directory
 	}
 end
--- M.config()
 
 return M
