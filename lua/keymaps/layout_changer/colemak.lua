@@ -31,6 +31,7 @@ function M.set_keymap()
 	Map(Keys.g .. 'u', 'gu', 'Lower Case')
 	Map(Keys.g .. 'U', 'gU', 'Upper Case')
 	Map(Keys.g .. 'w', 'gw', 'Format line or selection')
+	Map(Keys.g .. 'O', 'gO')
 
 	Map(Keys.gE, 'gE')
 	Map(Keys.ge, 'ge')
@@ -56,13 +57,12 @@ function M.set_keymap()
 	Map.vo(Keys.a .. Keys.b, 'ab', 'outer ()')
 	Map.vo(Keys.a .. Keys.B, 'aB', 'outer {}')
 
+	-- unmap g keys
 	Map.unmap('', 'g%')
 	Map.unmap('', 'gc')
 	Map.unmap('', 'gcc')
 	Map.unmap('', 'gx')
 	Map.unmap('', 'gO')
-
-	Map(Keys.g .. 'O', 'gO')
 
 	local utils = require('core.statuscolumn.utils')
 	local function open_fold()

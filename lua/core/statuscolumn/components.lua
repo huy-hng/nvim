@@ -10,7 +10,6 @@ nvim.command('Statussign', function(data)
 
 	for i = 1, lines do
 		local sign = vim.fn.sign_getplaced(bufnr, { group = '*', id = nil, lnum = i })
-		if #sign[1].signs > 0 then P(i, sign) end
 	end
 end)
 
@@ -98,7 +97,6 @@ M.border = {
 
 		local status, gitsigns_hl = pcall(utils.get_gitsign_hl, nil, lnum)
 		if not status then
-			P(lnum, gitsigns_hl)
 			return
 		end
 
