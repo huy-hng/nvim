@@ -107,16 +107,17 @@ end
 function M.create_display_text(text) return wrap_text('%{%', text, '()%}') end
 function M.create_on_click_text(text) return wrap_text('%@', text, '.on_click@') end
 
-local function test_gitsigns()
+local function test()
 	local bufnr = vim.api.nvim_get_current_buf()
 	local lnum = vim.api.nvim_win_get_cursor(0)[1]
+	
+	local signs = M.get_signs_in_line(bufnr, '*', lnum)
+	-- signs = M.remove_sign_group(signs, 'gitsigns_signs_')
 
-	local res = M.get_gitsign_hl(bufnr, lnum)
-
-	-- local mark = vim.api.nvim_buf_get_extmarks(bufnr or 0, -1, 0, -1, { details = true })
-	-- P(mark[1])
+	-- P(M.defined_signs)
+	-- P(signs)
 end
 
-Map.n('|', test_gitsigns)
+-- Map.n('|', test)
 
 return M

@@ -61,7 +61,7 @@ M.sign_column = {
 		local sign_hl = ''
 
 		local signs = utils.get_signs_in_line(nil, '*', lnum)
-		signs = utils.remove_sign_group(signs, 'gitsigns_vimfn_signs_')
+		signs = utils.remove_sign_group(signs, 'gitsigns_signs_')
 
 		if #signs > 0 then
 			sign_text = signs[1].text
