@@ -35,6 +35,35 @@ function M.show_ui()
 	end
 end
 
+function M.get_line_count(win)
+	local bufnr = M.get_win_buf(win)
+	local filetype = vim.bo[bufnr].filetype
+	local line_count = vim.api.nvim_buf_line_count(bufnr)
+end
+
+function M.get_win_by_filetype(ft, min_lines)
+	min_lines = min_lines or 2
+	for _, win in ipairs(M.list_wins()) do
+		local bufnr = M.get_win_buf(win)
+		local filetype = vim.bo[bufnr].filetype
+		local line_count = vim.api.nvim_buf_line_count(bufnr)
+
+		local config = M.get_win_config(win)
+		local is_split = config.relative == ''
+
+		if is_split and filetype == ft and line_count >= min_lines then
+			return { id = win, bufnr = bufnr, line_count = line_count }
+		end
+	end
+end
+
+function M.set_cursor_to_last_line(win, ft)
+	win = win or M.get_win_by_filetype(ft)
+	if not win then return end
+	-- vim.api.nvim_win_set_cursor()
+	pcall(M.set_win_cursor, win.id, { win.line_count, 0 })
+end
+
 ---@return number tab_id id of the newly opened tab
 ---@return table cursor_pos elements as returned by vim.api.nvim_win_get_cursor
 function M.open_current_file_in_new_tab(move_cursor)
