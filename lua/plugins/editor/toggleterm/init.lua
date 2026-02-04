@@ -96,67 +96,16 @@ function M.config()
 
 	require('toggleterm').setup(term_config)
 
-	local function wrap_spawn(terminal)
-		return vim.schedule_wrap(function() terminal:spawn() end)
-	end
-
-	local function wrap_open_term(term)
-		local num = ''
-		return function()
-			if term then
-				term:__add()
-				num = term.id
-			end
-			-- print(num)
-			vim.cmd(num .. 'ToggleTerm')
-		end
-	end
 
 	local Terminal = require('toggleterm.terminal').Terminal
 	local lazygit = Terminal:new { cmd = 'lazygit', hidden = true }
-	local kyria_build_map = '<leader>bk'
-	local kyria_build_map_right = '<leader>bkv'
-	local kyria_build_map_left = '<leader>bkl'
 
-	local kyria_build = Terminal:new(build_config)
-
-	Map.n('<c-.>', function()
-		if kyria_build.bufnr then
-			kyria_build:__add()
-			wrap_open_term(kyria_build)()
-			return
-		end
-		wrap_open_term()()
-	end)
-
-	local function build_side(side_cmd)
-		return function()
-			kyria_build:shutdown()
-
-			if not side_cmd and build_config.cmd == nil then
-				vim.notify('No last build cmd, please choose a side to build.', vim.log.levels.ERROR)
-				return
-			end
-
-			if side_cmd then build_config.cmd = side_cmd end
-
-			local side = build_config.cmd == build_cmd_left and 'left' or 'right'
-			vim.notify('Building Kyria in background (' .. side .. ')')
-			kyria_build = Terminal:new(build_config)
-			-- kyria_build:toggle()
-			local ok = pcall(wrap_spawn(kyria_build))
-			-- if ok then return end
-			-- kyria_build:open()
-		end
-	end
-
-	Map.n(kyria_build_map, build_side(), 'build last kyria')
-	Map.n(kyria_build_map_right, build_side(build_cmd_right), 'build right kyria')
-	Map.n(kyria_build_map_left, build_side(build_cmd_left), 'build left kyria')
-
-	Map.n('<leader>gG', function() --
+	
+	Map.n('<leader>gG', function()
 		lazygit:toggle()
 	end, 'open lazygit')
+
+	require('plugins.editor.toggleterm.kyria')
 
 	-- Map.n(
 	-- 	kyria_build_map,
