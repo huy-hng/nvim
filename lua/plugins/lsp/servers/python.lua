@@ -116,7 +116,8 @@ function M.set_python_path(python_path, bufnr)
 
 	bufnr = bufnr or vim.api.nvim_get_current_buf()
 
-	local clients = vim.lsp.get_active_clients {
+	-- local clients = vim.lsp.get_active_clients {
+	local clients = vim.lsp.get_clients {
 		bufnr = bufnr,
 		name = 'pyright',
 	}
@@ -157,7 +158,7 @@ Augroup('PythonVenv', {
 M.pep582 = function(root_dir)
 	local package_ = ''
 	local pdm_match = vim.fn.glob(path.join(root_dir, 'pdm.lock'))
-	if pdm_match ~= '' then package_ = set_venv_dir(pdm_venv_cmd) end
+	-- if pdm_match ~= '' then package_ = set_venv_dir(pdm_venv_cmd) end
 
 	if package_ ~= '' then return path.join(package_, 'lib') end
 end
