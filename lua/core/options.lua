@@ -12,7 +12,15 @@ vim.cmd([[ let maplocalleader="\<BS>" ]])
 -- window transparency
 o.winblend = 0
 o.pumblend = 0
-o.shell = '/bin/zsh'
+
+
+-- local handle = io.popen('which zsh')
+-- if handle then
+-- 	o.shell = handle:read('*a')
+-- 	handle:close()
+-- end
+-- o.shell = '/run/current-system/sw/bin/zsh'
+
 
 o.conceallevel = 2
 o.concealcursor = 'c'
