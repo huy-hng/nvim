@@ -12,9 +12,9 @@ g.neovide_profiler = false
 local function tower_pc()
 	g.neovide_refresh_rate = 120
 
-	g.neovide_refresh_rate_idle = 60
+	g.neovide_window_blurred = true
 	g.neovide_default_transparency = 0.30
-	g.gui_font_default_size = 10.5
+	g.gui_font_default_size = 11
 
 	-- nvim.schedule(os_fn.toggle_blur_on_kde, true)
 	nvim.defer(1000, os_fn.toggle_blur_on_kde, true)
