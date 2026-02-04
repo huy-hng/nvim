@@ -34,22 +34,22 @@ function M.config()
 			['<esc>'] = { 'actions.close', mode = 'n' },
 			['q'] = { 'actions.close', mode = 'n' },
 
-			[Keys.alt.h] = { 'actions.parent', mode = 'n' },
+			[Keys.h] = { 'actions.parent', mode = 'n' },
+			[Keys.l] = { 'actions.select', mode = 'n' },
+			['<CR>'] = 'actions.select',
+
+			[Keys.alt.h] = { 'h', mode = 'n' },
 			[Keys.alt.j] = { 'j', mode = 'n' },
 			[Keys.alt.k] = { 'k', mode = 'n' },
-			[Keys.alt.l] = { 'actions.select', mode = 'n' },
+			[Keys.alt.l] = { 'l', mode = 'n' },
 
-			[Keys.ctrl.h] = { 'actions.parent', mode = 'n' },
-			[Keys.ctrl.l] = { 'actions.select', mode = 'n' },
-
-			['<CR>'] = 'actions.select',
 
 			['N'] = { 'actions.preview_scroll_down', mode = 'n' },
 			['E'] = { 'actions.preview_scroll_up', mode = 'n' },
 			-- ['<C-p>'] = 'actions.preview',
 
 			['?'] = { 'actions.show_help', mode = 'n' },
-			['<C-s>'] = { 'actions.select', opts = { vertical = true } },
+			['<C-v>'] = { 'actions.select', opts = { vertical = true } },
 			['<C-h>'] = { 'actions.select', opts = { horizontal = true } },
 			['<C-t>'] = { 'actions.select', opts = { tab = true } },
 			['<C-l>'] = 'actions.refresh',
