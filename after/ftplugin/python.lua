@@ -1,6 +1,7 @@
 -- vim.opt_local.expandtab = false
 
 local noice = nrequire('noice')
+local winman = R('modules.window_manager')
 
 local function execute()
 	vim.cmd.write()
@@ -8,9 +9,12 @@ local function execute()
 	local bufnr = vim.api.nvim_get_current_buf()
 
 	local python_path = vim.b[bufnr].pythonPath
-	python_path = python_path or '$PYTHONPATH'
+	python_path = python_path or '$(which python)'
 
-	vim.cmd(string.format('!%s %%', python_path))
+	-- print(python_path, )
+	-- vim.cmd(string.format('!%s %%', python_path))
+	print()
+	vim.cmd('!python %')
 end
 
 local function pretty_print_output()
@@ -23,9 +27,21 @@ end
 
 local function redirect_output()
 	if not noice then return end
+	
+	local win = winman.get_win_by_filetype('noice')
+
+	-- view = 'cmdline_popup' displays the time
 	noice.redirect(pretty_print_output, {
-		{ view = false, filter = { event = 'msg_show' }, skip = true },
+		{ view = 'vsplit', filter = { event = 'msg_show' }, skip = true },
 	})
+
+	if not win then return end
+
+	-- set active win to noice win, put the last line at top and switch back to prev win
+	local curr_win = winman.get_win()
+	winman.set_win(win.id)
+	nvim.normal(tostring(win.line_count+1)..'zt')
+	winman.set_win(curr_win)
 end
 
 local cmd = noice and redirect_output or execute
