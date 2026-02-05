@@ -5,7 +5,7 @@ local go = vim.go
 
 --------------------------------------------Appearence----------------------------------------------
 
-g.neovide_fullscreen = false
+g.neovide_fullscreen = true
 
 -- g.neovide_refresh_rate = 60
 g.neovide_refresh_rate_idle = 15
