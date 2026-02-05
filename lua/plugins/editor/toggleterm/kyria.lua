@@ -88,17 +88,16 @@ local function wrap_open_term(term)
 	end
 end
 
-Map.n('<c-.>', function()
-	if kyria_build.bufnr then
-		kyria_build:__add()
-		wrap_open_term(kyria_build)()
-		return
-	end
-	wrap_open_term()()
-end)
+-- Map.n('<c-.>', function()
+-- 	if kyria_build.bufnr then
+-- 		kyria_build:__add()
+-- 		wrap_open_term(kyria_build)()
+-- 		return
+-- 	end
+-- 	wrap_open_term()()
+-- end)
 
 
-Map.n(kyria_build_map, build_side(), 'build last kyria')
-Map.n(kyria_build_map_right, build_side(build_cmd_right), 'build right kyria')
-Map.n(kyria_build_map_left, build_side(build_cmd_left), 'build left kyria')
-
+-- Map.n(kyria_build_map, build_side(), 'build last kyria')
+-- Map.n(kyria_build_map_right, build_side(build_cmd_right), 'build right kyria')
+-- Map.n(kyria_build_map_left, build_side(build_cmd_left), 'build left kyria')
