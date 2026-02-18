@@ -62,6 +62,12 @@ function M.set_keymap()
 	Map.unmap('', 'gc')
 	Map.unmap('', 'gcc')
 	Map.unmap('', 'gx')
+
+	Map.unmap('', 'grn')
+	Map.unmap('', 'gra')
+	Map.unmap('', 'grr')
+	Map.unmap('', 'gri')
+	Map.unmap('', 'grt')
 	Map.unmap('', 'gO')
 
 	local utils = require('core.statuscolumn.utils')
