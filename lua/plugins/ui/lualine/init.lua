@@ -108,7 +108,7 @@ function M.config()
 			-- 'nvim-tree',
 			'quickfix',
 			-- 'symbols-outline',
-			'toggleterm',
+			-- 'toggleterm',
 		},
 	}
 

@@ -58,7 +58,7 @@ function M.config()
 			light = 'latte',
 			dark = 'mocha',
 		},
-		transparent_background = vim.env.KITTY_WINDOW_ID and true or false,
+		transparent_background = not vim.g.has_neovide and true or false,
 		show_end_of_buffer = false, -- shows the '~' characters after the end of buffers
 		term_colors = false,
 		styles = {
@@ -106,6 +106,8 @@ function M.config()
 	-- prevented breaking of all colors on plugin reload
 	-- nvim.schedule(SetColors, 'catppuccin-mocha')
 end
+
+
 
 -- rosewater #f5e0dc  rgb(245, 224, 220)  hsl( 10, 56%, 91%)
 -- flamingo  #f2cdcd  rgb(242, 205, 205)  hsl(  0, 59%, 88%)
