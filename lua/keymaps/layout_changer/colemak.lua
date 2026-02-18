@@ -31,7 +31,7 @@ function M.set_keymap()
 	Map(Keys.g .. 'u', 'gu', 'Lower Case')
 	Map(Keys.g .. 'U', 'gU', 'Upper Case')
 	Map(Keys.g .. 'w', 'gw', 'Format line or selection')
-	Map(Keys.g .. 'O', 'gO')
+	Map(Keys.g .. 'O', vim.lsp.buf.document_symbol, 'vim.lsp.buf.document_symbol()')
 
 	Map(Keys.gE, 'gE')
 	Map(Keys.ge, 'ge')
@@ -69,6 +69,7 @@ function M.set_keymap()
 	Map.unmap('', 'gri')
 	Map.unmap('', 'grt')
 	Map.unmap('', 'gO')
+
 
 	local utils = require('core.statuscolumn.utils')
 	local function open_fold()
