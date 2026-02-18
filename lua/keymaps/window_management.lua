@@ -2,9 +2,6 @@
 Map.n(Keys.ctrl.h, { vim.cmd.wincmd, 'h' }, 'Go to left window')
 Map.n(Keys.ctrl.l, { vim.cmd.wincmd, 'l' }, 'Go to right window')
 
--- Map.n(Keys.ctrl.j, Util.wrap(vim.cmd.wincmd, 'j'))
--- Map.n(Keys.ctrl.k, Util.wrap(vim.cmd.wincmd, 'k'))
-
 Map.n('<S-left>',  { vim.cmd.wincmd, 'h' }, 'Go to left window')
 Map.n('<S-down>',  { vim.cmd.wincmd, 'j' }, 'Go to down window')
 Map.n('<S-up>',    { vim.cmd.wincmd, 'k' }, 'Go to up window')
