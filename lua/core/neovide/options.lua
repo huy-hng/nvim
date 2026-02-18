@@ -51,6 +51,7 @@ g.neovide_touch_drag_timeout = 0.3
 g.neovide_cursor_animation_length = 0.03 -- 0.13
 g.neovide_cursor_trail_size = 0.5 -- 0.8
 g.neovide_cursor_antialiasing = true
+g.neovide_cursor_smooth_blink = true
 
 ---------------------------------------------Animation----------------------------------------------
 
@@ -58,8 +59,9 @@ g.neovide_cursor_antialiasing = true
 -- g.neovide_cursor_vfx_mode = ''
 g.neovide_cursor_vfx_mode = 'pixiedust'
 g.neovide_cursor_vfx_opacity = 200 -- 200
-g.neovide_cursor_vfx_particle_lifetime = 1.2 -- 1.2
-g.neovide_cursor_vfx_particle_density = 10 -- 7
+g.neovide_cursor_vfx_particle_lifetime = 0.5 -- 0.5
+g.neovide_cursor_vfx_particle_highlight_lifetime = 0.2 -- 0.2
+g.neovide_cursor_vfx_particle_density = 4 -- 0.7
 g.neovide_cursor_vfx_particle_speed = 10 -- 10
 
 -- only for railgun

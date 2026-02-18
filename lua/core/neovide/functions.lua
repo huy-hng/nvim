@@ -40,19 +40,22 @@ M.change_window_opacity = function(value, speed, absolute)
 	speed = speed or 10
 	local max_winblend = 75
 	local max_pumblend = 50
+	g.neovide_opacity = g.neovide_default_opacity
+	vim.go.pumblend = max_pumblend
 
-	local new_transparency
-	if absolute then
-		new_transparency = value
-	else
-		new_transparency = g.neovide_transparency + value
-	end
-	new_transparency = math.clamp(new_transparency, 0, 1)
+	-- local new_transparency
+	-- if absolute then
+	-- 	new_transparency = value
+	-- else
+	-- 	new_transparency = g.neovide_transparency + value
+	-- end
+	-- new_transparency = math.clamp(new_transparency, 0, 1)
 
-	local new_winblend = linear_distribution(0, max_winblend, new_transparency)
-	local new_pumblend = linear_distribution(0, max_pumblend, new_transparency)
+	-- local new_winblend = linear_distribution(0, max_winblend, new_transparency)
+	-- local new_pumblend = linear_distribution(0, max_pumblend, new_transparency)
 
-	os_fn.animate_transparency_change(new_transparency, new_winblend, new_pumblend, speed)
+	-- os_fn.animate_transparency_change(new_transparency, new_winblend, new_pumblend, speed)
+
 end
 
 return M
