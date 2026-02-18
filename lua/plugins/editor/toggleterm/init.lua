@@ -9,7 +9,7 @@ function M.config()
 	require('plugins.editor.toggleterm.led_strip')
 
 	local term_config = {
-		start_in_insert = false,
+		start_in_insert = true,
 		size = function(term)
 			if term.direction == 'vertical' then
 				return 80
@@ -20,6 +20,7 @@ function M.config()
 		end,
 		direction = 'vertical',
 		-- open_mapping = '<c-d>',
+		open_mapping = '<C-A-t>',
 		close_on_exit = true,
 		float_opts = {
 			border = 'none', -- 'single' | 'double' | 'shadow' | 'curved' | ... other options supported by win open
@@ -53,7 +54,10 @@ function M.config()
 		},
 	}
 
-	require('toggleterm').setup(term_config)
+	local toggleterm = require('toggleterm')
+	toggleterm.setup(term_config)
+
+	-- Map.n('<leader>T', vim.cmd.ToggleTerm, 'Open a terminal')
 end
 
 return M

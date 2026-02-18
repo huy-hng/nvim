@@ -4,11 +4,18 @@ local winman = require('modules.window_manager')
 
 local is_running = false
 
-local led_strip = Terminal:new({
-	cmd = 'ssh -t pi@192.168.178.200 sudo /home/pi/.local/share/virtualenvs/led_strip-XMPmSfNO/bin/python /home/pi/repositories/led_strip/main.py',
+-- 'nix-shell --command "PIPENV_VENV_IN_PROJECT=0 pipenv run python main.py"'
+local run_locally = 'nix-shell --command "uv run main.py"'
+local ssh = 'ssh -t pi@192.168.178.200 "sudo /home/pi/.local/bin/uv --directory /home/pi/repositories/led_strip run main.py"'
+-- local ssh = ''
+-- local command = 'ssh -t pi@192.168.178.200 sudo /home/pi/.local/share/virtualenvs/led_strip-XMPmSfNO/bin/python /home/pi/repositories/led_strip/main.py',
+
+local function create_config(cmd)
+	return {
+	cmd = cmd,
 	hidden = true,
 	start_in_insert = false,
-	close_on_exit = true,
+	close_on_exit = false,
 	count = 1,
 	direction = 'vertical',
 	on_create = function(term) -- function to run when the terminal is first created
@@ -25,24 +32,63 @@ local led_strip = Terminal:new({
 		-- vim.notify('closed')
 		-- term_winid = nil
 	end,
-})
+	-- term: Terminal, job: number, data: string[], name: string
+	on_stdout = function(term, job, data, name)
+		-- for _, text in ipairs(data) do
+			-- vim.notify(text)
+		-- end
+	end
+}
+end
 
-Map.n('<localleader>j', function()
-	led_strip:toggle()
-end, 'run led_strip script on rpi zero')
+local ssh_term = Terminal:new(create_config(ssh))
+local local_term = Terminal:new(create_config(run_locally))
 
-Map.n('<C-.>', function()
+local function run_in_foreground(term)
+	AutosaveSession(false)
+	vim.cmd.write()
+	local curr_win = winman.get_win()
+
+	if not term:is_open() then
+		nvim.defer(200, function()
+			term:open()
+			nvim.defer(400, function()
+				winman.set_win(curr_win)
+				vim.cmd.wincmd('=')
+			end)
+		end)
+		return
+	end
+
+
+	-- nvim.feedkeys('i<C-c>')
+	-- nvim.defer(100, function()
+	term:shutdown()
+	nvim.defer(200, function()
+		term:open()
+		nvim.schedule(winman.set_win, curr_win)
+	end)
+	-- end)
+
+	AutosaveSession(true)
+
+end
+
+local function run_in_background(term)
 	AutosaveSession(false)
 
-	led_strip:toggle()
+	term:toggle()
 	nvim.feedkeys('i<C-c>')
 	nvim.defer(100, function()
-		led_strip:shutdown()
+		term:shutdown()
 
 		nvim.defer(200, function()
-			led_strip:spawn()
+			term:spawn()
 		end)
 	end)
 
 	AutosaveSession(true)
-end, 'run led_strip script on rpi zero')
+end
+
+Map.n('<localleader>j', {run_in_foreground, local_term}, 'run led_strip script on rpi zero')
+Map.n('<C-.>', {run_in_foreground, ssh_term}, 'run led_strip script on rpi zero')
