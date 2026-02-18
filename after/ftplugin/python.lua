@@ -13,7 +13,7 @@ local function execute()
 
 	-- print(python_path, )
 	-- vim.cmd(string.format('!%s %%', python_path))
-	print()
+	-- print()
 	vim.cmd('!python %')
 end
 
@@ -27,21 +27,24 @@ end
 
 local function redirect_output()
 	if not noice then return end
-	
+
 	local win = winman.get_win_by_filetype('noice')
 
-	-- view = 'cmdline_popup' displays the time
-	noice.redirect(pretty_print_output, {
-		{ view = 'vsplit', filter = { event = 'msg_show' }, skip = true },
-	})
+	-- noice.redirect(pretty_print_output, {
+	-- 	{ view = 'vsplit', filter = { event = 'msg_show' }, skip = true },
+	-- })
+
+	execute()
 
 	if not win then return end
 
 	-- set active win to noice win, put the last line at top and switch back to prev win
 	local curr_win = winman.get_win()
-	winman.set_win(win.id)
-	nvim.normal(tostring(win.line_count+1)..'zt')
-	winman.set_win(curr_win)
+	nvim.schedule(function ()
+		winman.set_win(win.id)
+		nvim.normal(tostring(win.line_count + 1) .. 'zt')
+		winman.set_win(curr_win)
+	end)
 end
 
 local cmd = noice and redirect_output or execute
