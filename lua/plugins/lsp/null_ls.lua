@@ -1,6 +1,6 @@
 local M = {
-	-- 'nvimtools/none-ls.nvim',
-	'jose-elias-alvarez/null-ls.nvim',
+	'nvimtools/none-ls.nvim',
+	-- 'jose-elias-alvarez/null-ls.nvim',
 	event = 'VeryLazy',
 }
 
@@ -18,19 +18,21 @@ function M.config()
 		sources = {
 			completion.luasnip,
 			code_actions.ts_node_action,
-			formatting.autopep8, -- changes tabs to spaces
-			-- formatting.autopep8.with {
-			-- 	extra_args = { '--ignore W191,E402', '--max-line-length 100', '--experimental' },
-			-- },
+			-- formatting.autopep8, -- changes tabs to spaces
+
 			formatting.stylua,
-			formatting.fixjson,
+			-- formatting.fixjson,
 			-- formatting.xmlformat.with { extra_args = { '--selfclose', '--indent=1', '\t' } },
-			formatting.beautysh.with { extra_args = { '--tabs' } },
+			-- formatting.beautysh.with { extra_args = { '--tabs' } },
 			formatting.prettier.with {
 				extra_args = { '--no-semi', '--single-quote', '--jsx-single-quote' },
 			},
 			formatting.clang_format,
 			-- diagnostics.flake8
+
+			-- formatting.autopep8.with {
+			-- 	extra_args = { '--ignore W191,E402', '--max-line-length 100', '--experimental' },
+			-- },
 		},
 	}
 end
