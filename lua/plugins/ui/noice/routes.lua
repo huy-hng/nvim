@@ -51,6 +51,22 @@ return {
 	----------------------------------------------split---------------------------------------------
 
 	{
+		-- view = 'cmdline_popup' displays the time
+		view = 'vsplit',
+		filter = {
+			event = 'msg_show',
+			kind = {
+				'shell_out',
+				'shell_err',
+			},
+		},
+		opts = {
+			-- skip = false,
+			-- level = 'info',
+			-- replace = false,
+		},
+	},
+	{
 		view = 'split',
 		filter = { event = 'msg_show', kind = 'return_prompt' },
 	},

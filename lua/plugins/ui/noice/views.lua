@@ -27,10 +27,10 @@ return {
 
 	mini_left = {
 		view = 'mini',
-		position = { row = -1, col = 0 },
+		position = { row = -1, col = 1 },
 		align = 'message-left',
 		reverse = false,
-		replace = true,
+		replace = false,
 		timeout = 4000,
 	},
 	mini_center = {

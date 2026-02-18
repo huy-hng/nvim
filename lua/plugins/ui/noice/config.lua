@@ -23,10 +23,9 @@ return {
 		},
 	},
 	messages = {
-		-- enabled = not vim.g.has_neovide,
 		enabled = true,
 		-- view = 'mini_center', -- default view
-		view = 'mini_left', -- default view
+		view = 'mini_left',
 		view_warn = 'notify',
 		view_error = 'notify',
 		view_history = 'messages', -- view for :messages
@@ -43,6 +42,8 @@ return {
 	redirect = {
 		view = 'messages',
 		filter = { event = 'msg_show' },
+		opts = { stop = true, skip = true },
+
 	},
 	-- You can add any custom commands below that will be available with `:Noice command`
 	commands = {

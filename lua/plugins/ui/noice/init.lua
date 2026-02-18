@@ -8,12 +8,6 @@ local function get_config() --
 	return R('plugins.ui.noice.config')
 end
 
-local function enable_messages(enable)
-	local config = get_config()
-	config.messages.enabled = enable
-	require('noice').setup(config)
-end
-
 local function test_spinners(config)
 	config.format.spinner.name = 'bounce'
 	local Progress = require('noice.lsp.progress')
@@ -103,25 +97,19 @@ function M.config()
 	end
 
 	Map.c('<A-Enter>', function()
-		-- if vim.g.has_neovide then enable_messages(true) end
 		vim.notify('redirect')
 		vim.schedule(function()
 			require('noice').redirect(vim.fn.getcmdline())
-			-- if vim.g.has_neovide then enable_messages(false) end
 		end)
 	end, 'Redirect Cmdline')
 
 	Map.n(Keys.message_history, function()
-		if not vim.g.has_neovide or Util.is_cmdwin() then
+		if Util.is_cmdwin() then
 			vim.cmd.messages()
 			return
 		end
-		-- enable_messages(true)
 		nvim.schedule(function()
 			vim.cmd.messages()
-			-- vim.cmd.Noice('messages')
-			-- nvim.defer(100, nvim.feedkeys, 'G')
-			-- enable_messages(false)
 		end)
 	end)
 end
