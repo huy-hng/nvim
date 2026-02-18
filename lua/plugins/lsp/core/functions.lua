@@ -34,7 +34,7 @@ function M.diagnostic_float()
 	if not win_id then return end
 
 	local config = vim.api.nvim_win_get_config(win_id)
-	config.col[false] = 0
+	-- config.col[false] = 0
 	-- config.anchor = 'NE'
 	vim.api.nvim_win_set_config(win_id, config)
 

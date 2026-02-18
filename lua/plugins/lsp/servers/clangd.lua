@@ -23,6 +23,8 @@ end
 return {
 	cmd = {
 		'clangd',
+		-- '--query-driver=/run/current-system/sw/bin/arm-none-eabi-g*',
+		-- '--query-driver=*gcc*',
 		-- '--all-scopes-completion',
 		-- '--suggest-missing-includes',
 		'--background-index',
@@ -36,7 +38,6 @@ return {
 		-- '--clang-tidy-checks=-*,llvm-*,clang-analyzer-*,modernize-*,-modernize-use-trailing-return-type',
 		-- '--fallback-style=Google',
 		-- '--header-insertion=never',
-		-- '--query-driver=<list-of-white-listed-complers>',
 	},
 
 	commands = {
@@ -55,16 +56,16 @@ return {
 	},
 
 	on_attach = function(client, bufnr)
-		require('clangd_extensions.inlay_hints').setup_autocmd()
-		require('clangd_extensions.inlay_hints').set_inlay_hints()
+		-- require('clangd_extensions.inlay_hints').setup_autocmd()
+		-- require('clangd_extensions.inlay_hints').set_inlay_hints()
 	end,
 
 	settings = {
 		clangd = {
-			inactiveRegions = {
-				opacity = 1,
-				useBackgroundHighlight = true,
-			},
+			-- inactiveRegions = {
+			-- 	opacity = 1,
+			-- 	useBackgroundHighlight = true,
+			-- },
 			-- semanticHighlighting = true,
 			-- fallbackFlags = {},
 		},

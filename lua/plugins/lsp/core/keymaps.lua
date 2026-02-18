@@ -5,7 +5,7 @@ local fns = require('plugins.lsp.core.functions')
 Map.nv('<leader>ll', fns.lsp_format, 'Format Document or Selection')
 
 return function(bufnr)
-	vim.api.nvim_buf_set_option(bufnr, 'omnifunc', 'v:lua.vim.lsp.omnifunc')
+	vim.api.nvim_set_option_value('omnifunc',  'v:lua.vim.lsp.omnifunc', {buf=bufnr})
 
 	local opts = { buffer = bufnr }
 
@@ -18,8 +18,8 @@ return function(bufnr)
 	-- diag_map.n('o', fns.diagnostic_float, 'open Float')
 	no_prefix_map.n('N', fns.diagnostic_float, 'open Float')
 
-	diag_map.n('n', vim.diagnostic.goto_prev, 'Go to prev Diagnostic')
-	diag_map.n('e', vim.diagnostic.goto_next, 'Go to next Diagnostic')
+	-- diag_map.n('n', vim.diagnostic.goto_prev, 'Go to prev Diagnostic')
+	-- diag_map.n('e', vim.diagnostic.goto_next, 'Go to next Diagnostic')
 
 	lsp_map.n('gl', vim.diagnostic.setloclist)
 	lsp_map.n('P', fns.PeekDefinition)

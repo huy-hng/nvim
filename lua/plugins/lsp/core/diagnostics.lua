@@ -1,18 +1,16 @@
 local icons = require('config.ui.icons').diagnostics_sign
-local signs = {
-	{ name = 'DiagnosticSignError', text = icons.error },
-	{ name = 'DiagnosticSignWarn', text = icons.warning },
-	{ name = 'DiagnosticSignInfo', text = icons.info },
-	{ name = 'DiagnosticSignHint', text = icons.hint },
-}
-
-for _, sign in ipairs(signs) do
-	vim.fn.sign_define(sign.name, { texthl = sign.name, text = sign.text, numhl = '' })
-end
 
 vim.diagnostic.config {
 	virtual_text = false,
-	signs = { severity = { min = vim.diagnostic.severity.HINT } },
+	signs = {
+		severity = { min = vim.diagnostic.severity.HINT },
+		text = {
+			[vim.diagnostic.severity.ERROR] = icons.error,
+			[vim.diagnostic.severity.WARN] = icons.warning,
+			[vim.diagnostic.severity.INFO] = icons.info,
+			[vim.diagnostic.severity.HINT] = icons.hint,
+		},
+	},
 	update_in_insert = false,
 	underline = { severity = { min = vim.diagnostic.severity.WARN } },
 	severity_sort = true,
@@ -25,18 +23,22 @@ vim.diagnostic.config {
 		-- pad_top = 1, -- creates weird bug with highlighting
 		focusable = true,
 		style = 'minimal',
-		border = 'none',
+		border = 'solid', -- bold | double | none | rounded | shadow | single | solid
 		source = 'if_many',
-		header = ' ',
+		header = '',
 
 		-- header = '  Diagnostics',
 		prefix = function(diagnostic, i, total)
 			local prefix = '  '
 			if total > 1 then prefix = prefix .. i .. ': ' end
-			return prefix
+			return prefix, 'Diagnostics'
 		end,
-		suffix = '  ',
-		relative = 'editor',
-		position = { row = -2, col = '55%' },
+		suffix = function(diagnostic, i, total)
+			local suffix = ' (' .. diagnostic.code .. ')  '
+			-- P(diagnostic)
+			return suffix, 'Comment'
+		end,
+		-- relative = 'editor',
+		-- position = { row = -2, col = '55%' },
 	},
 }

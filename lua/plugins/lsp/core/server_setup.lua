@@ -1,7 +1,5 @@
 local M = {}
 
-local lspconfig = require('lspconfig')
-
 local capabilities = vim.lsp.protocol.make_client_capabilities()
 
 capabilities.textDocument.foldingRange = {
@@ -20,7 +18,8 @@ capabilities.textDocument.foldingRange = {
 local language_servers = {
 	'jsonls',
 	'lua_ls',
-	'pyright',
+	'ty', -- python
+	-- 'pyright',
 	'clangd',
 	'vimls',
 	'lemminx', --xml
@@ -56,7 +55,8 @@ function M.setup()
 	for _, server_name in ipairs(language_servers) do
 		local server_opts = nrequire('plugins.lsp.servers.' .. server_name)
 		local merged_opts = merge_opts(server_opts)
-		lspconfig[server_name].setup(merged_opts)
+		vim.lsp.config(server_name, merged_opts)
+		vim.lsp.enable(server_name)
 	end
 end
 

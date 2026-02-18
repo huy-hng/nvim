@@ -39,9 +39,12 @@ function M.config()
 
 	require('mason-lspconfig').setup {
 		ensure_installed = {
-			'pyright',
+			-- 'pyright',
+			-- 'clangd', -- install through nix config
+			'ruff',
+			'jsonls',
 		},
-		automatic_installation = true, -- not the same as ensure_installed
+		automatic_installation = false, -- not the same as ensure_installed
 	}
 
 	require('mason-null-ls').setup {
@@ -52,7 +55,11 @@ function M.config()
 			'stylua', -- lua formatter
 			'yamlfmt',
 			'fixjson',
-			'autopep8', -- python
+			-- 'autopep8', -- python
+
+			-- python
+			'ty', -- lsp?
+			'ruff', -- linter / formatter
 
 			-- diagnostics
 			'vimls',

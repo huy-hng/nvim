@@ -32,6 +32,7 @@ function M.get_root_dir(fname) --
 	return util.root_pattern(unpack(root_files))(fname)
 end
 
+local uv_venv_cmd = { 'pipenv', '--venv', '--quiet' }
 local pipenv_venv_cmd = { 'pipenv', '--venv', '--quiet' }
 local poetry_venv_cmd = { 'poetry', 'env', 'info', '-p' }
 local pdm_venv_cmd = { 'pdm', 'info', '--packages' }
@@ -47,6 +48,7 @@ end
 
 local function get_package_manager_cmd(root_dir)
 	local cmd
+	if match(root_dir, 'pyproject.toml') ~= '' then cmd = pipenv_venv_cmd end
 	if match(root_dir, 'Pipfile.lock') ~= '' then cmd = pipenv_venv_cmd end
 	if match(root_dir, 'poetry.lock') ~= '' then cmd = poetry_venv_cmd end
 	return cmd
@@ -135,24 +137,24 @@ function M.set_python_path(python_path, bufnr)
 	end
 end
 
-Augroup('PythonVenv', {
-	Autocmd('BufEnter', '*.py', function(data)
-		---@cast data autocmd_data
+-- Augroup('PythonVenv', {
+-- 	Autocmd('BufEnter', '*.py', function(data)
+-- 		---@cast data autocmd_data
 
-		local bufnr = data.buf
+-- 		local bufnr = data.buf
 
-		if vim.b[bufnr].pythonPath then
-			M.set_python_path(vim.b[bufnr].pythonPath, bufnr)
-			return
-		end
+-- 		if vim.b[bufnr].pythonPath then
+-- 			M.set_python_path(vim.b[bufnr].pythonPath, bufnr)
+-- 			return
+-- 		end
 
-		local root_dir = M.get_root_dir(data.file)
-		M.get_python_path(root_dir, function(python_path) --
-			vim.b[bufnr].pythonPath = python_path
-			M.set_python_path(vim.b[bufnr].pythonPath, bufnr)
-		end)
-	end),
-})
+-- 		local root_dir = M.get_root_dir(data.file)
+-- 		M.get_python_path(root_dir, function(python_path) --
+-- 			vim.b[bufnr].pythonPath = python_path
+-- 			M.set_python_path(vim.b[bufnr].pythonPath, bufnr)
+-- 		end)
+-- 	end),
+-- })
 
 -- PEP 582 support
 M.pep582 = function(root_dir)
