@@ -36,7 +36,7 @@ function M.config()
 		print_messages(data.event)
 		if data.event == 'CmdWinEnter' or vim.fn.mode() == 'c' then return end
 		-- if data.file == '' and data.match == '' then return end -- use this for BufAdd
-		local buftype = {
+		local buftype_blacklist = {
 			'acwrite',
 			'help',
 			'nofile',
@@ -45,6 +45,10 @@ function M.config()
 			'terminal',
 			'prompt',
 		}
+		-- local bufnr = vim.api.nvim_win_get_buf(0)
+		-- local buftype = vim.bo[bufnr].buftype
+		-- if buftype_blacklist[buftype] then return end
+
 		-- dont save when entering floating window
 		if vim.api.nvim_win_get_config(0).relative ~= '' then return end
 
@@ -52,7 +56,6 @@ function M.config()
 		if new_save - last_save < MAX_SAVE_INTERVAL then return end
 		last_save = new_save
 		nvim.schedule(commands.save, '', true)
-		-- commands.save('', true)
 	end
 
 	local function start_autosave_autocmd()
@@ -67,12 +70,6 @@ function M.config()
 		pcall(vim.api.nvim_del_augroup_by_name, 'AutosaveSession')
 	end
 
-	local function reload_autosaver()
-		stop_autosave_autocmd()
-		start_autosave_autocmd()
-	end
-	-- reload_autosaver()
-
 	function AutosaveSession(save)
 		if save == false then
 			stop_autosave_autocmd()
@@ -85,7 +82,6 @@ function M.config()
 		session_dir = vim.fn.stdpath('data') .. '/possession',
 		silent = true,
 		load_silent = true,
-		debug = false,
 		prompt_no_cr = false, -- pressing y/n suffices
 		autosave = {
 			current = true, -- or fun(name): boolean, save current session if it exists
@@ -105,13 +101,19 @@ function M.config()
 			on_quit = true,
 		},
 		commands = {
-			save = 'SSave',
-			load = 'SLoad',
-			delete = 'SDelete',
-			list = 'SList',
-			close = 'SClose',
-			show = 'SShow',
-			migrate = 'SMigrate',
+			save = 'SessionSave',
+			load = 'SessionLoad',
+			delete = 'SessionDelete',
+			list = 'SessionList',
+			close = 'SessionClose',
+			show = 'SessionShow',
+			migrate = 'SessionMigrate',
+
+			save_cwd = 'SessionSaveCwd',
+			load_cwd = 'SessionLoadCwd',
+			rename = 'SessionRename',
+			-- pick = 'SessionPick',
+			list_cwd = 'SessionListCwd',
 		},
 		hooks = {
 			before_save = function(name)
