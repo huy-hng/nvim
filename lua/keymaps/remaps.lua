@@ -35,7 +35,16 @@ Map.i(',', ',<c-g>u')
 Map.i('.', '.<c-g>u')
 Map.i(';', ';<c-g>u')
 Map.i('<C-r>', '<C-g>u<C-r>')
-Map.i('<C-d>', '<C-g>u<C-r>+')
+
+Map.i('<C-d>', function()
+	vim.o.paste = true
+	nvim.feedkeys('<C-g>u<C-r>+')
+	nvim.schedule(function() vim.o.paste = false end)
+end)
+
+-- Map.t('<C-d>', [[<C-\><C-N>"pi]], 'paste')
+-- :tnoremap <expr> <C-R> '<C-\><C-N>"'.nr2char(getchar()).'pi'
+
 Map.c('<C-d>', '<C-r>+', 'Paste from clipboard', { silent = false })
 
 local function direction(next)
