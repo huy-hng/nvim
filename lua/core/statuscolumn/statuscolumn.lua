@@ -28,15 +28,12 @@ function M.build(tbl)
 	return table.concat(statuscolumn)
 end
 
-local function get_scope(winid)
-	if winid and vim.api.nvim_win_is_valid(winid) then --
-		return vim.wo[winid]
-	end
-	return vim.o
-end
-
 function M.set_options(opts, winid)
-	local scope = get_scope(winid)
+	local scope = vim.o
+	if winid and vim.api.nvim_win_is_valid(winid) then --
+		scope = vim.wo[winid]
+	end
+
 	for opt, value in pairs(opts) do
 		scope[opt] = value
 	end
@@ -81,6 +78,7 @@ M.columns = {
 		Statuscolumn.border,
 		Statuscolumn.space,
 	},
+
 	minimal = M.build {
 		Statuscolumn.right_align,
 		Statuscolumn.line_number,

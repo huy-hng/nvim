@@ -24,6 +24,7 @@ M.line_number = {
 		-- return current line number
 		if vim.v.relnum == 0 then return vim.v.lnum end
 
+
 		local lnum = vim.o.relativenumber and vim.v.relnum or vim.v.lnum
 		local hl = 'LineNr'
 
@@ -31,6 +32,10 @@ M.line_number = {
 			lnum = vim.v.lnum
 			hl = utils.is_collapsed_fold(vim.v.lnum) and 'LineNrHighlightFold' or 'LineNrHighlight'
 		end
+
+		-- highlight linenum depinding on diagnostic in that line
+		-- local diagnostics = vim.diagnostic.get(0, {lnum=vim.v.lnum-1})
+		-- if #diagnostics > 0 then return lnum end
 
 		return utils.wrap_hl(lnum, hl)
 	end,
@@ -54,6 +59,33 @@ M.sparse_line_number = {
 	-- on_click = function(clicks, button, modifiers, mousepos) end,
 }
 
+local diagnostic_icons = require('config.ui.icons').diagnostics_sign
+local diagnostic_lookup = {
+	[vim.diagnostic.severity.ERROR] = { text = diagnostic_icons.error,		hl = 'DiagnosticSignError' },
+	[vim.diagnostic.severity.WARN]  = { text = diagnostic_icons.warning,	hl = 'DiagnosticSignWarn' },
+	[vim.diagnostic.severity.INFO]  = { text = diagnostic_icons.info,		hl = 'DiagnosticSignInfo' },
+	[vim.diagnostic.severity.HINT]  = { text = diagnostic_icons.hint,		hl = 'DiagnosticSignHint' },
+}
+
+local function get_diagnostic_signs(lnum)
+	local diagnostics = vim.diagnostic.get(0, {lnum=lnum})
+	local max_severity = 5
+	for _, diagnostic in ipairs(diagnostics) do
+		if diagnostic.user_data and diagnostic.user_data.lsp then
+			if diagnostic.user_data.lsp.severity < max_severity then
+				max_severity = diagnostic.user_data.lsp.severity
+			end
+		end
+	end
+
+	local text, hl = nil, nil
+	if max_severity < 5 then
+		text = diagnostic_lookup[max_severity].text
+		hl = diagnostic_lookup[max_severity].hl
+	end
+	return text, hl
+end
+
 M.sign_column = {
 	function()
 		local lnum = vim.v.lnum
@@ -68,6 +100,10 @@ M.sign_column = {
 			sign_hl = signs[1].hl
 		end
 
+		local diag_text, diag_hl = get_diagnostic_signs(lnum-1)
+		if diag_text then sign_text = diag_text end
+		if diag_hl then sign_hl = diag_hl end
+
 		return utils.wrap_hl(sign_text, sign_hl)
 	end,
 
@@ -81,12 +117,12 @@ M.sign_column = {
 		if sign == ' ' then sign = vim.fn.screenstring(row, col - 1) end
 
 		if not utils.defined_signs[sign] then utils.update_sign_defined() end
-		for name, text in pairs(utils.defined_signs) do
+		-- for name, text in pairs(utils.defined_signs) do
 			-- if text == sign and cfg[name] then
 			-- 	S(function() cfg[name](args) end)
 			-- 	break
 			-- end
-		end
+		-- end
 	end,
 }
 
