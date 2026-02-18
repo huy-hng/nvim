@@ -7,7 +7,7 @@ local M = {
 		'nvim-treesitter/playground',
 		-- 'nvim-treesitter/nvim-treesitter-context', -- slow in big files
 		'nvim-treesitter/nvim-treesitter-textobjects',
-		'RRethy/nvim-treesitter-textsubjects',
+		-- 'RRethy/nvim-treesitter-textsubjects', -- creates i; mapping and cannot be removed, since it doesnt use my config
 		'HiPhish/nvim-ts-rainbow2', -- highlight parentheses in different colors
 	},
 	build = function()
@@ -55,6 +55,7 @@ function M.config()
 	)
 
 	require('nvim-treesitter.configs').setup(config)
+	Map.unmap('v', 'i;')
 
 	-- local parsers = require('nvim-treesitter.parsers')
 	-- local ft_to_parser = parsers.filetype_to_parsername
