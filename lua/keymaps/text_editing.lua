@@ -64,6 +64,14 @@ Map.v(Keys.p, paste_without_yank, 'keep yank when pasting over visual', { expr =
 Map.n(Keys.join_lines, keep_column('J'), 'keep column when joining lines')
 Map.n(Keys.g .. Keys.join_lines, keep_column('gJ'), 'keep column when joining lines without space')
 
+
+Map.i({'<C-d>', '<C-S-d>'}, function()
+	vim.o.paste = true
+	nvim.feedkeys('<C-g>u<C-r>+')
+	nvim.schedule(function() vim.o.paste = false end)
+end)
+
+
 ---------------------------------------------Substitution-------------------------------------------
 
 Map.n(
