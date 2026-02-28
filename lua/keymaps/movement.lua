@@ -25,8 +25,8 @@ local function move_to_indent()
 	if vim.fn.indent(line_nr) > 0 then return end
 
 	-- returns -1 when the buffer has no parser
-	local total_indent = ts_indent.get_indent(line_nr)
-	if total_indent <= 0 then return end
+	local success, total_indent = pcall(ts_indent.get_indent, line_nr)
+	if not success or total_indent <= 0 then return end
 
 	local indent_width = vim.bo.expandtab and vim.bo.shiftwidth or vim.bo.tabstop
 
