@@ -88,7 +88,8 @@ function M.config()
 		inactive_winbar = {
 			lualine_a = {},
 			lualine_b = {},
-			lualine_c = { 'diagnostics', comp.filename },
+			lualine_c = { 'diagnostics', comp.filepath },
+			-- lualine_c = { 'diagnostics', comp.filename },
 			lualine_x = { comp.diff },
 			lualine_y = { comp.searchcount },
 			lualine_z = {},
