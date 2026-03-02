@@ -43,6 +43,7 @@ function M.config()
 			-- 'clangd', -- install through nix config
 			'ruff',
 			'jsonls',
+			'bashls',
 		},
 		automatic_installation = false, -- not the same as ensure_installed
 	}
