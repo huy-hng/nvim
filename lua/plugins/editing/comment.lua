@@ -64,7 +64,7 @@ function M.config()
 		mode_behavior[mode]()
 	end
 
-	Map.nvi(Keys.comment, toggle_comment, 'Toggle Comment')
+	Map.nv(Keys.comment, toggle_comment, 'Toggle Comment')
 
 	Map.nv(Keys.comment_op, api.call('toggle.linewise', 'g@'), 'comment op', { expr = true })
 	Map.o(Keys.comment_op, 'g@')
