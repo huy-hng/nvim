@@ -1,6 +1,6 @@
 local M = {
 	'sindrets/diffview.nvim', -- side by side diff view
-	keys = '<C-g>',
+	-- keys = '<C-g>',
 	event = 'VeryLazy',
 }
 
@@ -9,8 +9,8 @@ function M.config()
 	-- Map.v('<leader>gf', ":'<,'>DiffviewFileHistory<CR>", '[Diffview] File History Visual Selection')
 
 	local map = Map.new('<leader>g', '', '[Diffview]')
-	map.n('d', vim.cmd.DiffviewOpen, 'Open Diffview')
-	map.n('f', { vim.cmd.DiffviewFileHistory, '%' }, 'Open File History')
+	map.n('vd', vim.cmd.DiffviewOpen, 'Open Diffview')
+	map.n('vf', { vim.cmd.DiffviewFileHistory, '%' }, 'Open File History')
 
 	require('diffview').setup {
 		diff_binaries = false, -- Show diffs for binaries
