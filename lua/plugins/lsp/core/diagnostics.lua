@@ -1,4 +1,15 @@
 local icons = require('config.ui.icons').diagnostics_sign
+local fns = require('plugins.lsp.core.functions')
+
+Map.n('N', fns.diagnostic_float, '[Diagnostic] Open Float')
+
+-- local diag_map = Map.new('<leader>l', '', '[Diagnostic]')
+-- See `:help vim.diagnostic.*` for documentation on any of the below functions
+-- diag_map.n('o', fns.diagnostic_float, 'open Float')
+
+-- diag_map.n('n', vim.diagnostic.goto_prev, 'Go to prev Diagnostic')
+-- diag_map.n('e', vim.diagnostic.goto_next, 'Go to next Diagnostic')
+
 
 vim.diagnostic.config {
 	virtual_text = false,
