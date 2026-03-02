@@ -127,9 +127,9 @@ function M.config()
 					group = 'Zen',
 					pattern = '*',
 				}
-				local win_conf = vim.api.nvim_win_get_config(win)
-				win_conf.col = win_conf.col[false] + 15
-				vim.api.nvim_win_set_config(win, win_conf)
+				-- local win_conf = vim.api.nvim_win_get_config(win)
+				-- win_conf.col = win_conf.col - 20
+				-- vim.api.nvim_win_set_config(win, win_conf)
 			end)
 			local reference = {
 				anchor = 'NW',
