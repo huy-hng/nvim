@@ -35,22 +35,25 @@ local buffer_file_name = {
 	hl = function(self) return { bold = self.is_active or self.is_visible, italic = true } end,
 }
 
+local function get_buf_opt(bufnr, name) --
+	return vim.api.nvim_get_option_value(name, { buf = bufnr })
+end
+
 local buffer_file_flags = {
 	{
-		condition = function(self) return vim.api.nvim_buf_get_option(self.bufnr, 'modified') end,
+		condition = function(self) return get_buf_opt(self.bufnr, 'modified') end,
 		provider = ' ●',
 		hl = { fg = C.green },
 	},
 	{
 		condition = function(self)
-			return not vim.api.nvim_buf_get_option(self.bufnr, 'modifiable')
-				or vim.api.nvim_buf_get_option(self.bufnr, 'readonly')
+			return not get_buf_opt(self.bufnr, 'modifiable') or get_buf_opt(self.bufnr, 'readonly')
 		end,
 		provider = function(self)
-			if vim.api.nvim_buf_get_option(self.bufnr, 'buftype') == 'terminal' then
+			if get_buf_opt(self.bufnr, 'buftype') == 'terminal' then
 				return '  '
 			else
-				return ''
+				return ' '
 			end
 		end,
 		hl = { fg = 'orange' },
@@ -62,9 +65,6 @@ local buffer_file_tab = {
 	hl = function(self)
 		if self.is_active then
 			return 'TabLineSel'
-			-- why not?
-			-- elseif not vim.api.nvim_buf_is_loaded(self.bufnr) then
-			-- 	return { fg = 'gray' }
 		else
 			return 'TabLine'
 		end
