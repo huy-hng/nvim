@@ -1,6 +1,8 @@
 local M = {
 	'nvimtools/none-ls.nvim',
-	-- 'jose-elias-alvarez/null-ls.nvim',
+	dependencies = {
+		'nvimtools/none-ls-extras.nvim',
+	},
 	event = 'VeryLazy',
 }
 
@@ -13,8 +15,11 @@ function M.config()
 	-- local diagnostics = null_ls.builtins.diagnostics
 	-- local hover = null_ls.builtins.hover
 
+	local beautysh = require('none-ls.formatting.beautysh')
+	table.insert(beautysh._opts.args, '--tab')
+
 	null_ls.setup {
-		-- debug = true,
+		debug = false,
 		sources = {
 			completion.luasnip,
 			code_actions.ts_node_action,
@@ -29,6 +34,8 @@ function M.config()
 			},
 			formatting.clang_format,
 			-- diagnostics.flake8
+
+			beautysh,
 
 			-- formatting.autopep8.with {
 			-- 	extra_args = { '--ignore W191,E402', '--max-line-length 100', '--experimental' },
