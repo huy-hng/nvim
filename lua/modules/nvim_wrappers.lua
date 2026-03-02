@@ -28,7 +28,7 @@ function M.save() pcall(M.exec, 'silent w', false) end
 function M.sleep(timeout, fn, ...) --
 	local args = { ... }
 	local res
-	vim.defer_fn(function() fn(table.unpack(args)) end, timeout)
+	vim.defer_fn(function() fn(unpack(args)) end, timeout)
 	vim.wait(timeout, function()
 		if res then return true end
 	end)
@@ -39,14 +39,14 @@ end
 ---@param ... any args for the function
 function M.schedule_wrap(fn, ...) --
 	local args = { ... }
-	return vim.schedule_wrap(function() fn(table.unpack(args)) end)
+	return vim.schedule_wrap(function() fn(unpack(args)) end)
 end
 
 ---@param fn function function to be scheduled
 ---@param ... any args for the function
 function M.schedule(fn, ...)
 	local args = { ... }
-	vim.schedule(function() fn(table.unpack(args)) end)
+	vim.schedule(function() fn(unpack(args)) end)
 end
 
 ---@param fn function function to be scheduled
@@ -56,7 +56,7 @@ end
 function M.schedule_return(fn, ...)
 	local args = { ... }
 	local res
-	vim.schedule(function() res = fn(table.unpack(args)) end)
+	vim.schedule(function() res = fn(unpack(args)) end)
 	vim.wait(0, function()
 		if res then return true end
 	end)
@@ -65,13 +65,13 @@ end
 
 function M.defer(timeout, fn, ...) --
 	local args = { ... }
-	return vim.defer_fn(function() fn(table.unpack(args)) end, timeout)
+	return vim.defer_fn(function() fn(unpack(args)) end, timeout)
 end
 
 function M.defer_wrap(timeout, fn, ...) --
 	local args = { ... }
 	return function()
-		return vim.defer_fn(function() fn(table.unpack(args)) end, timeout)
+		return vim.defer_fn(function() fn(unpack(args)) end, timeout)
 	end
 end
 
