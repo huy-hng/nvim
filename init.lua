@@ -7,8 +7,8 @@ nrequire = dev.require
 
 Map = require('keymap.map')
 Keys = require('keymap.keys')
-require('keymap.colemap').set_keymap()
-
+require('keymap.colemak').set_keymap()
+require('keymap.basics')
 
 require('plugins.lazy')
 
