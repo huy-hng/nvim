@@ -1,6 +1,7 @@
 vim.pack.add({
 	{ src = 'https://github.com/folke/lazy.nvim', version = 'stable' },
 }, { confirm = false })
+require('plugins.lazy')
 
 require('plugins.catppuccin')
 require('plugins.lsp')
@@ -11,3 +12,4 @@ require('plugins.comment').config()
 vim.pack.add({
 	{ src = 'https://github.com/moll/vim-bbye' }, -- stops closing windows when deleting buffers
 })
+

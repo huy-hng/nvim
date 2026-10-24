@@ -1,4 +1,7 @@
-vim.pack.add({{src = 'catppuccin/nvim', version = 'stable'}}, { confirm = false })
+vim.pack.add({
+	-- { src = "https://github.com/catppuccin/nvim", name = "catppuccin" },
+	{ src = 'catppuccin/nvim', version = 'stable' },
+})
 
 local integrations = {
 	alpha = true,
@@ -48,7 +51,7 @@ local catppuccin = require('catppuccin')
 if vim.g.has_neovide then catppuccin.setup { term_colors = true } end
 catppuccin.setup {
 	flavour = 'mocha', -- latte, frappe, macchiato, mocha
-	background = { -- :h background
+	background = {  -- :h background
 		light = 'latte',
 		dark = 'mocha',
 	},
@@ -71,8 +74,8 @@ catppuccin.setup {
 	},
 	color_overrides = {
 		-- mocha = {
-			-- base = '#1E1E2E',
-			-- base = '#1E1E4E',
+		-- base = '#1E1E2E',
+		-- base = '#1E1E4E',
 		-- }
 	},
 	-- :h catppuccin-overwriting-colors
@@ -83,12 +86,12 @@ catppuccin.setup {
 			LineNrHighlightFold = { fg = colors.subtext1 },
 
 			-- CursorLineNr = { fg = colors.text },
-			FoldColumn = { fg = colors.overlay2 },
+			FoldColumn          = { fg = colors.overlay2 },
 
-			Statusline = { fg = colors.text, bg = nil },
-			TabLine = { fg = colors.surface2 },
-			TabLineSel = { bg = colors.surface0 },
-			Float = { fg = colors.text },
+			Statusline          = { fg = colors.text, bg = nil },
+			TabLine             = { fg = colors.surface2 },
+			TabLineSel          = { bg = colors.surface0 },
+			Float               = { fg = colors.text },
 
 			-- default colors
 			-- CursorLineNr = { fg = colors.lavender },
@@ -99,7 +102,8 @@ catppuccin.setup {
 }
 
 -- prevented breaking of all colors on plugin reload
-nvim.schedule(SetColors, 'catppuccin-mocha')
+-- nvim.schedule(SetColors, 'catppuccin-mocha')
+SetColors('catppuccin-mocha')
 
 
 
