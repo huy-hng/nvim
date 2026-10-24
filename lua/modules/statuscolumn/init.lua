@@ -2,7 +2,7 @@ local winman = require('modules.window_manager')
 if vim.fn.has('nvim-0.9.0') == 0 then return end
 
 local M = {}
-local statuscolumn = require('core.statuscolumn.statuscolumn')
+local statuscolumn = require('modules.statuscolumn.statuscolumn')
 
 M.set_column = statuscolumn.set_column
 M.remove_column = statuscolumn.remove_column

@@ -1,0 +1,13 @@
+Map.unmap('', 'g%')
+Map.unmap('', 'gc')
+Map.unmap('', 'gcc')
+Map.unmap('', 'gx')
+
+Map.unmap('', 'grn')
+Map.unmap('', 'gra')
+Map.unmap('', 'grr')
+Map.unmap('', 'gri')
+Map.unmap('', 'grt')
+Map.unmap('', 'gO')
+Map.unmap('', 'grx')
+Map.unmap('v', 'in')

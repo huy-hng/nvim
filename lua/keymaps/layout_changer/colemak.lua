@@ -5,6 +5,8 @@ local function uppermap(lhs, rhs)
 	Map(string.upper(lhs), string.upper(rhs))
 end
 
+-- NOTE: unmapping happens in after/plugin/keymaps.lua
+
 function M.set_keymap()
 	Map.nv('<C-d>', '')
 
@@ -17,7 +19,6 @@ function M.set_keymap()
 	-- 	Map.n(Keys.g, { which_key.show, 'j', opts }, 'g')
 	-- end
 
-	-- Map(Keys.g, 'g', 'g', { remap = true })
 	uppermap(Keys.g, 'g')
 	Map(Keys.gg, 'gg', 'First line')
 	Map(Keys.g .. '<C-a>', 'g<C-a>', 'Increment cumulatively')
@@ -32,17 +33,17 @@ function M.set_keymap()
 	Map(Keys.g .. 'U', 'gU', 'Upper Case')
 	Map(Keys.g .. 'w', 'gw', 'Format line or selection')
 	Map(Keys.g .. 'O', vim.lsp.buf.document_symbol, 'vim.lsp.buf.document_symbol()')
-
 	Map(Keys.gE, 'gE')
 	Map(Keys.ge, 'ge')
+
 	uppermap(Keys.b, 'b')
 	uppermap(Keys.w, 'w')
 	uppermap(Keys.e, 'e')
 	Map.o(Keys.b, 'vb', 'operator back includes char under cursor')
 
-	-- bound by flash
-	-- uppermap(Keys.t, 't')
-	-- uppermap(Keys.f, 'f')
+	-- rebound by flash plugin
+	uppermap(Keys.t, 't')
+	uppermap(Keys.f, 'f')
 
 	Map.nv(Keys.m, 'm')
 
@@ -57,21 +58,7 @@ function M.set_keymap()
 	Map.vo(Keys.a .. Keys.b, 'ab', 'outer ()')
 	Map.vo(Keys.a .. Keys.B, 'aB', 'outer {}')
 
-	-- unmap g keys
-	Map.unmap('', 'g%')
-	Map.unmap('', 'gc')
-	Map.unmap('', 'gcc')
-	Map.unmap('', 'gx')
-
-	Map.unmap('', 'grn')
-	Map.unmap('', 'gra')
-	Map.unmap('', 'grr')
-	Map.unmap('', 'gri')
-	Map.unmap('', 'grt')
-	Map.unmap('', 'gO')
-
-
-	local utils = require('core.statuscolumn.utils')
+	local utils = require('modules.statuscolumn.utils')
 	local function open_fold()
 		local lnum = vim.fn.line('.')
 		if vim.fn.foldclosed(lnum) ~= -1 then --
@@ -102,8 +89,5 @@ function M.set_keymap()
 	uppermap(Keys.i, 'i')
 	-- uppermap(Keys.a, 'a')
 end
-
--- R('config.native_keymaps')
--- M.set_keymap()
 
 return M

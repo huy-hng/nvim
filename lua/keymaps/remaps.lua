@@ -19,11 +19,6 @@ if not nrequire('which-key') then
 end
 Map("'", '`', 'Jump to mark in column', { remap = remap })
 
--- Map('0', '^')
--- Map('^', '0')
--- Map('g0', 'g^')
--- Map('g^', 'g0')
-
 Map(Keys.v, 'v', 'Visual')
 Map.nv(Keys.ctrl.v, '<C-v>')
 Map.n(Keys.vv, 'V', 'V-line')

@@ -73,7 +73,7 @@ go.showmode = false
 -- opt_g.shortmess:append('')
 
 -- display indentations
-local icons = require('config.ui.icons')
+local icons = require('core.ui.icons')
 o.list = true
 opt.listchars = icons.listchars
 opt.fillchars = icons.fillchars

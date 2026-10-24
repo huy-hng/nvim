@@ -20,14 +20,14 @@ local function buffer_switch(index)
 	vim.api.nvim_win_set_buf(0, buffers[index])
 end
 
--- Nmap('H', { buffer_cycle, -1 }, 'Prev Buffer')
--- Nmap('L', { buffer_cycle, 1 }, 'Next Buffer')
+Map.n(Keys.H, { buffer_switch, -1 }, 'Prev Buffer')
+Map.n(Keys.L, { buffer_switch, 1 }, 'Next Buffer')
 
-local bufman = nrequire('bufman.navigation')
-if bufman then
-	Map.n(Keys.H, { bufman.goto, -1 }, 'Prev Buffer')
-	Map.n(Keys.L, { bufman.goto, 1 }, 'Next Buffer')
-end
+-- local bufman = nrequire('bufman.navigation')
+-- if bufman then
+-- 	Map.n(Keys.H, { bufman.goto, -1 }, 'Prev Buffer')
+-- 	Map.n(Keys.L, { bufman.goto, 1 }, 'Next Buffer')
+-- end
 
 Map.n('<leader>0', { buffer_switch, -1 }, '')
 for i in ipairs(vim.fn.range(1, 9)) do

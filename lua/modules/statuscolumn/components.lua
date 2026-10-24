@@ -1,7 +1,7 @@
 local M = {}
 
 local icons = require('config.ui.icons').statuscolumn
-local utils = require('core.statuscolumn.utils')
+local utils = require('modules.statuscolumn.utils')
 
 nvim.command('Statussign', function(data)
 	local lnum = vim.api.nvim_win_get_cursor(0)[1]

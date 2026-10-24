@@ -19,11 +19,14 @@ Map.v(Keys.esc, 'o<esc>')
 Map.n(Keys.esc, function()
 	nvim.feedkeys('<esc>')
 	vim.cmd.nohlsearch()
-end, 'Escape / no highlight')
+end, 'Escape & remove search highlight')
 
 if vim.fn.has('nvim-0.9.0') == 1 then
 	Map.n('<localleader>h', vim.show_pos, 'Highlight Groups at cursor')
 end
+
+
+-- terminal keymaps
 
 Map.n('<leader>gt', Util.float_term, 'Terminal (cwd)')
 -- Map.n('<leader>tt', Util.float_term, 'Terminal (root dir)')
@@ -33,5 +36,4 @@ Map.n(
 	'Lazygit (cwd)'
 )
 
--- Map.t('<C-c>', '<c-\\><c-n>', 'Enter Normal Mode')
 Map.t('<C-f>', '<c-\\><c-n>', 'Enter Normal Mode')

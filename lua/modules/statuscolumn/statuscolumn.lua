@@ -1,5 +1,5 @@
-local comp = require('core.statuscolumn.components')
-local utils = require('core.statuscolumn.utils')
+local comp = require('modules.statuscolumn.components')
+local utils = require('modules.statuscolumn.utils')
 
 local M = {}
 
