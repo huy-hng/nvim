@@ -1,6 +1,6 @@
 local M = {}
 
-local icons = require('config.ui.icons').statuscolumn
+local icons = require('core.ui.icons')
 local utils = require('modules.statuscolumn.utils')
 
 nvim.command('Statussign', function(data)
@@ -59,12 +59,11 @@ M.sparse_line_number = {
 	-- on_click = function(clicks, button, modifiers, mousepos) end,
 }
 
-local diagnostic_icons = require('config.ui.icons').diagnostics_sign
 local diagnostic_lookup = {
-	[vim.diagnostic.severity.ERROR] = { text = diagnostic_icons.error,		hl = 'DiagnosticSignError' },
-	[vim.diagnostic.severity.WARN]  = { text = diagnostic_icons.warning,	hl = 'DiagnosticSignWarn' },
-	[vim.diagnostic.severity.INFO]  = { text = diagnostic_icons.info,		hl = 'DiagnosticSignInfo' },
-	[vim.diagnostic.severity.HINT]  = { text = diagnostic_icons.hint,		hl = 'DiagnosticSignHint' },
+	[vim.diagnostic.severity.ERROR] = { text = icons.diagnostics_sign.error,		hl = 'DiagnosticSignError' },
+	[vim.diagnostic.severity.WARN]  = { text = icons.diagnostics_sign.warning,	hl = 'DiagnosticSignWarn' },
+	[vim.diagnostic.severity.INFO]  = { text = icons.diagnostics_sign.info,		hl = 'DiagnosticSignInfo' },
+	[vim.diagnostic.severity.HINT]  = { text = icons.diagnostics_sign.hint,		hl = 'DiagnosticSignHint' },
 }
 
 local function get_diagnostic_signs(lnum)
@@ -128,7 +127,7 @@ M.sign_column = {
 
 M.border = {
 	function()
-		local border = icons.border
+		local border = icons.statuscolumn.border
 		local lnum = vim.v.lnum
 
 		local status, gitsigns_hl = pcall(utils.get_gitsign_hl, nil, lnum)
@@ -149,7 +148,7 @@ M.border = {
 					break
 				end
 			end
-			border = icons.fold_collapsed
+			border = icons.statuscolumn.fold_collapsed
 		end
 
 		return utils.wrap_hl(border, hl)
@@ -180,13 +179,13 @@ M.fold = {
 		local fold_icon = ''
 
 		if utils.is_collapsed(lnum) then
-			fold_icon = icons.fold_collapsed
+			fold_icon = icons.statuscolumn.fold_collapsed
 		else
-			fold_icon = icons.fold_expanded
+			fold_icon = icons.statuscolumn.fold_expanded
 		end
 
 		if not utils.is_foldline(lnum) then --
-			fold_icon = icons.fold_empty
+			fold_icon = icons.statuscolumn.fold_empty
 		end
 
 		-- return fold_icon .. '%T'
