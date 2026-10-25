@@ -17,7 +17,6 @@ local M = {
 
 
 function M.config()
-
 	-- 2. Configure Mason
 	require("mason").setup()
 
@@ -66,14 +65,15 @@ function M.config()
 		callback = function(event)
 			local opts = { buffer = event.buf }
 
-			-- Map.nv('<leader>ll', fns.lsp_format, 'Format Document or Selection')
-			Map.nv('<leader>ll', { vim.lsp.buf.format, { bufnr = event.buf } }, 'Format Document or Selection')
-
 			vim.api.nvim_set_option_value('omnifunc', 'v:lua.vim.lsp.omnifunc', { buf = event.buf })
 
 			local lsp_map = Map.new('<leader>l', '', '[LSP]', opts)
 
 			lsp_map.n('gl', vim.diagnostic.setloclist)
+
+			lsp_map.n('l', { vim.lsp.buf.format, { bufnr = event.buf } }, 'Format Document or Selection')
+			-- Map.nv('<leader>ll', fns.lsp_format, 'Format Document or Selection')
+			-- Map.nv('<leader>ll', { vim.lsp.buf.format, { bufnr = event.buf } }, 'Format Document or Selection')
 
 			lsp_map.n('d', vim.lsp.buf.definition, 'Definition')
 			lsp_map.n('rf', vim.lsp.buf.references, 'References')
