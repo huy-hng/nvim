@@ -6,6 +6,9 @@ local go = vim.go
 --------------------------------------------Appearence----------------------------------------------
 
 g.neovide_fullscreen = true
+g.has_neovide = vim.g.neovide
+g.neovide = nil
+
 
 -- g.neovide_refresh_rate = 60
 g.neovide_refresh_rate_idle = 15
@@ -18,9 +21,7 @@ local blur_amount = 7
 g.neovide_floating_blur = true
 g.neovide_floating_blur_amount_x = blur_amount
 g.neovide_floating_blur_amount_y = blur_amount
--- g.gui_font_face = 'FiraCode Nerd Font'
 g.gui_font_face = 'CaskaydiaCove Nerd Font'
--- g.gui_font_face = 'CaskaydiaCove NF'
 
 
 -----------------------------------------------Sizes------------------------------------------------
