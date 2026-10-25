@@ -1,5 +1,3 @@
--- lua/plugins/lsp.lua
---
 -- Responsibilities:
 --   Mason: install external tools
 --   nvim-lspconfig: provide server configurations
@@ -66,6 +64,7 @@ function M.config()
 			local opts = { buffer = event.buf }
 
 			vim.api.nvim_set_option_value('omnifunc', 'v:lua.vim.lsp.omnifunc', { buf = event.buf })
+			Map.n(Keys.K, vim.lsp.buf.hover, 'Hover')
 
 			local lsp_map = Map.new('<leader>l', '', '[LSP]', opts)
 
