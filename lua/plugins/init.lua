@@ -32,6 +32,7 @@ local spec = {
 
 	import('telescope.init'),
 	import('bufman'),
+	import('autopairs'),
 
 	------------------------------------------------P3----------------------------------------------
 	-- Restore convenience
