@@ -28,13 +28,13 @@ require('core.ui.icons')
 
 require('core.options')
 require('core.globals')
+require('core.colorscheme')
 require('core.keymaps')
 require('core.types')
--- require('core.autocmd')
+require('core.autocmd')
 
-require('core.colorscheme')
--- require('modules.statuscolumn')
-require('core.menus')
+-- require('core.menus')
+require('modules.statuscolumn')
 require('modules.detect_indentation')
 
 require('core.neovide')
