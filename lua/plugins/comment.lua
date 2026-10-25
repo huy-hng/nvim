@@ -1,8 +1,7 @@
-vim.pack.add({
-    { src = 'https://github.com/numToStr/Comment.nvim' },
-})
-
-local M = {}
+local M = {
+	'numToStr/Comment.nvim',
+	event = 'VeryLazy',
+}
 
 function M.config()
 	local Comment = require('Comment')

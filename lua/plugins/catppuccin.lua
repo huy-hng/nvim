@@ -1,111 +1,112 @@
-vim.pack.add({
-	-- { src = "https://github.com/catppuccin/nvim", name = "catppuccin" },
-	{ src = 'catppuccin/nvim', version = 'stable' },
-})
-
-local integrations = {
-	alpha = true,
-	cmp = true,
-	dap = {
-		enabled = true,
-		enable_ui = true,
-	},
-	dropbar = true,
-	flash = true,
-	gitsigns = true,
-	harpoon = true,
-	mason = true,
-	neogit = true,
-	neotest = true,
-	noice = true,
-	notify = true,
-	nvimtree = true,
-	semantic_tokens = true,
-	symbols_outline = true,
-	telescope = true,
-	treesitter = true,
-	treesitter_context = true,
-	-- ts_rainbow = true,
-	ts_rainbow2 = true,
-	-- rainbow_delimiters = true,
-	which_key = true,
-	native_lsp = {
-		enabled = true,
-		virtual_text = {
-			errors = { 'italic' },
-			hints = { 'italic' },
-			warnings = { 'italic' },
-			information = { 'italic' },
-		},
-		underlines = {
-			errors = { 'underline' },
-			hints = { 'underline' },
-			warnings = { 'underline' },
-			information = { 'underline' },
-		},
-	},
-	-- https://github.com/catppuccin/nvim#integrations
-}
-local catppuccin = require('catppuccin')
-
-if vim.g.has_neovide then catppuccin.setup { term_colors = true } end
-catppuccin.setup {
-	flavour = 'mocha', -- latte, frappe, macchiato, mocha
-	background = {  -- :h background
-		light = 'latte',
-		dark = 'mocha',
-	},
-	transparent_background = not vim.g.has_neovide and true or false,
-	show_end_of_buffer = false, -- shows the '~' characters after the end of buffers
-	term_colors = false,
-	styles = {
-		comments = { 'italic' },
-		conditionals = {},
-		loops = {},
-		functions = {},
-		keywords = { 'italic' },
-		strings = {},
-		variables = {},
-		numbers = {},
-		booleans = {},
-		properties = {},
-		types = {},
-		operators = {},
-	},
-	color_overrides = {
-		-- mocha = {
-		-- base = '#1E1E2E',
-		-- base = '#1E1E4E',
-		-- }
-	},
-	-- :h catppuccin-overwriting-colors
-	custom_highlights = function(colors)
-		return {
-			LineNr              = { fg = colors.surface2 },
-			LineNrHighlight     = { fg = colors.overlay2 },
-			LineNrHighlightFold = { fg = colors.subtext1 },
-
-			-- CursorLineNr = { fg = colors.text },
-			FoldColumn          = { fg = colors.overlay2 },
-
-			Statusline          = { fg = colors.text, bg = nil },
-			TabLine             = { fg = colors.surface2 },
-			TabLineSel          = { bg = colors.surface0 },
-			Float               = { fg = colors.text },
-
-			-- default colors
-			-- CursorLineNr = { fg = colors.lavender },
-			-- Comment = { fg = colors.overlay0 },
-		}
-	end,
-	integrations = integrations,
+local M = {
+	'catppuccin/nvim',
+	name = 'catppuccin',
+	event = 'VimEnter',
 }
 
--- prevented breaking of all colors on plugin reload
--- nvim.schedule(SetColors, 'catppuccin-mocha')
-SetColors('catppuccin-mocha')
+-- vim.g.catppuccin_flavour = 'latte' -- latte, frappe, macchiato, mocha
+function M.config()
+	local integrations = {
+		alpha = true,
+		cmp = true,
+		dap = {
+			enabled = true,
+			enable_ui = true,
+		},
+		dropbar = true,
+		flash = true,
+		gitsigns = true,
+		harpoon = true,
+		mason = true,
+		neogit = true,
+		neotest = true,
+		noice = true,
+		notify = true,
+		nvimtree = true,
+		semantic_tokens = true,
+		symbols_outline = true,
+		telescope = true,
+		treesitter = true,
+		treesitter_context = true,
+		-- ts_rainbow = true,
+		ts_rainbow2 = true,
+		-- rainbow_delimiters = true,
+		which_key = true,
+		native_lsp = {
+			enabled = true,
+			virtual_text = {
+				errors = { 'italic' },
+				hints = { 'italic' },
+				warnings = { 'italic' },
+				information = { 'italic' },
+			},
+			underlines = {
+				errors = { 'underline' },
+				hints = { 'underline' },
+				warnings = { 'underline' },
+				information = { 'underline' },
+			},
+		},
+		-- https://github.com/catppuccin/nvim#integrations
+	}
+	local catppuccin = require('catppuccin')
 
+	if vim.g.has_neovide then catppuccin.setup { term_colors = true } end
+	catppuccin.setup {
+		flavour = 'mocha', -- latte, frappe, macchiato, mocha
+		background = { -- :h background
+			light = 'latte',
+			dark = 'mocha',
+		},
+		transparent_background = not vim.g.has_neovide and true or false,
+		show_end_of_buffer = false, -- shows the '~' characters after the end of buffers
+		term_colors = false,
+		styles = {
+			comments = { 'italic' },
+			conditionals = {},
+			loops = {},
+			functions = {},
+			keywords = { 'italic' },
+			strings = {},
+			variables = {},
+			numbers = {},
+			booleans = {},
+			properties = {},
+			types = {},
+			operators = {},
+		},
+		color_overrides = {
+			-- mocha = {
+				-- base = '#1E1E2E',
+				-- base = '#1E1E4E',
+			-- }
+		},
+		-- :h catppuccin-overwriting-colors
+		custom_highlights = function(colors)
+			return {
+				LineNr              = { fg = colors.surface2 },
+				LineNrHighlight     = { fg = colors.overlay2 },
+				LineNrHighlightFold = { fg = colors.subtext1 },
 
+				-- CursorLineNr = { fg = colors.text },
+				FoldColumn = { fg = colors.overlay2 },
+
+				Statusline = { fg = colors.text, bg = nil },
+				TabLine = { fg = colors.surface2 },
+				TabLineSel = { bg = colors.surface0 },
+				Float = { fg = colors.text },
+
+				-- default colors
+				-- CursorLineNr = { fg = colors.lavender },
+				-- Comment = { fg = colors.overlay0 },
+			}
+		end,
+		integrations = integrations,
+	}
+	-- prevented breaking of all colors on plugin reload
+	-- nvim.schedule(SetColors, 'catppuccin-mocha')
+	SetColors('catppuccin-mocha')
+end
 
 -- rosewater #f5e0dc  rgb(245, 224, 220)  hsl( 10, 56%, 91%)
 -- flamingo  #f2cdcd  rgb(242, 205, 205)  hsl(  0, 59%, 88%)
@@ -133,3 +134,5 @@ SetColors('catppuccin-mocha')
 -- base		 #1e1e2e  rgb( 30,  30,  46)  hsl(240, 21%, 15%)
 -- mantle 	 #181825  rgb( 24,  24,  37)  hsl(240, 21%, 12%)
 -- crust 	 #11111b  rgb( 17,  17,  27)  hsl(240, 23%,  9%)
+
+return M
