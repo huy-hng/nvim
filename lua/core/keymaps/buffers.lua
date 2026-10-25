@@ -1,12 +1,3 @@
-local function Group_bufferline_tabs()
-	local windows = vim.fn.getwininfo()
-	for _, win in ipairs(windows) do
-		local tabnr = win.tabnr
-		local buffer = vim.fn.getbufinfo(win.bufnr)[1]
-		print(buffer.name)
-	end
-end
-
 local function get_buffers()
 	return vim.tbl_filter(
 		function(bufnr) return vim.api.nvim_buf_get_option(bufnr, 'buflisted') end,
