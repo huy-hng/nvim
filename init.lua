@@ -21,12 +21,16 @@ vim.g.neovide = nil
 vim.env.PATH = '/home/huy/.local/bin/:' .. vim.env.PATH
 
 -- these should not depend on anything except for vim itself
-require('core.keymaps')
+Keys = require('core.keymaps.layout_changer.keymaps')
+
 require('core.ui.colors')
+require('core.ui.icons')
 
 require('core.options')
 require('core.globals')
+require('core.keymaps')
 require('core.types')
+-- require('core.autocmd')
 
 require('core.colorscheme')
 -- require('modules.statuscolumn')
@@ -35,7 +39,5 @@ require('modules.detect_indentation')
 
 require('core.neovide')
 
-require_dir('lua/keymaps')
-require('keymaps.layout_changer.colemak').set_keymap()
 
 require('plugins')
