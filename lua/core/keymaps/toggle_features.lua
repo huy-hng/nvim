@@ -31,8 +31,6 @@ local function toggle_wrap()
 end
 
 local function toggle_commenting()
-	P(vim.opt_local.formatoptions:get())
-
 	if vim.opt_local.formatoptions:get()['c'] then
 		vim.opt_local.formatoptions:remove { 'c', 'r', 'o' }
 		vim.notify('No Auto Comment')

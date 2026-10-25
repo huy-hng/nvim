@@ -64,7 +64,7 @@ Augroup('Neorg', {
 })
 
 Augroup('NoComment', {
-	Autocmd('BufWinEnter', function() --
+	Autocmd('BufWinEnter', function()
 		vim.opt_local.formatoptions:remove { 'c', 'r', 'o' }
 	end),
 })

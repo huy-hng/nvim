@@ -8,5 +8,4 @@ require('core.keymaps.text_editing')
 require('core.keymaps.toggle_features')
 require('core.keymaps.window_management')
 
-
 require('core.keymaps.layout_changer.colemak_maps').set_keymap()
